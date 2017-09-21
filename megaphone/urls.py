@@ -18,7 +18,11 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="homepage"),
+
     url(r'^legal/terms/$', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
+    url(r'^legal/privacy/$', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
+    url(r'^legal/copyright/$', TemplateView.as_view(template_name='legal/copyright.html'), name='copyright'),
 
     url(r'^admin/', admin.site.urls),
 ]
