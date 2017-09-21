@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'contents.apps.ContentsConfig',
     'megaphone.apps.MegaphoneConfig',
     'django.contrib.admin',
     'django.contrib.auth',
