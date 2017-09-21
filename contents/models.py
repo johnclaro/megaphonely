@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
+from django.db.models import (Model, CharField)
 
-# Create your models here.
+
+class Twitter(Model):
+    text = CharField(max_length=140)
+
+
+class Facebook(Model):
+    text = CharField(max_length=63206)
