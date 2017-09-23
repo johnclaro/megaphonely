@@ -13,16 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
+from . import views as megaphone_views
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="homepage"),
 
-    url(r'^legal/terms/$', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
-    url(r'^legal/privacy/$', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
-    url(r'^legal/copyright/$', TemplateView.as_view(template_name='legal/copyright.html'), name='copyright'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    url(r'^register/$', TemplateView.as_view(template_name='registration/register.html'), name="register"),
+
+    url(r'^legal/terms/$',
+        TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
+    url(r'^legal/privacy/$',
+        TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
+    url(r'^legal/copyright/$',
+        TemplateView.as_view(template_name='legal/copyright.html'), name='copyright'),
 
     url(r'^admin/', admin.site.urls),
 ]
