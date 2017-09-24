@@ -4,5 +4,5 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class MegaphoneConfig(AppConfig):
-    name = 'megaphone'
+class MegaphoneHubConfig(AppConfig):
+    name = 'megaphonehub'
