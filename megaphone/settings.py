@@ -24,8 +24,14 @@ SECRET_KEY = 'r&1@pq-y19-^9z$$d-x+4=ys=5g@@)#1kox@+&#_(@#zpnjwqj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG:
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'megaphonehub@gmail.com'
+    EMAIL_HOST_PASSWORD = "737E8!'exy;6^6Q"
 
-ALLOWED_HOSTS = ['localhost', 'megaphone.dev']
+ALLOWED_HOSTS = ['localhost', 'megaphone.dev', 'megaphonehub.dev']
 
 
 # Application definition
