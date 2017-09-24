@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from distutils.util import strtobool
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -142,5 +143,7 @@ SOCIAL_AUTH_TWITTER_KEY = os.environ['SOCIAL_AUTH_TWITTER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['SOCIAL_AUTH_TWITTER_SECRET']
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = os.environ['SOCIAL_AUTH_LOGIN_REDIRECT_URL']
 SOCIAL_AUTH_LOGIN_URL = os.environ['SOCIAL_AUTH_LOGIN_URL']
+SOCIAL_AUTH_LOGIN_ERROR_URL = os.environ['SOCIAL_AUTH_LOGIN_ERROR_URL']
+SOCIAL_AUTH_RAISE_EXCEPTIONS = bool(strtobool(os.environ['SOCIAL_AUTH_RAISE_EXCEPTIONS']))
 
 ACCOUNT_ACTIVATION_DAYS = int(os.environ['ACCOUNT_ACTIVATION_DAYS'])
