@@ -22,11 +22,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="homepage"),
 
     url(r'^accounts/', include('accounts.urls')),
-
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url(r'^register/$', TemplateView.as_view(template_name='registration/register.html'), name="register"),
 
     url(r'^legal/terms/$',
         TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
