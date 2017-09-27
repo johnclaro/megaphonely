@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 <h1>User Profile</h1>
 
-<p>Found you {{user}}</p>
-<a href="/">Go back</a>
+<h1>Content</h1>
+<form method="post" action=".">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <input type="submit" value="{% trans 'Schedule' %}" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
 
 <h3>Twitter</h3>
 {% if twitter_login %}
