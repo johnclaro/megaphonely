@@ -1,9 +1,0 @@
-<h1>Header</h1>
-{% if user.is_authenticated %}
-  <a href="{% url 'auth_logout' %}">Logout</a>
-  </br>
-  <a href="{% url 'social:begin' 'twitter' %}">Connect Twitter</a></br>
-{% else %}
-  <a href="{% url 'auth_login' %}">Login</a>
-  <a href="{% url 'registration_register' %}">Register</a>
-{% endif %}
