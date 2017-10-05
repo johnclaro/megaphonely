@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
 
-    # url(r'^contents/', include('contents.urls')),
+    url(r'^contents/', include('contents.urls')),
 
     url(r'^legal/terms/$',
         TemplateView.as_view(template_name='legal/terms.html'), name='terms'),

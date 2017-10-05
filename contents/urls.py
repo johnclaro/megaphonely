@@ -1,6 +1,7 @@
-from django.conf.urls import url, include
-from . import views as account_views
+from django.conf.urls import url
 
-# urlpatterns = [
-    # url(r'contents', ),
-# ]
+from .views import ContentView
+
+urlpatterns = [
+    url(r'schedule/$', ContentView.as_view(), name='schedule_content'),
+]

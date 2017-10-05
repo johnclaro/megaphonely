@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from datetime import datetime
 
 from django.db import models
 from django.utils.timezone import now
@@ -12,4 +11,4 @@ class Content(models.Model):
     twitter = models.BooleanField()
     facebook = models.BooleanField()
     instagram = models.BooleanField()
-    image = models.ImageField()
+    image = models.ImageField(blank=True)

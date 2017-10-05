@@ -5,6 +5,7 @@ from social_django.models import UserSocialAuth
 
 from contents.forms import ContentForm
 
+
 @login_required
 def user_profile(request):
     user = request.user
