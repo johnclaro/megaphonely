@@ -11,17 +11,11 @@ def create_app():
     from .models import db
     db.init_app(app)
 
-    from views.admin import admin
-    from views.home import home
+    from .views.admin import admin
+    from .views.home import home
+    from .views.health import health
     app.register_blueprint(admin)
     app.register_blueprint(home)
+    app.register_blueprint(health)
 
     return app
-
-if __name__ == '__main__':
-    application = create_app()
-    application.run(
-        debug=bool(strtobool(os.environ['DEBUG'])),
-        port=int(os.environ['PORT']),
-        host=os.environ['HOST']
-    )
