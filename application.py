@@ -10,9 +10,6 @@ def create_app():
 
     return application
 
-def main():
+if __name__ == '__main__':
     application = create_app()
     application.run()
-
-if __name__ == '__main__':
-    main()
