@@ -25,5 +25,8 @@
   "homepage": "https://github.com/jkrclaro/megaphone#readme",
   "dependencies": {
     "dotenv": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
   }
 }
