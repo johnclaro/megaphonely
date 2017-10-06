@@ -2,11 +2,14 @@
 
 module.exports = function(db, DataTypes) {
   var User = db.define('User', {
-    email: {
-      type: DataTypes.STRING
-    },
-    password: {
-      type: DataTypes.STRING
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
+  }, {
+    classMethods: {
+      associate: function (models, cb) {},
+      create: function(email, password) {
+        console.log(`I got this ${email} and ${password}`)
+      }
     }
   })
   return User
