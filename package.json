@@ -1,0 +1,26 @@
+{
+  "name": "megaphone",
+  "version": "1.0.0",
+  "description": "Social media management tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkrclaro/megaphone.git"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "management",
+    "tool"
+  ],
+  "author": "John Claro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkrclaro/megaphone/issues"
+  },
+  "homepage": "https://github.com/jkrclaro/megaphone#readme"
+}
