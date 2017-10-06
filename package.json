@@ -25,6 +25,7 @@
   "homepage": "https://github.com/jkrclaro/megaphone#readme",
   "dependencies": {
     "dotenv": "^4.0.0",
+    "express": "^4.16.1",
     "pg": "^7.3.0",
     "sequelize": "^4.13.5"
   },
