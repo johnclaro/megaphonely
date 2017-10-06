@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/jkrclaro/megaphone/issues"
   },
-  "homepage": "https://github.com/jkrclaro/megaphone#readme"
+  "homepage": "https://github.com/jkrclaro/megaphone#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0"
+  }
 }
