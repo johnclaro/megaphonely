@@ -8,7 +8,6 @@ const db = require('./models/')
 * Controllers
 **/
 const homeController = require('./controllers/home')
-
 app.get('/', homeController.index)
 
 db
