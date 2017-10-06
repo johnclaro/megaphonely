@@ -1,3 +1,3 @@
 exports.index = function(req, res) {
-  res.send('Hello World!')
+  res.send(process.env.SQLALCHEMY_DATABASE_URI)
 }
