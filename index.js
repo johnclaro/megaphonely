@@ -1,4 +1,11 @@
-require('dotenv').config()
+const nodeEnv = process.env.NODE_ENV || ''
+if (typeof maybeObject != "undefined") {
+   const nodeEnv = `.env.${nodeEnv}`
+} else {
+  const nodeEnv = '.env'
+}
+console.log(nodeEnv)
+require('dotenv').config({ path: `${nodeEnv}` })
 const express = require('express')
 const app = express()
 
