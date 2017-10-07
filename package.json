@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive",
-    "start": "node index.js"
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",

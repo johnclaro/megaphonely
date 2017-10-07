@@ -8,15 +8,8 @@ const db = require('./models/')
 * Controllers
 **/
 const homeController = require('./controllers/home')
+const contentController = require('./controllers/content')
 app.get('/', homeController.index)
-
-db
-  .sequelize
-  .sync()
-  .then((err, msg) => {
-    app.listen(process.env.PORT, () => {
-      console.log(`Example server listening on port ${process.env.PORT}!`)
-    })
-  })
+app.post('/content/add', contentController.add)
 
 module.exports = app
