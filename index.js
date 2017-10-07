@@ -1,10 +1,4 @@
-const nodeEnv = process.env.NODE_ENV || ''
-if (typeof maybeObject != "undefined") {
-   const nodeEnv = `.env.${nodeEnv}`
-} else {
-  const nodeEnv = '.env'
-}
-require('dotenv').config({ path: `${nodeEnv}` })
+require('dotenv').config()
 const express = require('express')
 const app = express()
 
@@ -19,8 +13,8 @@ app.get('/', homeController.index)
 db
   .sequelize
   .sync()
-  .then(function(err, msg) {
-    app.listen(process.env.PORT, function () {
+  .then((err, msg) => {
+    app.listen(process.env.PORT, () => {
       console.log(`Example server listening on port ${process.env.PORT}!`)
     })
   })
