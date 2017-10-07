@@ -4,7 +4,7 @@
   "description": "Social media management tool",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha",
+    "test": "mocha",
     "start": "node index.js"
   },
   "repository": {

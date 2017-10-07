@@ -5,7 +5,7 @@ var fs = require('fs')
   , db = {};
 
 var sequelize = new Sequelize(process.env.DB_URL, {
-  logging: false
+  logging: Boolean(process.env.DB_LOGGING)
 });
 
 fs
