@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(db, DataTypes) {
+module.exports = (db, DataTypes) => {
   var Content = db.define('Content', {
     message: {
       type: DataTypes.STRING,
@@ -11,7 +11,7 @@ module.exports = function(db, DataTypes) {
     }
   }, {
     classMethods: {
-      associate: function (models, cb) {}
+      associate: (models, cb) => {}
     }
   })
   return Content

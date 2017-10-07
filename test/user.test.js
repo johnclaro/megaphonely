@@ -4,20 +4,20 @@ const User = require('../models/').User
 
 describe('users', () => {
 
-  beforeEach(function() {
+  beforeEach(() => {
     return User.sync({force: true})
   })
 
-  afterEach(function() {
+  afterEach(() => {
     return User.destroy({truncate: true})
   })
 
-  it("should create a user", function() {
+  it('should create a user', () => {
     return User.create({
       email: 'a@gmail.com',
       password: '1234567'
     })
-      .then(function(user) {
+      .then((user) => {
         expect(user).to.be.a('object')
       })
   })
