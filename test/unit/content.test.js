@@ -18,9 +18,7 @@ describe('contents', () => {
 
   describe('models', () => {
     it('should create a content', () => {
-      return Content.create({
-        message: 'test message'
-      })
+      return Content.create({message: 'test message', publishAt: new Date()})
         .then((content) => {
           expect(content).to.be.a('object')
         })
@@ -40,7 +38,7 @@ describe('contents', () => {
     it('should return 200 OK', (done) => {
       request(app)
         .post('/contents/add')
-        .send({message: 'test message'})
+        .send({message: 'test message', publishAt: new Date()})
         .expect(200, done)
     })
   })

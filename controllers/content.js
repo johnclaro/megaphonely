@@ -2,7 +2,8 @@ const Content = require('models').Content
 
 exports.add = (req, res) => {
   Content.create({
-    message: req.body.message
+    message: req.body.message,
+    publishAt: req.body.publishAt
   }).then((content) => {
       res.send(req.body.message)
     })
