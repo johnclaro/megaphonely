@@ -12,7 +12,7 @@ describe('contents', function() {
     return Content.destroy({truncate: true})
   })
 
-  it("should create a content", function() {
+  it('should create a content', function() {
     return Content.create({
       message: 'test message'
     })
