@@ -15,8 +15,8 @@ module.exports = (db, Sequelize) => {
       validate: {
         isDate: true,
         isAfterNow(value) {
-          if (value > new Date()) {
-            throw new Error('Publish date must be greater than current time')
+          if (value >= new Date()) {
+            throw new Error('Publish timestamp must be equal or greater than current time')
           }
         }
       }
