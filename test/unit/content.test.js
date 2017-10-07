@@ -35,7 +35,7 @@ describe('contents', () => {
         })
     })
 
-    it('should return 200 OK', (done) => {
+    it('should post a dummy message immediately', (done) => {
       request(app)
         .post('/contents/add')
         .send({message: 'test message', publishAt: new Date()})
