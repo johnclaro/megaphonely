@@ -5,7 +5,7 @@ const User = require('../models/').User
 describe('users', () => {
 
   beforeEach(function() {
-    return User.sync()
+    return User.sync({force: true})
   })
 
   afterEach(function() {

@@ -22,7 +22,6 @@ module.exports = function(db, DataTypes) {
       }
     }
   }, {
-    tableName: 'users',
     classMethods: {
       associate: function (models, cb) {}
     }
