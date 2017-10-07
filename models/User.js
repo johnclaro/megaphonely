@@ -11,7 +11,7 @@ module.exports = function(db, DataTypes) {
       type: DataTypes.VIRTUAL,
       set: function(val) {
         this.setDataValue('password', val)
-        this.setDataValue('password_hash', 'salt-' + val)
+        this.setDataValue('password_hash', process.env.DB_SALT + val)
       },
       validate: {
         isLongEnough: function(val) {

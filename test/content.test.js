@@ -2,21 +2,21 @@ require('dotenv').config({path:'.env.test'})
 const expect = require('chai').expect
 const Content = require('../models/').Content
 
-describe('contents', function() {
+describe('contents', () => {
 
-  beforeEach(function() {
+  beforeEach(() => {
     return Content.sync({force: true})
   })
 
-  afterEach(function() {
+  afterEach(() => {
     return Content.destroy({truncate: true})
   })
 
-  it('should create a content', function() {
+  it('should create a content', () => {
     return Content.create({
       message: 'test message'
     })
-      .then(function(content) {
+      .then((content) => {
         expect(content).to.be.a('object')
       })
   })
