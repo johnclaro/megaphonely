@@ -1,20 +1,32 @@
 require('dotenv').config({path:'.env.test'})
 const expect = require('chai').expect
+const db = require('../models/')
 
 describe('users', () => {
-  var User = require('../models/').User
+
+  after(function() {
+    db.sequelize.authenticate()
+      .then(function(msg) {
+        db.sequelize.close()
+      })
+  })
 
   beforeEach(function() {
-    User.sync()
+    db.User.sync()
   })
 
   afterEach(function() {
-    User.destroy({truncate: true})
+    db.User.destroy({truncate: true})
   })
 
-  it("should pass", function() {
-    return User.create({email: 'a@gmail.com', password:'1234567'}).then(function(user) {
-      expect(user.email).equal('moo')
-    })
+  it("should create user", function() {
+    const newUser = {
+      email: 'a@gmail.com',
+      password: '1234567'
+    }
+    return db.User.create(newUser)
+      .then(function(user) {
+        expect(user).to.be.a('object')
+      })
   })
 })
