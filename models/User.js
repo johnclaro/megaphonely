@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(db, DataTypes) {
+module.exports = (db, DataTypes) => {
   var User = db.define('User', {
     email: {
       type: DataTypes.STRING,
@@ -9,7 +9,7 @@ module.exports = function(db, DataTypes) {
     password_hash: DataTypes.STRING,
     password: {
       type: DataTypes.VIRTUAL,
-      set: (val) => {
+      set: function(val) {
         this.setDataValue('password', val)
         this.setDataValue('password_hash', process.env.DB_SALT + val)
       },
@@ -23,7 +23,7 @@ module.exports = function(db, DataTypes) {
     }
   }, {
     classMethods: {
-      associate: function (models, cb) {}
+      associate: (models, cb) => {}
     }
   })
   return User
