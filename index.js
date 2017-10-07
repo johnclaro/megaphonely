@@ -18,7 +18,7 @@ app.get('/', homeController.index)
 
 db
   .sequelize
-  .sync({ force: true })
+  .sync()
   .then(function(err, msg) {
     app.listen(process.env.PORT, function () {
       console.log(`Example server listening on port ${process.env.PORT}!`)
