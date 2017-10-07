@@ -7,7 +7,9 @@ const Content = require('models').Content
 describe('contents', () => {
 
   before(() => {
-    return Content.sync({force: true})
+    return Content.sync({force: true}, () => {
+      models.Content.create({message: 'test1'})
+    })
   })
 
   after(() => {
@@ -26,10 +28,13 @@ describe('contents', () => {
   })
 
   describe('controllers', () => {
-    it('should return 200 OK', (done) => {
+    it('should get the number of content seeds', (done) => {
       request(app)
         .get('/contents')
-        .expect(200, done)
+        .end((err, res) => {
+          expect(1).equal(res.body.length)
+          done()
+        })
     })
 
     it('should return 200 OK', (done) => {

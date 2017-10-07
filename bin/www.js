@@ -20,9 +20,6 @@ app.set('port', port)
 var server = http.createServer(app)
 
 models.sequelize.sync().then(function() {
-  models.Content.create({
-    message: 'test1'
-  })
   server.listen(port, function() {
     console.log('Express server listening on port:', + server.address().port)
   })
