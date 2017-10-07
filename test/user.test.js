@@ -4,15 +4,15 @@ const User = require('../models/').User
 
 describe('users', () => {
 
-  before(function() {
-    User.sync()
+  beforeEach(function() {
+    return User.sync()
   })
 
   afterEach(function() {
-    User.destroy({truncate: true})
+    return User.destroy({truncate: true})
   })
 
-  it("should create user", function() {
+  it("should create a user", function() {
     return User.create({
       email: 'a@gmail.com',
       password: '1234567'

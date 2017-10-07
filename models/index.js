@@ -4,7 +4,6 @@ var fs = require('fs')
   , _ = require('lodash')
   , db = {};
 
-console.log(` Name: ${process.env.DB_NAME}\n Username: ${process.env.DB_USERNAME}\n Password: ${process.env.DB_PASSWORD}\n Dialect: ${process.env.DB_DIALECT}\n Storage: ${process.env.DB_STORAGE}\n Host: ${process.env.DB_HOST}`)
 var sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USERNAME,
@@ -12,10 +11,7 @@ var sequelize = new Sequelize(
   host: process.env.DB_HOST,
   dialect: process.env.DB_DIALECT,
   storage: process.env.DB_STORAGE,
-  pool: {
-    maxConnections: 1,
-    maxIdleTime: 2,
-  },
+  logging: false
 })
 
 fs
