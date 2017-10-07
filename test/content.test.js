@@ -14,13 +14,10 @@ describe('contents', function() {
 
   it("should create a content", function() {
     return Content.create({
-      message: ''
+      message: 'test message'
     })
       .then(function(content) {
         expect(content).to.be.a('object')
-      })
-      .catch(function(err) {
-        throw new Error('')
       })
   })
 
