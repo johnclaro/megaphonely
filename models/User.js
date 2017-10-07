@@ -9,12 +9,12 @@ module.exports = function(db, DataTypes) {
     password_hash: DataTypes.STRING,
     password: {
       type: DataTypes.VIRTUAL,
-      set: function(val) {
+      set: (val) => {
         this.setDataValue('password', val)
         this.setDataValue('password_hash', process.env.DB_SALT + val)
       },
       validate: {
-        isLongEnough: function(val) {
+        isLongEnough: (val) => {
           if (val.length < 7) {
             throw new Error('Please choose a longer password')
           }
