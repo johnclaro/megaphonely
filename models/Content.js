@@ -4,8 +4,10 @@ module.exports = function(db, DataTypes) {
   var Content = db.define('Content', {
     message: {
       type: DataTypes.STRING,
-      notEmpty: true,
-      notNull: true
+      allowNull: false,
+      validate: {
+        notEmpty: {msg: 'Message is required'},
+      }
     }
   }, {
     classMethods: {
