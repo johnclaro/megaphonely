@@ -3,8 +3,8 @@ const request = require('supertest')
 const app = require('app.js')
 const expect = require('chai').expect
 
-describe('GET /content/add', () => {
-  it('should return 200 OK', () => {
+describe('GET /', () => {
+  it('should return 200 OK', (done) => {
     request(app)
       .get('/')
       .expect(200, done)
