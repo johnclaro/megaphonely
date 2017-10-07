@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive",
-    "start": "node ./bin/www"
+    "start": "NODE_PATH=. node ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/jkrclaro/megaphone#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.1",
     "pg": "^7.3.0",
