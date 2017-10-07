@@ -1,14 +1,14 @@
 'use strict'
 
-module.exports = (db, DataTypes) => {
+module.exports = (db, Sequelize) => {
   var User = db.define('User', {
     email: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       validate: {isEmail: true}
     },
-    password_hash: DataTypes.STRING,
+    password_hash: Sequelize.STRING,
     password: {
-      type: DataTypes.VIRTUAL,
+      type: Sequelize.VIRTUAL,
       set: function(val) {
         this.setDataValue('password', val)
         this.setDataValue('password_hash', process.env.DB_SALT + val)
