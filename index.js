@@ -4,7 +4,6 @@ if (typeof maybeObject != "undefined") {
 } else {
   const nodeEnv = '.env'
 }
-console.log(nodeEnv)
 require('dotenv').config({ path: `${nodeEnv}` })
 const express = require('express')
 const app = express()
