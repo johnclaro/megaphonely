@@ -4,8 +4,8 @@ var fs = require('fs')
   , _ = require('lodash')
   , db = {};
 
-var sequelize = new Sequelize(process.env.DATABASE_URL, {
-  logging: true
+var sequelize = new Sequelize(process.env.DB_URL, {
+  logging: false
 });
 
 fs
