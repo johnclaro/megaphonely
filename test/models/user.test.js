@@ -1,8 +1,8 @@
 require('dotenv').config({path:'.env.test'})
 const expect = require('chai').expect
-const User = require('../models/').User
+const User = require('models').User
 
-describe('users', () => {
+describe('models/users', () => {
 
   beforeEach(() => {
     return User.sync({force: true})

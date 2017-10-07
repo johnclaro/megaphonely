@@ -1,8 +1,8 @@
 require('dotenv').config({path:'.env.test'})
 const expect = require('chai').expect
-const Content = require('../models/').Content
+const Content = require('models').Content
 
-describe('contents', () => {
+describe('models/contents', () => {
 
   beforeEach(() => {
     return Content.sync({force: true})
