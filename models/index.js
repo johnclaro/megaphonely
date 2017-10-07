@@ -11,7 +11,7 @@ var sequelize = new Sequelize(
   host: process.env.DB_HOST,
   dialect: process.env.DB_DIALECT,
   storage: process.env.DB_STORAGE,
-  logging: false
+  logging: true
 })
 
 fs

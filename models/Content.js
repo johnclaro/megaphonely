@@ -4,10 +4,10 @@ module.exports = function(db, DataTypes) {
   var Content = db.define('Content', {
     message: {
       type: DataTypes.STRING,
-      allowNull: false
+      notEmpty: true,
+      notNull: true
     }
   }, {
-    tableName: 'contents',
     classMethods: {
       associate: function (models, cb) {}
     }
