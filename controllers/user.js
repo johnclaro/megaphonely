@@ -32,7 +32,13 @@ exports.getSignIn = (req, res, next) => {
   res.send('Login page')
 }
 
-exports.getSignUp
+exports.getSignUp = (req, res, next) => {
+  res.send('Signup page')
+}
+
+exports.postSignUp = (req, res, next) => {
+  res.send('Successfully signed up')
+}
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
