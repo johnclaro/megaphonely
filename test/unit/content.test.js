@@ -35,7 +35,7 @@ describe('contents', () => {
         })
     })
 
-    it('should post a dummy message immediately', (done) => {
+    it('should schedule a dummy message that will be published immediately', (done) => {
       request(app)
         .post('/contents/add')
         .send({message: 'test message', publishAt: new Date()})
