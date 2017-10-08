@@ -1,4 +1,6 @@
 const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+
 const User = require('models').User
 
 passport.serializeUser((user, done) => {
@@ -13,19 +15,21 @@ passport.deserializeUser((id, done) => {
   })
 })
 
+passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
+  email = email.toLowerCase()
+  User.findUser(email, password).then((user) => {
+    return done(null, user)
+  }).catch((err) => {
+    return done(err, null)
+  })
+}))
+
 exports.getUser = (req, res, next) => {
   res.send('I am the user profile')
 }
 
 exports.getLogin = (req, res, next) => {
   res.send('Login page')
-}
-
-exports.postLogin = (req, res, next) => {
-  email = req.body.email
-  password = req.body.password
-
-  
 }
 
 exports.getAllUsers = (req, res, next) => {
