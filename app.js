@@ -19,5 +19,6 @@ const contentController = require('controllers/content')
 app.get('/', homeController.index)
 app.get('/contents', contentController.getAll)
 app.post('/contents/add', contentController.add)
+app.post('/contents/send/twitter', contentController.sendTwitter)
 
 module.exports = app

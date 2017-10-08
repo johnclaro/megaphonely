@@ -41,6 +41,13 @@ describe('contents', () => {
         .send({message: 'test message', publishAt: new Date()})
         .expect(200, done)
     })
+
+    it('should post a message to twitter', (done) => {
+      request(app)
+        .post('/contents/send/twitter')
+        .send({message: new Date()})
+        .expect(200, done)
+    })
   })
 
 })
