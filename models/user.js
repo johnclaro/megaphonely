@@ -19,6 +19,9 @@ module.exports = (db, Sequelize) => {
       unique: true,
       validate: {
         isEmail: true
+      },
+      set: function(email) {
+        this.setDataValue('email', email.toLowerCase())
       }
     },
     passwordHash: {
@@ -43,14 +46,25 @@ module.exports = (db, Sequelize) => {
   })
 
   User.associate = (models) => {}
-  User.findUser = (email, password) => {
-    return User.findOne({where: {email:email.toLowerCase()}})
+  User.findUser = (email, password='nothing') => {
+    return User.findOne({where: { email: email.toLowerCase() }})
       .then((user) => {
         // TODO: Use async to optimize hashing
-        const passwordMatch = bcrypt.compareSync(password, user.passwordHash)
-        if(passwordMatch) return (null, user)
+        if (password) {
+          const passwordMatch = bcrypt.compareSync(password, user.passwordHash)
+          if(passwordMatch) return (null, user)
+        }
+        return (null, user)
       })
       .catch((err) => {return (err, null)})
+  }
+  User.generatePasswordToken = (email) => {
+    return User.findUser(email).then((user) => {
+      // TODO: This should return a proper token that expires
+      return (null, 'dummy')
+    }).catch((err) => {
+      return (err, null)
+    })
   }
   return User
 }
