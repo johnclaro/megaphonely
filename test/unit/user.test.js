@@ -7,7 +7,7 @@ describe('users', () => {
 
   before(() => {
     return User.sync({force: true}).then((msg) => {
-      return User.create({email: 'first@gmail.com', password: '1234567'})
+      User.create({email: 'first@gmail.com', password: '1234567'})
     })
   })
 
