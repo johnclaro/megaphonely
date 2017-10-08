@@ -1,6 +1,6 @@
 const Content = require('models').Content
 
-exports.add = (req, res) => {
+exports.add = (req, res, next) => {
   Content.create({
     message: req.body.message,
     publishAt: req.body.publishAt
@@ -12,7 +12,7 @@ exports.add = (req, res) => {
     })
 }
 
-exports.getAll = (req, res, err) => {
+exports.getAll = (req, res, next) => {
   Content.findAll().then((contents) => {
     res.send(contents)
   }).catch((err) => {
