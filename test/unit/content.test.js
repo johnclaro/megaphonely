@@ -7,7 +7,7 @@ describe('contents', () => {
 
   before(() => {
     return Content.sync({force: true}, () => {
-      models.Content.create({message: 'test1'})
+      Content.create({message: 'test1'})
     })
   })
 
