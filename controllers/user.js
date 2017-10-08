@@ -36,7 +36,18 @@ exports.getSignUp = (req, res, next) => {
 }
 
 exports.postSignUp = (req, res, next) => {
-  res.send('Successfully signed up')
+  const newUser = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password
+  }
+
+  User.create(newUser).then((user) => {
+    res.send(user)
+  }).catch((err) => {
+    next(err)
+  })
 }
 
 exports.isAuthenticated = (req, res, next) => {

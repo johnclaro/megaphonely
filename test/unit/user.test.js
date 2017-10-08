@@ -60,5 +60,24 @@ describe('users', () => {
         .expect('Location', '/signin')
         .end(done)
     })
+
+    it('should create a new user by sending a POST to /signup', (done) => {
+      const user = {
+        firstName: 'Khal',
+        lastName: 'Drogo',
+        email: 'khaldrogo@gmail.com',
+        password: 'd0thr4k1'
+      }
+
+      request(app)
+        .post('/signup')
+        .send(user)
+        .end((err, res) => {
+          expect(res.body.email).equal(user.email)
+          expect(res.body.firstName).equal(user.firstName)
+          expect(res.body.lastName).equal(user.lastName)
+          done()
+        })
+    })
   })
 })
