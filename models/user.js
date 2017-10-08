@@ -41,7 +41,7 @@ module.exports = (db, Sequelize) => {
 
   User.associate = (models) => {}
   User.findUser = (email, password) => {
-    const email = email.toLowerCase()
+    var email = email.toLowerCase()
     return User.findOne({where: {email:email}})
       .then((user) => {
         // TODO: Use async to optimize hashing
