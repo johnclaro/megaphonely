@@ -21,7 +21,10 @@ module.exports = (db, Sequelize) => {
         isEmail: true
       }
     },
-    passwordHash: Sequelize.STRING,
+    passwordHash: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     password: {
       type: Sequelize.VIRTUAL,
       set: function(password) {
