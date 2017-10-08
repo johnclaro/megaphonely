@@ -8,6 +8,7 @@ describe('users', () => {
   before(() => {
     return User.sync({force: true}).then((msg) => {
       User.create({firstName: 'Jon', lastName: 'Snow', email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
+      User.create({firstName: 'Tyrion', lastName: 'Lannister', email: 'tyrionlannister@gmail.com', password: 'tr14lbyf1r3'})
     })
   })
 
@@ -16,9 +17,18 @@ describe('users', () => {
   })
 
   describe('models', () => {
-    it('should create a user', () => {
-      return User.create({firstName: 'Little', lastName: 'Finger', email: 'littlefinger@gmail.com', password: 'ch40s15al4dd3r'})
-        .then((user) => {expect(user).to.be.a('object')})
+    it('should create a user with lowercased email and encrypted password', () => {
+      const newUser = {
+        firstName: 'Little',
+        lastName: 'Finger',
+        email: 'LITTLEFINGER@gmail.com',
+        password: 'ch405154l4dd3r'
+      }
+      return User.create(newUser)
+        .then((user) => {
+          expect(user.email).equal(newUser.email.toLowerCase())
+          expect(user.passwordHash).not.equal(newUser.password)
+        })
     })
 
     it('should get jonsnow@gmail.com for user with the 1 id', () => {
@@ -48,7 +58,6 @@ describe('users', () => {
         .post('/login')
         .send({email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
         .expect(302)
-        .expect('Location', '/users/1')
         .end(done)
     })
 
@@ -71,7 +80,14 @@ describe('users', () => {
           password: 'd0thr4k1'
         })
         .expect(302)
-        .expect('Location', '/users/3')
+        .end(done)
+    })
+
+    it('should give back a token', (done) => {
+      request(app)
+        .post('/forgot')
+        .send({email: 'tyrionlannister@gmail.com'})
+        .expect('dummy')
         .end(done)
     })
   })

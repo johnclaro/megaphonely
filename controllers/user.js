@@ -16,6 +16,7 @@ passport.deserializeUser((id, done) => {
 })
 
 passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
+  var email = email.toLowerCase()
   User.findUser(email, password).then((user) => {
     return done(null, user)
   }).catch((err) => {
@@ -46,6 +47,18 @@ exports.postRegister = (req, res, next) => {
       if(err) return next(err)
       return res.redirect(`/users/${user.id}`)
     })
+  }).catch((err) => {
+    return next(err)
+  })
+}
+
+exports.getForgot = (req, res, next) => {
+  res.send('Forgot password')
+}
+
+exports.postForgot = (req, res, next) => {
+  User.generatePasswordToken(req.body.email).then((token) => {
+    return res.send(token)
   }).catch((err) => {
     return next(err)
   })
