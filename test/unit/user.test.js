@@ -30,7 +30,7 @@ describe('users', () => {
   })
 
   describe('controllers', () => {
-    it('should not allow me access because i am not logged in', (done) => {
+    it('should redirect me to /login because i am not logged in', (done) => {
       request(app)
         .get('/users/1')
         .expect(302)
