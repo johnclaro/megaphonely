@@ -7,7 +7,7 @@ describe('users', () => {
 
   before(() => {
     return User.sync({force: true}).then((msg) => {
-      User.create({email: 'first@gmail.com', password: '1234567'})
+      User.create({firstName: 'Jon', lastName: 'Snow', email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
     })
   })
 
@@ -17,19 +17,19 @@ describe('users', () => {
 
   describe('models', () => {
     it('should create a user', () => {
-      return User.create({email: 'second@gmail.com', password: '1234567'})
+      return User.create({firstName: 'Little', lastName: 'Finger', email: 'littlefinger@gmail.com', password: 'ch40s15al4dd3r'})
         .then((user) => {expect(user).to.be.a('object')})
     })
 
-    it('should get first@gmail.com for user with the 1 id', () => {
+    it('should get jonsnow@gmail.com for user with the 1 id', () => {
       return User.findById(1).then((user) => {
-        expect(user.email).equal('first@gmail.com')
+        expect(user.email).equal('jonsnow@gmail.com')
       })
     })
 
     it('should get a user object by supplying email and password', () => {
-      return User.findUser('first@gmail.com', '1234567').then((user) => {
-        expect(user.email).equal('first@gmail.com')
+      return User.findUser('jonsnow@gmail.com', '1kn0wn0th1ng').then((user) => {
+        expect(user.email).equal('jonsnow@gmail.com')
       })
     })
   })
@@ -43,10 +43,10 @@ describe('users', () => {
         .end(done)
     })
 
-    it('should successfully login first@gmail.com', (done) => {
+    it('should successfully login jonsnow@gmail.com', (done) => {
       request(app)
         .post('/signin')
-        .send({email: 'first@gmail.com', password: '1234567'})
+        .send({email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
         .expect(302)
         .expect('Location', '/users/1')
         .end(done)
@@ -55,7 +55,7 @@ describe('users', () => {
     it('should redirect me to /login because email does not exist', (done) => {
       request(app)
         .post('/signin')
-        .send({email: 'idonotexist@gmail.com', password: '1234567'})
+        .send({email: 'valarmorghulis@gmail.com', password: 'br4v0s'})
         .expect(302)
         .expect('Location', '/signin')
         .end(done)
