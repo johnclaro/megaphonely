@@ -27,15 +27,15 @@ exports.getUser = (req, res, next) => {
   res.send('I am the user profile')
 }
 
-exports.getSignIn = (req, res, next) => {
+exports.getLogin = (req, res, next) => {
   res.send('Login page')
 }
 
-exports.getSignUp = (req, res, next) => {
+exports.getRegister = (req, res, next) => {
   res.send('Signup page')
 }
 
-exports.postSignUp = (req, res, next) => {
+exports.postRegister = (req, res, next) => {
   User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,

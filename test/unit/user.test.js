@@ -45,7 +45,7 @@ describe('users', () => {
 
     it('should successfully login jonsnow@gmail.com', (done) => {
       request(app)
-        .post('/signin')
+        .post('/login')
         .send({email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
         .expect(302)
         .expect('Location', '/users/1')
@@ -54,14 +54,14 @@ describe('users', () => {
 
     it('should redirect me to /login because email does not exist', (done) => {
       request(app)
-        .post('/signin')
+        .post('/login')
         .send({email: 'valarmorghulis@gmail.com', password: 'br4v0s'})
         .expect(302)
-        .expect('Location', '/signin')
+        .expect('Location', '/login')
         .end(done)
     })
 
-    it('should create a new user by sending a POST to /signup', (done) => {
+    it('should create a new user by sending a POST to /register', (done) => {
       const user = {
         firstName: 'Khal',
         lastName: 'Drogo',
@@ -70,7 +70,7 @@ describe('users', () => {
       }
 
       request(app)
-        .post('/signup')
+        .post('/register')
         .send(user)
         .expect(302)
         .expect('Location', '/users/3')
