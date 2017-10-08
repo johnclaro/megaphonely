@@ -45,7 +45,7 @@ describe('users', () => {
 
     it('should successfully login first@gmail.com', (done) => {
       request(app)
-        .post('/login')
+        .post('/signin')
         .send({email: 'first@gmail.com', password: '1234567'})
         .expect(302)
         .expect('Location', '/users/1')
@@ -54,10 +54,10 @@ describe('users', () => {
 
     it('should redirect me to /login because email does not exist', (done) => {
       request(app)
-        .post('/login')
+        .post('/signin')
         .send({email: 'idonotexist@gmail.com', password: '1234567'})
         .expect(302)
-        .expect('Location', '/login')
+        .expect('Location', '/signin')
         .end(done)
     })
   })
