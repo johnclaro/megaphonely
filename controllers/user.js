@@ -28,11 +28,11 @@ exports.getUser = (req, res, next) => {
   res.send('I am the user profile')
 }
 
-exports.getSignin = (req, res, next) => {
+exports.getSignIn = (req, res, next) => {
   res.send('Login page')
 }
 
-exports.get
+exports.getSignUp
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
