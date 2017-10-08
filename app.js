@@ -5,8 +5,6 @@ const passport = require('passport')
 
 const app = express()
 
-const db = require('models')
-
 /**
 * Express configs
 **/
@@ -24,7 +22,8 @@ const userController = require('controllers/user')
 app.get('/', homeController.index)
 app.get('/users/:id', userController.isAuthenticated, userController.getUser)
 app.get('/users', userController.getAllUsers)
-app.get('/login', userController.login)
+app.get('/login', userController.getLogin)
+app.post('/login', userController.postLogin)
 app.get('/contents', contentController.getAll)
 app.post('/contents/add', contentController.add)
 app.post('/contents/send/twitter', contentController.sendTwitter)

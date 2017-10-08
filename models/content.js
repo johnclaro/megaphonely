@@ -21,10 +21,8 @@ module.exports = (db, Sequelize) => {
         }
       }
     }
-  }, {
-    classMethods: {
-      associate: (models, cb) => {}
-    }
   })
+
+  Content.associate = (models, cb) => {}
   return Content
 }
