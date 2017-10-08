@@ -32,14 +32,6 @@ exports.getLogin = (req, res, next) => {
   res.send('Login page')
 }
 
-exports.getAllUsers = (req, res, next) => {
-  User.findAll().then((users) => {
-    res.send(users)
-  }).catch((err) => {
-    return next(err)
-  })
-}
-
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
   res.redirect('/login')

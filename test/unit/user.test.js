@@ -43,12 +43,6 @@ describe('users', () => {
         .end(done)
     })
 
-    it('should get all the users', (done) => {
-      request(app)
-        .get('/users')
-        .expect(200, done)
-    })
-
     it('should successfully login first@gmail.com', (done) => {
       request(app)
         .post('/login')
