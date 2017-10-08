@@ -36,14 +36,12 @@ exports.getSignUp = (req, res, next) => {
 }
 
 exports.postSignUp = (req, res, next) => {
-  const newUser = {
+  User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password
-  }
-
-  User.create(newUser).then((user) => {
+  }).then((user) => {
     res.send(user)
   }).catch((err) => {
     next(err)
