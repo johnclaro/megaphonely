@@ -1,6 +1,7 @@
 'use strict'
 
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt')
+const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 
 module.exports = (db, Sequelize) => {
   var User = db.define('User', {
@@ -20,13 +21,13 @@ module.exports = (db, Sequelize) => {
         isEmail: true
       }
     },
-    password_hash: Sequelize.STRING,
+    passwordHash: Sequelize.STRING,
     password: {
       type: Sequelize.VIRTUAL,
-      allowNull: false,
       set: function(password) {
         this.setDataValue('password', password)
-        this.setDataValue('password_hash', bcrypt.hashSync(password, bcrypt.genSaltSync(8), null))
+        // TODO: Use async to optimize hashing
+        this.setDataValue('passwordHash', bcrypt.hashSync(password, salt))
       },
       validate: {
         isLongEnough: (password) => {
@@ -41,7 +42,11 @@ module.exports = (db, Sequelize) => {
   User.associate = (models) => {}
   User.findUser = (email, password) => {
     return User.findOne({where: {email:email}})
-      .then((user) => {return (null, user)})
+      .then((user) => {
+        // TODO: Use async to optimize hashing
+        const passwordMatch = bcrypt.compareSync(password, user.passwordHash)
+        if(passwordMatch) return (null, user)
+      })
       .catch((err) => {return (err, null)})
   }
   return User
