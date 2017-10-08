@@ -1,4 +1,3 @@
-require('dotenv').config({path:'.env.test'})
 const expect = require('chai').expect
 const User = require('models').User
 
