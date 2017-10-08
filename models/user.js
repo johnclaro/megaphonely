@@ -21,10 +21,13 @@ module.exports = (db, Sequelize) => {
         }
       }
     }
-  }, {
-    classMethods: {
-      associate: (models, cb) => {}
-    }
   })
+
+  User.associate = (models) => {}
+  User.findUser = (email, password) => {
+    return User.findOne({where: {email:email}})
+      .then((user) => {return (null, user)})
+      .catch((err) => {return (err, null)})
+  }
   return User
 }

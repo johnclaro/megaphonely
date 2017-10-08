@@ -17,8 +17,15 @@ exports.getUser = (req, res, next) => {
   res.send('I am the user profile')
 }
 
-exports.login = (req, res, next) => {
-  res.send('Login')
+exports.getLogin = (req, res, next) => {
+  res.send('Login page')
+}
+
+exports.postLogin = (req, res, next) => {
+  email = req.body.email
+  password = req.body.password
+
+  
 }
 
 exports.getAllUsers = (req, res, next) => {

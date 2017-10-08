@@ -12,7 +12,6 @@ describe('users', () => {
   })
 
   after(() => {
-    console.log('Destroyingg..')
     return User.destroy({truncate: true})
   })
 
@@ -24,6 +23,12 @@ describe('users', () => {
 
     it('should get first@gmail.com for user with the 1 id', () => {
       return User.findById(1).then((user) => {
+        expect(user.email).equal('first@gmail.com')
+      })
+    })
+
+    it('should get a user object by supplying email and password', () => {
+      return User.findUser('first@gmail.com', '1234567').then((user) => {
         expect(user.email).equal('first@gmail.com')
       })
     })
