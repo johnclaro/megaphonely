@@ -62,16 +62,14 @@ describe('users', () => {
     })
 
     it('should create a new user by sending a POST to /register', (done) => {
-      const user = {
-        firstName: 'Khal',
-        lastName: 'Drogo',
-        email: 'khaldrogo@gmail.com',
-        password: 'd0thr4k1'
-      }
-
       request(app)
         .post('/register')
-        .send(user)
+        .send({
+          firstName: 'Khal',
+          lastName: 'Drogo',
+          email: 'khaldrogo@gmail.com',
+          password: 'd0thr4k1'
+        })
         .expect(302)
         .expect('Location', '/users/3')
         .end(done)
