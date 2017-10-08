@@ -1,5 +1,7 @@
 'use strict'
 
+const bcrypt = require('bcrypt-nodejs')
+
 module.exports = (db, Sequelize) => {
   var User = db.define('User', {
     firstName: {
@@ -21,13 +23,14 @@ module.exports = (db, Sequelize) => {
     password_hash: Sequelize.STRING,
     password: {
       type: Sequelize.VIRTUAL,
-      set: function(val) {
-        this.setDataValue('password', val)
-        this.setDataValue('password_hash', process.env.DB_SALT + val)
+      allowNull: false,
+      set: function(password) {
+        this.setDataValue('password', password)
+        this.setDataValue('password_hash', bcrypt.hashSync(password, bcrypt.genSaltSync(8), null))
       },
       validate: {
-        isLongEnough: (val) => {
-          if (val.length < 7) {
+        isLongEnough: (password) => {
+          if (password.length < 7) {
             throw new Error('Please choose a longer password')
           }
         }
