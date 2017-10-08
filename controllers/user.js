@@ -32,6 +32,8 @@ exports.getLogin = (req, res, next) => {
   res.send('Login page')
 }
 
+exports.get
+
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
   res.redirect('/login')
