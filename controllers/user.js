@@ -28,7 +28,7 @@ exports.getUser = (req, res, next) => {
   res.send('I am the user profile')
 }
 
-exports.getLogin = (req, res, next) => {
+exports.getSignin = (req, res, next) => {
   res.send('Login page')
 }
 
