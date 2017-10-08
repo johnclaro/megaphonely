@@ -42,9 +42,12 @@ exports.postSignUp = (req, res, next) => {
     email: req.body.email,
     password: req.body.password
   }).then((user) => {
-    res.send(user)
+    req.logIn(user, (err) => {
+      if(err) return next(err)
+      return res.redirect(`/users/${user.id}`)
+    })
   }).catch((err) => {
-    next(err)
+    return next(err)
   })
 }
 
