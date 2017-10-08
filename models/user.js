@@ -41,8 +41,7 @@ module.exports = (db, Sequelize) => {
 
   User.associate = (models) => {}
   User.findUser = (email, password) => {
-    var email = email.toLowerCase()
-    return User.findOne({where: {email:email}})
+    return User.findOne({where: {email:email.toLowerCase()}})
       .then((user) => {
         // TODO: Use async to optimize hashing
         const passwordMatch = bcrypt.compareSync(password, user.passwordHash)
