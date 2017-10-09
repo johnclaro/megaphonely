@@ -1,30 +1,30 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
-const User = require('models').User
+const Account = require('models').Account
 
-passport.serializeUser((user, done) => {
-  done(null, user.id)
+passport.serializeAccount((account, done) => {
+  done(null, account.id)
 })
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).then((user) => {
-    done(null, user)
+passport.deserializeAccount((id, done) => {
+  Account.findById(id).then((account) => {
+    done(null, account)
   }).catch((err) => {
     done(err)
   })
 })
 
 passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
-  User.findUser(email, password).then((user) => {
-    return done(null, user)
+  Account.findAccount(email, password).then((account) => {
+    return done(null, account)
   }).catch((err) => {
     return done(err, null)
   })
 }))
 
-exports.getUser = (req, res, next) => {
-  res.send('I am the user profile')
+exports.getAccount = (req, res, next) => {
+  res.send('I am the account profile')
 }
 
 exports.getLogin = (req, res, next) => {
@@ -36,15 +36,15 @@ exports.getRegister = (req, res, next) => {
 }
 
 exports.postRegister = (req, res, next) => {
-  User.create({
+  Account.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password
-  }).then((user) => {
-    req.logIn(user, (err) => {
+  }).then((account) => {
+    req.logIn(account, (err) => {
       if(err) return next(err)
-      return res.redirect(`/users/${user.id}`)
+      return res.redirect(`/accounts/${account.id}`)
     })
   }).catch((err) => {
     return next(err)
@@ -56,7 +56,7 @@ exports.getForgot = (req, res, next) => {
 }
 
 exports.postForgot = (req, res, next) => {
-  User.generatePasswordToken(req.body.email).then((token) => {
+  Account.generatePasswordToken(req.body.email).then((token) => {
     return res.send(token)
   }).catch((err) => {
     return next(err)
