@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 
 module.exports = (db, Sequelize) => {
-  var User = db.define('User', {
+  var Account = db.define('Account', {
     firstName: {
       type: Sequelize.STRING(100),
       allowNull: false
@@ -45,26 +45,26 @@ module.exports = (db, Sequelize) => {
     }
   })
 
-  User.associate = (models) => {}
-  User.findUser = (email, password='nothing') => {
-    return User.findOne({where: { email: email.toLowerCase() }})
-      .then((user) => {
+  Account.associate = (models) => {}
+  Account.findAccount = (email, password='nothing') => {
+    return Account.findOne({where: { email: email.toLowerCase() }})
+      .then((account) => {
         // TODO: Use async to optimize hashing
         if (password) {
-          const passwordMatch = bcrypt.compareSync(password, user.passwordHash)
-          if(passwordMatch) return (null, user)
+          const passwordMatch = bcrypt.compareSync(password, account.passwordHash)
+          if(passwordMatch) return (null, account)
         }
-        return (null, user)
+        return (null, account)
       })
       .catch((err) => {return (err, null)})
   }
-  User.generatePasswordToken = (email) => {
-    return User.findUser(email).then((user) => {
+  Account.generatePasswordToken = (email) => {
+    return Account.findAccount(email).then((account) => {
       // TODO: This should return a proper token that expires
       return (null, 'dummy')
     }).catch((err) => {
       return (err, null)
     })
   }
-  return User
+  return Account
 }
