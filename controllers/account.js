@@ -3,11 +3,11 @@ const LocalStrategy = require('passport-local').Strategy
 
 const Account = require('models').Account
 
-passport.serializeAccount((account, done) => {
+passport.serializeUser((account, done) => {
   done(null, account.id)
 })
 
-passport.deserializeAccount((id, done) => {
+passport.deserializeUser((id, done) => {
   Account.findById(id).then((account) => {
     done(null, account)
   }).catch((err) => {
