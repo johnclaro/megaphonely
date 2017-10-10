@@ -17,7 +17,7 @@ describe('accounts', () => {
   })
 
   describe('models', () => {
-    it('should create a account with lowercased email and encrypted password', () => {
+    it('should create an account with lowercased email and encrypted password', () => {
       const newAccount = {
         firstName: 'Little',
         lastName: 'Finger',
@@ -37,9 +37,19 @@ describe('accounts', () => {
       })
     })
 
-    it('should get a account object by supplying email and password', () => {
+    it('should get an account object by supplying email and password', () => {
       return Account.findAccount('jonsnow@gmail.com', '1kn0wn0th1ng').then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
+      })
+    })
+
+    it('should match supplied email with decrypted email', () => {
+      return Account.generatePasswordToken('jonsnow@gmail.com').then((token) => {
+        return Account.verifyPasswordToken(token).then((verified) => {
+          expect(verified.email).equal('jonsnow@gmail.com')
+        }).catch((err) => {
+          return (err, null)
+        })
       })
     })
   })
@@ -80,14 +90,6 @@ describe('accounts', () => {
           password: 'd0thr4k1'
         })
         .expect(302)
-        .end(done)
-    })
-
-    it('should give back a token', (done) => {
-      request(app)
-        .post('/forgot')
-        .send({email: 'tyrionlannister@gmail.com'})
-        .expect('dummy')
         .end(done)
     })
   })
