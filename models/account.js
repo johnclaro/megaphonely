@@ -1,6 +1,8 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
 const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 
 module.exports = (db, Sequelize) => {
@@ -60,11 +62,18 @@ module.exports = (db, Sequelize) => {
   }
   Account.generatePasswordToken = (email) => {
     return Account.findAccount(email).then((account) => {
-      // TODO: This should return a proper token that expires
-      return (null, 'dummy')
+      // TODO: Use async here
+      const token = jwt.sign({data: email}, process.env.SECRET, {expiresIn: '30 days'})
+      return (null, token)
     }).catch((err) => {
       return (err, null)
     })
+  }
+  Account.verifyPasswordToken = (token) => {
+    // TODO: Use async here
+    const verified = jwt.verify(token, process.env.SECRET)
+    if (verified) return Promise.resolve(verified)
+    return Promise.reject('Token was invalid!')
   }
   return Account
 }
