@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
 
 const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 
@@ -64,6 +65,26 @@ module.exports = (db, Sequelize) => {
     return Account.findAccount(email).then((account) => {
       // TODO: Use async here
       const token = jwt.sign({data: email}, process.env.SECRET, {expiresIn: '30 days'})
+      const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
+
+      const html = `
+      <h1> Reset your password? </h1>
+      <p>
+        Please go to ${process.env.DOMAIN_NAME}/resetPassword?token=${token}
+        reset your password
+      </p>
+      `
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: 'Megaphone password reset',
+        html: html
+      }
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        if(err) console.log(err)
+      })
+
       return (null, token)
     }).catch((err) => {
       return (err, null)
