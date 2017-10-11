@@ -63,6 +63,14 @@ exports.postForgot = (req, res, next) => {
   })
 }
 
+exports.getResetPassword = (req, res, next) => {
+  res.send({'Get reset password token:': req.query.token})
+}
+
+exports.postResetPassword = (req, res, next) => {
+  res.send({'Post reset password token:': req.query.token})
+}
+
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
   res.redirect('/login')

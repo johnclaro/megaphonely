@@ -92,5 +92,13 @@ describe('accounts', () => {
         .expect(302)
         .end(done)
     })
+
+    it('POST /resetPassword should give me back a token', (done) => {
+      request(app)
+        .post('/resetPassword')
+        .send({email: 'jonsnow@gmail.com'})
+        .expect(200)
+        .end(done)
+    })
   })
 })
