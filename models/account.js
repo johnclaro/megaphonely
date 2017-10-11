@@ -45,7 +45,8 @@ module.exports = (db, Sequelize) => {
           }
         }
       }
-    }
+    },
+    passwordToken: Sequelize.STRING
   })
 
   Account.associate = (models) => {}
@@ -64,7 +65,7 @@ module.exports = (db, Sequelize) => {
   Account.generatePasswordToken = (email) => {
     return Account.findAccount(email).then((account) => {
       // TODO: Use async to sign the email instead to optimize
-      const token = jwt.sign({data: email}, process.env.SECRET, {expiresIn: '30 days'})
+      const token = jwt.sign({data: email}, process.env.SECRET)
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
 
       const html = `
@@ -82,7 +83,11 @@ module.exports = (db, Sequelize) => {
       }
 
       transporter.sendMail(mailOptions, (err, info) => {
-        if(err) console.log(err)
+        if(err) return (err, null)
+      })
+
+      account.update({passwordToken: token}).catch((err) => {
+        return (err, null)
       })
 
       return (null, token)
