@@ -17,45 +17,51 @@ describe('accounts', () => {
   })
 
   describe('models', () => {
-    it('should create an account with lowercased email and encrypted password', () => {
+    it('expect a successful creation of an account', () => {
       const newAccount = {
         firstName: 'Little',
         lastName: 'Finger',
         email: 'LITTLEFINGER@gmail.com',
         password: 'ch405154l4dd3r'
       }
-      return Account.create(newAccount)
-        .then((account) => {
+      return Account.create(newAccount).then((account) => {
           expect(account.email).equal(newAccount.email.toLowerCase())
           expect(account.passwordHash).not.equal(newAccount.password)
         })
     })
 
-    it('should get jonsnow@gmail.com for account with the 1 id', () => {
+    it('expect account found for ID 1 to be jonsnow@gmail.com', () => {
       return Account.findById(1).then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
-    it('should get an account object by supplying email and password', () => {
+    it('expect email to be equal supplied email when finding an account', () => {
       return Account.findAccount('jonsnow@gmail.com', '1kn0wn0th1ng').then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
-    it('should match supplied email with decrypted email', () => {
+    it('expect a token when generating a password token', () => {
       return Account.generatePasswordToken('jonsnow@gmail.com').then((token) => {
-        return Account.verifyPasswordToken(token).then((verified) => {
-          expect(verified.email).equal('jonsnow@gmail.com')
-        }).catch((err) => {
-          return (err, null)
-        })
+        expect(token).to.be.a('string')
+      })
+    })
+
+    it('expect token to be decrypted when verifying a password token', () => {
+      // This token does not have an expiry date !
+      // This token should give back a value of
+      //     { data: 'jonsnow@gmail.com', iat: 1507757856 }
+      // once it is decrypted properly
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiam9uc25vd0BnbWFpbC5jb20iLCJpYXQiOjE1MDc3NTc4NTZ9.Fe_0-GE76jiDz1-atXBnq6qhkziRVUjChppTPvK8ZVw'
+      return Account.verifyPasswordToken(token).then((decrypted) => {
+        expect(decrypted.data).equal('jonsnow@gmail.com')
       })
     })
   })
 
   describe('controllers', () => {
-    it('should redirect me to /login because i am not logged in', (done) => {
+    it('GET /login expects an unauthenticated user to be redirected to /login again', (done) => {
       request(app)
         .get('/accounts/1')
         .expect(302)
@@ -63,15 +69,7 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('should successfully login jonsnow@gmail.com', (done) => {
-      request(app)
-        .post('/login')
-        .send({email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
-        .expect(302)
-        .end(done)
-    })
-
-    it('should redirect me to /login because email does not exist', (done) => {
+    it('POST /login expects when an email and password is sent', (done) => {
       request(app)
         .post('/login')
         .send({email: 'valarmorghulis@gmail.com', password: 'br4v0s'})
@@ -80,7 +78,7 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('should create a new account by sending a POST to /register', (done) => {
+    it('POST /register expects a 302 when firstName, lastName, email and password are sent', (done) => {
       request(app)
         .post('/register')
         .send({
@@ -93,7 +91,7 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('POST /resetPassword should give me back a token', (done) => {
+    it('POST /resetPassword expects a 200 when an email is sent', (done) => {
       request(app)
         .post('/resetPassword')
         .send({email: 'jonsnow@gmail.com'})
