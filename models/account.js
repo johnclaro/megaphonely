@@ -63,7 +63,7 @@ module.exports = (db, Sequelize) => {
   }
   Account.generatePasswordToken = (email) => {
     return Account.findAccount(email).then((account) => {
-      // TODO: Use async here
+      // TODO: Use async to sign the email instead to optimize
       const token = jwt.sign({data: email}, process.env.SECRET, {expiresIn: '30 days'})
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
 
@@ -91,7 +91,7 @@ module.exports = (db, Sequelize) => {
     })
   }
   Account.verifyPasswordToken = (token) => {
-    // TODO: Use async here
+    // TODO: Use async to verify token to better optimize
     const verified = jwt.verify(token, process.env.SECRET)
     if (verified) return Promise.resolve(verified)
     return Promise.reject('Token was invalid!')
