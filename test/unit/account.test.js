@@ -17,7 +17,7 @@ describe('accounts', () => {
   })
 
   describe('models', () => {
-    it('expect a successful creation of an account', () => {
+    it('should create an account', () => {
       const newAccount = {
         firstName: 'Little',
         lastName: 'Finger',
@@ -30,25 +30,25 @@ describe('accounts', () => {
         })
     })
 
-    it('expect account found for ID 1 to be jonsnow@gmail.com', () => {
+    it('should get an account by ID', () => {
       return Account.findById(1).then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
-    it('expect email to be equal supplied email when finding an account', () => {
+    it('should get an account by email and password', () => {
       return Account.findAccount('jonsnow@gmail.com', '1kn0wn0th1ng').then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
-    it('expect a token when generating a password token', () => {
+    it('should generate a password token', () => {
       return Account.generatePasswordToken('jonsnow@gmail.com').then((token) => {
         expect(token).to.be.a('string')
       })
     })
 
-    it('expect token to be decrypted when verifying a password token', () => {
+    it('should decrypt a password token', () => {
       // This token does not have an expiry date !
       // This token should give back a value of
       //     { data: 'jonsnow@gmail.com', iat: 1507757856 }
@@ -61,7 +61,7 @@ describe('accounts', () => {
   })
 
   describe('controllers', () => {
-    it('GET /login expects an unauthenticated user to be redirected to /login again', (done) => {
+    it('GET /login', (done) => {
       request(app)
         .get('/accounts/1')
         .expect(302)
@@ -69,7 +69,7 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('POST /login expects when an email and password is sent', (done) => {
+    it('POST /login', (done) => {
       request(app)
         .post('/login')
         .send({email: 'valarmorghulis@gmail.com', password: 'br4v0s'})
@@ -78,7 +78,7 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('POST /register expects a 302 when firstName, lastName, email and password are sent', (done) => {
+    it('POST /register', (done) => {
       request(app)
         .post('/register')
         .send({
@@ -91,12 +91,17 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('POST /resetPassword expects a 200 when an email is sent', (done) => {
+    it('POST /resetPassword', (done) => {
       request(app)
-        .post('/resetPassword')
+        .post('/forgot')
         .send({email: 'jonsnow@gmail.com'})
-        .expect(200)
-        .end(done)
+        .end((err, res, cb) => {
+          request(app)
+            .post(`/resetPassword?token=${res.text}`)
+            .send({email: 'jonsnow@gmail.com'})
+            .expect(200)
+            .end(done)
+        })
     })
   })
 })
