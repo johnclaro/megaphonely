@@ -66,7 +66,7 @@ describe('accounts', () => {
   describe('controllers', () => {
     it('GET /login', () => {
       return request(app)
-        .get('/accounts/1')
+        .get('/account')
         .expect(302)
         .expect('Location', '/login')
     })
