@@ -3,5 +3,5 @@
 Social media management tool
 
 # Version
-- node v6.9.1
+- node v6.11.4 LTS
 - postgresql 9.6.2
