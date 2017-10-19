@@ -17,9 +17,7 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.postLogin = (req, res, next) => {
-  console.log('Authenticating...')
   passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
-    console.log('Redirecting')
     res.redirect('/account')
   }
 }
