@@ -1,7 +1,8 @@
 const expect = require('chai').expect
-const Account = require('models').Account
 const request = require('supertest')
+
 const app = require('app.js')
+const Account = require('models').Account
 
 describe('accounts', () => {
 
@@ -10,6 +11,7 @@ describe('accounts', () => {
       Account.create({firstName: 'Jon', lastName: 'Snow', email: 'jonsnow@gmail.com', password: '1kn0wn0th1ng'})
       Account.create({firstName: 'Tyrion', lastName: 'Lannister', email: 'tyrionlannister@gmail.com', password: 'tr14lbyf1r3'})
       Account.create({firstName: 'Rob', lastName: 'Stark', email: 'robstark@gmail.com', password: 'r0bst4rk', passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg'})
+      Account.create({firstName: 'Tywin', lastName: 'Lannister', email: 'tywinlannister@gmail.com', password: 'tyw1nl4nn15t3r', passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA'})
     })
   })
 
@@ -92,17 +94,15 @@ describe('accounts', () => {
         .end(done)
     })
 
-    it('POST /resetPassword', (done) => {
-      request(app)
-        .post('/forgot')
-        .send({email: 'jonsnow@gmail.com'})
-        .end((err, res, cb) => {
-          request(app)
-            .post(`/resetPassword?token=${res.text}`)
-            .send({email: 'jonsnow@gmail.com'})
-            .expect(200)
-            .end(done)
+    it('POST /resetPassword valid token', () => {
+      return request(app)
+        .post('/resetPassword')
+        .send({
+          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
+          password: 'newpassword'
         })
+        .expect(200)
+        .expect('Successfully updated password')
     })
 
     it('GET /resetPassword valid token', (done) => {
