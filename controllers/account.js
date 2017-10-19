@@ -3,7 +3,16 @@ const passport = require('passport')
 const Account = require('models').Account
 
 exports.getAccount = (req, res, next) => {
-  res.send('I am the account profile')
+  Account.findById(req.user.id)
+  .then((account) => {
+    res.render('account/profile', {
+      title: 'Profile',
+      account: req.user
+    })
+  })
+  .catch((err) => {
+    next(err)
+  })
 }
 
 exports.getLogin = (req, res, next) => {
@@ -16,7 +25,7 @@ exports.postLogin = (req, res, next) => {
     if(!account) res.redirect('/login')
     req.logIn(account, (loginErr) => {
       if(loginErr) next(loginErr)
-      res.redirect(`/accounts/${account.id}`)
+      res.redirect('/account')
     })
   })
 }
@@ -35,7 +44,7 @@ exports.postRegister = (req, res, next) => {
   .then((account) => {
     req.login(account, (err) => {
       if(err) next(err)
-      res.redirect(`/accounts/${account.id}`)
+      res.redirect('/account')
     })
   })
   .catch((err) => {
