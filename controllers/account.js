@@ -61,7 +61,8 @@ exports.postResetPassword = (req, res, next) => {
     .then((account) => {
       if(account) {
         return account.update({
-          password: req.body.password
+          password: req.body.password,
+          passwordToken: null
         })
       } else {
         res.sendStatus(404)
