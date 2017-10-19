@@ -40,8 +40,18 @@ exports.postForgot = (req, res, next) => {
   })
 }
 
+
 exports.getResetPassword = (req, res, next) => {
-  res.send({'Get reset password token:': req.query.token})
+  Account.findOne({where: {passwordToken: req.query.token}})
+    .then((account) => {
+      if (account) {
+        res.send('Account exist with password token')
+      } else {
+        res.send('No account found')
+      }
+    }).catch((err) => {
+      next(err)
+    })
 }
 
 exports.postResetPassword = (req, res, next) => {
