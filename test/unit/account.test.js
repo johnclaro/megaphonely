@@ -105,11 +105,20 @@ describe('accounts', () => {
         })
     })
 
-    it('GET /resetPassword?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg', (done) => {
+    it('GET /resetPassword valid token', (done) => {
       request(app)
         .get('/resetPassword?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
         .end((err, res) => {
           expect(res.text).to.be.equal('Account exist with password token')
+          done()
+        })
+    })
+
+    it('GET /resetPassword invalid token', (done) => {
+      request(app)
+        .get('/resetPassword?token=1')
+        .end((err, res) => {
+          expect(res.text).to.be.equal('No account found')
           done()
         })
     })
