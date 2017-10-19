@@ -8,7 +8,8 @@ passport.serializeUser((account, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-  Account.findById(id).then((account) => {
+  Account.findById(id)
+  .then((account) => {
     done(null, account)
   }).catch((err) => {
     done(err)
