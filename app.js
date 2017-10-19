@@ -2,12 +2,19 @@ require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const exphbs = require('express-handlebars')
+const path = require('path')
 
 const app = express()
 
 /**
 * Express configs
 **/
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  partialsDir: path.join(__dirname, 'views/partials')
+}))
+app.set('view engine', 'handlebars')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(passport.initialize())
