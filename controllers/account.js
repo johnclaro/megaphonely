@@ -12,14 +12,8 @@ exports.getLogin = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   passport.authenticate('local', (err, account, info) => {
-    if(err) {
-      console.log('Error logging in')
-      next(err)
-    }
-    if(!account) {
-      console.log('No account found')
-      res.redirect('/login')
-    }
+    if(err) next(err)
+    if(!account) res.redirect('/login')
     req.logIn(account, (loginErr) => {
       if(loginErr) next(loginErr)
       res.redirect(`/accounts/${account.id}`)
