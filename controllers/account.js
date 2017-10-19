@@ -5,10 +5,7 @@ const Account = require('models').Account
 exports.getAccount = (req, res, next) => {
   Account.findById(req.user.id)
   .then((account) => {
-    res.render('account/profile', {
-      title: 'Profile',
-      account: req.user
-    })
+    res.render('account/profile', {title: 'Profile', account: req.user})
   })
   .catch((err) => {
     next(err)
@@ -16,18 +13,15 @@ exports.getAccount = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
-  res.send('Login page')
+  res.render('account/login', {title: 'Login'})
 }
 
 exports.postLogin = (req, res, next) => {
-  passport.authenticate('local', (err, account, info) => {
-    if(err) next(err)
-    if(!account) res.redirect('/login')
-    req.logIn(account, (loginErr) => {
-      if(loginErr) next(loginErr)
-      res.redirect('/account')
-    })
-  })
+  console.log('Authenticating...')
+  passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
+    console.log('Redirecting')
+    res.redirect('/account')
+  }
 }
 
 exports.getRegister = (req, res, next) => {
@@ -98,4 +92,9 @@ exports.postResetPassword = (req, res, next) => {
     .catch((err) => {
       next(err)
     })
+}
+
+exports.getLogout = (req, res, next) => {
+  req.logout()
+  res.redirect('/')
 }
