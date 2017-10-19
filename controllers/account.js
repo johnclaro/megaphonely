@@ -55,5 +55,20 @@ exports.getResetPassword = (req, res, next) => {
 }
 
 exports.postResetPassword = (req, res, next) => {
-  res.send({'Post reset password token:': req.query.token})
+  Account.findOne({where: {passwordToken: req.body.token}})
+    .then((account) => {
+      if(account) {
+        return account.update({
+          password: req.body.password
+        })
+      } else {
+        res.sendStatus(404)
+      }
+    })
+    .then((account) => {
+      res.send('Successfully updated password')
+    })
+    .catch((err) => {
+      next(err)
+    })
 }
