@@ -20,11 +20,11 @@ exports.postRegister = (req, res, next) => {
     password: req.body.password
   }).then((account) => {
     req.logIn(account, (err) => {
-      if(err) return next(err)
-      return res.redirect(`/accounts/${account.id}`)
+      if(err) next(err)
+      res.redirect(`/accounts/${account.id}`)
     })
   }).catch((err) => {
-    return next(err)
+    next(err)
   })
 }
 
@@ -34,9 +34,9 @@ exports.getForgot = (req, res, next) => {
 
 exports.postForgot = (req, res, next) => {
   Account.generatePasswordToken(req.body.email).then((token) => {
-    return res.send(token)
+    res.send(token)
   }).catch((err) => {
-    return next(err)
+    next(err)
   })
 }
 
@@ -45,6 +45,8 @@ exports.getResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.query.token}})
     .then((account) => {
       if (account) {
+        // TODO: Render form asking for new password. Token should be
+        // embedded in POST request payload
         res.send('Account exist with password token')
       } else {
         res.sendStatus(404)

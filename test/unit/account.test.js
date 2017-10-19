@@ -64,25 +64,23 @@ describe('accounts', () => {
   })
 
   describe('controllers', () => {
-    it('GET /login', (done) => {
-      request(app)
+    it('GET /login', () => {
+      return request(app)
         .get('/accounts/1')
         .expect(302)
         .expect('Location', '/login')
-        .end(done)
     })
 
-    it('POST /login', (done) => {
-      request(app)
+    it('POST /login', () => {
+      return request(app)
         .post('/login')
         .send({email: 'valarmorghulis@gmail.com', password: 'br4v0s'})
         .expect(302)
         .expect('Location', '/login')
-        .end(done)
     })
 
-    it('POST /register', (done) => {
-      request(app)
+    it('POST /register', () => {
+      return request(app)
         .post('/register')
         .send({
           firstName: 'Khal',
@@ -91,7 +89,6 @@ describe('accounts', () => {
           password: 'd0thr4k1'
         })
         .expect(302)
-        .end(done)
     })
 
     it('POST /resetPassword valid token', () => {
@@ -105,20 +102,17 @@ describe('accounts', () => {
         .expect('Successfully updated password')
     })
 
-    it('GET /resetPassword valid token', (done) => {
-      request(app)
+    it('GET /resetPassword valid token', () => {
+      return request(app)
         .get('/resetPassword?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
-        .end((err, res) => {
-          expect(res.text).to.be.equal('Account exist with password token')
-          done()
-        })
+        .expect(200)
+        .expect('Account exist with password token')
     })
 
-    it('GET /resetPassword invalid token', (done) => {
-      request(app)
+    it('GET /resetPassword invalid token', () => {
+      return request(app)
         .get('/resetPassword?token=1')
         .expect(404)
-        .end(done)
     })
   })
 })
