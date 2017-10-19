@@ -1,3 +1,3 @@
 exports.index = (req, res) => {
-  res.send('I am home')
+  res.render('home', {title: 'Home'})
 }
