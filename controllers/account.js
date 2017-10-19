@@ -1,3 +1,5 @@
+const passport = require('passport')
+
 const Account = require('models').Account
 
 exports.getAccount = (req, res, next) => {
@@ -8,8 +10,25 @@ exports.getLogin = (req, res, next) => {
   res.send('Login page')
 }
 
+exports.postLogin = (req, res, next) => {
+  passport.authenticate('local', (err, account, info) => {
+    if(err) {
+      console.log('Error logging in')
+      next(err)
+    }
+    if(!account) {
+      console.log('No account found')
+      res.redirect('/login')
+    }
+    req.logIn(account, (loginErr) => {
+      if(loginErr) next(loginErr)
+      res.redirect(`/accounts/${account.id}`)
+    })
+  })
+}
+
 exports.getRegister = (req, res, next) => {
-  res.send('Signup page')
+  res.render('account/register')
 }
 
 exports.postRegister = (req, res, next) => {
@@ -18,12 +37,14 @@ exports.postRegister = (req, res, next) => {
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password
-  }).then((account) => {
-    req.logIn(account, (err) => {
+  })
+  .then((account) => {
+    req.login(account, (err) => {
       if(err) next(err)
       res.redirect(`/accounts/${account.id}`)
     })
-  }).catch((err) => {
+  })
+  .catch((err) => {
     next(err)
   })
 }
