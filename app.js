@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
 const path = require('path')
+const session = require('express-session')
 
 const app = express()
 
@@ -17,6 +18,7 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(session({secret: 'secret', resave: false, saveUninitialized: false}))
 app.use(passport.initialize())
 app.use(passport.session())
 
