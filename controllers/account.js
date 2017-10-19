@@ -17,9 +17,14 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.postLogin = (req, res, next) => {
-  passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
-    res.redirect('/account')
-  }
+  passport.authenticate('local', (err, account, info) => {
+    if(err) return next(err)
+    if(!account) return res.redirect('/login')
+    req.logIn(account, (loginErr) => {
+      if(loginErr) return next(err)
+      res.redirect('/account')
+    })
+  })(req, res, next)
 }
 
 exports.getRegister = (req, res, next) => {
