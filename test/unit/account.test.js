@@ -106,7 +106,6 @@ describe('accounts', () => {
       return request(app)
         .get('/resetPassword?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
         .expect(200)
-        .expect('Account exist with password token')
     })
 
     it('GET /resetPassword invalid token', () => {
