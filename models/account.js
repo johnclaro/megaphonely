@@ -50,24 +50,22 @@ module.exports = (db, Sequelize) => {
   })
 
   Account.associate = (models) => {}
-  Account.findAccount = (email, password='nothing') => {
+  Account.findAccount = (email, password) => {
     return Account.findOne({where: { email: email.toLowerCase() }})
       .then((account) => {
         // TODO: Use async to optimize hashing
-        if (password) {
-          const passwordMatch = bcrypt.compareSync(password, account.passwordHash)
-          if(passwordMatch) return (null, account)
-        }
+        const passwordMatch = bcrypt.compareSync(password, account.passwordHash)
+        if(passwordMatch) return (null, account)
         return (null, account)
       })
       .catch((err) => {return (err, null)})
   }
   Account.generatePasswordToken = (email) => {
-    return Account.findAccount(email).then((account) => {
-      // TODO: Use async to sign the email instead to optimize
-      const token = jwt.sign({data: email}, process.env.SECRET)
+    const receiverEmail = email.toLowerCase()
+    return Account.findOne({where: {email: receiverEmail}})
+    .then((account) => {
+      const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
-
       const html = `
       <h1> Reset your password? </h1>
       <p>
@@ -77,7 +75,7 @@ module.exports = (db, Sequelize) => {
       `
       const mailOptions = {
         from: process.env.EMAIL,
-        to: email,
+        to: receiverEmail,
         subject: 'Megaphone password reset',
         html: html
       }
@@ -91,8 +89,6 @@ module.exports = (db, Sequelize) => {
       })
 
       return (null, token)
-    }).catch((err) => {
-      return (err, null)
     })
   }
   Account.verifyPasswordToken = (token) => {
