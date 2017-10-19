@@ -117,10 +117,8 @@ describe('accounts', () => {
     it('GET /resetPassword invalid token', (done) => {
       request(app)
         .get('/resetPassword?token=1')
-        .end((err, res) => {
-          expect(res.text).to.be.equal('No account found')
-          done()
-        })
+        .expect(404)
+        .end(done)
     })
   })
 })

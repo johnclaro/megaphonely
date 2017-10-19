@@ -47,7 +47,7 @@ exports.getResetPassword = (req, res, next) => {
       if (account) {
         res.send('Account exist with password token')
       } else {
-        res.send('No account found')
+        res.sendStatus(404)
       }
     }).catch((err) => {
       next(err)
