@@ -19,7 +19,10 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   passport.authenticate('local', (err, account, info) => {
     if(err) return next(err)
-    if(!account) return res.redirect('/login')
+    if(!account) {
+      req.flash('error', 'Invalid email or password')
+      return res.redirect('/login')
+    }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
       res.redirect('/account')
