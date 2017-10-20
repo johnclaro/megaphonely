@@ -46,7 +46,13 @@ module.exports = (db, Sequelize) => {
         }
       }
     },
-    passwordToken: Sequelize.STRING
+    passwordToken: Sequelize.STRING,
+    confirmationToken: {
+      type: Sequelize.STRING,
+      defaultValue: () => {
+        return bcrypt.hashSync(String(Math.floor(new Date() / 1000)), salt) // Unix timestamp
+      }
+    }
   })
 
   Account.associate = (models) => {}
@@ -96,6 +102,37 @@ module.exports = (db, Sequelize) => {
     const verified = jwt.verify(token, process.env.SECRET)
     if (verified) return Promise.resolve(verified)
     return Promise.reject('Token was invalid!')
+  }
+  Account.sendEmailConfirmation = (email) => {
+    const receiverEmail = email.toLowerCase()
+    return Account.findOne({where: {email: receiverEmail}})
+    .then((account) => {
+      const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
+      const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
+      const html = `
+      <h1> Email confirmation </h1>
+      <p>
+        Confirm your account by going to
+        ${process.env.DOMAIN_NAME}/emailVerify?confirmation=${account.confirmationToken}
+      </p>
+      `
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: receiverEmail,
+        subject: 'Megaphone confirm email',
+        html: html
+      }
+
+      transporter.sendMail(mailOptions, (err, info) => {
+        if(err) return (err, null)
+      })
+
+      account.update({confirmed: token}).catch((err) => {
+        return (err, null)
+      })
+
+      return (null, token)
+    })
   }
   return Account
 }
