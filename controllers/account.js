@@ -85,10 +85,7 @@ exports.postResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.body.token}})
     .then((account) => {
       if(account) {
-        return account.update({
-          password: req.body.password,
-          passwordToken: null
-        })
+        return account.update({password: req.body.password,passwordToken: null})
       } else {
         res.sendStatus(404)
       }
@@ -100,6 +97,23 @@ exports.postResetPassword = (req, res, next) => {
     .catch((err) => {
       next(err)
     })
+}
+
+exports.getEmailVerification = (req, res, next) => {
+  Account.findOne({where: {confirmationToken: req.query.confirmation}})
+  .then(account => {
+    if(account) {
+      account.update({confirmationToken: null})
+      req.flash('success', 'Account verified!')
+      req.login(account, (err) => {
+        if(err) next(err)
+        res.redirect('/account')
+      })
+    } else {
+      res.sendStatus(404)
+    }
+  })
+  .catch((err) => {next(err)})
 }
 
 exports.getLogout = (req, res, next) => {
