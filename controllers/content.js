@@ -4,19 +4,22 @@ exports.add = (req, res, next) => {
   Content.create({
     message: req.body.message,
     publishAt: req.body.publishAt
-  }).then((content) => {
-      res.send(req.body.message)
-    })
-    .catch((err) => {
-      return next(err)
-    })
+  })
+  .then(content => {
+    res.send(req.body.message)
+  })
+  .catch(err => {
+    next(err)
+  })
 }
 
 exports.getAll = (req, res, next) => {
-  Content.findAll().then((contents) => {
+  Content.findAll()
+  .then(contents => {
     res.send(contents)
-  }).catch((err) => {
-    return next(err)
+  })
+  .catch(err => {
+    next(err)
   })
 }
 
