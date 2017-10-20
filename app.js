@@ -5,6 +5,7 @@ const passport = require('passport')
 const exphbs = require('express-handlebars')
 const path = require('path')
 const session = require('express-session')
+const flash = require('express-flash')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(session({secret: 'secret', resave: false, saveUninitialized: false}))
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(flash())
 
 /**
 * Controllers
