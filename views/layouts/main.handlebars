@@ -11,6 +11,15 @@
     <a href='/login'>Login</a>
     <a href='/forgot'>Forgot password</a>
   {{/if}}
+  <br>
+  {{#if messages.success}}
+    <a style='color: green'>{{messages.success}}</a>
+  {{ else if messages.error }}
+    <a style='color: red'>{{messages.error}}</a>
+  {{ else }}
+    <a style='color: orange'>{{messages.info}}</a>
+  {{/if}}
+  <br>
   {{{body}}}
 </body>
 </html>
