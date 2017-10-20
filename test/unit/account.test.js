@@ -61,6 +61,15 @@ describe('accounts', () => {
         expect(decrypted.data).equal('jonsnow@gmail.com')
       })
     })
+
+    it('should contain confirmation token for all accounts', () => {
+      Account.findAll()
+      .then(accounts => {
+        for (var i=0; i<accounts.length; i++) {
+          expect(accounts[i].confirmationToken).to.be.a('string')
+        }
+      })
+    })
   })
 
   describe('controllers', () => {
