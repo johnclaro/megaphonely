@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
 const path = require('path')
-const session = require('express-session')
+const session = require('cookie-session')
 const flash = require('express-flash')
 
 const app = express()
