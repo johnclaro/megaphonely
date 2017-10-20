@@ -98,8 +98,8 @@ describe('accounts', () => {
           token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
           password: 'newpassword'
         })
-        .expect(200)
-        .expect('Successfully updated password')
+        .expect(302)
+        .expect('Location', '/')
     })
 
     it('GET /resetPassword valid token', () => {
