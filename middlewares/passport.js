@@ -9,18 +9,20 @@ passport.serializeUser((account, done) => {
 
 passport.deserializeUser((id, done) => {
   Account.findById(id)
-  .then((account) => {
+  .then(account => {
     done(null, account)
-  }).catch((err) => {
+  })
+  .catch(err => {
     done(err)
   })
 })
 
 passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
   Account.findAccount(email, password)
-  .then((account) => {
+  .then(account => {
     return done(null, account)
-  }).catch((err) => {
+  })
+  .catch(err => {
     return done(err, null)
   })
 }))
