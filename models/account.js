@@ -58,7 +58,7 @@ module.exports = (db, Sequelize) => {
   Account.associate = (models) => {}
   Account.findAccount = (email, password) => {
     return Account.findOne({where: { email: email.toLowerCase() }})
-      .then((account) => {
+      .then(account => {
         // TODO: Use async to optimize hashing
         const passwordMatch = bcrypt.compareSync(password, account.passwordHash)
         if(passwordMatch) return (null, account)
@@ -69,7 +69,7 @@ module.exports = (db, Sequelize) => {
   Account.generatePasswordToken = (email) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
-    .then((account) => {
+    .then(account => {
       const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
       const html = `
@@ -86,14 +86,8 @@ module.exports = (db, Sequelize) => {
         html: html
       }
 
-      transporter.sendMail(mailOptions, (err, info) => {
-        if(err) return (err, null)
-      })
-
-      account.update({passwordToken: token}).catch((err) => {
-        return (err, null)
-      })
-
+      transporter.sendMail(mailOptions)
+      account.update({passwordToken: token})
       return (null, token)
     })
   }
@@ -122,15 +116,7 @@ module.exports = (db, Sequelize) => {
         subject: 'Megaphone confirm email',
         html: html
       }
-
-      transporter.sendMail(mailOptions, (err, info) => {
-        if(err) return (err, null)
-      })
-
-      account.update({confirmed: token}).catch((err) => {
-        return (err, null)
-      })
-
+      transporter.sendMail(mailOptions)
       return (null, token)
     })
   }

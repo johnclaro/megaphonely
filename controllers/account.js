@@ -4,10 +4,10 @@ const Account = require('models').Account
 
 exports.getAccount = (req, res, next) => {
   Account.findById(req.user.id)
-  .then((account) => {
+  .then(account => {
     res.render('account/profile', {title: 'Profile', account: req.user})
   })
-  .catch((err) => {
+  .catch(err => {
     next(err)
   })
 }
@@ -38,7 +38,7 @@ exports.postRegister = (req, res, next) => {
     email: req.body.email,
     password: req.body.password
   })
-  .then((account) => {
+  .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
 
@@ -46,7 +46,7 @@ exports.postRegister = (req, res, next) => {
       res.redirect('/account')
     })
   })
-  .catch((err) => {
+  .catch(err => {
     next(err)
   })
 }
@@ -57,9 +57,9 @@ exports.getForgot = (req, res, next) => {
 
 exports.postForgot = (req, res, next) => {
   Account.generatePasswordToken(req.body.email)
-  .then((token) => {
+  .then(token => {
     res.render('account/forgot', {title: 'Forgot password'})
-  }).catch((err) => {
+  }).catch(err => {
     next(err)
   })
 }
@@ -67,36 +67,37 @@ exports.postForgot = (req, res, next) => {
 
 exports.getResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.query.token}})
-    .then((account) => {
-      if (account) {
-        res.render('account/reset_password', {
-          title: 'Reset password',
-          token: req.query.token
-        })
-      } else {
-        res.sendStatus(404)
-      }
-    }).catch((err) => {
-      next(err)
-    })
+  .then(account => {
+    if (account) {
+      res.render('account/reset_password', {
+        title: 'Reset password',
+        token: req.query.token
+      })
+    } else {
+      res.sendStatus(404)
+    }
+  })
+  .catch(err => {
+    next(err)
+  })
 }
 
 exports.postResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.body.token}})
-    .then((account) => {
-      if(account) {
-        return account.update({password: req.body.password,passwordToken: null})
-      } else {
-        res.sendStatus(404)
-      }
-    })
-    .then((account) => {
-      req.flash('success', 'Successfully updated password!')
-      res.redirect('/')
-    })
-    .catch((err) => {
-      next(err)
-    })
+  .then(account => {
+    if(account) {
+      return account.update({password: req.body.password,passwordToken: null})
+    } else {
+      res.sendStatus(404)
+    }
+  })
+  .then(account => {
+    req.flash('success', 'Successfully updated password!')
+    res.redirect('/')
+  })
+  .catch(err => {
+    next(err)
+  })
 }
 
 exports.getEmailVerification = (req, res, next) => {
@@ -113,7 +114,9 @@ exports.getEmailVerification = (req, res, next) => {
       res.sendStatus(404)
     }
   })
-  .catch((err) => {next(err)})
+  .catch(err => {
+    next(err)
+  })
 }
 
 exports.getLogout = (req, res, next) => {
