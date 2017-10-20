@@ -92,8 +92,8 @@ exports.postResetPassword = (req, res, next) => {
       }
     })
     .then((account) => {
-      // TODO: Send a flash message saying password was reset successfully
-      res.send('Successfully updated password')
+      req.flash('success', 'Successfully updated password!')
+      res.redirect('/')
     })
     .catch((err) => {
       next(err)
