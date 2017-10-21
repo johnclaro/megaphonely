@@ -126,11 +126,15 @@ module.exports = (db, Sequelize) => {
       return (err, null)
     })
   }
-  Account.verifyPasswordToken = (token) => {
+  Account.verifyToken = (token) => {
     // TODO: Use async to verify token to better optimize
-    const verified = jwt.verify(token, process.env.SECRET)
-    if (verified) return Promise.resolve(verified)
-    return Promise.reject('Token was invalid!')
+    try {
+      const verified = jwt.verify(token, process.env.SECRET)
+      return Promise.resolve(verified)
+    } catch(err) {
+      // TODO: Send the user another email?
+      return Promise.reject('Invalid token')
+    }
   }
   Account.sendEmailToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
@@ -161,6 +165,7 @@ module.exports = (db, Sequelize) => {
         html: html
       }
       transporter.sendMail(mailOptions)
+      account.update({emailToken: null})
       return (null, account.emailToken)
     })
     .catch(err => {
