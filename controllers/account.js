@@ -44,12 +44,15 @@ exports.postRegister = (req, res, next) => {
   .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
-
       Account.sendEmailConfirmation(req.body.email)
       res.redirect('/account')
     })
   })
   .catch(err => {
+    if (err.errors[0].message == 'email must be unique') {
+      req.flash('error', 'Email already exists')
+      res.redirect('/')
+    }
     next(err)
   })
 }
