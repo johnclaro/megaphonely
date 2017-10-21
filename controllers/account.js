@@ -44,7 +44,7 @@ exports.postRegister = (req, res, next) => {
   .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
-      Account.sendEmailConfirmation(req.body.email)
+      Account.sendEmailToken(req.body.email, req.headers.host)
       res.redirect('/account')
     })
   })
@@ -62,7 +62,7 @@ exports.getForgot = (req, res, next) => {
 }
 
 exports.postForgot = (req, res, next) => {
-  Account.generatePasswordToken(req.body.email)
+  Account.sendPasswordToken(req.body.email, req.headers.host)
   .then(token => {
     req.flash('success', `Sent email to ${req.body.email}`)
     res.redirect('/forgot')
@@ -106,10 +106,10 @@ exports.postResetPassword = (req, res, next) => {
 }
 
 exports.getEmailVerification = (req, res, next) => {
-  Account.findOne({where: {confirmationToken: req.query.confirmation}})
+  Account.findOne({where: {emailToken: req.query.confirmation}})
   .then(account => {
     if(account) {
-      account.update({confirmationToken: null})
+      account.update({emailToken: null})
       req.flash('success', 'Account verified!')
       req.login(account, (err) => {
         if(err) next(err)
