@@ -108,18 +108,18 @@ describe('accounts', () => {
           password: 'newpassword'
         })
         .expect(302)
-        .expect('Location', '/')
+        .expect('Location', '/account')
     })
 
     it('GET /resetPassword valid token', () => {
       return request(app)
-        .get('/resetPassword?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
+        .get('/verify?passwordToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
         .expect(200)
     })
 
     it('GET /resetPassword invalid token', () => {
       return request(app)
-        .get('/resetPassword?token=1')
+        .get('/verify?passwordToken=1')
         .expect(404)
     })
   })
