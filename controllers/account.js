@@ -79,8 +79,6 @@ exports.postResetPassword = (req, res, next) => {
         req.flash('success', 'Successfully updated password!')
         res.redirect('/account')
       })
-    } else {
-      res.sendStatus(404)
     }
   })
   .catch(err => {
@@ -94,40 +92,38 @@ exports.getVerify = (req, res, next) => {
     const passwordToken = req.query.passwordToken
 
     if(emailToken) {
-      Account.findOne({where: {emailToken: emailToken}})
-      .then(account => {
-        if(account) {
-          account.update({emailToken: null})
-          req.flash('success', 'Account verified!')
-          req.login(account, (err) => {
-            if(err) next(err)
-            res.redirect('/account')
-          })
-        } else {
-          res.sendStatus(404)
-        }
+      const emailConfirmationPromises = [
+        Account.findOne({where: {emailToken: emailToken}}),
+        Account.verifyToken(emailToken)
+      ]
+      Promise.all(emailConfirmationPromises)
+      .then(success => {
+        req.flash('success', 'Account verified!')
+        req.login(success[0], (err) => {
+          if(err) next(err)
+          res.redirect('/account')
+        })
       })
       .catch(err => {
         next(err)
       })
     } else if (passwordToken) {
-      Account.findOne({where: {passwordToken: passwordToken}})
-      .then(account => {
-        if (account) {
-          res.render('account/reset_password', {
-            title: 'Reset password',
-            token: passwordToken
-          })
-        } else {
-          res.sendStatus(404)
+      const resetPasswordPromises = [
+        Account.findOne({where: {passwordToken: passwordToken}}),
+        Account.verifyToken(passwordToken)
+      ]
+      Promise.all(resetPasswordPromises)
+      .then(success => {
+        res.render('account/reset_password'), {
+          title: 'Reset password',
+          token: passwordToken
         }
       })
       .catch(err => {
+        req.flash('error', err)
         next(err)
       })
     }
-  } else {
-    res.sendStatus(404)
   }
 }
 
