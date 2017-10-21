@@ -92,7 +92,7 @@ module.exports = (db, Sequelize) => {
       const html = `
       <h1> Reset your password? </h1>
       <p>
-        Please go to http://${host}/resetPassword?token=${token} to reset your password
+        Please go to http://${host}/verify?passwordToken=${token} to reset your password
       </p>
       `
       const mailOptions = {
@@ -124,7 +124,7 @@ module.exports = (db, Sequelize) => {
       const html = `
       <h1> Email confirmation </h1>
       <p>
-        Confirm your account by going to http://${host}/emailVerify?confirmation=${account.emailToken}
+        Confirm your account by going to http://${host}/verify?emailToken=${account.emailToken}
       </p>
       `
       const mailOptions = {
