@@ -53,8 +53,8 @@ module.exports = (db, Sequelize) => {
       field: 'password_token',
       type: Sequelize.STRING
     },
-    confirmationToken: {
-      field: 'confirmation_token',
+    emailToken: {
+      field: 'email_token',
       type: Sequelize.STRING,
       defaultValue: () => {
         return bcrypt.hashSync(String(Math.floor(new Date() / 1000)), salt) // Unix timestamp
@@ -83,7 +83,7 @@ module.exports = (db, Sequelize) => {
       })
       .catch((err) => {return (err, null)})
   }
-  Account.generatePasswordToken = (email) => {
+  Account.sendPasswordToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
@@ -92,8 +92,7 @@ module.exports = (db, Sequelize) => {
       const html = `
       <h1> Reset your password? </h1>
       <p>
-        Please go to ${process.env.DOMAIN_NAME}/resetPassword?token=${token}
-        reset your password
+        Please go to http://${host}/resetPassword?token=${token} to reset your password
       </p>
       `
       const mailOptions = {
@@ -107,6 +106,9 @@ module.exports = (db, Sequelize) => {
       account.update({passwordToken: token})
       return (null, token)
     })
+    .catch(err => {
+      return (err, null)
+    })
   }
   Account.verifyPasswordToken = (token) => {
     // TODO: Use async to verify token to better optimize
@@ -114,17 +116,15 @@ module.exports = (db, Sequelize) => {
     if (verified) return Promise.resolve(verified)
     return Promise.reject('Token was invalid!')
   }
-  Account.sendEmailConfirmation = (email) => {
+  Account.sendEmailToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then((account) => {
-      const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
       const html = `
       <h1> Email confirmation </h1>
       <p>
-        Confirm your account by going to
-        ${process.env.DOMAIN_NAME}/emailVerify?confirmation=${account.confirmationToken}
+        Confirm your account by going to http://${host}/emailVerify?confirmation=${account.emailToken}
       </p>
       `
       const mailOptions = {
@@ -134,7 +134,10 @@ module.exports = (db, Sequelize) => {
         html: html
       }
       transporter.sendMail(mailOptions)
-      return (null, token)
+      return (null, account.emailToken)
+    })
+    .catch(err => {
+      return (err, null)
     })
   }
   return Account

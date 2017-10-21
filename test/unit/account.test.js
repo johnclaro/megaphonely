@@ -46,7 +46,7 @@ describe('accounts', () => {
     })
 
     it('should generate a password token', () => {
-      return Account.generatePasswordToken('jonsnow@gmail.com').then((token) => {
+      return Account.sendPasswordToken('jonsnow@gmail.com').then((token) => {
         expect(token).to.be.a('string')
       })
     })
@@ -66,7 +66,7 @@ describe('accounts', () => {
       Account.findAll()
       .then(accounts => {
         for (var i=0; i<accounts.length; i++) {
-          expect(accounts[i].confirmationToken).to.be.a('string')
+          expect(accounts[i].emailToken).to.be.a('string')
         }
       })
     })
