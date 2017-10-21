@@ -11,18 +11,19 @@ module.exports = (db, Sequelize) => {
     firstName: {
       field: 'first_name',
       type: Sequelize.STRING(100),
-      allowNull: false
+      validate: {
+        notEmpty: {args: false, msg: 'Please enter your name'},
+      }
     },
     lastName: {
       field: 'last_name',
-      type: Sequelize.STRING(100),
-      allowNull: false,
+      type: Sequelize.STRING(100)
     },
     email: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true,
+      unique: {args: true, msg: 'This email is already taken'},
       validate: {
+        notEmpty: {args: false, msg: 'Please enter an email address'},
         isEmail: true
       },
       set: function(email) {
@@ -31,8 +32,7 @@ module.exports = (db, Sequelize) => {
     },
     passwordHash: {
       field: 'password_hash',
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
     },
     password: {
       type: Sequelize.VIRTUAL,
@@ -90,15 +90,31 @@ module.exports = (db, Sequelize) => {
       const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
       const html = `
-      <h1> Reset your password? </h1>
       <p>
-        Please go to http://${host}/verify?passwordToken=${token} to reset your password
+        Hi ${account.firstName},
+        <br>
+        <br>
+        Someone recently requested a password change for your Megaphone account.
+        If this was you, you can set a new password here:
+        <br>
+        <br>
+        <a href='http://${host}/verify?passwordToken=${token}'>Reset password</a>
+        <br>
+        <br>
+        If you don't want to change your password or didn't request this, just
+        ignore and delete this message.
+        <br>
+        <br>
+        To keep your account secure, please don't forward this email to anyone.
+        <br>
+        <br>
+        Happy Megaphoning!
       </p>
       `
       const mailOptions = {
         from: process.env.EMAIL,
         to: receiverEmail,
-        subject: 'Megaphone password reset',
+        subject: 'Reset your Megaphone password',
         html: html
       }
 
@@ -122,15 +138,26 @@ module.exports = (db, Sequelize) => {
     .then((account) => {
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
       const html = `
-      <h1> Email confirmation </h1>
       <p>
-        Confirm your account by going to http://${host}/verify?emailToken=${account.emailToken}
+        Hi ${account.firstName},
+        <br>
+        <br>
+        We just need you to verify your email address before you can manage your
+        social media.
+        <br>
+        <br>
+        <a href='http://${host}/verify?emailToken=${account.emailToken}'>Verify your email</a>
+        <br>
+        <br>
+        Thanks!
+        <br>
+        - The Megaphone Team
       </p>
       `
       const mailOptions = {
         from: process.env.EMAIL,
         to: receiverEmail,
-        subject: 'Megaphone confirm email',
+        subject: 'Please verify your email',
         html: html
       }
       transporter.sendMail(mailOptions)
