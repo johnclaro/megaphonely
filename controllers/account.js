@@ -64,7 +64,8 @@ exports.getForgot = (req, res, next) => {
 exports.postForgot = (req, res, next) => {
   Account.generatePasswordToken(req.body.email)
   .then(token => {
-    res.render('account/forgot', {title: 'Forgot password'})
+    req.flash('success', `Sent email to ${req.body.email}`)
+    res.redirect('/forgot')
   }).catch(err => {
     next(err)
   })
