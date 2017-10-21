@@ -27,26 +27,30 @@ describe('accounts', () => {
         email: 'LITTLEFINGER@gmail.com',
         password: 'ch405154l4dd3r'
       }
-      return Account.create(newAccount).then((account) => {
-          expect(account.email).equal(newAccount.email.toLowerCase())
-          expect(account.passwordHash).not.equal(newAccount.password)
-        })
+      return Account.create(newAccount)
+      .then((account) => {
+        expect(account.email).equal(newAccount.email.toLowerCase())
+        expect(account.passwordHash).not.equal(newAccount.password)
+      })
     })
 
     it('should get an account by ID', () => {
-      return Account.findById(1).then((account) => {
+      return Account.findById(1)
+      .then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
     it('should get an account by email and password', () => {
-      return Account.findAccount('jonsnow@gmail.com', '1kn0wn0th1ng').then((account) => {
+      return Account.findAccount('jonsnow@gmail.com', '1kn0wn0th1ng')
+      .then((account) => {
         expect(account.email).equal('jonsnow@gmail.com')
       })
     })
 
     it('should generate a password token', () => {
-      return Account.sendPasswordToken('jonsnow@gmail.com').then((token) => {
+      return Account.sendPasswordToken('jonsnow@gmail.com')
+      .then((token) => {
         expect(token).to.be.a('string')
       })
     })
@@ -57,7 +61,8 @@ describe('accounts', () => {
       //     { data: 'jonsnow@gmail.com', iat: 1507757856 }
       // once it is decrypted properly
       const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiam9uc25vd0BnbWFpbC5jb20iLCJpYXQiOjE1MDc3NTc4NTZ9.Fe_0-GE76jiDz1-atXBnq6qhkziRVUjChppTPvK8ZVw'
-      return Account.verifyPasswordToken(token).then((decrypted) => {
+      return Account.verifyToken(token)
+      .then((decrypted) => {
         expect(decrypted.data).equal('jonsnow@gmail.com')
       })
     })
@@ -120,7 +125,7 @@ describe('accounts', () => {
     it('GET /resetPassword invalid token', () => {
       return request(app)
         .get('/verify?passwordToken=1')
-        .expect(404)
+        .expect(500)
     })
   })
 })
