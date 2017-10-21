@@ -59,6 +59,14 @@ module.exports = (db, Sequelize) => {
       defaultValue: () => {
         return bcrypt.hashSync(String(Math.floor(new Date() / 1000)), salt) // Unix timestamp
       }
+    },
+    createdAt: {
+      field: 'created_at',
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      field: 'updated_at',
+      type: Sequelize.DATE
     }
   }, {
     tableName: 'accounts'
