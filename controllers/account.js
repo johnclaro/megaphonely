@@ -89,14 +89,12 @@ exports.postResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.body.token}})
   .then(account => {
     if(account) {
-      return account.update({password: req.body.password,passwordToken: null})
+      account.update({password: req.body.password,passwordToken: null})
+      req.flash('success', 'Successfully updated password!')
+      res.redirect('/')
     } else {
       res.sendStatus(404)
     }
-  })
-  .then(account => {
-    req.flash('success', 'Successfully updated password!')
-    res.redirect('/')
   })
   .catch(err => {
     next(err)
