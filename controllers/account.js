@@ -51,7 +51,7 @@ exports.postRegister = (req, res, next) => {
   .catch(err => {
     if (err.errors[0].message == 'email must be unique') {
       req.flash('error', 'Email already exists')
-      res.redirect('/')
+      res.redirect('/register')
     }
     next(err)
   })
