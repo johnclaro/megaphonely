@@ -10,6 +10,7 @@ module.exports = (db, Sequelize) => {
       }
     },
     publishAt: {
+      field: 'publish_at',
       type: Sequelize.DATE,
       allowNull: false,
       validate: {
@@ -20,7 +21,17 @@ module.exports = (db, Sequelize) => {
           }
         }
       }
+    },
+    createdAt: {
+      field: 'created_at',
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      field: 'updated_at',
+      type: Sequelize.DATE
     }
+  }, {
+    tableName: 'contents'
   })
 
   Content.associate = (models, cb) => {}
