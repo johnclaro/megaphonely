@@ -9,12 +9,14 @@ const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
     firstName: {
+      field: 'first_name',
       type: Sequelize.STRING(100),
       allowNull: false
     },
     lastName: {
+      field: 'last_name',
       type: Sequelize.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: Sequelize.STRING,
@@ -28,6 +30,7 @@ module.exports = (db, Sequelize) => {
       }
     },
     passwordHash: {
+      field: 'password_hash',
       type: Sequelize.STRING,
       allowNull: false
     },
@@ -46,13 +49,19 @@ module.exports = (db, Sequelize) => {
         }
       }
     },
-    passwordToken: Sequelize.STRING,
+    passwordToken: {
+      field: 'password_token',
+      type: Sequelize.STRING
+    },
     confirmationToken: {
+      field: 'confirmation_token',
       type: Sequelize.STRING,
       defaultValue: () => {
         return bcrypt.hashSync(String(Math.floor(new Date() / 1000)), salt) // Unix timestamp
       }
     }
+  }, {
+    tableName: 'accounts'
   })
 
   Account.associate = (models) => {}
