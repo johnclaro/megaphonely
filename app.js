@@ -62,13 +62,14 @@ app.use((err, req, res, next) => {
   if (req._body == true) {
     return res.redirect(req.path)
   } else {
-    console.error(err)
     if (err == 'Error: 404') {
       res.status(404)
       return res.render('4xx', {title: 'Megaphone - 4xx'})
+    } else {
+      console.error(err)
+      res.status(500)
+      return res.render('5xx', {title: 'Megaphone - 5xx'})
     }
-    res.status(500)
-    return res.render('5xx', {title: 'Megaphone - 5xx'})
   }
 })
 
