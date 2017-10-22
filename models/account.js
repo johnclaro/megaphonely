@@ -30,6 +30,11 @@ module.exports = (db, Sequelize) => {
         this.setDataValue('email', email.toLowerCase())
       }
     },
+    isEmailVerified: {
+      field: 'is_email_verified',
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     passwordHash: {
       field: 'password_hash',
       type: Sequelize.STRING
@@ -53,15 +58,15 @@ module.exports = (db, Sequelize) => {
       field: 'password_token',
       type: Sequelize.STRING
     },
-    confirmationToken: {
-      field: 'confirmation_token',
+    verificationToken: {
+      field: 'verification_token',
       type: Sequelize.STRING,
       defaultValue: () => {
         return jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
       }
     },
-    confirmationTokenExpiresAt: {
-      field: 'confirmation_token_expires_at',
+    verificationTokenExpiresAt: {
+      field: 'verification_token_expires_at',
       type: Sequelize.DATE,
       defaultValue: () => {
         var tomorrow = new Date()
@@ -154,7 +159,7 @@ module.exports = (db, Sequelize) => {
       return Promise.reject('Invalid token')
     }
   }
-  Account.emailConfirmationToken = (email, host) => {
+  Account.emailverificationToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
@@ -168,7 +173,7 @@ module.exports = (db, Sequelize) => {
         social media.
         <br>
         <br>
-        <a href='http://${host}/verify?confirmationToken=${account.confirmationToken}'>Verify your email</a>
+        <a href='http://${host}/verify?verificationToken=${account.verificationToken}'>Verify your email</a>
         <br>
         <br>
         Thanks!
@@ -183,7 +188,7 @@ module.exports = (db, Sequelize) => {
         html: html
       }
       transporter.sendMail(mailOptions)
-      return (null, account.confirmationToken)
+      return (null, account.verificationToken)
     })
     .catch(err => {
       return (err, null)

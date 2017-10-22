@@ -1,9 +1,9 @@
 <h1>Settings</h1>
 <p>Hello {{{account.firstName}}}</p>
 
-{{#if account.confirmationToken}}
+{{#if account.verificationToken}}
   Email:
-  <form action='/emailConfirmationToken' method='post'>
+  <form action='/emailverificationToken' method='post'>
     <button type='submit' name='email' value={{{account.email}}}>
   </form>
 {{ else }}
