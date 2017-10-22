@@ -86,6 +86,23 @@ exports.postResetPassword = (req, res, next) => {
   })
 }
 
+exports.postEmailConfirmationToken = (req, res, next) => {
+  Account.findOne({where: {email: req.body.email}})
+  .then(account => {
+    if(account) {
+      Account.emailConfirmationToken(account.email, req.headers.host)
+      req.login(account, (err) => {
+        if(err) next(err)
+        req.flash('success', `Megaphone has sent a verification email to ${account.email}. Check your inbox and click on the link in the email to verify your address. If you can't find it, check your spam folder or click the button to resend the email.`)
+        res.redirect('/account')
+      })
+    }
+  })
+  .catch(err => {
+    next(err)
+  })
+}
+
 exports.getVerify = (req, res, next) => {
   if (Object.keys(req.query).length == 1) {
     const confirmationToken = req.query.confirmationToken
@@ -100,7 +117,10 @@ exports.getVerify = (req, res, next) => {
         req.flash('success', 'Account verified!')
         req.login(success[0], (err) => {
           if(err) next(err)
-          success[0].update({confirmationToken: null})
+          success[0].update({
+            confirmationToken: null,
+            confirmationTokenExpiresAt: null
+          })
           res.redirect('/account')
         })
       })
