@@ -44,7 +44,7 @@ exports.postRegister = (req, res, next) => {
   .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
-      Account.emailverificationToken(req.body.email, req.headers.host)
+      Account.emailVerificationToken(req.body.email, req.headers.host)
       res.redirect('/profile')
     })
   })
@@ -85,11 +85,11 @@ exports.postResetPassword = (req, res, next) => {
   })
 }
 
-exports.postEmailverificationToken = (req, res, next) => {
+exports.postEmailVerificationToken = (req, res, next) => {
   Account.findOne({where: {email: req.body.email}})
   .then(account => {
     if(account) {
-      Account.emailverificationToken(account.email, req.headers.host)
+      Account.emailVerificationToken(account.email, req.headers.host)
       req.login(account, (err) => {
         if(err) next(err)
         req.flash('success',
