@@ -92,7 +92,11 @@ exports.postEmailConfirmationToken = (req, res, next) => {
       Account.emailConfirmationToken(account.email, req.headers.host)
       req.login(account, (err) => {
         if(err) next(err)
-        req.flash('success', `Megaphone has sent a verification email to ${account.email}. Check your inbox and click on the link in the email to verify your address. If you can't find it, check your spam folder or click the button to resend the email.`)
+        req.flash('success',
+        `Megaphone has sent a verification email to ${account.email}. Check
+        your inbox and click on the link in the email to verify your address.
+        If you can't find it, check your spam folder or click the button to
+        resend the email.`)
         res.redirect('/settings')
       })
     }
