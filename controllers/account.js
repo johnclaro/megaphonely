@@ -5,15 +5,15 @@ const Account = require('models').Account
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
   .then(account => {
-    res.render('account/settings', {title: 'Settings', account: req.user})
+    return res.render('account/settings', {title: 'Settings', account: req.user})
   })
   .catch(err => {
-    next(err)
+    return next(err)
   })
 }
 
 exports.getLogin = (req, res, next) => {
-  res.render('account/login', {title: 'Login'})
+  return res.render('account/login', {title: 'Login'})
 }
 
 exports.postLogin = (req, res, next) => {
@@ -25,13 +25,13 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
-      res.redirect('/profile')
+      return res.redirect('/profile')
     })
   })(req, res, next)
 }
 
 exports.getRegister = (req, res, next) => {
-  res.render('account/register', {title: 'Register'})
+  return res.render('account/register', {title: 'Register'})
 }
 
 exports.postRegister = (req, res, next) => {
@@ -43,19 +43,19 @@ exports.postRegister = (req, res, next) => {
   })
   .then(account => {
     req.login(account, (err) => {
-      if(err) next(err)
+      if(err) return next(err)
       Account.emailVerificationToken(req.body.email, req.headers.host)
-      res.redirect('/profile')
+      return res.redirect('/profile')
     })
   })
   .catch(err => {
     req.flash('error', err.errors[0].message)
-    next(err)
+    return next(err)
   })
 }
 
 exports.getForgot = (req, res, next) => {
-  res.render('account/forgot', {title: 'Forgot password'})
+  return res.render('account/forgot', {title: 'Forgot password'})
 }
 
 exports.postForgot = (req, res, next) => {
@@ -64,9 +64,9 @@ exports.postForgot = (req, res, next) => {
     req.flash('success',
     `If a Megaphone account exists for ${req.body.email}, an e-mail will be
     sent with further instructions.`)
-    res.redirect('/forgot')
+    return res.redirect('/forgot')
   }).catch(err => {
-    next(err)
+    return next(err)
   })
 }
 
@@ -76,14 +76,14 @@ exports.postResetPassword = (req, res, next) => {
     if(account) {
       account.update({password: req.body.password, passwordToken: null})
       req.login(account, (err) => {
-        if(err) next(err)
+        if(err) return next(err)
         req.flash('success', 'Successfully updated password!')
-        res.redirect('/profile')
+        return res.redirect('/profile')
       })
     }
   })
   .catch(err => {
-    next(err)
+    return next(err)
   })
 }
 
@@ -93,18 +93,18 @@ exports.postEmailVerificationToken = (req, res, next) => {
     if(account) {
       Account.emailVerificationToken(account.email, req.headers.host)
       req.login(account, (err) => {
-        if(err) next(err)
+        if(err) return next(err)
         req.flash('success',
         `Megaphone has sent a verification email to ${account.email}. Check
         your inbox and click on the link in the email to verify your address.
         If you can't find it, check your spam folder or click the button to
         resend the email.`)
-        res.redirect('/settings')
+        return res.redirect('/settings')
       })
     }
   })
   .catch(err => {
-    next(err)
+    return next(err)
   })
 }
 
@@ -115,23 +115,23 @@ exports.getVerify = (req, res, next) => {
 
     if(verificationToken) {
       Promise.all([
-        Account.findOne({where: {verificationToken: verificationToken}}),
+        Account.findOne({where: {verificationToken: verificationToken, isEmailVerified: false}}),
         Account.verifyToken(verificationToken)
       ])
       .then(success => {
-        req.flash('success', 'Account verified!')
         req.login(success[0], (err) => {
-          if(err) next(err)
+          if(err) return next(err)
+          req.flash('success', 'Account verified!')
           success[0].update({
             verificationToken: null,
             verificationTokenExpiresAt: null,
             isEmailVerified: true
           })
-          res.redirect('/profile')
+          return res.redirect('/profile')
         })
       })
       .catch(err => {
-        next(err)
+        return next(err)
       })
     } else if (passwordToken) {
       Promise.all([
@@ -139,24 +139,24 @@ exports.getVerify = (req, res, next) => {
         Account.verifyToken(passwordToken)
       ])
       .then(success => {
-        res.render('account/reset_password'), {
+        return res.render('account/reset_password'), {
           title: 'Reset password',
           token: passwordToken
         }
       })
       .catch(err => {
         req.flash('error', err)
-        next(err)
+        return next(err)
       })
     }
   }
 }
 
 exports.getProfile = (req, res, next) => {
-  res.render('account/profile', {title: 'Profile', account: req.user})
+  return res.render('account/profile', {title: 'Profile', account: req.user})
 }
 
 exports.getLogout = (req, res, next) => {
   req.logout()
-  res.redirect('/')
+  return res.redirect('/')
 }
