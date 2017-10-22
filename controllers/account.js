@@ -62,7 +62,7 @@ exports.getForgot = (req, res, next) => {
 exports.postForgot = (req, res, next) => {
   Account.sendPasswordToken(req.body.email, req.headers.host)
   .then(token => {
-    req.flash('success', `Sent email to ${req.body.email}`)
+    req.flash('success', `If a Megaphone account exists for ${req.body.email}, an e-mail will be sent with further instructions.`)
     res.redirect('/forgot')
   }).catch(err => {
     next(err)
