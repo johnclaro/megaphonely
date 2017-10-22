@@ -57,7 +57,7 @@ module.exports = (db, Sequelize) => {
       field: 'email_token',
       type: Sequelize.STRING,
       defaultValue: () => {
-        return bcrypt.hashSync(String(Math.floor(new Date() / 1000)), salt) // Unix timestamp
+        return jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
       }
     },
     createdAt: {
@@ -81,7 +81,9 @@ module.exports = (db, Sequelize) => {
         if(passwordMatch) return (null, account)
         return ('No account found', null)
       })
-      .catch((err) => {return (err, null)})
+      .catch(err => {
+        return (err, null)
+      })
   }
   Account.sendPasswordToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
@@ -139,7 +141,7 @@ module.exports = (db, Sequelize) => {
   Account.sendEmailToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
-    .then((account) => {
+    .then(account => {
       const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
       const html = `
       <p>
@@ -165,7 +167,6 @@ module.exports = (db, Sequelize) => {
         html: html
       }
       transporter.sendMail(mailOptions)
-      account.update({emailToken: null})
       return (null, account.emailToken)
     })
     .catch(err => {
