@@ -4,6 +4,8 @@ const LocalStrategy = require('passport-local').Strategy
 const Account = require('models').Account
 
 passport.serializeUser((account, done) => {
+  var today = new Date()
+  account.update({lastLoginAt: today.setDate(today.getDate())})
   done(null, account.id)
 })
 
