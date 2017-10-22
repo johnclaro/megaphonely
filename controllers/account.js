@@ -44,7 +44,7 @@ exports.postRegister = (req, res, next) => {
   .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
-      Account.sendEmailToken(req.body.email, req.headers.host)
+      Account.emailConfirmationToken(req.body.email, req.headers.host)
       res.redirect('/account')
     })
   })
@@ -60,7 +60,7 @@ exports.getForgot = (req, res, next) => {
 }
 
 exports.postForgot = (req, res, next) => {
-  Account.sendPasswordToken(req.body.email, req.headers.host)
+  Account.emailPasswordToken(req.body.email, req.headers.host)
   .then(token => {
     req.flash('success', `If a Megaphone account exists for ${req.body.email}, an e-mail will be sent with further instructions.`)
     res.redirect('/forgot')
@@ -88,19 +88,19 @@ exports.postResetPassword = (req, res, next) => {
 
 exports.getVerify = (req, res, next) => {
   if (Object.keys(req.query).length == 1) {
-    const emailToken = req.query.emailToken
+    const confirmationToken = req.query.confirmationToken
     const passwordToken = req.query.passwordToken
 
-    if(emailToken) {
+    if(confirmationToken) {
       Promise.all([
-        Account.findOne({where: {emailToken: emailToken}}),
-        Account.verifyToken(emailToken)
+        Account.findOne({where: {confirmationToken: confirmationToken}}),
+        Account.verifyToken(confirmationToken)
       ])
       .then(success => {
         req.flash('success', 'Account verified!')
         req.login(success[0], (err) => {
           if(err) next(err)
-          success[0].update({emailToken: null})
+          success[0].update({confirmationToken: null})
           res.redirect('/account')
         })
       })
