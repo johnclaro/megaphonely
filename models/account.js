@@ -156,7 +156,7 @@ module.exports = (db, Sequelize) => {
       return Promise.resolve(verified)
     } catch(err) {
       // 404 is returned so user gets redirected to a 404 page
-      return Promise.reject(404)
+      return Promise.reject(new Error(404))
     }
   }
   Account.emailVerificationToken = (email, host) => {
