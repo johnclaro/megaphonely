@@ -4,9 +4,13 @@ const LocalStrategy = require('passport-local').Strategy
 const Account = require('models').Account
 
 passport.serializeUser((account, done) => {
-  var today = new Date()
-  account.update({lastLoginAt: today.setDate(today.getDate())})
-  done(null, account.id)
+  if (account) {
+    var today = new Date()
+    account.update({lastLoginAt: today.setDate(today.getDate())})
+    done(null, account.id)
+  } else {
+    done('No account found')
+  }
 })
 
 passport.deserializeUser((id, done) => {
@@ -31,5 +35,6 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
+  req.flash('error', 'Please sign in or register to access this page.')
   res.redirect('/login')
 }

@@ -80,7 +80,7 @@ describe('accounts', () => {
   describe('controllers', () => {
     it('GET /login', () => {
       return request(app)
-        .get('/account')
+        .get('/settings')
         .expect(302)
         .expect('Location', '/login')
     })
@@ -113,7 +113,7 @@ describe('accounts', () => {
           password: 'newpassword'
         })
         .expect(302)
-        .expect('Location', '/account')
+        .expect('Location', '/profile')
     })
 
     it('GET /resetPassword valid token', () => {

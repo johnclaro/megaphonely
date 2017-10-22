@@ -2,10 +2,10 @@ const passport = require('passport')
 
 const Account = require('models').Account
 
-exports.getAccount = (req, res, next) => {
+exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
   .then(account => {
-    res.render('account/profile', {title: 'Profile', account: req.user})
+    res.render('account/settings', {title: 'Settings', account: req.user})
   })
   .catch(err => {
     next(err)
@@ -25,7 +25,7 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
-      res.redirect('/account')
+      res.redirect('/profile')
     })
   })(req, res, next)
 }
@@ -45,12 +45,11 @@ exports.postRegister = (req, res, next) => {
     req.login(account, (err) => {
       if(err) next(err)
       Account.emailConfirmationToken(req.body.email, req.headers.host)
-      res.redirect('/account')
+      res.redirect('/profile')
     })
   })
   .catch(err => {
     req.flash('error', err.errors[0].message)
-    res.redirect('/register')
     next(err)
   })
 }
@@ -77,7 +76,7 @@ exports.postResetPassword = (req, res, next) => {
       req.login(account, (err) => {
         if(err) next(err)
         req.flash('success', 'Successfully updated password!')
-        res.redirect('/account')
+        res.redirect('/profile')
       })
     }
   })
@@ -94,7 +93,7 @@ exports.postEmailConfirmationToken = (req, res, next) => {
       req.login(account, (err) => {
         if(err) next(err)
         req.flash('success', `Megaphone has sent a verification email to ${account.email}. Check your inbox and click on the link in the email to verify your address. If you can't find it, check your spam folder or click the button to resend the email.`)
-        res.redirect('/account')
+        res.redirect('/settings')
       })
     }
   })
@@ -121,7 +120,7 @@ exports.getVerify = (req, res, next) => {
             confirmationToken: null,
             confirmationTokenExpiresAt: null
           })
-          res.redirect('/account')
+          res.redirect('/profile')
         })
       })
       .catch(err => {
@@ -144,6 +143,10 @@ exports.getVerify = (req, res, next) => {
       })
     }
   }
+}
+
+exports.getProfile = (req, res, next) => {
+  res.render('account/profile', {title: 'Profile', account: req.user})
 }
 
 exports.getLogout = (req, res, next) => {
