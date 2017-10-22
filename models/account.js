@@ -68,6 +68,14 @@ module.exports = (db, Sequelize) => {
         return tomorrow.setDate(tomorrow.getDate() + 1)
       }
     },
+    lastLoginAt: {
+      field: 'last_login_at',
+      type: Sequelize.DATE,
+      defaultValue: () => {
+        var today = new Date()
+        return today.setDate(today.getDate())
+      }
+    },
     createdAt: {
       field: 'created_at',
       type: Sequelize.DATE
