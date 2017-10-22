@@ -53,8 +53,8 @@ module.exports = (db, Sequelize) => {
       field: 'password_token',
       type: Sequelize.STRING
     },
-    emailToken: {
-      field: 'email_token',
+    confirmationToken: {
+      field: 'confirmation_token',
       type: Sequelize.STRING,
       defaultValue: () => {
         return jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
@@ -85,7 +85,7 @@ module.exports = (db, Sequelize) => {
         return (err, null)
       })
   }
-  Account.sendPasswordToken = (email, host) => {
+  Account.emailPasswordToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
@@ -138,7 +138,7 @@ module.exports = (db, Sequelize) => {
       return Promise.reject('Invalid token')
     }
   }
-  Account.sendEmailToken = (email, host) => {
+  Account.emailConfirmationToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
@@ -152,7 +152,7 @@ module.exports = (db, Sequelize) => {
         social media.
         <br>
         <br>
-        <a href='http://${host}/verify?emailToken=${account.emailToken}'>Verify your email</a>
+        <a href='http://${host}/verify?confirmationToken=${account.confirmationToken}'>Verify your email</a>
         <br>
         <br>
         Thanks!
@@ -167,7 +167,7 @@ module.exports = (db, Sequelize) => {
         html: html
       }
       transporter.sendMail(mailOptions)
-      return (null, account.emailToken)
+      return (null, account.confirmationToken)
     })
     .catch(err => {
       return (err, null)
