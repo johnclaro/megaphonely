@@ -43,7 +43,8 @@ app.post('/forgot', accountController.postForgot)
 app.post('/resetPassword', accountController.postResetPassword)
 app.post('/emailConfirmationToken', accountController.postEmailConfirmationToken)
 app.get('/verify', accountController.getVerify)
-app.get('/account', passportMiddleware.isAuthenticated, accountController.getAccount)
+app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
+app.get('/profile', passportMiddleware.isAuthenticated, accountController.getProfile)
 app.get('/contents', contentController.getAll)
 app.post('/contents/add', contentController.add)
 app.post('/contents/send/twitter', contentController.sendTwitter)
@@ -54,15 +55,15 @@ app.post('/contents/send/twitter', contentController.sendTwitter)
 **/
 app.use((req, res, next) => {
   res.status(404)
-  res.render('404', {title: 'Not found'})
+  res.render('4xx', {title: 'Megaphone - 4xx'})
 })
 
 app.use((err, req, res, next) => {
-  if (err) {
-    res.status(err.status || 500)
-    res.render('error', {title: 'Error'})
+  if (req._body == true) {
+    return res.redirect(req.path)
   } else {
-    next(err)
+    res.status(500)
+    res.render('5xx', {title: 'Megaphone - 5xx'})
   }
 })
 
