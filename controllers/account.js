@@ -73,16 +73,13 @@ exports.postForgot = (req, res, next) => {
 exports.postResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.body.passwordToken}})
   .then(account => {
-    if(account) {
-      account.update({password: req.body.password, passwordToken: null})
-      req.login(account, (err) => {
-        if(err) return next(err)
-        req.flash('success', 'Successfully updated password!')
-        return res.redirect('/profile')
-      })
-    } else {
-      return next(new Error('No account found'))
-    }
+    if(!account) return next(new Error('No account found'))
+    account.update({password: req.body.password, passwordToken: null})
+    req.login(account, (err) => {
+      if(err) return next(err)
+      req.flash('success', 'Successfully updated password!')
+      return res.redirect('/profile')
+    })
   })
   .catch(err => {
     console.error('Err', err)
@@ -93,20 +90,17 @@ exports.postResetPassword = (req, res, next) => {
 exports.postEmailVerificationToken = (req, res, next) => {
   Account.findOne({where: {email: req.body.email, isEmailVerified: false}})
   .then(account => {
-    if(account) {
-      Account.emailVerificationToken(account.email, req.headers.host)
-      req.login(account, (err) => {
-        if(err) return next(err)
-        req.flash('success',
-        `Megaphone has sent a verification email to ${account.email}. Check
-        your inbox and click on the link in the email to verify your address.
-        If you can't find it, check your spam folder or click the button to
-        resend the email.`)
-        return res.redirect('/settings')
-      })
-    } else {
-      return next(new Error('No account found'))
-    }
+    if(!account) return next(new Error('No account found'))
+    Account.emailVerificationToken(account.email, req.headers.host)
+    req.login(account, (err) => {
+      if(err) return next(err)
+      req.flash('success',
+      `Megaphone has sent a verification email to ${account.email}. Check
+      your inbox and click on the link in the email to verify your address.
+      If you can't find it, check your spam folder or click the button to
+      resend the email.`)
+      return res.redirect('/settings')
+    })
   })
   .catch(err => {
     return next(err)
