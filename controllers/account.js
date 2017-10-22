@@ -92,15 +92,15 @@ exports.getVerify = (req, res, next) => {
     const passwordToken = req.query.passwordToken
 
     if(emailToken) {
-      const emailConfirmationPromises = [
+      Promise.all([
         Account.findOne({where: {emailToken: emailToken}}),
         Account.verifyToken(emailToken)
-      ]
-      Promise.all(emailConfirmationPromises)
+      ])
       .then(success => {
         req.flash('success', 'Account verified!')
         req.login(success[0], (err) => {
           if(err) next(err)
+          success[0].update({emailToken: null})
           res.redirect('/account')
         })
       })
@@ -108,11 +108,10 @@ exports.getVerify = (req, res, next) => {
         next(err)
       })
     } else if (passwordToken) {
-      const resetPasswordPromises = [
+      Promise.all([
         Account.findOne({where: {passwordToken: passwordToken}}),
         Account.verifyToken(passwordToken)
-      ]
-      Promise.all(resetPasswordPromises)
+      ])
       .then(success => {
         res.render('account/reset_password'), {
           title: 'Reset password',
