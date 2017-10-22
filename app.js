@@ -57,8 +57,12 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.render('error', {title: 'Error'})
+  if (err) {
+    res.status(err.status || 500)
+    res.render('error', {title: 'Error'})
+  } else {
+    next(err)
+  }
 })
 
 module.exports = app
