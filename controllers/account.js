@@ -44,7 +44,7 @@ exports.postRegister = (req, res, next) => {
   .then(account => {
     req.login(account, (err) => {
       if(err) next(err)
-      Account.emailConfirmationToken(req.body.email, req.headers.host)
+      Account.emailverificationToken(req.body.email, req.headers.host)
       res.redirect('/profile')
     })
   })
@@ -85,11 +85,11 @@ exports.postResetPassword = (req, res, next) => {
   })
 }
 
-exports.postEmailConfirmationToken = (req, res, next) => {
+exports.postEmailverificationToken = (req, res, next) => {
   Account.findOne({where: {email: req.body.email}})
   .then(account => {
     if(account) {
-      Account.emailConfirmationToken(account.email, req.headers.host)
+      Account.emailverificationToken(account.email, req.headers.host)
       req.login(account, (err) => {
         if(err) next(err)
         req.flash('success',
@@ -108,21 +108,21 @@ exports.postEmailConfirmationToken = (req, res, next) => {
 
 exports.getVerify = (req, res, next) => {
   if (Object.keys(req.query).length == 1) {
-    const confirmationToken = req.query.confirmationToken
+    const verificationToken = req.query.verificationToken
     const passwordToken = req.query.passwordToken
 
-    if(confirmationToken) {
+    if(verificationToken) {
       Promise.all([
-        Account.findOne({where: {confirmationToken: confirmationToken}}),
-        Account.verifyToken(confirmationToken)
+        Account.findOne({where: {verificationToken: verificationToken}}),
+        Account.verifyToken(verificationToken)
       ])
       .then(success => {
         req.flash('success', 'Account verified!')
         req.login(success[0], (err) => {
           if(err) next(err)
           success[0].update({
-            confirmationToken: null,
-            confirmationTokenExpiresAt: null
+            verificationToken: null,
+            verificationTokenExpiresAt: null
           })
           res.redirect('/profile')
         })

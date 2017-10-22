@@ -71,7 +71,7 @@ describe('accounts', () => {
       Account.findAll()
       .then(accounts => {
         for (var i=0; i<accounts.length; i++) {
-          expect(accounts[i].confirmationToken).to.be.a('string')
+          expect(accounts[i].verificationToken).to.be.a('string')
         }
       })
     })
