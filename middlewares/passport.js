@@ -4,22 +4,19 @@ const LocalStrategy = require('passport-local').Strategy
 const Account = require('models').Account
 
 passport.serializeUser((account, done) => {
-  if (account) {
-    var today = new Date()
-    account.update({lastLoginAt: today.setDate(today.getDate())})
-    done(null, account.id)
-  } else {
-    done(new Error(404))
-  }
+  if(!account) return done(new Error(404))
+  var today = new Date()
+  account.update({lastLoginAt: today.setDate(today.getDate())})
+  return done(null, account.id)
 })
 
 passport.deserializeUser((id, done) => {
   Account.findById(id)
   .then(account => {
-    done(null, account)
+    return done(null, account)
   })
   .catch(err => {
-    done(err)
+    return done(err)
   })
 })
 
