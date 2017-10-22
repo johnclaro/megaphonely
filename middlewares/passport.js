@@ -9,7 +9,7 @@ passport.serializeUser((account, done) => {
     account.update({lastLoginAt: today.setDate(today.getDate())})
     done(null, account.id)
   } else {
-    done('No account found')
+    done(new Error(404))
   }
 })
 
