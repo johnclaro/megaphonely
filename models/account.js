@@ -155,8 +155,8 @@ module.exports = (db, Sequelize) => {
       const verified = jwt.verify(token, process.env.SECRET)
       return Promise.resolve(verified)
     } catch(err) {
-      // TODO: Send the user another email?
-      return Promise.reject('Invalid token')
+      // 404 is returned so user gets redirected to a 404 page
+      return Promise.reject(404)
     }
   }
   Account.emailVerificationToken = (email, host) => {
