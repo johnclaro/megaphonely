@@ -54,6 +54,7 @@ app.post('/contents/send/twitter', contentController.sendTwitter)
 * https://github.com/expressjs/vhost/issues/14
 **/
 app.use((req, res, next) => {
+  console.log(req)
   res.status(404)
   res.render('4xx', {title: 'Megaphone - 4xx'})
 })
