@@ -60,6 +60,14 @@ module.exports = (db, Sequelize) => {
         return jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
       }
     },
+    confirmationTokenExpiresAt: {
+      field: 'confirmation_token_expires_at',
+      type: Sequelize.DATE,
+      defaultValue: () => {
+        var tomorrow = new Date()
+        return tomorrow.setDate(tomorrow.getDate() + 1)
+      }
+    },
     createdAt: {
       field: 'created_at',
       type: Sequelize.DATE
