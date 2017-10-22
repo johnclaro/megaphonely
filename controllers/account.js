@@ -114,7 +114,9 @@ exports.getVerify = (req, res, next) => {
 
     if(verificationToken) {
       Promise.all([
-        Account.findOne({where: {verificationToken: verificationToken, isEmailVerified: false}}),
+        Account.findOne({
+          where: {verificationToken: verificationToken, isEmailVerified: false}
+        }),
         Account.verifyToken(verificationToken)
       ])
       .then(success => {
