@@ -62,6 +62,7 @@ app.use((err, req, res, next) => {
   if (req._body == true) {
     return res.redirect(req.path)
   } else {
+    console.error(err)
     res.status(500)
     res.render('5xx', {title: 'Megaphone - 5xx'})
   }

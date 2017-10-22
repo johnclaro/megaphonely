@@ -145,7 +145,6 @@ exports.getVerify = (req, res, next) => {
         }
       })
       .catch(err => {
-        req.flash('error', err)
         return next(err)
       })
     }
