@@ -100,7 +100,7 @@ module.exports = (db, Sequelize) => {
         // TODO: Use async to optimize hashing
         const passwordMatch = bcrypt.compareSync(password, account.passwordHash)
         if(passwordMatch) return (null, account)
-        return ('No account found', null)
+        return (new Error(404), null)
       })
       .catch(err => {
         return (err, null)
