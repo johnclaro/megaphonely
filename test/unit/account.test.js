@@ -109,7 +109,7 @@ describe('accounts', () => {
       return request(app)
         .post('/resetPassword')
         .send({
-          token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
+          passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
           password: 'newpassword'
         })
         .expect(302)
@@ -125,7 +125,7 @@ describe('accounts', () => {
     it('GET /resetPassword invalid token', () => {
       return request(app)
         .get('/verify?passwordToken=1')
-        .expect(500)
+        .expect(404)
     })
   })
 })
