@@ -3,7 +3,7 @@
 
 {{#if account.verificationToken}}
   Email:
-  <form action='/emailverificationToken' method='post'>
+  <form action='/emailVerificationToken' method='post'>
     <button type='submit' name='email' value={{{account.email}}}>
   </form>
 {{ else }}

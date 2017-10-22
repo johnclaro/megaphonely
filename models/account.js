@@ -159,7 +159,7 @@ module.exports = (db, Sequelize) => {
       return Promise.reject('Invalid token')
     }
   }
-  Account.emailverificationToken = (email, host) => {
+  Account.emailVerificationToken = (email, host) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
