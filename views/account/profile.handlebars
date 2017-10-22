@@ -1,2 +1,11 @@
-<h1>Profile</h1>
+<h1>Personal account</h1>
 <p>Hello {{{account.email}}}</p>
+
+{{#if account.confirmationToken}}
+  Email:
+  <form action='/emailConfirmationToken' method='post'>
+    <button type='submit' name='email' value={{{account.email}}}>
+  </form>
+{{ else }}
+  Email: {{{account.email}}}
+{{/if}}
