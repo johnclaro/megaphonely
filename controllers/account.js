@@ -73,7 +73,7 @@ exports.postForgot = (req, res, next) => {
 exports.postResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.body.passwordToken}})
   .then(account => {
-    if(!account) return next(new Error('No account found'))
+    if(!account) return next(new Error(404))
     account.update({password: req.body.password, passwordToken: null})
     req.login(account, (err) => {
       if(err) return next(err)
@@ -90,7 +90,7 @@ exports.postResetPassword = (req, res, next) => {
 exports.postEmailVerificationToken = (req, res, next) => {
   Account.findOne({where: {email: req.body.email, isEmailVerified: false}})
   .then(account => {
-    if(!account) return next(new Error('No account found'))
+    if(!account) return next(new Error(404))
     Account.emailVerificationToken(account.email, req.headers.host)
     req.login(account, (err) => {
       if(err) return next(err)
@@ -140,14 +140,12 @@ exports.getVerify = (req, res, next) => {
         Account.verifyToken(passwordToken)
       ])
       .then(success => {
-        if(success[0]) {
-          return res.render('account/reset_password', {
-            title: 'Reset password',
-            passwordToken: passwordToken
-          })
-        } else {
-          return next(new Error('No account found'))
-        }
+        const account = success[0]
+        if(!account) return next(new Error(404))
+        return res.render('account/reset_password', {
+          title: 'Reset password',
+          passwordToken: passwordToken
+        })
       })
       .catch(err => {
         return next(err)
