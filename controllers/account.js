@@ -71,10 +71,16 @@ exports.postForgot = (req, res, next) => {
 }
 
 exports.postResetPassword = (req, res, next) => {
-  Account.findOne({where: {passwordToken: req.body.passwordToken}})
-  .then(account => {
-    if(!account) return next(new Error(404))
-    account.update({password: req.body.password, passwordToken: null})
+  Account.update(
+    {password: req.body.password, passwordToken: null},
+    {
+      where: {passwordToken: req.body.passwordToken},
+      returning: true,
+      plain: true
+    }
+  )
+  .then(success => {
+    const account = success[1]
     req.login(account, (err) => {
       if(err) return next(err)
       req.flash('success', 'Successfully updated password!')
@@ -82,7 +88,6 @@ exports.postResetPassword = (req, res, next) => {
     })
   })
   .catch(err => {
-    console.error('Err', err)
     return next(err)
   })
 }
