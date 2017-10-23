@@ -40,6 +40,7 @@ app.get('/register', accountController.getRegister)
 app.post('/register', accountController.postRegister)
 app.get('/forgot', accountController.getForgot)
 app.post('/forgot', accountController.postForgot)
+app.get('/resetPassword', accountController.getResetPassword)
 app.post('/resetPassword', accountController.postResetPassword)
 app.post('/emailVerificationToken', accountController.postEmailVerificationToken)
 app.get('/verify', accountController.getVerify)
@@ -60,13 +61,13 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (req._body == true) {
-    return res.redirect(req.path)
+    return res.redirect(req.headers.referer)
   } else {
     if (err == 'Error: 404') {
       res.status(404)
       return res.render('4xx', {title: 'Megaphone - 4xx'})
     } else {
-      console.error(err)
+      console.error(500)
       res.status(500)
       return res.render('5xx', {title: 'Megaphone - 5xx'})
     }
