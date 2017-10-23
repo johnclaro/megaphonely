@@ -70,6 +70,17 @@ exports.postForgot = (req, res, next) => {
   })
 }
 
+exports.getResetPassword = (req, res, next) => {
+  Account.findOne({where: {passwordToken: req.query.passwordToken}})
+  .then(account => {
+    if(!account) return next(new Error(404))
+    return res.render('account/reset_password', {title: 'Reset password'})
+  })
+  .catch(err =>{
+    return next(err)
+  })
+}
+
 exports.postResetPassword = (req, res, next) => {
   Account.update(
     {password: req.body.password, passwordToken: null},
@@ -84,10 +95,11 @@ exports.postResetPassword = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       req.flash('success', 'Successfully updated password!')
-      return res.redirect('/profile')
+      return res.redirect('/resetPassword')
     })
   })
   .catch(err => {
+    req.flash('error', err.errors[0].message)
     return next(err)
   })
 }
@@ -147,10 +159,7 @@ exports.getVerify = (req, res, next) => {
       .then(success => {
         const account = success[0]
         if(!account) return next(new Error(404))
-        return res.render('account/reset_password', {
-          title: 'Reset password',
-          passwordToken: passwordToken
-        })
+        res.redirect(`/resetPassword?passwordToken=${passwordToken}`)
       })
       .catch(err => {
         return next(err)
