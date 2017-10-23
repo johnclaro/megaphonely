@@ -110,19 +110,18 @@ describe('accounts', () => {
         .post('/resetPassword')
         .send({
           passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
-          password: 'newpassword'
+          password: '1234567'
         })
         .expect(302)
-        .expect('Location', '/profile')
     })
 
-    it('GET /resetPassword valid token', () => {
+    it('GET /verify valid passwordToken', () => {
       return request(app)
         .get('/verify?passwordToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
-        .expect(200)
+        .expect(302)
     })
 
-    it('GET /resetPassword invalid token', () => {
+    it('GET /verify invalid passwordToken', () => {
       return request(app)
         .get('/verify?passwordToken=1')
         .expect(404)
