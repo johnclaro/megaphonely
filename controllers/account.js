@@ -171,7 +171,7 @@ exports.getVerify = (req, res, next) => {
   }
 }
 
-exports.getProfile = (req, res, next) => {
+exports.getDashboard = (req, res, next) => {
   return res.render('account/dashboard', {title: 'Dashboard', account: req.user})
 }
 
