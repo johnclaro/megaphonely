@@ -26,7 +26,7 @@ exports.getAll = (req, res, next) => {
 exports.postContent = (req, res, next) => {
   console.log(req.body)
   req.flash('success', 'Posted content')
-  res.redirect('/profile')
+  res.redirect('/dashboard')
 }
 
 exports.sendTwitter = (req, res, next) => {
