@@ -49,7 +49,7 @@ module.exports = (db, Sequelize) => {
       validate: {
         isLongEnough: (password) => {
           if (password.length < 7) {
-            throw new Error('Please choose a longer password')
+            throw new Error('Password must be at least 7 characters long')
           }
         }
       }

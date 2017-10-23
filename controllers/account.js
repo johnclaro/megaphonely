@@ -74,7 +74,10 @@ exports.getResetPassword = (req, res, next) => {
   Account.findOne({where: {passwordToken: req.query.passwordToken}})
   .then(account => {
     if(!account) return next(new Error(404))
-    return res.render('account/reset_password', {title: 'Reset password'})
+    return res.render('account/reset_password', {
+      title: 'Reset password',
+      passwordToken: req.query.passwordToken
+    })
   })
   .catch(err =>{
     return next(err)
@@ -95,7 +98,7 @@ exports.postResetPassword = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       req.flash('success', 'Successfully updated password!')
-      return res.redirect('/resetPassword')
+      return res.redirect('/profile')
     })
   })
   .catch(err => {
