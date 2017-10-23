@@ -25,7 +25,7 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
-      return res.redirect('/profile')
+      return res.redirect('/dashboard')
     })
   })(req, res, next)
 }
@@ -45,7 +45,7 @@ exports.postRegister = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       Account.emailVerificationToken(req.body.email, req.headers.host)
-      return res.redirect('/profile')
+      return res.redirect('/dashboard')
     })
   })
   .catch(err => {
@@ -98,7 +98,7 @@ exports.postResetPassword = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       req.flash('success', 'Successfully updated password!')
-      return res.redirect('/profile')
+      return res.redirect('/dashboard')
     })
   })
   .catch(err => {
@@ -148,7 +148,7 @@ exports.getVerify = (req, res, next) => {
             verificationTokenExpiresAt: null,
             isEmailVerified: true
           })
-          return res.redirect('/profile')
+          return res.redirect('/dashboard')
         })
       })
       .catch(err => {
@@ -172,7 +172,7 @@ exports.getVerify = (req, res, next) => {
 }
 
 exports.getProfile = (req, res, next) => {
-  return res.render('account/profile', {title: 'Profile', account: req.user})
+  return res.render('account/dashboard', {title: 'Dashboard', account: req.user})
 }
 
 exports.getLogout = (req, res, next) => {
