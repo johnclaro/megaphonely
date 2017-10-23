@@ -23,6 +23,12 @@ exports.getAll = (req, res, next) => {
   })
 }
 
+exports.postContent = (req, res, next) => {
+  console.log(req.body)
+  req.flash('success', 'Posted content')
+  res.redirect('/profile')
+}
+
 exports.sendTwitter = (req, res, next) => {
   var Twit = require('twit')
 
