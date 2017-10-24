@@ -24,9 +24,15 @@ exports.getAll = (req, res, next) => {
 }
 
 exports.postContent = (req, res, next) => {
-  console.log(req.body)
-  req.flash('success', 'Posted content')
-  res.redirect('/dashboard')
+  Content.schedule(req.body.message, req.body.publishAt)
+  .then(success => {
+    console.log(`${success}`)
+    req.flash('success', success)
+    return res.redirect('/dashboard')
+  })
+  .catch(err => {
+    return next(err)
+  })
 }
 
 exports.sendTwitter = (req, res, next) => {
