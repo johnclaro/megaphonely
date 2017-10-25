@@ -7,6 +7,7 @@
 <a href='/auth/twitter'>Connect more twitter</a>
 <form method='post' action='/content'>
   <textarea name='message' cols='45' rows='5'></textarea>
+  <br>
   <input type='datetime-local' name='publishAt'>
   {{#each twitterAccounts}}
     <input type='hidden' name='twitterAccessTokenKeys' value={{this.accessTokenKey}}>
