@@ -52,9 +52,7 @@ app.post('/content', passportMiddleware.isAuthenticated, contentController.postC
 * OAuths
 **/
 app.get('/auth/twitter', passport.authenticate('twitter'))
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login'}), (req, res) => {
-  res.redirect('/dasboard')
-})
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login'}), (req, res) => {res.redirect('/dashboard')})
 
 /**
 * Custom error handlers
