@@ -47,9 +47,6 @@ app.get('/verify', accountController.getVerify)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
 app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
 app.post('/content', passportMiddleware.isAuthenticated, contentController.postContent)
-app.get('/contents', contentController.getAll)
-app.post('/contents/add', contentController.add)
-app.post('/contents/send/twitter', contentController.sendTwitter)
 
 /**
 * Custom error handlers
