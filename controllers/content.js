@@ -1,19 +1,22 @@
 const Content = require('models').Content
+const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
-  if (req.body.twitterAccessTokenKeys) {
-    for(var i=0; i<req.body.twitterAccessTokenKeys.length; i++) {
+  for(var i=0; i<req.body.twitterIds.length; i++) {
+    TwitterAccount.findOne({where: {twitterId: req.body.twitterIds[i]}})
+    .then(twitterAccount => {
+      if(!twitterAccount) return next(new Error(404))
       Content.schedule(
         req.body.message,
         req.body.publishAt,
-        req.body.twitterAccessTokenKeys[i],
-        req.body.twitterAccessTokenSecrets[i]
+        twitterAccount.accessTokenKey,
+        twitterAccount.accessTokenSecret
       )
-    }
-    req.flash('success', 'Succesfully scheduled twitter contents')
-    return res.redirect('/dashboard')
-  } else {
-    req.flash('Failed to schedule twitter contents')
-    return next(err)
+    })
+    .catch(err => {
+      console.error(`Oh no: ${err}`)
+    })
   }
+  req.flash('success', 'Succesfully scheduled twitter contents')
+  return res.redirect('/dashboard')
 }
