@@ -61,6 +61,7 @@ module.exports = (db, Sequelize) => {
 
   Content.associate = (models, cb) => {}
   Content.schedule = (message, publishAt, accessTokenKey, accessTokenSecret) => {
+    console.log(`Message: ${message} | Publish At: ${publishAt} | Access Token Key: ${accessTokenKey} | Access Token Secret: ${accessTokenSecret}`)
     return Content.create({
       message: message,
       publishAt: publishAt

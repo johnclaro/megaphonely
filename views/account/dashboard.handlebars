@@ -9,8 +9,8 @@
   <textarea name='message' cols='45' rows='5'></textarea>
   <input type='datetime-local' name='publishAt'>
   {{#each twitterAccounts}}
-    <input type='hidden' name='accessTokenKey' value={{this.accessTokenKey}}>
-    <input type='hidden' name='accessTokenSecret' value={{this.accessTokenSecret}}>
+    <input type='hidden' name='twitterAccessTokenKeys' value={{this.accessTokenKey}}>
+    <input type='hidden' name='twitterAccessTokenSecrets' value={{this.accessTokenSecret}}>
   {{/each}}
   <input type='submit'/>
 </form>
