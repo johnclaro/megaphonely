@@ -37,7 +37,7 @@ module.exports = (db, Sequelize) => {
           var publishAt = new Date(publishAt)
         } else {
           var publishAt = new Date()
-          publishAt.setSeconds(publishAt.getSeconds() + 15);
+          publishAt.setSeconds(publishAt.getSeconds() + 1);
         }
         this.setDataValue('publishAt', publishAt)
       }
