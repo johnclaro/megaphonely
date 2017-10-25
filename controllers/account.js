@@ -172,9 +172,23 @@ exports.getVerify = (req, res, next) => {
   }
 }
 
+exports.getTwitterLogout = (req, res, next) => {
+  TwitterAccount.update(
+    {isConnected: false},
+    {where: {accountId: req.user.id, twitterId: req.params.twitterId}}
+  )
+  .then(success => {
+    req.flash('success', 'Logged out')
+    res.redirect(req.headers.referer)
+  })
+  .catch(err => {
+    return next(err)
+  })
+}
+
 exports.getDashboard = (req, res, next) => {
   TwitterAccount.findAll({
-    where: {accountId: req.user.id}
+    where: {accountId: req.user.id, isConnected: true}
   })
   .then(twitterAccounts => {
     return res.render('account/dashboard', {

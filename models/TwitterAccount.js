@@ -27,6 +27,11 @@ module.exports = (db, Sequelize) => {
       field: 'access_token_secret',
       type: Sequelize.STRING
     },
+    isConnected: {
+      field: 'is_connected',
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
+    },
     createdAt: {
       field: 'created_at',
       type: Sequelize.DATE
