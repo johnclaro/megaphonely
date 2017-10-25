@@ -57,11 +57,13 @@ passport.use(new TwitterStrategy({
             accessTokenKey: token,
             accessTokenSecret: tokenSecret
         })
-        .then(success => {
+        .then(twitterAccount => {
           console.log('Created twitter account!')
+          return done(null, twitterAccount)
         })
         .catch(err => {
           console.error('Failed to create twitter account!')
+          return done(err, null)
         })
       } else {
         // TODO: Only perform update when any fields are different from the
@@ -77,9 +79,11 @@ passport.use(new TwitterStrategy({
         })
         .then(success => {
           console.log('Updated twitter account!')
+          return done(null, twitterAccount)
         })
         .catch(err => {
           console.error('Failed to udpate twitter account!')
+          return done(err, null)
         })
       }
     })
