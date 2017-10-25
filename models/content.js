@@ -37,7 +37,7 @@ module.exports = (db, Sequelize) => {
           var publishAt = new Date(publishAt)
         } else {
           var publishAt = new Date()
-          publishAt.setMinutes(publishAt.getMinutes() + 1);
+          publishAt.setSeconds(publishAt.getSeconds() + 15);
         }
         this.setDataValue('publishAt', publishAt)
       }
@@ -67,7 +67,7 @@ module.exports = (db, Sequelize) => {
       publishAt: publishAt
     })
     .then(content => {
-      schedule.scheduleJob(publishAt, (err, info) => {
+      schedule.scheduleJob(content.publishAt, (err, info) => {
         postTwitter(message, accessTokenKey, accessTokenSecret)
         .then(success => {
           content.update({isTwitterPublished: true})
