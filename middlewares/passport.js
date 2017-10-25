@@ -59,7 +59,10 @@ passport.use(new TwitterStrategy({
         })
         .then(twitterAccount => {
           console.log('Created twitter account!')
-          return done(null, twitterAccount)
+          Account.findOne({where: {email: req.user.email}})
+          .then(account => {
+            return done(null, account)
+          })
         })
         .catch(err => {
           console.error('Failed to create twitter account!')
@@ -79,7 +82,10 @@ passport.use(new TwitterStrategy({
         })
         .then(success => {
           console.log('Updated twitter account!')
-          return done(null, twitterAccount)
+          Account.findOne({where: {email: req.user.email}})
+          .then(account => {
+            return done(null, account)
+          })
         })
         .catch(err => {
           console.error('Failed to udpate twitter account!')
