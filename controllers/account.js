@@ -1,6 +1,7 @@
 const passport = require('passport')
 
 const Account = require('models').Account
+const TwitterAccount = require('models').TwitterAccount
 
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
@@ -172,7 +173,19 @@ exports.getVerify = (req, res, next) => {
 }
 
 exports.getDashboard = (req, res, next) => {
-  return res.render('account/dashboard', {title: 'Dashboard', account: req.user})
+  TwitterAccount.findAll({
+    where: {accountId: req.user.id}
+  })
+  .then(twitterAccounts => {
+    return res.render('account/dashboard', {
+      title: 'Dashboard',
+      account: req.user,
+      twitterAccounts: twitterAccounts
+    })
+  })
+  .catch(err => {
+    return next(err)
+  })
 }
 
 exports.getLogout = (req, res, next) => {

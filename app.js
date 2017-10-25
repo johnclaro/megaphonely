@@ -49,6 +49,14 @@ app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getD
 app.post('/content', passportMiddleware.isAuthenticated, contentController.postContent)
 
 /**
+* OAuths
+**/
+app.get('/auth/twitter', passport.authenticate('twitter'))
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login'}), (req, res) => {
+  res.redirect('/dasboard')
+})
+
+/**
 * Custom error handlers
 * https://github.com/expressjs/vhost/issues/14
 **/
@@ -65,7 +73,7 @@ app.use((err, req, res, next) => {
       res.status(404)
       return res.render('4xx', {title: 'Megaphone - 4xx'})
     } else {
-      console.error(500)
+      console.error(err)
       res.status(500)
       return res.render('5xx', {title: 'Megaphone - 5xx'})
     }

@@ -1,7 +1,16 @@
 <h1>Dashboard</h1>
 
+{{#each twitterAccounts}}
+  Connected to @{{this.username}}
+  <br>
+{{/each}}
+<a href='/auth/twitter'>Connect more twitter</a>
 <form method='post' action='/content'>
   <textarea name='message' cols='45' rows='5'></textarea>
   <input type='datetime-local' name='publishAt'>
+  {{#each twitterAccounts}}
+    <input type='hidden' name='accessTokenKey' value={{this.accessTokenKey}}>
+    <input type='hidden' name='accessTokenSecret' value={{this.accessTokenSecret}}>
+  {{/each}}
   <input type='submit'/>
 </form>
