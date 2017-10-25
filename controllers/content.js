@@ -12,18 +12,19 @@ exports.postContent = (req, res, next) => {
       if(!twitterAccount) {
         req.flash('error', 'No twitter account found')
         res.redirect('/dashboard')
+      } else {
+        Content.schedule(
+          req.body.message,
+          req.body.publishAt,
+          twitterAccount.accessTokenKey,
+          twitterAccount.accessTokenSecret
+        )
+        req.flash('success', 'Succesfully scheduled twitter contents')
+        return res.redirect('/dashboard')
       }
-      Content.schedule(
-        req.body.message,
-        req.body.publishAt,
-        twitterAccount.accessTokenKey,
-        twitterAccount.accessTokenSecret
-      )
     })
     .catch(err => {
       console.error(`Oh no: ${err}`)
     })
   }
-  req.flash('success', 'Succesfully scheduled twitter contents')
-  return res.redirect('/dashboard')
 }
