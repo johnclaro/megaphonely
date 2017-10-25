@@ -55,7 +55,8 @@ passport.use(new TwitterStrategy({
             displayName: profile.displayName,
             profilePicture: profile.photos[0].value,
             accessTokenKey: token,
-            accessTokenSecret: tokenSecret
+            accessTokenSecret: tokenSecret,
+            isConnected: true
         })
         .then(twitterAccount => {
           console.log('Created twitter account!')
@@ -78,7 +79,8 @@ passport.use(new TwitterStrategy({
             displayName: profile.displayName,
             profilePicture: profile.photos[0].value,
             accessTokenKey: token,
-            accessTokenSecret: tokenSecret
+            accessTokenSecret: tokenSecret,
+            isConnected: true
         })
         .then(success => {
           console.log('Updated twitter account!')
