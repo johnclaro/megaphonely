@@ -38,17 +38,50 @@ passport.use(new TwitterStrategy({
     callbackURL: '/auth/twitter/callback',
     passReqToCallback: true
   }, (req, token, tokenSecret, profile, done) => {
-    TwitterAccount.create({
-      accountId: req.user.id,
-      twitterId: profile.id,
-      username: profile.username,
-      displayName: profile.displayName,
-      profilePicture: profile.photos[0].value,
-      accessTokenKey: token,
-      accessTokenSecret: tokenSecret,
-    })
-    .then(success => {
-      console.log(`Twitter Auth Success: ${success}`)
+    TwitterAccount.findOne(
+      {
+        where: {
+          twitterId: profile.id,
+          accountId: req.user.id
+        }
+      }
+    )
+    .then(twitterAccount => {
+      if(!twitterAccount) {
+        TwitterAccount.create({
+            accountId: req.user.id,
+            twitterId: profile.id,
+            username: profile.username,
+            displayName: profile.displayName,
+            profilePicture: profile.photos[0].value,
+            accessTokenKey: token,
+            accessTokenSecret: tokenSecret
+        })
+        .then(success => {
+          console.log('Created twitter account!')
+        })
+        .catch(err => {
+          console.error('Failed to create twitter account!')
+        })
+      } else {
+        // TODO: Only perform update when any fields are different from the
+        // newly received data!
+        twitterAccount.update({
+            accountId: req.user.id,
+            twitterId: profile.id,
+            username: profile.username,
+            displayName: profile.displayName,
+            profilePicture: profile.photos[0].value,
+            accessTokenKey: token,
+            accessTokenSecret: tokenSecret
+        })
+        .then(success => {
+          console.log('Updated twitter account!')
+        })
+        .catch(err => {
+          console.error('Failed to udpate twitter account!')
+        })
+      }
     })
     .catch(err => {
       console.error(`Twitter Auth Error: ${err}`)
