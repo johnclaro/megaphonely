@@ -2,16 +2,22 @@ const Content = require('models').Content
 const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
-  if(!req.body.twitterIds) {
-    req.flash('error', 'You must choose a social media account to be posted')
+  if (!req.body.twitterIds) {
+    req.flash('error', 'You must choose a twitter account')
     return res.redirect('/dashboard')
+  } else if (req.body.twitterIds instanceof Array){
+    var twitterIds = req.body.twitterIds
+  } else {
+    var twitterIds = [req.body.twitterIds]
   }
-  for(var i=0; i<req.body.twitterIds.length; i++) {
-    TwitterAccount.findOne({where: {twitterId: req.body.twitterIds[i]}})
+
+  for(var i=0; i<twitterIds.length; i++) {
+    console.log(twitterIds[i])
+    TwitterAccount.findOne({where: {twitterId: twitterIds[i]}})
     .then(twitterAccount => {
       if(!twitterAccount) {
         req.flash('error', 'No twitter account found')
-        res.redirect('/dashboard')
+        return res.redirect('/dashboard')
       } else {
         Content.schedule(
           req.body.message,
