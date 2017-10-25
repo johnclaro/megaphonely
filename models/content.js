@@ -1,10 +1,9 @@
 'use strict'
 
 const schedule = require('node-schedule')
-const parser = require('cron-parser')
 const Twit = require('twit')
 
-function postTwitter(content, message){
+function postTwitter(message){
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -12,13 +11,12 @@ function postTwitter(content, message){
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
   })
 
-  T.post('statuses/update', {status: message}, (err, tweet, msg) => {
+  return T.post('statuses/update', {status: message}, (err, tweet, msg) => {
     if (err) {
-      console.error(err.message)
+      console.error(`Error tweet: ${err}`)
       return (err, null)
     }
-    console.log('Successfully posted to twitter')
-    content.update({isTwitterPublished: true})
+    console.log(`Tweeted: ${message}`)
   })
 }
 
@@ -34,8 +32,14 @@ module.exports = (db, Sequelize) => {
     publishAt: {
       field: 'publish_at',
       type: Sequelize.DATE,
-      validate: {
-        isDate: true
+      set: function(publishAt) {
+        if (publishAt) {
+          var publishAt = new Date(publishAt)
+        } else {
+          var publishAt = new Date()
+          publishAt.setMinutes(publishAt.getMinutes() + 1);
+        }
+        this.setDataValue('publishAt', publishAt)
       }
     },
     isTwitterPublished: {
@@ -62,11 +66,11 @@ module.exports = (db, Sequelize) => {
       publishAt: publishAt
     })
     .then(content => {
-      var now = new Date();
-      now.setMinutes(now.getMinutes() + 1);
-      console.log(`Scheduled: ${now}`)
-      schedule.scheduleJob(now, (err, info) => {
-        postTwitter(content, message)
+      schedule.scheduleJob(publishAt, (err, info) => {
+        postTwitter(message)
+        .then(success => {
+          content.update({isTwitterPublished: true})
+        })
       })
       return (null, `Scheduled to post: ${message}`)
     })
