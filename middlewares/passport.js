@@ -1,7 +1,9 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const TwitterStrategy = require('passport-twitter').Strategy
 
 const Account = require('models').Account
+const TwitterAccount = require('models').TwitterAccount
 
 passport.serializeUser((account, done) => {
   if(!account) return done(new Error(404))
@@ -29,6 +31,30 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)
     return done(err, null)
   })
 }))
+
+passport.use(new TwitterStrategy({
+    consumerKey: process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL: 'http://localhost:3000/auth/twitter/callback',
+    passReqToCallback: true
+  }, (req, token, tokenSecret, profile, done) => {
+    TwitterAccount.create({
+      accountId: req.user.id,
+      twitterId: profile.id,
+      username: profile.username,
+      displayName: profile.displayName,
+      profilePicture: profile.photos[0].value,
+      accessTokenKey: token,
+      accessTokenSecret: tokenSecret,
+    })
+    .then(success => {
+      console.log(`Twitter Auth Success: ${success}`)
+    })
+    .catch(err => {
+      console.error(`Twitter Auth Error: ${err}`)
+    })
+  }
+))
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()

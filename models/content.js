@@ -3,12 +3,12 @@
 const schedule = require('node-schedule')
 const Twit = require('twit')
 
-function postTwitter(message){
+function postTwitter(message, accessToken, accessTokenSecret){
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-    access_token: process.env.TWITTER_ACCESS_TOKEN_KEY,
-    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+    access_token: accessToken,
+    access_token_secret: accessTokenSecret
   })
 
   return T.post('statuses/update', {status: message}, (err, tweet, msg) => {
@@ -60,14 +60,14 @@ module.exports = (db, Sequelize) => {
   })
 
   Content.associate = (models, cb) => {}
-  Content.schedule = (message, publishAt) => {
+  Content.schedule = (message, publishAt, accessToken, accessTokenSecret) => {
     return Content.create({
       message: message,
       publishAt: publishAt
     })
     .then(content => {
       schedule.scheduleJob(publishAt, (err, info) => {
-        postTwitter(message)
+        postTwitter(message, accessToken, accessTokenSecret)
         .then(success => {
           content.update({isTwitterPublished: true})
         })
