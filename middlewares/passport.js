@@ -35,7 +35,7 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: 'http://localhost:3000/auth/twitter/callback',
+    callbackURL: '/auth/twitter/callback',
     passReqToCallback: true
   }, (req, token, tokenSecret, profile, done) => {
     TwitterAccount.create({
