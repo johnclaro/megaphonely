@@ -10,10 +10,10 @@ exports.postContent = (req, res, next) => {
   const errors = req.validationErrors()
   if(errors) {
     req.flash('error', errors[0].msg)
-    return res.redirect('/dashboard?content=' + encodeURIComponent(errors[0].msg))
+    return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
   }
 
-  return res.redirect('/dashboard?content=Success')
+  return res.redirect('/dashboard?flash=Success')
 
   // if(!req.body.message) {
   //   req.flash('error', 'Cannot leave message empty')
