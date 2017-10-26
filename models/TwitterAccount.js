@@ -8,7 +8,7 @@ module.exports = (db, Sequelize) => {
     },
     twitterId: {
       field: 'twitter_id',
-      type: Sequelize.BIGINT
+      type: Sequelize.STRING
     },
     username: Sequelize.STRING,
     displayName: {
