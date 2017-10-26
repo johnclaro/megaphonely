@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const Content = require('models').Content
 const TwitterAccount = require('models').TwitterAccount
 
@@ -19,12 +21,21 @@ exports.postContent = (req, res, next) => {
           req.flash('error', 'No twitter account found')
           return res.redirect('/dashboard')
         } else {
-          Content.schedule(
-            req.body.message,
-            req.body.publishAt,
-            twitterAccount.accessTokenKey,
-            twitterAccount.accessTokenSecret
-          )
+
+          fs.readFile(`/Users/johnclaro/megaphone/${req.file.destination}${req.file.filename}`, (err, data) => {
+            if (err) {
+              console.error('Err:', err)
+              return next(err)
+            } else {
+              Content.schedule(
+                req.body.message,
+                req.body.publishAt,
+                twitterAccount.accessTokenKey,
+                twitterAccount.accessTokenSecret,
+                data.toString('base64')
+              )
+            }
+          })
         }
       })
       .catch(err => {
