@@ -1,28 +1,14 @@
 const request = require('supertest')
 const expect = require('chai').expect
+const nock = require('nock')
 
 const app = require('app.js')
 const Content = require('models').Content
 
 describe('contents', () => {
 
-  before(() => {
-    return Content.sync({force: true}, () => {
-      Content.create({message: 'test1'})
-    })
-  })
-
-  after(() => {
+  afterEach(() => {
     return Content.destroy({truncate: true})
-  })
-
-  describe('models', () => {
-    it('should create a content', () => {
-      return Content.create({message: 'test message', publishAt: new Date()})
-        .then((content) => {
-          expect(content).to.be.a('object')
-        })
-    })
   })
 
   describe('controllers', () => {
@@ -34,7 +20,7 @@ describe('contents', () => {
 
       return request(app)
         .post('/content')
-        .send({message: '123', publishAt: publishAt})
+        .send({message: 'foo', publishAt: publishAt, twitterIds: '123'})
         .expect('Location', '/dashboard?flash=Success')
     })
 
@@ -46,11 +32,19 @@ describe('contents', () => {
         .expect('Location', '/dashboard?flash=Message%20cannot%20be%20empty')
     })
 
+    it('POST /content no twitter account', () => {
+      app.request.isAuthenticated = () => {return true}
+      return request(app)
+        .post('/content')
+        .send({message: 'foo'})
+        .expect('Location', '/dashboard?flash=You%20must%20choose%20a%20twitter%20account')
+    })
+
     it('POST /content invalid publishAt', () => {
       app.request.isAuthenticated = () => {return true}
       return request(app)
         .post('/content')
-        .send({message: 'test', publishAt: '2016-10-10T12:12'})
+        .send({message: 'foo', publishAt: '2016-10-10T12:12'})
         .expect('Location', '/dashboard?flash=Cannot%20schedule%20in%20the%20past')
     })
   })
