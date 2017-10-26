@@ -1,6 +1,5 @@
 const request = require('supertest')
 const expect = require('chai').expect
-const nock = require('nock')
 
 const app = require('app.js')
 const Account = require('models').Account
