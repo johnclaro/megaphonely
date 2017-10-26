@@ -8,7 +8,7 @@
 <form method='post' action='/content' enctype='multipart/form-data'>
   <textarea name='message' cols='45' rows='5'></textarea>
   <br>
-  <!-- <input type='datetime-local' name='publishAt'> -->
+  <input type='datetime-local' name='publishAt'>
   {{#each twitterAccounts}}
     <input type='checkbox' name='twitterIds' value={{this.twitterId}}>{{this.username}}<br>
   {{/each}}
