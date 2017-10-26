@@ -7,6 +7,7 @@ const path = require('path')
 const session = require('cookie-session')
 const flash = require('express-flash')
 const multer = require('multer')
+const validator = require('express-validator')
 
 const app = express()
 const upload = multer({dest: 'uploads/'})
@@ -21,6 +22,19 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(validator({
+  customValidators: {
+    isPastTime: (inputTime) => {
+      if (inputTime) {
+        var rightNow = new Date().getTime()
+        var inputTime = new Date(inputTime).getTime()
+        return rightNow < inputTime
+      } else {
+        return true
+      }
+    }
+  }
+}))
 app.use(session({secret: 'secret', resave: false, saveUninitialized: false}))
 app.use(passport.initialize())
 app.use(passport.session())
