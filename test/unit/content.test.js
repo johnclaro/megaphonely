@@ -35,7 +35,7 @@ describe('contents', () => {
       return request(app)
         .post('/content')
         .send({message: '123', publishAt: publishAt})
-        .expect('Location', '/dashboard?content=Success')
+        .expect('Location', '/dashboard?flash=Success')
     })
 
     it('POST /content invalid message', () => {
@@ -43,7 +43,7 @@ describe('contents', () => {
       return request(app)
         .post('/content')
         .send({message: ''})
-        .expect('Location', '/dashboard?content=Message%20cannot%20be%20empty')
+        .expect('Location', '/dashboard?flash=Message%20cannot%20be%20empty')
     })
 
     it('POST /content invalid publishAt', () => {
@@ -51,7 +51,7 @@ describe('contents', () => {
       return request(app)
         .post('/content')
         .send({message: 'test', publishAt: '2016-10-10T12:12'})
-        .expect('Location', '/dashboard?content=Cannot%20schedule%20in%20the%20past')
+        .expect('Location', '/dashboard?flash=Cannot%20schedule%20in%20the%20past')
     })
   })
 
