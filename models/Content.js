@@ -42,13 +42,7 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
 
 module.exports = (db, Sequelize) => {
   var Content = db.define('Content', {
-    message: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {msg: 'Message is required'},
-      }
-    },
+    message: Sequelize.STRING,
     isPublished: {
       field: 'is_published',
       type: Sequelize.BOOLEAN,
@@ -61,16 +55,7 @@ module.exports = (db, Sequelize) => {
     },
     publishAt: {
       field: 'publish_at',
-      type: Sequelize.DATE,
-      set: function(publishAt) {
-        if (publishAt) {
-          var publishAt = new Date(publishAt)
-        } else {
-          var publishAt = new Date()
-          publishAt.setSeconds(publishAt.getSeconds() + 1);
-        }
-        this.setDataValue('publishAt', publishAt)
-      }
+      type: Sequelize.DATE
     },
     createdAt: {
       field: 'created_at',
