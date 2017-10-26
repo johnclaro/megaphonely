@@ -22,7 +22,9 @@ exports.postContent = (req, res, next) => {
           return res.redirect('/dashboard')
         } else {
 
-          fs.readFile(`/Users/johnclaro/megaphone/${req.file.destination}${req.file.filename}`, (err, data) => {
+          const uploadsPath = `${__dirname.replace('/controllers', '')}/${req.file.destination}${req.file.filename}`
+
+          fs.readFile(uploadsPath, (err, data) => {
             if (err) {
               console.error('Err:', err)
               return next(err)
