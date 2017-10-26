@@ -49,6 +49,16 @@ module.exports = (db, Sequelize) => {
         notEmpty: {msg: 'Message is required'},
       }
     },
+    isPublished: {
+      field: 'is_published',
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    isTwitter: {
+      field: 'is_twitter',
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
     publishAt: {
       field: 'publish_at',
       type: Sequelize.DATE,
@@ -61,11 +71,6 @@ module.exports = (db, Sequelize) => {
         }
         this.setDataValue('publishAt', publishAt)
       }
-    },
-    isTwitterPublished: {
-      field: 'is_twitter_published',
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
     },
     createdAt: {
       field: 'created_at',
@@ -80,17 +85,18 @@ module.exports = (db, Sequelize) => {
   })
 
   Content.associate = (models, cb) => {}
-  Content.schedule = (message, publishAt, accessTokenKey, accessTokenSecret, file) => {
+  Content.scheduleTwitterContent = (message, publishAt, accessTokenKey, accessTokenSecret, file) => {
     console.log(`Message: ${message} | Publish At: ${publishAt} | Access Token Key: ${accessTokenKey} | Access Token Secret: ${accessTokenSecret}`)
     return Content.create({
       message: message,
-      publishAt: publishAt
+      publishAt: publishAt,
+      isTwitter: true
     })
     .then(content => {
       schedule.scheduleJob(content.publishAt, (err, info) => {
         postTwitter(message, accessTokenKey, accessTokenSecret, file)
         .then(success => {
-          content.update({isTwitterPublished: true})
+          content.update({isPublished: true})
         })
       })
       return (null, `Scheduled to post: ${message}`)
