@@ -5,6 +5,7 @@ const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
+  req.assert('twitterIds', 'You must choose a twitter account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
   const errors = req.validationErrors()
@@ -12,6 +13,8 @@ exports.postContent = (req, res, next) => {
     req.flash('error', errors[0].msg)
     return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
   }
+
+  if(typeof req.body.twitterIds == 'string') req.body.twitterIds = [req.body.twitterIds]
 
   return res.redirect('/dashboard?flash=Success')
 
