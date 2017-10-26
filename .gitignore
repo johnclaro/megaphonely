@@ -65,3 +65,6 @@ typings/
 
 *sqlite
 scratch.js
+
+# Multer
+uploads/
