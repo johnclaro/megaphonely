@@ -6,8 +6,10 @@ const exphbs = require('express-handlebars')
 const path = require('path')
 const session = require('cookie-session')
 const flash = require('express-flash')
+const multer = require('multer')
 
 const app = express()
+const upload = multer({dest: 'uploads/'})
 
 /**
 * Express configs
@@ -48,7 +50,7 @@ app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSe
 app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
 app.get('/twitter/logout/:twitterId', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
 
-app.post('/content', passportMiddleware.isAuthenticated, contentController.postContent)
+app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
 
 /**
 * OAuths

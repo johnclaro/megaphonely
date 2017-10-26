@@ -3,7 +3,7 @@
 const schedule = require('node-schedule')
 const Twit = require('twit')
 
-function postTwitter(message, accessTokenKey, accessTokenSecret) {
+function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -11,13 +11,33 @@ function postTwitter(message, accessTokenKey, accessTokenSecret) {
     access_token_secret: accessTokenSecret
   })
 
-  return T.post('statuses/update', {status: message}, (err, tweet, msg) => {
-    if (err) {
-      console.error(`Error tweet: ${err}`)
-      return (err, null)
-    }
-    console.log(`Tweeted: ${message}`)
-  })
+  if (file) {
+    return T.post('media/upload', {media_data: file}, (err, data, response) => {
+      if(err) console.error(err)
+      var mediaIdStr = data.media_id_string
+      var altText = message
+      var metaParams = { media_id: mediaIdStr, alt_text: { text: altText } }
+      T.post('/media/metadata/create', metaParams, (err, data, res) => {
+        var params = { status: message, media_ids: [mediaIdStr] }
+        T.post('statuses/update', params, (err, tweet, msg) => {
+          if (err) {
+            console.error(`Error tweet: ${err}`)
+            return (err, null)
+          }
+          console.log(`Tweeted: ${message}`)
+        })
+      })
+    })
+  } else {
+    return T.post('statuses/update', {status: message}, (err, tweet, msg) => {
+      if (err) {
+        console.error(`Error tweet: ${err}`)
+        return (err, null)
+      }
+      console.log(`Tweeted: ${message}`)
+    })
+  }
+
 }
 
 module.exports = (db, Sequelize) => {
@@ -60,7 +80,7 @@ module.exports = (db, Sequelize) => {
   })
 
   Content.associate = (models, cb) => {}
-  Content.schedule = (message, publishAt, accessTokenKey, accessTokenSecret) => {
+  Content.schedule = (message, publishAt, accessTokenKey, accessTokenSecret, file) => {
     console.log(`Message: ${message} | Publish At: ${publishAt} | Access Token Key: ${accessTokenKey} | Access Token Secret: ${accessTokenSecret}`)
     return Content.create({
       message: message,
@@ -68,7 +88,7 @@ module.exports = (db, Sequelize) => {
     })
     .then(content => {
       schedule.scheduleJob(content.publishAt, (err, info) => {
-        postTwitter(message, accessTokenKey, accessTokenSecret)
+        postTwitter(message, accessTokenKey, accessTokenSecret, file)
         .then(success => {
           content.update({isTwitterPublished: true})
         })
