@@ -55,7 +55,16 @@ module.exports = (db, Sequelize) => {
     },
     publishAt: {
       field: 'publish_at',
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
+      set: function(publishAt) {
+        if (publishAt) {
+          var publishAt = new Date(publishAt)
+        } else {
+          var publishAt = new Date()
+          publishAt.setSeconds(publishAt.getSeconds() + 1);
+        }
+        this.setDataValue('publishAt', publishAt)
+      }
     },
     createdAt: {
       field: 'created_at',
@@ -87,6 +96,7 @@ module.exports = (db, Sequelize) => {
       return (null, `Scheduled to post: ${message}`)
     })
     .catch(err => {
+      console.error(err)
       return (err, null)
     })
   }
