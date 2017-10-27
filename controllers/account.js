@@ -1,4 +1,5 @@
 const passport = require('passport')
+const titleCase = require('titlecase')
 
 const Account = require('models').Account
 const TwitterAccount = require('models').TwitterAccount
@@ -22,7 +23,7 @@ exports.postLogin = (req, res, next) => {
     if(err) return next(err)
     if(!account) {
       req.flash('error', 'Invalid email or password')
-      return res.redirect('/login')
+      return res.redirect('/login?flash=Invalid email or password')
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
@@ -36,22 +37,35 @@ exports.getRegister = (req, res, next) => {
 }
 
 exports.postRegister = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail()
+  req.assert('firstName', 'Please enter your first name').notEmpty()
+  req.assert('firstName', 'First name must be fewer than 100 characters').len({max: 100})
+  req.assert('lastName', 'Last name must be fewer than 100 characters').optional().isLength({max: 100})
+  req.assert('password', 'Password must contain at least 6 characters long').len(6)
+  req.sanitize('email').normalizeEmail({gmail_remove_dots: false})
+
+  const errors = req.validationErrors()
+  if(errors) {
+    req.flash('error', errors[0].msg)
+    return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
+  }
+
   Account.create({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
+    firstName: titleCase(req.body.firstName),
+    lastName: titleCase(req.body.lastName),
+    email: req.body.email.toLowerCase(),
     password: req.body.password
   })
   .then(account => {
     req.login(account, (err) => {
       if(err) return next(err)
       Account.emailVerificationToken(req.body.email, req.headers.host)
-      return res.redirect('/dashboard')
+      return res.redirect('/dashboard?flash=Register successful')
     })
   })
   .catch(err => {
     req.flash('error', err.errors[0].message)
-    return next(err)
+    return res.redirect('/dashboard?flash=' + encodeURIComponent(err.errors[0].message))
   })
 }
 
@@ -85,25 +99,25 @@ exports.getResetPassword = (req, res, next) => {
 }
 
 exports.postResetPassword = (req, res, next) => {
-  Account.update(
-    {password: req.body.password, passwordToken: null},
-    {
-      where: {passwordToken: req.body.passwordToken},
-      returning: true,
-      plain: true
-    }
-  )
-  .then(success => {
-    const account = success[1]
+  req.assert('password', 'Password must contain at least 6 characters long').len(6)
+
+  const errors = req.validationErrors()
+  if(errors) {
+    req.flash('error', errors[0].msg)
+    return res.redirect(`/resetpassword/${encodeURIComponent(req.params.passwordToken)}?flash=` + encodeURIComponent(errors[0].msg))
+  }
+
+  Account.findOne({
+    where: {passwordToken: req.params.passwordToken}
+  })
+  .then(account => {
+    if(!account) return next(new Error(404))
+    account.update({password: req.body.password, passwordToken: null})
     req.login(account, (err) => {
       if(err) return next(err)
-      req.flash('success', 'Successfully updated password!')
-      return res.redirect('/dashboard')
+      req.flash('success', 'Successfully updated password')
+      return res.redirect('/dashboard?Successfully updated password')
     })
-  })
-  .catch(err => {
-    req.flash('error', err.errors[0].message)
-    return next(err)
   })
 }
 
@@ -144,13 +158,13 @@ exports.getVerifyVerificationToken = (req, res, next) => {
   .then(success => {
     req.login(success[0], (err) => {
       if(err) return next(err)
-      req.flash('success', 'Account verified!')
+      req.flash('success', 'Successfully verified account')
       success[0].update({
         verificationToken: null,
         verificationTokenExpiresAt: null,
         isEmailVerified: true
       })
-      return res.redirect('/dashboard')
+      return res.redirect('/dashboard?flash=Successfully verified account')
     })
   })
   .catch(err => {
