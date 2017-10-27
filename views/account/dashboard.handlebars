@@ -9,9 +9,11 @@
   <textarea name='message' cols='45' rows='5'></textarea>
   <br>
   <input type='datetime-local' name='publishAt'>
+  <br>
   {{#each twitterAccounts}}
     <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}<br>
   {{/each}}
-  <input type='file' name='photo'><br>
+  <input type='file' name='photo'>
+  <br>
   <input type='submit'/>
 </form>
