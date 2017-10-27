@@ -16,6 +16,7 @@ exports.getSettings = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
+  if(req.user) return res.redirect('/dashboard')
   return res.render('account/login', {title: 'Login'})
 }
 
@@ -37,6 +38,7 @@ exports.postLogin = (req, res, next) => {
 }
 
 exports.getRegister = (req, res, next) => {
+  if(req.user) return res.redirect('/dashboard')
   return res.render('account/register', {title: 'Register'})
 }
 
@@ -242,5 +244,6 @@ exports.getDashboard = (req, res, next) => {
 
 exports.getLogout = (req, res, next) => {
   req.logout()
-  return res.redirect('/')
+  res.header('flash-message', 'Successfully logged out')
+  return res.redirect('/login')
 }

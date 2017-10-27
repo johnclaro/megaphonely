@@ -179,7 +179,9 @@ describe('accounts', () => {
       })
     })
 
-    describe('login', () => {
+    describe('auth', () => {
+      const authUser = request.agent(app)
+
       it('POST /login invalid user', () => {
         return request(app)
           .post('/login')
@@ -189,11 +191,36 @@ describe('accounts', () => {
       })
 
       it('POST /login valid user', () => {
-        return request(app)
+        return authUser
           .post('/login')
           .send({email: 'foobar@gmail.com', password: 'foobar'})
           .expect('Location', '/dashboard')
           .expect('flash-message', 'Successfully logged in')
+      })
+
+      it('GET /login auth user redirect to /dashboard', () => {
+        return authUser
+          .get('/login')
+          .expect('Location', '/dashboard')
+      })
+
+      it('GET /register auth user redirect to /dashboard', () => {
+        return authUser
+          .get('/register')
+          .expect('Location', '/dashboard')
+      })
+
+      it('GET /logout auth user', () => {
+        return authUser
+          .get('/logout')
+          .expect('Location', '/login')
+          .expect('flash-message', 'Successfully logged out')
+      })
+
+      it('GET /dashboard logged out user no access to /dashboard', () => {
+        return authUser
+          .get('/dashboard')
+          .expect('Location', '/login')
       })
     })
 
