@@ -10,25 +10,15 @@ module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
     firstName: {
       field: 'first_name',
-      type: Sequelize.STRING(100),
-      validate: {
-        notEmpty: {args: false, msg: 'Please enter your name'},
-      }
+      type: Sequelize.STRING
     },
     lastName: {
       field: 'last_name',
-      type: Sequelize.STRING(100)
+      type: Sequelize.STRING
     },
     email: {
       type: Sequelize.STRING,
-      unique: {args: true, msg: 'This email is already taken'},
-      validate: {
-        notEmpty: {args: false, msg: 'Please enter an email address'},
-        isEmail: true
-      },
-      set: function(email) {
-        this.setDataValue('email', email.toLowerCase())
-      }
+      unique: {args: true, msg: 'This email is already taken'}
     },
     isEmailVerified: {
       field: 'is_email_verified',
@@ -45,13 +35,6 @@ module.exports = (db, Sequelize) => {
         this.setDataValue('password', password)
         // TODO: Use async to optimize hashing
         this.setDataValue('passwordHash', bcrypt.hashSync(password, salt))
-      },
-      validate: {
-        isLongEnough: (password) => {
-          if (password.length < 7) {
-            throw new Error('Password must be at least 7 characters long')
-          }
-        }
       }
     },
     passwordToken: {
