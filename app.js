@@ -60,7 +60,6 @@ app.get('/verifyverificationtoken/:verificationToken', accountController.getVeri
 app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, accountController.postSendVerificationToken)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
 app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
-app.get('/twitter/logout/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
 
 app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
 
@@ -70,6 +69,7 @@ app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated,
 const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
+app.get('/twitter/logout/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
 
 /**
 * Custom error handlers
