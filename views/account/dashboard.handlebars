@@ -1,7 +1,7 @@
 <h1>Dashboard</h1>
 
 {{#each twitterAccounts}}
-  Connected to @{{this.username}} <a href='/twitter/logout/{{this.twitterId}}'>Logout</a>
+  Connected to @{{this.username}} <a href='/twitter/logout/{{this.username}}'>Logout</a>
   <br>
 {{/each}}
 <a href='/auth/twitter'>Connect more twitter</a>
@@ -10,7 +10,7 @@
   <br>
   <input type='datetime-local' name='publishAt'>
   {{#each twitterAccounts}}
-    <input type='checkbox' name='twitterIds' value={{this.twitterId}}>{{this.username}}<br>
+    <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}<br>
   {{/each}}
   <input type='file' name='photo'><br>
   <input type='submit'/>

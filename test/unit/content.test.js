@@ -23,7 +23,7 @@ describe('contents', () => {
 
       TwitterAccount.create({
         accountId: 1,
-        twitterId: '901476753272655872',
+        twitterUsername: '901476753272655872',
         username: 'johnclaro3',
         displayName: 'John Claro',
         profilePicture: 'https://pbs.twimg.com/profile_images/923214026250899456/hVlVVOtC_normal.jpg',
@@ -44,21 +44,19 @@ describe('contents', () => {
   })
 
   describe('controllers', () => {
-    it('POST /login foobar', () => {
+    it.only('POST /login foobar', () => {
       return agent
       .post('/login')
       .send({email: 'foobar@gmail.com', password: 'p455w0rd'})
     })
 
-    it('POST /content valid content', () => {
-      // app.request.isAuthenticated = () => {return true}
-
+    it.only('POST /content valid content', () => {
       var publishAt = new Date()
       publishAt.setSeconds(publishAt.getSeconds() + 1);
 
       return agent
         .post('/content')
-        .send({message: 'foo', publishAt: publishAt, twitterIds: '901476753272655872'})
+        .send({message: 'foo', publishAt: publishAt, twitterUsernames: 'johnclaro3'})
         .expect('Location', '/dashboard?flash=Success')
     })
 
@@ -82,7 +80,7 @@ describe('contents', () => {
       app.request.isAuthenticated = () => {return true}
       return agent
         .post('/content')
-        .send({message: 'foo', twitterIds: '901476753272655872', publishAt: '2016-10-10T12:12'})
+        .send({message: 'foo', twitterUsernames: 'johnclaro3', publishAt: '2016-10-10T12:12'})
         .expect('Location', '/dashboard?flash=Cannot%20schedule%20in%20the%20past')
     })
   })

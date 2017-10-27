@@ -175,7 +175,7 @@ exports.getVerify = (req, res, next) => {
 exports.getTwitterLogout = (req, res, next) => {
   TwitterAccount.update(
     {isConnected: false},
-    {where: {accountId: req.user.id, twitterId: req.params.twitterId}}
+    {where: {accountId: req.user.id, username: req.params.twitterUsername}}
   )
   .then(success => {
     req.flash('success', 'Logged out')
