@@ -103,6 +103,8 @@ passport.use(new TwitterStrategy({
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
-  req.flash('error', 'Please sign in or register to access this page.')
-  res.redirect('/login?flash=Please sign in or register to access this page.')
+  const flashMessage = 'Please sign in or register to access this page.'
+  req.flash('error', flashMessage)
+  res.header('flash-message', flashMessage)
+  res.redirect('/login')
 }

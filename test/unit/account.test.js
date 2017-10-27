@@ -4,8 +4,6 @@ const request = require('supertest')
 const app = require('app.js')
 const Account = require('models').Account
 
-const agent = request.agent(app)
-
 describe('accounts', () => {
 
   before(() => {
@@ -28,10 +26,11 @@ describe('accounts', () => {
 
   describe('controllers', () => {
     it('POST /login valid user', () => {
-      return agent
+      return request(app)
         .post('/login')
         .send({email: 'foobar@gmail.com', password: 'foobar'})
-        .expect('Location', '/dashboard?flash=Successfully%20logged%20in')
+        .expect('Location', '/dashboard')
+        .expect('flash-message', 'Successfully logged in')
     })
 
     describe('verificationToken', () => {
@@ -42,7 +41,8 @@ describe('accounts', () => {
         .then(account => {
           return request(app)
             .get(`/verifyverificationtoken/${account.verificationToken}`)
-            .expect('Location', '/dashboard?flash=Successfully%20verified%20account')
+            .expect('Location', '/dashboard')
+            .expect('flash-message', 'Successfully verified account')
         })
       })
 
@@ -54,6 +54,27 @@ describe('accounts', () => {
     })
 
     describe('passwordToken', () => {
+      it('POST /forgot invalid email', () => {
+        return request(app)
+          .post('/forgot')
+          .send({email: 'invalidemail'})
+          .expect('flash-message', 'Email is not valid')
+      })
+
+      it('POST /forgot valid email', () => {
+        return request(app)
+          .post('/forgot')
+          .send({email: 'foobar@gmail.com'})
+          .expect('flash-message', 'If a Megaphone account exists for foobar@gmail.com, an e-mail will be sent with further instructions.')
+      })
+
+      it('POST /forgot email does not exist', () => {
+        return request(app)
+          .post('/forgot')
+          .send({email: 'doesnotexist@gmail.com'})
+          .expect('flash-message', 'If a Megaphone account exists for doesnotexist@gmail.com, an e-mail will be sent with further instructions.')
+      })
+
       it('GET /verifypasswordtoken valid passwordToken', () => {
         return request(app)
           .get('/verifypasswordtoken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
@@ -77,7 +98,8 @@ describe('accounts', () => {
         return request(app)
           .post('/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA')
           .send({password: 'new'})
-          .expect('Location', '/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA?flash=Password%20must%20contain%20at%20least%206%20characters%20long')
+          .expect('Location', '/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA')
+          .expect('flash-message', 'Password must contain at least 6 characters long')
       })
     })
 
@@ -90,21 +112,24 @@ describe('accounts', () => {
             email: 'johndoe@gmail.com',
             password: 'johndoe'
           })
-          .expect('Location', '/dashboard?flash=Register%20successful')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Register successful')
       })
 
       it('POST /register invalid email', () => {
         return request(app)
           .post('/register')
           .send({email: '123'})
-          .expect('Location', '/dashboard?flash=Email%20is%20not%20valid')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Email is not valid')
       })
 
       it('POST /register first name empty', () => {
         return request(app)
           .post('/register')
           .send({email: 'foobar@gmail.com', password: 'foobar', firstName: ''})
-          .expect('Location', '/dashboard?flash=Please%20enter%20your%20first%20name')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Please enter your first name')
       })
 
       it('POST /register first name too long', () => {
@@ -115,7 +140,8 @@ describe('accounts', () => {
             password: 'riverrock',
             firstName: Math.random().toString(5).substr(2, 101)
           })
-          .expect('Location', '/dashboard?flash=First%20name%20must%20be%20fewer%20than%20100%20characters')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'First name must be fewer than 100 characters')
       })
 
       it('POST /register last name too long', () => {
@@ -127,14 +153,16 @@ describe('accounts', () => {
             firstName: Math.random().toString(5).substr(2, 100),
             lastName: Math.random().toString(5).substr(2, 101)
           })
-          .expect('Location', '/dashboard?flash=Last%20name%20must%20be%20fewer%20than%20100%20characters')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Last name must be fewer than 100 characters')
       })
 
       it('POST /register password too short', () => {
         return request(app)
           .post('/register')
           .send({email: 'foobar@gmail.com', firstName: 'foobar', password: '123'})
-          .expect('Location', '/dashboard?flash=Password%20must%20contain%20at%20least%206%20characters%20long')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Password must contain at least 6 characters long')
       })
 
       it('POST /register email already taken', () => {
@@ -146,7 +174,8 @@ describe('accounts', () => {
             firstName: 'foo',
             lastName: 'bar'
           })
-          .expect('Location', '/dashboard?flash=This%20email%20is%20already%20taken')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'This email is already taken')
       })
     })
 
@@ -155,28 +184,47 @@ describe('accounts', () => {
         return request(app)
           .post('/login')
           .send({email: 'invaliduser@gmail.com', password: 'invalidpassword'})
-          .expect('Location', '/login?flash=Invalid%20email%20or%20password')
+          .expect('Location', '/login')
+          .expect('flash-message', 'Invalid email or password')
       })
 
       it('POST /login valid user', () => {
-        return agent
+        return request(app)
           .post('/login')
           .send({email: 'foobar@gmail.com', password: 'foobar'})
-          .expect('Location', '/dashboard?flash=Successfully%20logged%20in')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Successfully logged in')
       })
     })
 
     describe('settings', () => {
+      const settingsUser = request.agent(app)
+
       it('GET /settings unauthenticated user', () => {
         return request(app)
           .get('/settings')
-          .expect('Location', '/login?flash=Please%20sign%20in%20or%20register%20to%20access%20this%20page.')
+          .expect('Location', '/login')
+          .expect('flash-message', 'Please sign in or register to access this page.')
+      })
+
+      it('POST /login valid user', () => {
+        return settingsUser
+          .post('/login')
+          .send({email: 'foobar@gmail.com', password: 'foobar'})
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Successfully logged in')
       })
 
       it('GET /settings authenticated user', () => {
-        return agent
+        return settingsUser
           .get('/settings')
           .expect('Location', '/settings')
+      })
+
+      it('POST /sendverificationtoken', () => {
+        return settingsUser
+          .post('/sendverificationtoken')
+          .expect('flashMessage', `Megaphone has sent a verification email to foobar@gmail.com. Check your inbox and click on the link in the email to verify your address. If you can't find it, check your spam folder or click the button to resend the email.`)
       })
     })
   })
