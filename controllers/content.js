@@ -11,7 +11,8 @@ exports.postContent = (req, res, next) => {
   const errors = req.validationErrors()
   if(errors) {
     req.flash('error', errors[0].msg)
-    return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
+    res.header('flash-message', errors[0].msg)
+    return res.redirect('/dashboard')
   }
 
   if(typeof req.body.twitterUsernames == 'string') req.body.twitterUsernames = [req.body.twitterUsernames]
@@ -24,7 +25,8 @@ exports.postContent = (req, res, next) => {
       if(!twitterAccount) {
         const errorMessage = `Twitter account ${req.body.twitterUsernames[i]} does not exist`
         req.flash('error', errorMessage)
-        return res.redirect('/dashboard?flash=' + encodeURIComponent(errorMessage))
+        res.header('flash-message', errorMessage)
+        return res.redirect('/dashboard')
       } else {
         if(req.file) {
           const uploadsPath = `${__dirname.replace('/controllers', '')}/${req.file.destination}${req.file.filename}`
@@ -46,13 +48,13 @@ exports.postContent = (req, res, next) => {
             twitterAccount.accessTokenSecret
           )
         }
-        req.flash('success', 'Succesfully scheduled twitter contents')
-        return res.redirect('/dashboard?flash=Success')
+        const flashMessage = 'Succesfully scheduled twitter contents'
+        req.flash('success', flashMessage)
+        res.header('flash-message', flashMessage)
+        return res.redirect('/dashboard')
       }
     })
     .catch(err => {
-      console.error(`Err: ${err}`)
-      req.flash('error', err)
       return next(err)
     })
   }
