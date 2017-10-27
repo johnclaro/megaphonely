@@ -44,6 +44,7 @@
     "passport-twitter": "^1.0.4",
     "pg": "^7.3.0",
     "sequelize": "^4.13.5",
+    "titlecase": "^1.1.2",
     "twit": "^2.2.9"
   },
   "devDependencies": {
