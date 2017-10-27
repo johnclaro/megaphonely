@@ -128,7 +128,7 @@ describe('accounts', () => {
         return request(app)
           .post('/register')
           .send({email: 'foobar@gmail.com', password: 'foobar', firstName: ''})
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'Please enter your first name')
       })
 
@@ -140,7 +140,7 @@ describe('accounts', () => {
             password: 'riverrock',
             firstName: Math.random().toString(5).substr(2, 101)
           })
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'First name must be fewer than 100 characters')
       })
 
@@ -153,7 +153,7 @@ describe('accounts', () => {
             firstName: Math.random().toString(5).substr(2, 100),
             lastName: Math.random().toString(5).substr(2, 101)
           })
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'Last name must be fewer than 100 characters')
       })
 
@@ -161,7 +161,7 @@ describe('accounts', () => {
         return request(app)
           .post('/register')
           .send({email: 'foobar@gmail.com', firstName: 'foobar', password: '123'})
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'Password must contain at least 6 characters long')
       })
 
@@ -174,7 +174,7 @@ describe('accounts', () => {
             firstName: 'foo',
             lastName: 'bar'
           })
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'This email is already taken')
       })
     })

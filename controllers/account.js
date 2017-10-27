@@ -16,11 +16,7 @@ exports.getSettings = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
-  console.log(`User: ${req.user}`)
-  if(req.user) {
-    console.log('Hmm')
-    return res.redirect('/dashboard')
-  }
+  if(req.user) return res.redirect('/dashboard')
   return res.render('account/login', {title: 'Login'})
 }
 
@@ -78,7 +74,7 @@ exports.postRegister = (req, res, next) => {
   .catch(err => {
     req.flash('error', err.errors[0].message)
     res.header('flash-message', err.errors[0].message)
-    return res.redirect('/dashboard')
+    return res.redirect('/register')
   })
 }
 
