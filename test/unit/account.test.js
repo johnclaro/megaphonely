@@ -120,7 +120,7 @@ describe('accounts', () => {
         return request(app)
           .post('/register')
           .send({email: '123'})
-          .expect('Location', '/dashboard')
+          .expect('Location', '/register')
           .expect('flash-message', 'Email is not valid')
       })
 
