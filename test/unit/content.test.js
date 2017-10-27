@@ -57,28 +57,32 @@ describe('contents', () => {
       return agent
         .post('/content')
         .send({message: 'foo', publishAt: publishAt, twitterUsernames: 'johnclaro3'})
-        .expect('Location', '/dashboard?flash=Success')
+        .expect('Location', '/dashboard')
+        .expect('flash-message', 'Succesfully scheduled twitter contents')
     })
 
     it('POST /content invalid message', () => {
       return agent
         .post('/content')
         .send({message: ''})
-        .expect('Location', '/dashboard?flash=Message%20cannot%20be%20empty')
+        .expect('Location', '/dashboard')
+        .expect('flash-message', 'Message cannot be empty')
     })
 
     it('POST /content no twitter account', () => {
       return agent
         .post('/content')
         .send({message: 'foo'})
-        .expect('Location', '/dashboard?flash=You%20must%20choose%20a%20twitter%20account')
+        .expect('Location', '/dashboard')
+        .expect('flash-message', 'You must choose a twitter account')
     })
 
     it('POST /content invalid publishAt', () => {
       return agent
         .post('/content')
         .send({message: 'foo', twitterUsernames: 'johnclaro3', publishAt: '2016-10-10T12:12'})
-        .expect('Location', '/dashboard?flash=Cannot%20schedule%20in%20the%20past')
+        .expect('Location', '/dashboard')
+        .expect('flash-message', 'Cannot schedule in the past')
     })
   })
 })
