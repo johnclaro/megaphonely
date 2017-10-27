@@ -56,10 +56,10 @@ app.get('/register', accountController.getRegister)
 app.post('/register', accountController.postRegister)
 app.get('/forgot', accountController.getForgot)
 app.post('/forgot', accountController.postForgot)
-app.get('/resetpassword', accountController.getResetPassword)
-app.post('/resetpassword', accountController.postResetPassword)
-app.get('/verifyverificationtoken/:verificationToken', accountController.getVerifyVerificationToken)
+app.get('/resetpassword/:passwordToken', accountController.getResetPassword)
+app.post('/resetpassword/:passwordToken', accountController.postResetPassword)
 app.get('/verifypasswordtoken/:passwordToken', accountController.getVerifyPasswordToken)
+app.get('/verifyverificationtoken/:verificationToken', accountController.getVerifyVerificationToken)
 app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, accountController.postSendVerificationToken)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
 app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
@@ -85,13 +85,21 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
   if (req._body == true) {
-    return res.redirect(req.headers.referer)
-  } else {
     if (err == 'Error: 404') {
+      // console.error(`Error _body 404: ${err}`)
       res.status(404)
       return res.render('4xx', {title: 'Megaphone - 4xx'})
     } else {
-      console.error(err)
+      // console.error(`Error _body: ${err}`)
+      return res.redirect(req.headers.referer)
+    }
+  } else {
+    if (err == 'Error: 404') {
+      // console.error(`400: ${err}`)
+      res.status(404)
+      return res.render('4xx', {title: 'Megaphone - 4xx'})
+    } else {
+      // console.error(`500: ${err}`)
       res.status(500)
       return res.render('5xx', {title: 'Megaphone - 5xx'})
     }
