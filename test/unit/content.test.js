@@ -44,13 +44,13 @@ describe('contents', () => {
   })
 
   describe('controllers', () => {
-    it.only('POST /login foobar', () => {
+    it('POST /login foobar', () => {
       return agent
       .post('/login')
       .send({email: 'foobar@gmail.com', password: 'p455w0rd'})
     })
 
-    it.only('POST /content valid content', () => {
+    it('POST /content valid content', () => {
       var publishAt = new Date()
       publishAt.setSeconds(publishAt.getSeconds() + 1);
 

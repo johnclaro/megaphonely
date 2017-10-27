@@ -67,7 +67,7 @@ describe('accounts', () => {
       })
     })
 
-    it('should contain confirmation token for all accounts', () => {
+    it('should contain verification token for all accounts', () => {
       Account.findAll()
       .then(accounts => {
         for (var i=0; i<accounts.length; i++) {
@@ -105,9 +105,9 @@ describe('accounts', () => {
         .expect(302)
     })
 
-    it('POST /resetPassword valid token', () => {
+    it('POST /resetpassword valid token', () => {
       return request(app)
-        .post('/resetPassword')
+        .post('/resetpassword')
         .send({
           passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoidHl3aW5sYW5uaXN0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTA4NDIxOTYzfQ.4abFuti_qwiXAG5CdmCbMURE3Pg9_MnhAHEt_OjpHzA',
           password: '1234567'
@@ -115,15 +115,15 @@ describe('accounts', () => {
         .expect(302)
     })
 
-    it('GET /verify valid passwordToken', () => {
+    it('GET /verifypasswordtoken valid passwordToken', () => {
       return request(app)
-        .get('/verify?passwordToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
+        .get('/verifypasswordtoken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
         .expect(302)
     })
 
-    it('GET /verify invalid passwordToken', () => {
+    it('GET /verifypasswordtoken invalid passwordToken', () => {
       return request(app)
-        .get('/verify?passwordToken=1')
+        .get('/verifypasswordtoken/1')
         .expect(404)
     })
   })
