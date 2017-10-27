@@ -44,9 +44,7 @@ module.exports = (db, Sequelize) => {
     verificationToken: {
       field: 'verification_token',
       type: Sequelize.STRING,
-      defaultValue: () => {
-        return jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
-      }
+      defaultValue: jwt.sign({data: String(Math.floor(new Date() / 1000))}, process.env.SECRET)
     },
     verificationTokenExpiresAt: {
       field: 'verification_token_expires_at',
