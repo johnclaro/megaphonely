@@ -27,6 +27,12 @@ describe('accounts', () => {
   })
 
   describe('controllers', () => {
+    it('POST /login valid user', () => {
+      return agent
+        .post('/login')
+        .send({email: 'foobar@gmail.com', password: 'foobar'})
+        .expect('Location', '/dashboard?flash=Successfully%20logged%20in')
+    })
 
     describe('verificationToken', () => {
       it('GET /verifyverificationtoken valid verificationToken', () => {
@@ -144,12 +150,34 @@ describe('accounts', () => {
       })
     })
 
-    // it('POST /login agent', () => {
-    //   return agent
-    //     .post('/login')
-    //     .send({email: 'foobar@gmail.com', password: 'foobar'})
-    //     .expect(302)
-    //     .expect('Location', '/dashboard')
-    // })
+    describe('login', () => {
+      it('POST /login invalid user', () => {
+        return request(app)
+          .post('/login')
+          .send({email: 'invaliduser@gmail.com', password: 'invalidpassword'})
+          .expect('Location', '/login?flash=Invalid%20email%20or%20password')
+      })
+
+      it('POST /login valid user', () => {
+        return agent
+          .post('/login')
+          .send({email: 'foobar@gmail.com', password: 'foobar'})
+          .expect('Location', '/dashboard?flash=Successfully%20logged%20in')
+      })
+    })
+
+    describe('settings', () => {
+      it('GET /settings unauthenticated user', () => {
+        return request(app)
+          .get('/settings')
+          .expect('Location', '/login?flash=Please%20sign%20in%20or%20register%20to%20access%20this%20page.')
+      })
+
+      it('GET /settings authenticated user', () => {
+        return agent
+          .get('/settings')
+          .expect('Location', '/settings')
+      })
+    })
   })
 })
