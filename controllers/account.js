@@ -23,12 +23,15 @@ exports.postLogin = (req, res, next) => {
   passport.authenticate('local', (err, account, info) => {
     if(err) return next(err)
     if(!account) {
-      req.flash('error', 'Invalid email or password')
-      return res.redirect('/login?flash=Invalid email or password')
+      const flashMessage = 'Invalid email or password'
+      req.flash('error', flashMessage)
+      res.header('flash-message', flashMessage)
+      return res.redirect('/login')
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
-      return res.redirect('/dashboard?flash=Successfully logged in')
+      res.header('flash-message', 'Successfully logged in')
+      return res.redirect('/dashboard')
     })
   })(req, res, next)
 }
@@ -48,7 +51,8 @@ exports.postRegister = (req, res, next) => {
   const errors = req.validationErrors()
   if(errors) {
     req.flash('error', errors[0].msg)
-    return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
+    res.header('flash-message', errors[0].msg)
+    return res.redirect('/dashboard')
   }
 
   Account.create({
@@ -61,12 +65,14 @@ exports.postRegister = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       Account.emailVerificationToken(req.body.email, req.headers.host)
-      return res.redirect('/dashboard?flash=Register successful')
+      res.header('flash-message', 'Register successful')
+      return res.redirect('/dashboard')
     })
   })
   .catch(err => {
     req.flash('error', err.errors[0].message)
-    return res.redirect('/dashboard?flash=' + encodeURIComponent(err.errors[0].message))
+    res.header('flash-message', err.errors[0].message)
+    return res.redirect('/dashboard')
   })
 }
 
@@ -75,15 +81,29 @@ exports.getForgot = (req, res, next) => {
 }
 
 exports.postForgot = (req, res, next) => {
-  Account.emailPasswordToken(req.body.email, req.headers.host)
-  .then(token => {
-    req.flash('success',
-    `If a Megaphone account exists for ${req.body.email}, an e-mail will be
-    sent with further instructions.`)
-    return res.redirect('/forgot')
-  }).catch(err => {
+  req.assert('email', 'Email is not valid').isEmail()
+
+  const errors = req.validationErrors()
+  if(errors) {
+    req.flash('error', errors[0].msg)
+    res.header('flash-message', errors[0].msg)
+    return res.redirect('/dashboard')
+  }
+
+  Account.findOne({
+    where: {email: req.body.email}
+  })
+  .then(account => {
+    if(account) Account.emailPasswordToken(account.email, req.headers.host)
+  })
+  .catch(err => {
     return next(err)
   })
+
+  const flashMessage = `If a Megaphone account exists for ${req.body.email}, an e-mail will be sent with further instructions.`
+  req.flash('success', flashMessage)
+  res.header('flash-message', flashMessage)
+  return res.redirect('/forgot')
 }
 
 exports.getResetPassword = (req, res, next) => {
@@ -105,7 +125,8 @@ exports.postResetPassword = (req, res, next) => {
   const errors = req.validationErrors()
   if(errors) {
     req.flash('error', errors[0].msg)
-    return res.redirect(`/resetpassword/${encodeURIComponent(req.params.passwordToken)}?flash=` + encodeURIComponent(errors[0].msg))
+    res.header('flash-message', errors[0].msg)
+    return res.redirect(`/resetpassword/${encodeURIComponent(req.params.passwordToken)}`)
   }
 
   Account.findOne({
@@ -131,11 +152,9 @@ exports.postSendVerificationToken = (req, res, next) => {
     Account.emailVerificationToken(account.email, req.headers.host)
     req.login(account, (err) => {
       if(err) return next(err)
-      req.flash('success',
-      `Megaphone has sent a verification email to ${account.email}. Check
-      your inbox and click on the link in the email to verify your address.
-      If you can't find it, check your spam folder or click the button to
-      resend the email.`)
+      const flashMessage = `Megaphone has sent a verification email to ${account.email}. Check your inbox and click on the link in the email to verify your address. If you can't find it, check your spam folder or click the button to resend the email.`
+      req.flash('success', flashMessage)
+      res.header('flashMessage', flashMessage)
       return res.redirect('/settings')
     })
   })
@@ -159,13 +178,14 @@ exports.getVerifyVerificationToken = (req, res, next) => {
   .then(success => {
     req.login(success[0], (err) => {
       if(err) return next(err)
-      req.flash('success', 'Successfully verified account')
       success[0].update({
         verificationToken: null,
         verificationTokenExpiresAt: null,
         isEmailVerified: true
       })
-      return res.redirect('/dashboard?flash=Successfully verified account')
+      req.flash('success', 'Successfully verified account')
+      res.header('flash-message', 'Successfully verified account')
+      return res.redirect('/dashboard')
     })
   })
   .catch(err => {
