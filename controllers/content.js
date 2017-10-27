@@ -5,7 +5,7 @@ const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
-  req.assert('twitterIds', 'You must choose a twitter account').notEmpty()
+  req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
   const errors = req.validationErrors()
@@ -14,15 +14,15 @@ exports.postContent = (req, res, next) => {
     return res.redirect('/dashboard?flash=' + encodeURIComponent(errors[0].msg))
   }
 
-  if(typeof req.body.twitterIds == 'string') req.body.twitterIds = [req.body.twitterIds]
+  if(typeof req.body.twitterUsernames == 'string') req.body.twitterUsernames = [req.body.twitterUsernames]
 
-  for(var i=0; i<req.body.twitterIds.length; i++) {
+  for(var i=0; i<req.body.twitterUsernames.length; i++) {
     TwitterAccount.findOne({
-      where: {twitterId: req.body.twitterIds[i], accountId: req.user.id}
+      where: {username: req.body.twitterUsernames[i], accountId: req.user.id}
     })
     .then(twitterAccount => {
       if(!twitterAccount) {
-        const errorMessage = `Twitter account ${req.body.twitterIds[i]} does not exist`
+        const errorMessage = `Twitter account ${req.body.twitterUsernames[i]} does not exist`
         req.flash('error', errorMessage)
         return res.redirect('/dashboard?flash=' + encodeURIComponent(errorMessage))
       } else {
@@ -51,6 +51,7 @@ exports.postContent = (req, res, next) => {
       }
     })
     .catch(err => {
+      console.error(`Err: ${err}`)
       req.flash('error', err)
       return next(err)
     })

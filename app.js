@@ -62,7 +62,7 @@ app.post('/emailVerificationToken', accountController.postEmailVerificationToken
 app.get('/verify', accountController.getVerify)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
 app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
-app.get('/twitter/logout/:twitterId', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
+app.get('/twitter/logout/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
 
 app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
 
