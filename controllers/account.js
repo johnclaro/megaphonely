@@ -107,8 +107,10 @@ exports.postResetPassword = (req, res, next) => {
   })
 }
 
-exports.postEmailVerificationToken = (req, res, next) => {
-  Account.findOne({where: {email: req.body.email, isEmailVerified: false}})
+exports.postSendVerificationToken = (req, res, next) => {
+  Account.findOne({
+    where: {id: req.user.id, isEmailVerified: false}
+  })
   .then(account => {
     if(!account) return next(new Error(404))
     Account.emailVerificationToken(account.email, req.headers.host)
