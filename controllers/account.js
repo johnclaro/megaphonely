@@ -16,7 +16,11 @@ exports.getSettings = (req, res, next) => {
 }
 
 exports.getLogin = (req, res, next) => {
-  if(req.user) return res.redirect('/dashboard')
+  console.log(`User: ${req.user}`)
+  if(req.user) {
+    console.log('Hmm')
+    return res.redirect('/dashboard')
+  }
   return res.render('account/login', {title: 'Login'})
 }
 
@@ -54,7 +58,7 @@ exports.postRegister = (req, res, next) => {
   if(errors) {
     req.flash('error', errors[0].msg)
     res.header('flash-message', errors[0].msg)
-    return res.redirect('/dashboard')
+    return res.redirect('/register')
   }
 
   Account.create({
