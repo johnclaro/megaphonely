@@ -72,12 +72,11 @@ exports.postForgot = (req, res, next) => {
 }
 
 exports.getResetPassword = (req, res, next) => {
-  Account.findOne({where: {passwordToken: req.query.passwordToken}})
+  Account.findOne({where: {passwordToken: req.params.passwordToken}})
   .then(account => {
     if(!account) return next(new Error(404))
-    return res.render('account/reset_password', {
-      title: 'Reset password',
-      passwordToken: req.query.passwordToken
+    return res.render('account/resetpassword', {
+      title: 'Reset password', passwordToken: req.params.passwordToken
     })
   })
   .catch(err =>{
@@ -128,48 +127,50 @@ exports.postEmailVerificationToken = (req, res, next) => {
   })
 }
 
-exports.getVerify = (req, res, next) => {
-  if (Object.keys(req.query).length == 1) {
-    const verificationToken = req.query.verificationToken
-    const passwordToken = req.query.passwordToken
+exports.getVerifyVerificationToken = (req, res, next) => {
+  Promise.all([
+    Account.findOne(
+      {
+        where: {
+          verificationToken: req.params.verificationToken,
+          isEmailVerified: false
+        }
+      }
+    ),
+    Account.verifyToken(req.params.verificationToken)
+  ])
+  .then(success => {
+    req.login(success[0], (err) => {
+      if(err) return next(err)
+      req.flash('success', 'Account verified!')
+      success[0].update({
+        verificationToken: null,
+        verificationTokenExpiresAt: null,
+        isEmailVerified: true
+      })
+      return res.redirect('/dashboard')
+    })
+  })
+  .catch(err => {
+    return next(err)
+  })
+}
 
-    if(verificationToken) {
-      Promise.all([
-        Account.findOne({
-          where: {verificationToken: verificationToken, isEmailVerified: false}
-        }),
-        Account.verifyToken(verificationToken)
-      ])
-      .then(success => {
-        req.login(success[0], (err) => {
-          if(err) return next(err)
-          req.flash('success', 'Account verified!')
-          success[0].update({
-            verificationToken: null,
-            verificationTokenExpiresAt: null,
-            isEmailVerified: true
-          })
-          return res.redirect('/dashboard')
-        })
-      })
-      .catch(err => {
-        return next(err)
-      })
-    } else if (passwordToken) {
-      Promise.all([
-        Account.findOne({where: {passwordToken: passwordToken}}),
-        Account.verifyToken(passwordToken)
-      ])
-      .then(success => {
-        const account = success[0]
-        if(!account) return next(new Error(404))
-        res.redirect(`/resetPassword?passwordToken=${passwordToken}`)
-      })
-      .catch(err => {
-        return next(err)
-      })
-    }
-  }
+exports.getVerifyPasswordToken = (req, res, next) => {
+  Promise.all([
+    Account.findOne({
+      where: {passwordToken: req.params.passwordToken}
+    }),
+    Account.verifyToken(req.params.passwordToken)
+  ])
+  .then(success => {
+    const account = success[0]
+    if(!account) return next(new Error(404))
+    res.redirect(`/resetpassword/${req.params.passwordToken}`)
+  })
+  .catch(err => {
+    return next(err)
+  })
 }
 
 exports.getTwitterLogout = (req, res, next) => {

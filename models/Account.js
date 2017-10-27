@@ -121,7 +121,7 @@ module.exports = (db, Sequelize) => {
         If this was you, you can set a new password here:
         <br>
         <br>
-        <a href='http://${host}/verify?passwordToken=${token}'>Reset password</a>
+        <a href='http://${host}/verifypasswordtoken/${token}'>Reset password</a>
         <br>
         <br>
         If you don't want to change your password or didn't request this, just
@@ -173,7 +173,7 @@ module.exports = (db, Sequelize) => {
         social media.
         <br>
         <br>
-        <a href='http://${host}/verify?verificationToken=${account.verificationToken}'>Verify your email</a>
+        <a href='http://${host}/verifyverificationtoken/${account.verificationToken}'>Verify your email</a>
         <br>
         <br>
         Thanks!
