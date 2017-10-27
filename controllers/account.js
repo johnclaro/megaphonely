@@ -7,6 +7,7 @@ const TwitterAccount = require('models').TwitterAccount
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
   .then(account => {
+    res.header('Location', '/settings')
     return res.render('account/settings', {title: 'Settings', account: req.user})
   })
   .catch(err => {
@@ -27,7 +28,7 @@ exports.postLogin = (req, res, next) => {
     }
     req.logIn(account, (loginErr) => {
       if(loginErr) return next(err)
-      return res.redirect('/dashboard')
+      return res.redirect('/dashboard?flash=Successfully logged in')
     })
   })(req, res, next)
 }

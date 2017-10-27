@@ -46,8 +46,8 @@ describe('contents', () => {
   describe('controllers', () => {
     it('POST /login foobar', () => {
       return agent
-      .post('/login')
-      .send({email: 'foobar@gmail.com', password: 'p455w0rd'})
+        .post('/login')
+        .send({email: 'foobar@gmail.com', password: 'p455w0rd'})
     })
 
     it('POST /content valid content', () => {
@@ -61,7 +61,6 @@ describe('contents', () => {
     })
 
     it('POST /content invalid message', () => {
-      app.request.isAuthenticated = () => {return true}
       return agent
         .post('/content')
         .send({message: ''})
@@ -69,7 +68,6 @@ describe('contents', () => {
     })
 
     it('POST /content no twitter account', () => {
-      app.request.isAuthenticated = () => {return true}
       return agent
         .post('/content')
         .send({message: 'foo'})
@@ -77,7 +75,6 @@ describe('contents', () => {
     })
 
     it('POST /content invalid publishAt', () => {
-      app.request.isAuthenticated = () => {return true}
       return agent
         .post('/content')
         .send({message: 'foo', twitterUsernames: 'johnclaro3', publishAt: '2016-10-10T12:12'})
