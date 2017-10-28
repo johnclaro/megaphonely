@@ -49,6 +49,7 @@ const accountController = require('controllers/account')
 
 const passportMiddleware = require('middlewares/passport')
 app.get('/', homeController.index)
+app.get('/terms', homeController.getTerms)
 app.get('/login', accountController.getLogin)
 app.post('/login', accountController.postLogin)
 app.get('/logout', accountController.getLogout)
