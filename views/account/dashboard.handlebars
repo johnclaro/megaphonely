@@ -1,7 +1,7 @@
 <h1>Dashboard</h1>
 
 {{#each twitterAccounts}}
-  Connected to @{{this.username}} <a href='/twitter/logout/{{this.username}}'>Logout</a>
+  Connected to @{{this.username}} <a href='/twitter/disconnect/{{this.username}}'>Logout</a>
   <br>
 {{/each}}
 <a href='/auth/twitter'>Connect more twitter</a>

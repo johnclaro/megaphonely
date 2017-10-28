@@ -74,7 +74,7 @@ app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated,
 const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
-app.get('/twitter/logout/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterLogout)
+app.get('/twitter/disconnect/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterDisconnect)
 
 /**
 * Custom error handlers
