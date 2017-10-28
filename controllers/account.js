@@ -140,7 +140,7 @@ exports.postResetPassword = (req, res, next) => {
     req.login(account, (err) => {
       if(err) return next(err)
       req.flash('success', 'Successfully updated password')
-      return res.redirect('/dashboard?Successfully updated password')
+      return res.redirect('/dashboard')
     })
   })
 }
@@ -204,8 +204,12 @@ exports.getVerifyPasswordToken = (req, res, next) => {
   ])
   .then(success => {
     const account = success[0]
-    if(!account) return next(new Error(404))
-    res.redirect(`/resetpassword/${req.params.passwordToken}`)
+    if(!account) {
+      console.log('Error....')
+      return next(new Error(404))
+    }
+    console.log("Returning...")
+    return res.redirect(`/resetpassword/${req.params.passwordToken}`)
   })
   .catch(err => {
     return next(err)

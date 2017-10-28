@@ -1,10 +1,11 @@
 <h1>Login</h1>
 <form action='/login' method='post'>
-  Email:
-  <input type='text' name='email'>
-  <br>
-  Password:
-  <input type='password' name='password'>
-  <br>
-  <input type='submit' value='Submit'>
+  <div class='form-group'>
+    <input type='text' class='form-control' name='email' placeholder='Email' id='email'>
+  </div>
+  <div class='form-group'>
+    <input type='password' class='form-control' name='password' placeholder='Password' id='password'>
+  </div>
+  <button type='submit' class='btn btn-primary'>Login</button>
 </form>
+<a href='/forgot'>Forgot your password?</a>
