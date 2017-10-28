@@ -14,6 +14,12 @@
       <div class='alert alert-success' role='alert'>
         <a style='color: green'>{{messages.success}}</a>
       </div>
+    {{ else if messages.errors }}
+        <div class='alert alert-danger' role='alert'>
+          {{#each messages.errors}}
+            <li><a style='color: red'>{{this.msg}}</a></li>
+          {{/each}}
+        </div>
     {{ else if messages.error }}
       <div class='alert alert-danger' role='alert'>
         <a style='color: red'>{{messages.error}}</a>
