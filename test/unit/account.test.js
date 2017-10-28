@@ -91,7 +91,8 @@ describe('accounts', () => {
         return request(app)
           .post('/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
           .send({password: 'newpassword'})
-          .expect('Location', '/dashboard?Successfully%20updated%20password')
+          .expect('Location', '/dashboard')
+          .expect('flash-message', 'Successfully updated password')
       })
 
       it('POST /resetpassword password too short', () => {

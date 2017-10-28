@@ -52,7 +52,7 @@ exports.postRegister = (req, res, next) => {
 
   const errors = req.validationErrors()
   if(errors) {
-    req.flash('error', errors[0].msg)
+    req.flash('errors', errors)
     res.header('flash-message', errors[0].msg)
     return res.redirect('/register')
   }
@@ -139,7 +139,9 @@ exports.postResetPassword = (req, res, next) => {
     account.update({password: req.body.password, passwordToken: null})
     req.login(account, (err) => {
       if(err) return next(err)
-      req.flash('success', 'Successfully updated password')
+      const flashMessage = 'Successfully updated password'
+      req.flash('success', flashMessage)
+      res.header('flash-message', flashMessage)
       return res.redirect('/dashboard')
     })
   })
