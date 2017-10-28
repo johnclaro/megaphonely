@@ -10,7 +10,7 @@ exports.postContent = (req, res, next) => {
 
   const errors = req.validationErrors()
   if(errors) {
-    req.flash('error', errors[0].msg)
+    req.flash('errors', errors)
     res.header('flash-message', errors[0].msg)
     return res.redirect('/dashboard')
   }
