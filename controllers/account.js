@@ -207,11 +207,7 @@ exports.getVerifyPasswordToken = (req, res, next) => {
   ])
   .then(success => {
     const account = success[0]
-    if(!account) {
-      console.log('Error....')
-      return next(new Error(404))
-    }
-    console.log("Returning...")
+    if(!account) return next(new Error(404))
     return res.redirect(`/resetpassword/${req.params.passwordToken}`)
   })
   .catch(err => {
@@ -219,13 +215,13 @@ exports.getVerifyPasswordToken = (req, res, next) => {
   })
 }
 
-exports.getTwitterLogout = (req, res, next) => {
+exports.getTwitterDisconnect = (req, res, next) => {
   TwitterAccount.update(
     {isConnected: false},
     {where: {accountId: req.user.id, username: req.params.twitterUsername}}
   )
   .then(success => {
-    req.flash('success', 'Logged out')
+    req.flash('success', `Disconnected twitter ${req.params.twitterUsername}`)
     res.redirect(req.headers.referer)
   })
   .catch(err => {
