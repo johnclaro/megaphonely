@@ -111,7 +111,8 @@ describe('accounts', () => {
           .send({
             firstName: 'john bar',
             email: 'johndoe@gmail.com',
-            password: 'johndoe'
+            password: 'johndoe',
+            terms: 'true'
           })
           .expect('Location', '/dashboard')
           .expect('flash-message', 'Register successful')
@@ -166,6 +167,19 @@ describe('accounts', () => {
           .expect('flash-message', 'Password must contain at least 6 characters long')
       })
 
+      it('POST /register terms not agreed', () => {
+        return request(app)
+          .post('/register')
+          .send({
+            email: 'foobar@gmail.com',
+            password: 'foobar',
+            firstName: 'foo',
+            lastName: 'bar',
+          })
+          .expect('Location', '/register')
+          .expect('flash-message', 'Please agree to the terms of service')
+      })
+
       it('POST /register email already taken', () => {
         return request(app)
           .post('/register')
@@ -173,7 +187,8 @@ describe('accounts', () => {
             email: 'foobar@gmail.com',
             password: 'foobar',
             firstName: 'foo',
-            lastName: 'bar'
+            lastName: 'bar',
+            terms: 'true'
           })
           .expect('Location', '/register')
           .expect('flash-message', 'This email is already taken')
