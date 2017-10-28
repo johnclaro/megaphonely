@@ -9,16 +9,23 @@
 </head>
 <body>
   {{>header}}
-  <br>
-  {{#if messages.success}}
-    <a style='color: green'>{{messages.success}}</a>
-  {{ else if messages.error }}
-    <a style='color: red'>{{messages.error}}</a>
-  {{ else }}
-    <a style='color: orange'>{{messages.info}}</a>
-  {{/if}}
-  <br>
-  {{{body}}}
+  <div class='container'>
+    {{#if messages.success}}
+      <div class='alert alert-success' role='alert'>
+        <a style='color: green'>{{messages.success}}</a>
+      </div>
+    {{ else if messages.error }}
+      <div class='alert alert-danger' role='alert'>
+        <a style='color: red'>{{messages.error}}</a>
+      </div>
+    {{ else if messages.info }}
+      <div class='alert alert-info' role='alert'>
+        <a style='color: blue'>{{messages.info}}</a>
+      </div>
+    {{/if}}
+    <br>
+    {{{body}}}
+  </div>
 </body>
 {{>scripts}}
 </html>
