@@ -6,10 +6,12 @@
 {{/each}}
 <a href='/auth/twitter'>Connect more twitter</a>
 <form method='post' action='/content' enctype='multipart/form-data'>
-  <textarea name='message' cols='45' rows='5'></textarea>
-  <br>
-  <input type='datetime-local' name='publishAt'>
-  <br>
+  <div class='form-group'>
+    <textarea class='form-control' name='message' cols='45' rows='5'></textarea>
+  </div>
+  <div class='form-group'>
+    <input class='form-control' type='datetime-local' name='publishAt'>
+  </div>
   {{#each twitterAccounts}}
     <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}<br>
   {{/each}}
