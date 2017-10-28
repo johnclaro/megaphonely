@@ -6,3 +6,7 @@ exports.index = (req, res, next) => {
 exports.getTerms = (req, res, next) => {
   res.render('terms/terms', {title: 'Terms'})
 }
+
+exports.getPrivacy = (req, res, next) => {
+  res.render('terms/privacy', {title: 'Privacy'})
+}
