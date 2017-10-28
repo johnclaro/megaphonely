@@ -11,25 +11,27 @@
   {{>header}}
   <div class='container'>
     {{#if messages.success}}
-      <div class='alert alert-success' role='alert'>
-        <a style='color: green'>{{messages.success}}</a>
+      <div class='alert alert-success fade in' role='alert'>
+        <a class='close' data-dismiss='alert' aria-label='close' style='color: green'>x</a>
+        {{messages.success}}
       </div>
     {{ else if messages.errors }}
-        <div class='alert alert-danger' role='alert'>
+        <div class='alert alert-danger fade in' role='alert'>
+          <a class='close' data-dismiss='alert' aria-label='close' style='color: red'>x</a>
           {{#each messages.errors}}
-            <li><a style='color: red'>{{this.msg}}</a></li>
+            <li>{{this.msg}}</li>
           {{/each}}
         </div>
     {{ else if messages.error }}
-      <div class='alert alert-danger' role='alert'>
-        <a style='color: red'>{{messages.error}}</a>
+      <div class='alert alert-danger fade in' role='alert'>
+        <a class='close' data-dismiss='alert' aria-label='close' style='color: red'>x</a>
+        {{messages.error}}
       </div>
     {{ else if messages.info }}
-      <div class='alert alert-info' role='alert'>
-        <a style='color: blue'>{{messages.info}}</a>
+      <div class='alert alert-info fade in' role='alert'>
+        <a class='close' data-dismiss='alert' aria-label='close' style='color: blue'>{{messages.info}}</a>
       </div>
     {{/if}}
-    <br>
     {{{body}}}
   </div>
   {{#unless account}}
