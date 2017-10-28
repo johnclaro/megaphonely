@@ -13,7 +13,9 @@
     <input class='form-control' type='datetime-local' name='publishAt'>
   </div>
   {{#each twitterAccounts}}
-    <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}<br>
+    <label class='checkbox-inline'>
+      <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
+    </label>
   {{/each}}
   <input type='file' name='photo'>
   <br>
