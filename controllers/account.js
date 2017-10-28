@@ -8,7 +8,7 @@ exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
   .then(account => {
     res.header('Location', '/settings')
-    return res.render('account/settings', {title: 'Settings', account: req.user})
+    return res.render('account/settings', {title: 'Megaphone - Settings', account: req.user})
   })
   .catch(err => {
     return next(err)
@@ -17,7 +17,7 @@ exports.getSettings = (req, res, next) => {
 
 exports.getLogin = (req, res, next) => {
   if(req.user) return res.redirect('/dashboard')
-  return res.render('account/login', {title: 'Login'})
+  return res.render('account/login', {title: 'Megaphone - Login'})
 }
 
 exports.postLogin = (req, res, next) => {
@@ -39,7 +39,7 @@ exports.postLogin = (req, res, next) => {
 
 exports.getRegister = (req, res, next) => {
   if(req.user) return res.redirect('/dashboard')
-  return res.render('account/register', {title: 'Register'})
+  return res.render('account/register', {title: 'Megaphone - Register'})
 }
 
 exports.postRegister = (req, res, next) => {
@@ -80,7 +80,7 @@ exports.postRegister = (req, res, next) => {
 }
 
 exports.getForgot = (req, res, next) => {
-  return res.render('account/forgot', {title: 'Forgot password'})
+  return res.render('account/forgot', {title: 'Megaphone - Forgot password'})
 }
 
 exports.postForgot = (req, res, next) => {
@@ -114,7 +114,7 @@ exports.getResetPassword = (req, res, next) => {
   .then(account => {
     if(!account) return next(new Error(404))
     return res.render('account/resetpassword', {
-      title: 'Reset password', passwordToken: req.params.passwordToken
+      title: 'Megaphone - Reset password', passwordToken: req.params.passwordToken
     })
   })
   .catch(err =>{
@@ -235,7 +235,7 @@ exports.getDashboard = (req, res, next) => {
   })
   .then(twitterAccounts => {
     return res.render('account/dashboard', {
-      title: 'Dashboard',
+      title: 'Megaphone - Dashboard',
       account: req.user,
       twitterAccounts: twitterAccounts
     })
