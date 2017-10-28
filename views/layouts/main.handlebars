@@ -32,6 +32,9 @@
     <br>
     {{{body}}}
   </div>
+  {{#unless account}}
+    {{>footer}}
+  {{/unless}}
 </body>
 {{>scripts}}
 </html>
