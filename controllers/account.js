@@ -89,7 +89,7 @@ exports.postForgot = (req, res, next) => {
   if(errors) {
     req.flash('error', errors[0].msg)
     res.header('flash-message', errors[0].msg)
-    return res.redirect('/dashboard')
+    return res.redirect('/forgot')
   }
 
   Account.findOne({
