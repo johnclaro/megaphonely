@@ -8,6 +8,7 @@ const session = require('cookie-session')
 const flash = require('express-flash')
 const multer = require('multer')
 const validator = require('express-validator')
+const favicon = require('serve-favicon')
 
 const app = express()
 const upload = multer({dest: 'uploads/'})
@@ -21,6 +22,7 @@ app.engine('handlebars', exphbs({
 }))
 app.set('view engine', 'handlebars')
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(validator({
