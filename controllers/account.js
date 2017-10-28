@@ -48,6 +48,7 @@ exports.postRegister = (req, res, next) => {
   req.assert('firstName', 'First name must be fewer than 100 characters').len({max: 100})
   req.assert('lastName', 'Last name must be fewer than 100 characters').optional().isLength({max: 100})
   req.assert('password', 'Password must contain at least 6 characters long').len(6)
+  req.assert('terms', 'Please agree to the terms of service').notEmpty()
   req.sanitize('email').normalizeEmail({gmail_remove_dots: false})
 
   const errors = req.validationErrors()
