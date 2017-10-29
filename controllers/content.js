@@ -64,7 +64,7 @@ exports.postContent = (req, res, next) => {
   }
 
 
-  const flashMessage = 'Succesfully scheduled twitter contents'
+  const flashMessage = `Succesfully scheduled: ${req.body.message}`
   req.flash('success', flashMessage)
   res.header('flash-message', flashMessage)
   return res.redirect('/dashboard')

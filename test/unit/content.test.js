@@ -58,7 +58,7 @@ describe('contents', () => {
         .post('/content')
         .send({message: 'foo', publishAt: publishAt, twitterUsernames: 'johnclaro3'})
         .expect('Location', '/dashboard')
-        .expect('flash-message', 'Succesfully scheduled twitter contents')
+        .expect('flash-message', 'Succesfully scheduled: foo')
     })
 
     it('POST /content invalid message', () => {
