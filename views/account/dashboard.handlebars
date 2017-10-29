@@ -7,7 +7,7 @@
         <div>
           <img src={{this.profilePicture}} class='social-profile-picture'>
           <a class='btn btn-social-icon btn-twitter social-icon-overlap'>
-            <span class="fa fa-twitter"></span>
+            <span class='fa fa-twitter'></span>
           </a>
           <a href='/twitter/disconnect/{{this.username}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
         </div>
@@ -22,9 +22,18 @@
         <div class='form-group'>
           <textarea class='form-control' name='message' cols='45' rows='5'></textarea>
         </div>
-        <div class='form-group'>
-          <input class='form-control' type='datetime-local' name='publishAt'>
+
+        <div class='input-group date form_datetime col-lg-12' data-date='2017-10-31T05:25:07Z' data-link-field='dtp_input1'>
+            <input class='form-control' readonly size='16' type='text' name='publishAt'>
+            <span class='input-group-addon'>
+              <span class='glyphicon glyphicon-remove'></span>
+            </span>
+            <span class='input-group-addon'>
+              <span class='glyphicon glyphicon-calendar'></span>
+            </span>
         </div>
+        <input id='dtp_input1' type='hidden' value=''>
+
         {{#each twitterAccounts}}
           <label class='checkbox-inline'>
             <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
