@@ -3,16 +3,17 @@
     <div class='col-lg-2' style='background-color: #F6F9FC'>
       <h3>Your socials</h3>
       {{#each twitterAccounts}}
+        <hr>
         <div>
-            <img src={{this.profilePicture}} style='border-radius: 50%' class='social-profile-picture'>
-            <a class='btn btn-social-icon btn-twitter social-icon-overlap'>
-              <span class="fa fa-twitter"></span>
-            </a>
-            <a href='/twitter/disconnect/{{this.username}}'>Disconnect</a>
+          <img src={{this.profilePicture}} class='social-profile-picture'>
+          <a class='btn btn-social-icon btn-twitter social-icon-overlap'>
+            <span class="fa fa-twitter"></span>
+          </a>
+          <a href='/twitter/disconnect/{{this.username}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
         </div>
-        <br>
       {{/each}}
-      <a href='/auth/twitter'>+ Connect more social</a>
+      <hr>
+      <a href='/auth/twitter'>+ Connect more</a>
     </div>
     <div class='col-lg-10'>
       <form method='post' action='/content' enctype='multipart/form-data'>
@@ -22,11 +23,6 @@
         <div class='form-group'>
           <input class='form-control' type='datetime-local' name='publishAt'>
         </div>
-        {{#each twitterAccounts}}
-          <label class='checkbox-inline'>
-            <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
-          </label>
-        {{/each}}
         <input type='file' name='photo'>
         <button type='submit' class='btn btn-primary'>Schedule</button>
       </form>
