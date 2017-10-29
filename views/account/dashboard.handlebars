@@ -1,9 +1,14 @@
 <div class='col-lg-12'>
   <div class='row'>
     <div class='col-lg-2' style='background-color: #F6F9FC'>
+      <h3>Your socials</h3>
       {{#each twitterAccounts}}
         <div>
-          <span class='fa fa-twitter'><span> @{{this.username}} <a href='/twitter/disconnect/{{this.username}}'>Disconnect</a>
+            <img src={{this.profilePicture}} style='border-radius: 50%' class='social-profile-picture'>
+            <a class='btn btn-social-icon btn-twitter social-icon-overlap'>
+              <span class="fa fa-twitter"></span>
+            </a>
+            <a href='/twitter/disconnect/{{this.username}}'>Disconnect</a>
         </div>
         <br>
       {{/each}}

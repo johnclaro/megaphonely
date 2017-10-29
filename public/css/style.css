@@ -19,3 +19,16 @@
 .footer-text-link {
   color: #7B8993;
 }
+
+.social-profile-picture {
+  z-index:1;
+  position: relative;
+}
+
+.social-icon-overlap {
+  z-index:2;
+  position: relative;
+  top: 10px;
+  right: 20px;
+  border-radius: 50%;
+}
