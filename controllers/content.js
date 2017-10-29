@@ -17,6 +17,14 @@ exports.postContent = (req, res, next) => {
 
   if(typeof req.body.twitterUsernames == 'string') req.body.twitterUsernames = [req.body.twitterUsernames]
 
+  if (req.body.publishAt) {
+    var publishAt = new Date(req.body.publishAt)
+  } else {
+    var publishAt = new Date()
+    publishAt.setSeconds(publishAt.getSeconds() + 1);
+  }
+  var publishAt = publishAt.toISOString()
+
   for(var i=0; i<req.body.twitterUsernames.length; i++) {
     TwitterAccount.findOne({
       where: {username: req.body.twitterUsernames[i], accountId: req.user.id}
@@ -34,7 +42,7 @@ exports.postContent = (req, res, next) => {
             if(err) return next(err)
             Content.scheduleTwitterContent(
               req.body.message,
-              req.body.publishAt,
+              publishAt,
               twitterAccount.accessTokenKey,
               twitterAccount.accessTokenSecret,
               data.toString('base64')
@@ -43,7 +51,7 @@ exports.postContent = (req, res, next) => {
         } else {
           Content.scheduleTwitterContent(
             req.body.message,
-            req.body.publishAt,
+            publishAt,
             twitterAccount.accessTokenKey,
             twitterAccount.accessTokenSecret
           )
