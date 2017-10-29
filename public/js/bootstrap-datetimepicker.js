@@ -430,8 +430,8 @@
               this.hasInput && this.element.find('input').val()
             )
         )
-        if (this.element.find('input').val() == 'today') {
-          this.setValue('today');
+        if (this.element.find('input').val() == 'Today') {
+          this.setValue('Today');
         } else {
           this.setValue();
         }
@@ -503,12 +503,12 @@
       }
     },
 
-    setValue: function (todayValue) {
+    setValue: function (Today) {
       var formatted = this.getFormattedDate();
       if (!this.isInput) {
         if (this.component) {
-          if (todayValue) {
-            this.element.find('input').val('today');
+          if (Today) {
+            this.element.find('input').val('Today');
           } else {
             this.element.find('input').val(formatted);
           }
@@ -1076,7 +1076,7 @@
 
                 this.viewMode = this.startViewMode;
                 this.showMode(0);
-                this._setDate('today');
+                this._setDate('Today');
                 this.fill();
                 if (this.autoclose) {
                   this.hide();
@@ -1204,8 +1204,8 @@
     },
 
     _setDate: function (date, which) {
-      if (date == 'today') {
-        this.setValue('today');
+      if (date == 'Today') {
+        this.setValue('Today');
         return;
       }
       if (!which || which === 'date')
