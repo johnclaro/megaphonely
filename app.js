@@ -82,7 +82,7 @@ app.get('/twitter/disconnect/:twitterUsername', passportMiddleware.isAuthenticat
 **/
 app.use((req, res, next) => {
   res.status(404)
-  res.render('4xx', {title: 'Megaphone - 4xx'})
+  res.render('4xx', {title: '4xx'})
 })
 
 app.use((err, req, res, next) => {
@@ -90,7 +90,7 @@ app.use((err, req, res, next) => {
     if (err == 'Error: 404') {
       // console.error(`Error _body 404: ${err}`)
       res.status(404)
-      return res.render('4xx', {title: 'Megaphone - 4xx'})
+      return res.render('4xx', {title: '4xx'})
     } else {
       // console.error(`Error _body: ${err}`)
       return res.redirect(req.headers.referer)
@@ -99,11 +99,11 @@ app.use((err, req, res, next) => {
     if (err == 'Error: 404') {
       // console.error(`400: ${err}`)
       res.status(404)
-      return res.render('4xx', {title: 'Megaphone - 4xx'})
+      return res.render('4xx', {title: '4xx'})
     } else {
       // console.error(`500: ${err}`)
       res.status(500)
-      return res.render('5xx', {title: 'Megaphone - 5xx'})
+      return res.render('5xx', {title: '5xx'})
     }
   }
 })
