@@ -4,10 +4,8 @@ const Content = require('models').Content
 const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
-  console.log(JSON.stringify(req.body, null, 4))
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
-  req.assert('publishAt', 'You must specify a scheduling date').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
   const errors = req.validationErrors()
@@ -19,7 +17,7 @@ exports.postContent = (req, res, next) => {
 
   if(typeof req.body.twitterUsernames == 'string') req.body.twitterUsernames = [req.body.twitterUsernames]
 
-  if (req.body.publishAt == 'today') {
+  if (!req.body.publishAt) {
       var publishAt = new Date()
       publishAt.setSeconds(publishAt.getSeconds() + 1);
   } else {
