@@ -4,6 +4,7 @@ const Content = require('models').Content
 const TwitterAccount = require('models').TwitterAccount
 
 exports.postContent = (req, res, next) => {
+  console.log(JSON.stringify(req.body, null, 4))
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
