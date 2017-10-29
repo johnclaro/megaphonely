@@ -1,7 +1,7 @@
 <div class='col-lg-12'>
   <div class='row'>
     <div class='col-lg-2' style='background-color: #F6F9FC'>
-      <h3>Your socials</h3>
+      <h3 class='text-center'>Your socials</h3>
       {{#each twitterAccounts}}
         <hr>
         <div>
@@ -13,7 +13,9 @@
         </div>
       {{/each}}
       <hr>
-      <a href='/auth/twitter'>+ Connect more</a>
+      <div class='text-center'>
+        <a href='/auth/twitter'>+ Connect more</a>
+      </div>
     </div>
     <div class='col-lg-10'>
       <form method='post' action='/content' enctype='multipart/form-data'>
@@ -23,7 +25,13 @@
         <div class='form-group'>
           <input class='form-control' type='datetime-local' name='publishAt'>
         </div>
+        {{#each twitterAccounts}}
+          <label class='checkbox-inline'>
+            <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
+          </label>
+        {{/each}}
         <input type='file' name='photo'>
+        <br>
         <button type='submit' class='btn btn-primary'>Schedule</button>
       </form>
     </div>

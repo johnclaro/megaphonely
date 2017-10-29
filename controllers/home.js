@@ -4,9 +4,9 @@ exports.index = (req, res, next) => {
 }
 
 exports.getTerms = (req, res, next) => {
-  res.render('legal/terms', {title: 'Terms'})
+  res.render('legal/terms', {title: 'Megaphone - Terms'})
 }
 
 exports.getPrivacy = (req, res, next) => {
-  res.render('legal/privacy', {title: 'Privacy'})
+  res.render('legal/privacy', {title: 'Megaphone - Privacy'})
 }
