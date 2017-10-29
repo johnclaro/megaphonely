@@ -23,7 +23,7 @@
           <textarea class='form-control' name='message' cols='45' rows='5'></textarea>
         </div>
 
-        <div class='input-group date form_datetime col-lg-12' data-date='2017-10-31T05:25:07Z' data-link-field='dtp_input1'>
+        <div class='input-group date form_datetime' data-link-field='publishAtDate'>
             <input class='form-control' readonly size='16' type='text' name='publishAt'>
             <span class='input-group-addon'>
               <span class='glyphicon glyphicon-remove'></span>
@@ -31,8 +31,8 @@
             <span class='input-group-addon'>
               <span class='glyphicon glyphicon-calendar'></span>
             </span>
+            <input id='publishAtDate' type='hidden' value=''>
         </div>
-        <input id='dtp_input1' type='hidden' value=''>
 
         {{#each twitterAccounts}}
           <label class='checkbox-inline'>
