@@ -55,16 +55,7 @@ module.exports = (db, Sequelize) => {
     },
     publishAt: {
       field: 'publish_at',
-      type: Sequelize.DATE,
-      set: function(publishAt) {
-        if (publishAt) {
-          var publishAt = new Date(publishAt)
-        } else {
-          var publishAt = new Date()
-          publishAt.setSeconds(publishAt.getSeconds() + 1);
-        }
-        this.setDataValue('publishAt', publishAt)
-      }
+      type: Sequelize.DATE
     },
     createdAt: {
       field: 'created_at',
