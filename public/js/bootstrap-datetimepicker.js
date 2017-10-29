@@ -477,7 +477,6 @@
     setUTCDate: function (d) {
       if (d >= this.startDate && d <= this.endDate) {
         this.date = d;
-        console.log(4)
         this.setValue();
         this.viewDate = this.date;
         this.fill();
@@ -500,7 +499,6 @@
         element = this.element.find('input');
       }
       if (element && element.val()) {
-        console.log(5)
         this.setValue();
       }
     },
@@ -685,10 +683,7 @@
 
       this.date = DPGlobal.parseDate(date, this.format, this.language, this.formatType, this.timezone);
 
-      if (fromArgs) {
-        console.log(6)
-        this.setValue();
-      }
+      if (fromArgs) this.setValue();
 
       if (this.date < this.startDate) {
         this.viewDate = new Date(this.startDate);
@@ -1210,7 +1205,6 @@
 
     _setDate: function (date, which) {
       if (date == 'today') {
-        console.log(7)
         this.setValue('today');
         return;
       }
@@ -1219,7 +1213,6 @@
       if (!which || which === 'view')
         this.viewDate = date;
       this.fill();
-      console.log(8)
       this.setValue();
       var element;
       if (this.isInput) {
@@ -1358,7 +1351,6 @@
           if (this.dateWithinRange(newDate)) {
             this.date = newDate;
             this.viewDate = newViewDate;
-            console.log(1)
             this.setValue();
             this.update();
             e.preventDefault();
@@ -1399,7 +1391,6 @@
           if (this.dateWithinRange(newDate)) {
             this.date = newDate;
             this.viewDate = newViewDate;
-            console.log(2)
             this.setValue();
             this.update();
             e.preventDefault();
