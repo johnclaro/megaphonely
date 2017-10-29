@@ -48,14 +48,16 @@ exports.postContent = (req, res, next) => {
             twitterAccount.accessTokenSecret
           )
         }
-        const flashMessage = 'Succesfully scheduled twitter contents'
-        req.flash('success', flashMessage)
-        res.header('flash-message', flashMessage)
-        return res.redirect('/dashboard')
       }
     })
     .catch(err => {
       return next(err)
     })
   }
+
+
+  const flashMessage = 'Succesfully scheduled twitter contents'
+  req.flash('success', flashMessage)
+  res.header('flash-message', flashMessage)
+  return res.redirect('/dashboard')
 }
