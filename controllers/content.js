@@ -37,6 +37,7 @@ exports.postContent = (req, res, next) => {
         return res.redirect('/dashboard')
       } else {
         Content.scheduleTwitterContent(
+          req.user.id,
           req.body.message,
           publishAt,
           twitterAccount.accessTokenKey,
