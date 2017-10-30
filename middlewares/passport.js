@@ -4,8 +4,7 @@ const TwitterStrategy = require('passport-twitter').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 
 const Account = require('models').Account
-const TwitterAccount = require('models').TwitterAccount
-const FacebookAccount = require('models').FacebookAccount
+const Social = require('models').Social
 
 passport.serializeUser((account, done) => {
   if(!account) return done(new Error(404))
@@ -40,22 +39,23 @@ passport.use(new TwitterStrategy({
   callbackURL: '/auth/twitter/callback',
   passReqToCallback: true
 }, (req, token, tokenSecret, profile, done) => {
-  TwitterAccount.findOne(
-    {where: {twitterId: profile.id, accountId: req.user.id}}
+  Social.findOne(
+    {where: {socialId: profile.id, accountId: req.user.id, provider: 'twitter'}}
   )
-  .then(twitterAccount => {
-    if(!twitterAccount) {
-      TwitterAccount.create({
+  .then(social => {
+    if(!social) {
+      Social.create({
           accountId: req.user.id,
-          twitterId: profile.id,
+          socialId: profile.id,
           username: profile.username,
           displayName: profile.displayName,
           profilePicture: profile.photos[0].value,
           accessTokenKey: token,
           accessTokenSecret: tokenSecret,
-          isConnected: true
+          isConnected: true,
+          provider: profile.provider
       })
-      .then(twitterAccount => {
+      .then(success => {
         console.log('Created twitter account!')
         Account.findOne({where: {email: req.user.email}})
         .then(account => {
@@ -69,15 +69,16 @@ passport.use(new TwitterStrategy({
     } else {
       // TODO: Only perform update when any fields are different from the
       // newly received data!
-      twitterAccount.update({
+      social.update({
           accountId: req.user.id,
-          twitterId: profile.id,
+          socialId: profile.id,
           username: profile.username,
           displayName: profile.displayName,
           profilePicture: profile.photos[0].value,
           accessTokenKey: token,
           accessTokenSecret: tokenSecret,
-          isConnected: true
+          isConnected: true,
+          provider: profile.provider
       })
       .then(success => {
         console.log('Updated twitter account!')
@@ -99,18 +100,19 @@ passport.use(new FacebookStrategy({
   callbackURL: '/auth/facebook/callback',
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  FacebookAccount.findOne(
-    {where: {facebookId: profile.id, accountId: req.user.id}}
+  Social.findOne(
+    {where: {socialId: profile.id, accountId: req.user.id, provider: 'facebook'}}
   )
-  .then(facebookAccount => {
-    if(!facebookAccount) {
-      FacebookAccount.create({
+  .then(social => {
+    if(!social) {
+      Social.create({
         accountId: req.user.id,
-        facebookId: profile.id,
+        socialId: profile.id,
         displayName: profile.displayName,
         profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
         accessTokenKey: accessToken,
-        isConnected: true
+        isConnected: true,
+        provider: profile.provider
       })
       .then(success => {
         Account.findOne({where: {email: req.user.email}})
@@ -123,13 +125,14 @@ passport.use(new FacebookStrategy({
         return done(err, null)
       })
     } else {
-      facebookAccount.update({
+      social.update({
         accountId: req.user.id,
-        facebookId: profile.id,
+        socialId: profile.id,
         displayName: profile.displayName,
         profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
         accessTokenKey: accessToken,
-        isConnected: true
+        isConnected: true,
+        provider: profile.provider
       })
       .then(success => {
         console.log('Updated facebook account')
