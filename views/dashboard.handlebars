@@ -2,17 +2,6 @@
   <div class='row'>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
       <h3 class='text-center'>Your socials</h3>
-      {{#each socials}}
-        <hr>
-        <div>
-          <img src={{this.profilePicture}} class='social-profile-picture'>
-          <a class='btn btn-social-icon btn-{{this.provider}} social-icon-overlap'>
-            <span class='fa fa-{{this.provider}}'></span>
-          </a>
-          <a href='/social/disconnect/{{this.provider}}/{{this.socialId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
-        </div>
-      {{/each}}
-      <hr>
       <div class='text-center'>
         <a href='/auth/twitter' class='btn btn-block btn-social btn-twitter' style='font-size: 12px'>
           <span class='fa fa-twitter'></span> Connect Twitter
@@ -24,6 +13,17 @@
           <span class='fa fa-instagram'></span> Connect Instagram
         </a>
       </div>
+      {{#each socials}}
+        <hr>
+        <div>
+          <img src={{this.profilePicture}} class='social-profile-picture'>
+          <a class='btn btn-social-icon btn-{{this.provider}} social-icon-overlap'>
+            <span class='fa fa-{{this.provider}}'></span>
+          </a>
+          <a href='/social/disconnect/{{this.provider}}/{{this.socialId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
+        </div>
+      {{/each}}
+      <hr>
     </div>
     <div class='col-lg-6' style='padding-top: 20px;'>
       <form method='post' action='/content' enctype='multipart/form-data'>
