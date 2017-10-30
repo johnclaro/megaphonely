@@ -1,9 +1,11 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const TwitterStrategy = require('passport-twitter').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
 
 const Account = require('models').Account
 const TwitterAccount = require('models').TwitterAccount
+const FacebookAccount = require('models').FacebookAccount
 
 passport.serializeUser((account, done) => {
   if(!account) return done(new Error(404))
@@ -100,6 +102,74 @@ passport.use(new TwitterStrategy({
     })
   }
 ))
+
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: '/auth/facebook/callback',
+  passReqToCallback: true
+}, (req, accessToken, refreshToken, profile, done) => {
+  console.log('Looking for....')
+  console.log(`Profile ID: ${profile.id}`)
+  console.log(`Req user id: ${req.user.id}`)
+  FacebookAccount.findOne(
+    {
+      where: {
+        facebookId: profile.id,
+        accountId: req.user.id
+      }
+    }
+  )
+  .then(facebookAccount => {
+    console.log(`Got FB acc: ${facebookAccount}`)
+    if(!facebookAccount) {
+      console.log(`RUI: ${req.user.id}`)
+      console.log(`PID: ${profile.id}`)
+      console.log(`PDN: ${profile.displayName}`)
+      console.log(`PP: https://graph.facebook.com/${profile.id}/picture?type=large`)
+      console.log(`AT: ${accessToken}`)
+      FacebookAccount.create({
+        accountId: req.user.id,
+        facebookId: profile.id,
+        displayName: profile.displayName,
+        profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
+        accessTokenKey: accessToken,
+        isConnected: true
+      })
+      .then(success => {
+        console.log('Done')
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          console.log('Created facebook account')
+          return done(null, account)
+        })
+      })
+      .catch(err => {
+        return done(err, null)
+      })
+    } else {
+      console.log('lol what?')
+      facebookAccount.update({
+        accountId: req.user.id,
+        facebookId: profile.id,
+        displayName: profile.displayName,
+        profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
+        accessTokenKey: accessToken,
+        isConnected: true
+      })
+      .then(success => {
+        console.log('Updated facebook account')
+        return done(null, success)
+      })
+      .catch(err => {
+        return done(err, null)
+      })
+    }
+  })
+  .catch(err => {
+    return done(err, null)
+  })
+}))
 
 exports.isAuthenticated = (req, res, next) => {
   if(req.isAuthenticated()) return next()
