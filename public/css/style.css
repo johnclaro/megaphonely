@@ -26,6 +26,8 @@
   position: relative;
   z-index:1;
   border-radius: 50%;
+  height: 48px;
+  width: 48px;
 }
 
 .social-icon-overlap {

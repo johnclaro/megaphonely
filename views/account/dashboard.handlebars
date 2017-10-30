@@ -12,12 +12,23 @@
           <a href='/twitter/disconnect/{{this.username}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
         </div>
       {{/each}}
+
+      {{#each facebookAccounts}}
+        <hr>
+        <div>
+          <img src={{this.profilePicture}} class='social-profile-picture'>
+          <a class='btn btn-social-icon btn-facebook social-icon-overlap'>
+            <span class='fa fa-facebook'></span>
+          </a>
+          <a href='/twitter/disconnect/{{this.username}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
+        </div>
+      {{/each}}
       <hr>
       <div class='text-center'>
         <a href='/auth/twitter' class="btn btn-block btn-social btn-twitter" style='font-size: 12px'>
           <span class="fa fa-twitter"></span> Connect Twitter
         </a>
-        <a href='/auth/facebook/profile' class="btn btn-block btn-social btn-facebook" style='font-size: 10px'>
+        <a href='/auth/facebook' class="btn btn-block btn-social btn-facebook" style='font-size: 10px'>
           <span class="fa fa-facebook"></span> Connect Facebook Profile
         </a>
         <a href='/auth/facebook/page' class="btn btn-block btn-social btn-facebook" style='font-size: 10px'>
@@ -51,6 +62,11 @@
         {{#each twitterAccounts}}
           <label class='checkbox-inline'>
             <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
+          </label>
+        {{/each}}
+        {{#each facebookAccounts}}
+          <label class='checkbox-inline'>
+            <input type='checkbox' name='facebookUsernames' value={{this.displayName}}>{{this.displayName}}
           </label>
         {{/each}}
         <input type='file' name='photo'>

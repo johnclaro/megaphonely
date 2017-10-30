@@ -88,7 +88,8 @@ const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
 app.get('/twitter/disconnect/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterDisconnect)
-
+app.get('/auth/facebook', passport.authenticate('facebook'))
+app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
 /**
 * Custom error handlers
 * https://github.com/expressjs/vhost/issues/14
