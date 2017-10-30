@@ -222,7 +222,6 @@ exports.getTwitterDisconnect = (req, res, next) => {
     {where: {accountId: req.user.id, username: req.params.twitterUsername}}
   )
   .then(success => {
-    req.flash('success', `Disconnected twitter ${req.params.twitterUsername}`)
     res.redirect(req.headers.referer)
   })
   .catch(err => {
@@ -236,7 +235,6 @@ exports.getFacebookDisconnect = (req, res, next) => {
     {where: {accountId: req.user.id, facebookId: req.params.facebookId}}
   )
   .then(success => {
-    req.flash('success', `Disconnected facebook ${req.params.facebookId}`)
     res.redirect(req.headers.referer)
   })
   .catch(err => {
