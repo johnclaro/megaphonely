@@ -6,6 +6,7 @@ const Social = require('models').Social
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('socialIds', 'You must choose a social account').notEmpty()
+  req.assert('publishAt', 'You must specify a scheduling date').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
   const errors = req.validationErrors()
@@ -17,7 +18,7 @@ exports.postContent = (req, res, next) => {
 
   if(typeof req.body.socialIds == 'string') req.body.socialIds = [req.body.socialIds]
 
-  if (!req.body.publishAt) {
+  if (req.body.publishAt == 'Today') {
       var publishAt = new Date()
       publishAt.setSeconds(publishAt.getSeconds() + 1);
   } else {

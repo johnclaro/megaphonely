@@ -41,7 +41,8 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(validator({
   customValidators: {
     isPastTime: (inputTime) => {
-      if(!inputTime) return true
+      if(!inputTime) return false
+      if(inputTime == 'Today') return true
       var rightNow = new Date().getTime()
       var inputTime = new Date(inputTime).getTime()
       return rightNow < inputTime
