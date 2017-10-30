@@ -8,8 +8,6 @@ exports.postContent = (req, res, next) => {
   req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
-  console.log(req.file)
-
   const errors = req.validationErrors()
   if(errors) {
     req.flash('errors', errors)
