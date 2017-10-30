@@ -230,6 +230,20 @@ exports.getTwitterDisconnect = (req, res, next) => {
   })
 }
 
+exports.getFacebookDisconnect = (req, res, next) => {
+  FacebookAccount.update(
+    {isConnected: false},
+    {where: {accountId: req.user.id, facebookId: req.params.facebookId}}
+  )
+  .then(success => {
+    req.flash('success', `Disconnected facebook ${req.params.facebookId}`)
+    res.redirect(req.headers.referer)
+  })
+  .catch(err => {
+    return next(err)
+  })
+}
+
 exports.getDashboard = (req, res, next) => {
   Promise.all([
     TwitterAccount.findAll({where: {accountId: req.user.id, isConnected: true}}),
