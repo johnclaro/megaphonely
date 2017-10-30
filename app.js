@@ -9,6 +9,7 @@ const flash = require('express-flash')
 const multer = require('multer')
 const validator = require('express-validator')
 const favicon = require('serve-favicon')
+const crypto = require('crypto')
 
 const app = express()
 
