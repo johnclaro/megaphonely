@@ -3,6 +3,7 @@
 const schedule = require('node-schedule')
 const Twit = require('twit')
 const path = require('path')
+const fs = require('fs')
 
 function postTwitter(message, accessTokenKey, accessTokenSecret, file, cb) {
   var T = new Twit({
@@ -30,7 +31,7 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file, cb) {
       })
     } else {
       fs.readFile(filePath, (err, data) => {
-        T.post('media/upload', {media_data: file}, (err, data, response) => {
+        T.post('media/upload', {media_data: data.toString('base64')}, (err, data, response) => {
           if(err) console.error(err)
           var mediaIdStr = data.media_id_string
           var altText = message
