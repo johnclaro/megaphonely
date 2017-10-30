@@ -4,6 +4,7 @@ const titleCase = require('titlecase')
 const Account = require('models').Account
 const TwitterAccount = require('models').TwitterAccount
 const FacebookAccount = require('models').FacebookAccount
+const Content = require('models').Content
 
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
@@ -245,17 +246,20 @@ exports.getFacebookDisconnect = (req, res, next) => {
 exports.getDashboard = (req, res, next) => {
   Promise.all([
     TwitterAccount.findAll({where: {accountId: req.user.id, isConnected: true}}),
-    FacebookAccount.findAll({where: {accountId: req.user.id, isConnected: true}})
+    FacebookAccount.findAll({where: {accountId: req.user.id, isConnected: true}}),
+    Content.findAll({where: {accountId: req.user.id, isPublished: false}, order: [['publishAt', 'ASC']]})
   ])
-  .then(socialAccounts => {
+  .then(results => {
     return res.render('account/dashboard', {
       title: 'Dashboard',
       account: req.user,
-      twitterAccounts: socialAccounts[0],
-      facebookAccounts: socialAccounts[1]
+      twitterAccounts: results[0],
+      facebookAccounts: results[1],
+      scheduledContents: results[2]
     })
   })
   .catch(err => {
+    console.error(`Err: ${err}`)
     return next(err)
   })
 }

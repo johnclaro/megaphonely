@@ -58,6 +58,10 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file, cb) {
 
 module.exports = (db, Sequelize) => {
   var Content = db.define('Content', {
+    accountId: {
+      field: 'account_id',
+      type: Sequelize.INTEGER,
+    },
     message: Sequelize.STRING,
     isPublished: {
       field: 'is_published',
@@ -86,9 +90,10 @@ module.exports = (db, Sequelize) => {
   })
 
   Content.associate = (models, cb) => {}
-  Content.scheduleTwitterContent = (message, publishAt, accessTokenKey, accessTokenSecret, file) => {
+  Content.scheduleTwitterContent = (accountId, message, publishAt, accessTokenKey, accessTokenSecret, file) => {
     // console.log(`Message: ${message} | Publish At: ${publishAt} | Access Token Key: ${accessTokenKey} | Access Token Secret: ${accessTokenSecret}`)
     return Content.create({
+      accountId: accountId,
       message: message,
       publishAt: publishAt,
       isTwitter: true
