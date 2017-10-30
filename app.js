@@ -83,7 +83,7 @@ app.get('/dashboard', passportMiddleware.isAuthenticated, homeController.getDash
 
 app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
 
-app.get('/social/disconnect/:socialId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
+app.get('/social/disconnect/:provider/:socialId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
 
 /**
 * OAuths
