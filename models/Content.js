@@ -2,8 +2,9 @@
 
 const schedule = require('node-schedule')
 const Twit = require('twit')
+const path = require('path')
 
-function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
+function postTwitter(message, accessTokenKey, accessTokenSecret, file, cb) {
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -12,34 +13,23 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
   })
 
   if (file) {
-    const uploadsPath = `${__dirname.replace('/controllers', '').replace('/models', '')}/${file.destination}${file.filename}`
-    console.log(`Uploads path: ${uploadsPath}`)
-
+    const filePath = path.join(__dirname, '..', file.path)
     if (file.mimetype == 'video/mp4') {
-      console.log(1)
-      T.postMediaChunked({file_path: uploadsPath}, (err, data, res) => {
+      T.postMediaChunked({file_path: filePath}, (err, data, res) => {
+        if(err) console.error(err)
         var mediaIdStr = data.media_id_string
-        var altText = "Small flowers in a planter on a sunny balcony, blossoming."
-        var meta_params = { media_id: mediaIdStr, alt_text: { text: altText } }
-        console.log(3)
-
-        T.post('media/metadata/create', meta_params, function (err, data, response) {
-          console.error(`Error: ${err}`)
-          console.log(`Data: ${data}`)
-          console.log(`Response: ${response}`)
-          if (!err) {
-            // now we can reference the media and post a tweet (media will attach to the tweet)
-            var params = { status: 'loving life #nofilter', media_ids: [mediaIdStr] }
-            console.log(4)
-            T.post('statuses/update', params, function (err, data, response) {
-              console.log('Done')
-            })
-          }
+        var altText = message
+        var metaParams = { media_id: mediaIdStr, alt_text: { text: altText } }
+        T.post('/media/metadata/create', metaParams, (err, data, res) => {
+          var params = { status: message, media_ids: [mediaIdStr] }
+          T.post('statuses/update', params, (err, tweet, msg) => {
+            if (err) {return (err, null)}
+            cb(null, 'Done')
+          })
         })
       })
     } else {
-      console.log(2)
-      fs.readFile(uploadsPath, (err, data) => {
+      fs.readFile(filePath, (err, data) => {
         T.post('media/upload', {media_data: file}, (err, data, response) => {
           if(err) console.error(err)
           var mediaIdStr = data.media_id_string
@@ -48,11 +38,8 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
           T.post('/media/metadata/create', metaParams, (err, data, res) => {
             var params = { status: message, media_ids: [mediaIdStr] }
             T.post('statuses/update', params, (err, tweet, msg) => {
-              if (err) {
-                console.error(`Error tweet: ${err}`)
-                return (err, null)
-              }
-              console.log(`Tweeted: ${message}`)
+              if (err) return (err, null)
+              cb(null, 'Done')
             })
           })
         })
@@ -60,13 +47,9 @@ function postTwitter(message, accessTokenKey, accessTokenSecret, file) {
 
     }
   } else {
-    console.log(3)
     T.post('statuses/update', {status: message}, (err, tweet, msg) => {
-      if (err) {
-        console.error(`Error tweet: ${err}`)
-        return (err, null)
-      }
-      console.log(`Tweeted: ${message}`)
+      if (err) return (err, null)
+      cb(null, 'Done')
     })
   }
 
@@ -111,7 +94,10 @@ module.exports = (db, Sequelize) => {
     })
     .then(content => {
       schedule.scheduleJob(content.publishAt, (err, info) => {
-        postTwitter(message, accessTokenKey, accessTokenSecret, file)
+        postTwitter(message, accessTokenKey, accessTokenSecret, file, (err, data) => {
+          if(err) return (err)
+          content.update({isPublished: true})
+        })
       })
       return (null, `Scheduled to post: ${message}`)
     })
