@@ -29,28 +29,40 @@
       <form method='post' action='/content' enctype='multipart/form-data'>
         <div class='form-group'>
           <textarea class='form-control' name='message' cols='45' rows='5'></textarea>
-        </div>
-
-        <div class='input-group date form_datetime' data-link-field='publishAtDate'>
-            <input class='form-control' readonly size='16' type='text' name='publishAt'>
-            <span class='input-group-addon'>
-              <span class='glyphicon glyphicon-remove'></span>
-            </span>
-            <span class='input-group-addon'>
-              <span class='glyphicon glyphicon-calendar'></span>
-            </span>
-            <input id='publishAtDate' type='hidden' value=''>
+          <input class='pull-right' type='file' name='photo'>
         </div>
 
         {{#each socials}}
-          <label class='checkbox-inline'>
-            <input type='checkbox' name='socialIds' value={{this.socialId}}-{{this.provider}}><span class='fa fa-{{this.provider}}'>-{{this.displayName}}</span>
-          </label>
+          <div class='col-lg-12' style='padding-bottom: 10px'>
+            <label class='checkbox-inline'>
+              <input type='checkbox' name='socialIds' value={{this.socialId}}-{{this.provider}}>
+              <span class='fa fa-{{this.provider}}'>
+                {{#if this.username}}
+                  {{this.username}}
+                {{else}}
+                  {{this.displayName}}
+                {{/if}}
+              </span>
+            </label>
+          </div>
         {{/each}}
 
-        <input type='file' name='photo'>
-        <br>
-        <button type='submit' class='btn btn-block btn-primary'>Submit</button>
+        <div class='row'>
+          <div class='col-xs-8'>
+            <div class='input-group date form_datetime' data-link-field='publishAtDate'>
+                <input class='form-control' readonly size='16' type='text' name='publishAt'>
+                <span class='input-group-addon'>
+                  <span class='glyphicon glyphicon-calendar'></span>
+                </span>
+                <input id='publishAtDate' type='hidden' value=''>
+            </div>
+          </div>
+          <div class='col-xs-4'>
+            <button type='submit' class='btn btn-block btn-primary'>Submit</button>
+          </div>
+
+        </div>
+
       </form>
     </div>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
