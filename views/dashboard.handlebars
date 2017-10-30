@@ -2,17 +2,6 @@
   <div class='row'>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
       <h3 class='text-center'>Your socials</h3>
-      <div class='text-center'>
-        <a href='/auth/twitter' class='btn btn-block btn-social btn-twitter' style='font-size: 12px'>
-          <span class='fa fa-twitter'></span> Connect Twitter
-        </a>
-        <a href='/auth/facebook' class='btn btn-block btn-social btn-facebook' style='font-size: 12px'>
-          <span class='fa fa-facebook'></span> Connect Facebook
-        </a>
-        <a href='/auth/instagram' class='btn btn-block btn-social btn-instagram' style='font-size: 12px'>
-          <span class='fa fa-instagram'></span> Connect Instagram
-        </a>
-      </div>
       {{#each socials}}
         <hr>
         <div>
@@ -24,6 +13,17 @@
         </div>
       {{/each}}
       <hr>
+      <div class='text-center'>
+        <a href='/auth/twitter' class='btn btn-block btn-social btn-twitter' style='font-size: 12px'>
+          <span class='fa fa-twitter'></span> Connect Twitter
+        </a>
+        <a href='/auth/facebook' class='btn btn-block btn-social btn-facebook' style='font-size: 12px'>
+          <span class='fa fa-facebook'></span> Connect Facebook
+        </a>
+        <a href='/auth/instagram' class='btn btn-block btn-social btn-instagram' style='font-size: 12px'>
+          <span class='fa fa-instagram'></span> Connect Instagram
+        </a>
+      </div>
     </div>
     <div class='col-lg-6' style='padding-top: 20px;'>
       <form method='post' action='/content' enctype='multipart/form-data'>
