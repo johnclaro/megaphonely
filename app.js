@@ -88,7 +88,7 @@ const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
 app.get('/twitter/disconnect/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterDisconnect)
-app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile']}))
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email']}))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
 app.get('/facebook/disconnect/:facebookId', passportMiddleware.isAuthenticated, accountController.getFacebookDisconnect)
 /**

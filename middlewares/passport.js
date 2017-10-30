@@ -35,73 +35,63 @@ passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)
 }))
 
 passport.use(new TwitterStrategy({
-    consumerKey: process.env.TWITTER_CONSUMER_KEY,
-    consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: '/auth/twitter/callback',
-    passReqToCallback: true
-  }, (req, token, tokenSecret, profile, done) => {
-    TwitterAccount.findOne(
-      {
-        where: {
+  consumerKey: process.env.TWITTER_CONSUMER_KEY,
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  callbackURL: '/auth/twitter/callback',
+  passReqToCallback: true
+}, (req, token, tokenSecret, profile, done) => {
+  TwitterAccount.findOne(
+    {where: {twitterId: profile.id, accountId: req.user.id}}
+  )
+  .then(twitterAccount => {
+    if(!twitterAccount) {
+      TwitterAccount.create({
+          accountId: req.user.id,
           twitterId: profile.id,
-          accountId: req.user.id
-        }
-      }
-    )
-    .then(twitterAccount => {
-      if(!twitterAccount) {
-        TwitterAccount.create({
-            accountId: req.user.id,
-            twitterId: profile.id,
-            username: profile.username,
-            displayName: profile.displayName,
-            profilePicture: profile.photos[0].value,
-            accessTokenKey: token,
-            accessTokenSecret: tokenSecret,
-            isConnected: true
+          username: profile.username,
+          displayName: profile.displayName,
+          profilePicture: profile.photos[0].value,
+          accessTokenKey: token,
+          accessTokenSecret: tokenSecret,
+          isConnected: true
+      })
+      .then(twitterAccount => {
+        console.log('Created twitter account!')
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          return done(null, account)
         })
-        .then(twitterAccount => {
-          console.log('Created twitter account!')
-          Account.findOne({where: {email: req.user.email}})
-          .then(account => {
-            return done(null, account)
-          })
+      })
+      .catch(err => {
+        console.error('Failed to create twitter account!')
+        return done(err, null)
+      })
+    } else {
+      // TODO: Only perform update when any fields are different from the
+      // newly received data!
+      twitterAccount.update({
+          accountId: req.user.id,
+          twitterId: profile.id,
+          username: profile.username,
+          displayName: profile.displayName,
+          profilePicture: profile.photos[0].value,
+          accessTokenKey: token,
+          accessTokenSecret: tokenSecret,
+          isConnected: true
+      })
+      .then(success => {
+        console.log('Updated twitter account!')
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          return done(null, account)
         })
-        .catch(err => {
-          console.error('Failed to create twitter account!')
-          return done(err, null)
-        })
-      } else {
-        // TODO: Only perform update when any fields are different from the
-        // newly received data!
-        twitterAccount.update({
-            accountId: req.user.id,
-            twitterId: profile.id,
-            username: profile.username,
-            displayName: profile.displayName,
-            profilePicture: profile.photos[0].value,
-            accessTokenKey: token,
-            accessTokenSecret: tokenSecret,
-            isConnected: true
-        })
-        .then(success => {
-          console.log('Updated twitter account!')
-          Account.findOne({where: {email: req.user.email}})
-          .then(account => {
-            return done(null, account)
-          })
-        })
-        .catch(err => {
-          console.error('Failed to udpate twitter account!')
-          return done(err, null)
-        })
-      }
-    })
-    .catch(err => {
-      console.error(`Twitter Auth Error: ${err}`)
-    })
-  }
-))
+      })
+      .catch(err => {
+        return done(err, null)
+      })
+    }
+  })
+}))
 
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
@@ -109,25 +99,11 @@ passport.use(new FacebookStrategy({
   callbackURL: '/auth/facebook/callback',
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  console.log('Looking for....')
-  console.log(`Profile ID: ${profile.id}`)
-  console.log(`Req user id: ${req.user.id}`)
   FacebookAccount.findOne(
-    {
-      where: {
-        facebookId: profile.id,
-        accountId: req.user.id
-      }
-    }
+    {where: {facebookId: profile.id, accountId: req.user.id}}
   )
   .then(facebookAccount => {
-    console.log(`Got FB acc: ${facebookAccount}`)
     if(!facebookAccount) {
-      console.log(`RUI: ${req.user.id}`)
-      console.log(`PID: ${profile.id}`)
-      console.log(`PDN: ${profile.displayName}`)
-      console.log(`PP: https://graph.facebook.com/${profile.id}/picture?type=large`)
-      console.log(`AT: ${accessToken}`)
       FacebookAccount.create({
         accountId: req.user.id,
         facebookId: profile.id,
@@ -137,7 +113,6 @@ passport.use(new FacebookStrategy({
         isConnected: true
       })
       .then(success => {
-        console.log('Done')
         Account.findOne({where: {email: req.user.email}})
         .then(account => {
           console.log('Created facebook account')
@@ -148,7 +123,6 @@ passport.use(new FacebookStrategy({
         return done(err, null)
       })
     } else {
-      console.log('lol what?')
       facebookAccount.update({
         accountId: req.user.id,
         facebookId: profile.id,
@@ -159,7 +133,10 @@ passport.use(new FacebookStrategy({
       })
       .then(success => {
         console.log('Updated facebook account')
-        return done(null, success)
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          return done(null, account)
+        })
       })
       .catch(err => {
         return done(err, null)
