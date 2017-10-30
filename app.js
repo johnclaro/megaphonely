@@ -11,7 +11,19 @@ const validator = require('express-validator')
 const favicon = require('serve-favicon')
 
 const app = express()
-const upload = multer({dest: 'uploads/'})
+
+// This adds the extension to the filename https://github.com/expressjs/multer/issues/170
+const storage = multer.diskStorage({
+  destination: 'uploads/',
+  filename: function (req, file, cb) {
+    crypto.pseudoRandomBytes(16, function (err, raw) {
+      if (err) return cb(err)
+
+      cb(null, raw.toString('hex') + path.extname(file.originalname))
+    })
+  }
+})
+const upload = multer({storage: storage})
 
 /**
 * Express configs

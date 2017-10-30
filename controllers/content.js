@@ -8,6 +8,8 @@ exports.postContent = (req, res, next) => {
   req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
+  console.log(req.file)
+
   const errors = req.validationErrors()
   if(errors) {
     req.flash('errors', errors)
@@ -36,26 +38,13 @@ exports.postContent = (req, res, next) => {
         res.header('flash-message', errorMessage)
         return res.redirect('/dashboard')
       } else {
-        if(req.file) {
-          const uploadsPath = `${__dirname.replace('/controllers', '')}/${req.file.destination}${req.file.filename}`
-          fs.readFile(uploadsPath, (err, data) => {
-            if(err) return next(err)
-            Content.scheduleTwitterContent(
-              req.body.message,
-              publishAt,
-              twitterAccount.accessTokenKey,
-              twitterAccount.accessTokenSecret,
-              data.toString('base64')
-            )
-          })
-        } else {
-          Content.scheduleTwitterContent(
-            req.body.message,
-            publishAt,
-            twitterAccount.accessTokenKey,
-            twitterAccount.accessTokenSecret
-          )
-        }
+        Content.scheduleTwitterContent(
+          req.body.message,
+          publishAt,
+          twitterAccount.accessTokenKey,
+          twitterAccount.accessTokenSecret,
+          req.file
+        )
       }
     })
     .catch(err => {
