@@ -44,7 +44,7 @@
 
         {{#each socials}}
           <label class='checkbox-inline'>
-            <input type='checkbox' name='socialIds' value={{this.socialId}}><span class='fa fa-{{this.provider}}'>-{{this.displayName}}</span>
+            <input type='checkbox' name='socialIds' value={{this.socialId}}-{{this.provider}}><span class='fa fa-{{this.provider}}'>-{{this.displayName}}</span>
           </label>
         {{/each}}
 

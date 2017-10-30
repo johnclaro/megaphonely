@@ -108,7 +108,6 @@ module.exports = (db, Sequelize) => {
       return (null, `Scheduled to post: ${message}`)
     })
     .catch(err => {
-      console.error(err)
       return (err, null)
     })
   }

@@ -26,24 +26,33 @@ exports.postContent = (req, res, next) => {
   var publishAt = publishAt.toISOString()
 
   for(var i=0; i<req.body.socialIds.length; i++) {
-    Social.findOne({
-      where: {socialId: req.body.socialIds[i], accountId: req.user.id}
-    })
+    // This is a hack based on the value given by the dashboard HTML checkboxes
+    var socialId = req.body.socialIds[i].split('-')[0]
+    var provider = req.body.socialIds[i].split('-')[1]
+
+    Social.findOne(
+      {where: {socialId: socialId, accountId: req.user.id, provider: provider}}
+    )
     .then(social => {
-      Content.scheduleTwitterContent(
-        req.user.id,
-        req.body.message,
-        publishAt,
-        social.accessTokenKey,
-        social.accessTokenSecret,
-        req.file
-      )
+      if(!social) return new Error('Social did not exist')
+      if(social.provider == 'twitter') {
+        Content.scheduleTwitterContent(
+          req.user.id,
+          req.body.message,
+          publishAt,
+          social.accessTokenKey,
+          social.accessTokenSecret,
+          req.file
+        )
+      } else {
+        // TODO: Post facebook content
+        console.log(`Not yet implemented!: ${i} | Provider: ${social.provider}`)
+      }
     })
     .catch(err => {
       return next(err)
     })
   }
-
 
   const flashMessage = `Succesfully scheduled: ${req.body.message}`
   req.flash('success', flashMessage)

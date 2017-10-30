@@ -17,7 +17,15 @@ exports.getPrivacy = (req, res, next) => {
 exports.getDashboard = (req, res, next) => {
   Promise.all([
     Social.findAll({where: {accountId: req.user.id, isConnected: true}}),
-    Content.findAll({where: {accountId: req.user.id, isPublished: false}, order: [['publishAt', 'ASC']]})
+    Content.findAll(
+      {
+        where: {
+          accountId: req.user.id,
+          isPublished: false
+        },
+        order: [['publishAt', 'ASC']],
+        limit: 5
+      })
   ])
   .then(results => {
     return res.render('dashboard', {
@@ -28,7 +36,6 @@ exports.getDashboard = (req, res, next) => {
     })
   })
   .catch(err => {
-    console.error(`Err: ${err}`)
     return next(err)
   })
 }
