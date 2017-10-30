@@ -1,11 +1,11 @@
 const fs = require('fs')
 
 const Content = require('models').Content
-const TwitterAccount = require('models').TwitterAccount
+const Social = require('models').Social
 
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
-  req.assert('twitterUsernames', 'You must choose a twitter account').notEmpty()
+  req.assert('socialIds', 'You must choose a social account').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
   const errors = req.validationErrors()
@@ -15,7 +15,7 @@ exports.postContent = (req, res, next) => {
     return res.redirect('/dashboard')
   }
 
-  if(typeof req.body.twitterUsernames == 'string') req.body.twitterUsernames = [req.body.twitterUsernames]
+  if(typeof req.body.socialIds == 'string') req.body.socialIds = [req.body.socialIds]
 
   if (!req.body.publishAt) {
       var publishAt = new Date()
@@ -25,26 +25,19 @@ exports.postContent = (req, res, next) => {
   }
   var publishAt = publishAt.toISOString()
 
-  for(var i=0; i<req.body.twitterUsernames.length; i++) {
-    TwitterAccount.findOne({
-      where: {username: req.body.twitterUsernames[i], accountId: req.user.id}
+  for(var i=0; i<req.body.socialIds.length; i++) {
+    Social.findOne({
+      where: {socialId: req.body.socialIds[i], accountId: req.user.id}
     })
-    .then(twitterAccount => {
-      if(!twitterAccount) {
-        const errorMessage = `Twitter account ${req.body.twitterUsernames[i]} does not exist`
-        req.flash('error', errorMessage)
-        res.header('flash-message', errorMessage)
-        return res.redirect('/dashboard')
-      } else {
-        Content.scheduleTwitterContent(
-          req.user.id,
-          req.body.message,
-          publishAt,
-          twitterAccount.accessTokenKey,
-          twitterAccount.accessTokenSecret,
-          req.file
-        )
-      }
+    .then(social => {
+      Content.scheduleTwitterContent(
+        req.user.id,
+        req.body.message,
+        publishAt,
+        social.accessTokenKey,
+        social.accessTokenSecret,
+        req.file
+      )
     })
     .catch(err => {
       return next(err)

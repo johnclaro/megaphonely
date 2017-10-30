@@ -1,25 +1,31 @@
 'use strict'
 
 module.exports = (db, Sequelize) => {
-  var FacebookAccount = db.define('FacebookAccount', {
+  var Social = db.define('Social', {
     accountId: {
       field: 'account_id',
       type: Sequelize.INTEGER,
     },
-    facebookId: {
-      field: 'facebook_id',
+    socialId: {
+      field: 'social_id',
       type: Sequelize.STRING
     },
+    username: Sequelize.STRING,
     displayName: {
       field: 'display_name',
       type: Sequelize.STRING
     },
+    provider: Sequelize.STRING,
     profilePicture: {
       field: 'profile_picture',
       type: Sequelize.STRING
     },
     accessTokenKey: {
       field: 'access_token_key',
+      type: Sequelize.STRING
+    },
+    accessTokenSecret: {
+      field: 'access_token_secret',
       type: Sequelize.STRING
     },
     isConnected: {
@@ -36,7 +42,7 @@ module.exports = (db, Sequelize) => {
       type: Sequelize.DATE
     }
   }, {
-    tableName: 'facebook_accounts'
+    tableName: 'socials'
   })
-  return FacebookAccount
+  return Social
 }

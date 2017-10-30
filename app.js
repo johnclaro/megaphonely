@@ -59,6 +59,7 @@ app.use(flash())
 const homeController = require('controllers/home')
 const contentController = require('controllers/content')
 const accountController = require('controllers/account')
+const socialController = require('controllers/social')
 
 const passportMiddleware = require('middlewares/passport')
 app.get('/', homeController.index)
@@ -77,9 +78,12 @@ app.get('/verifypasswordtoken/:passwordToken', accountController.getVerifyPasswo
 app.get('/verifyverificationtoken/:verificationToken', accountController.getVerifyVerificationToken)
 app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, accountController.postSendVerificationToken)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
-app.get('/dashboard', passportMiddleware.isAuthenticated, accountController.getDashboard)
+
+app.get('/dashboard', passportMiddleware.isAuthenticated, homeController.getDashboard)
 
 app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
+
+app.get('/social/disconnect/:socialId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
 
 /**
 * OAuths
@@ -87,10 +91,8 @@ app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated,
 const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
-app.get('/twitter/disconnect/:twitterUsername', passportMiddleware.isAuthenticated, accountController.getTwitterDisconnect)
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email']}))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
-app.get('/facebook/disconnect/:facebookId', passportMiddleware.isAuthenticated, accountController.getFacebookDisconnect)
 /**
 * Custom error handlers
 * https://github.com/expressjs/vhost/issues/14

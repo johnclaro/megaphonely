@@ -2,25 +2,14 @@
   <div class='row'>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
       <h3 class='text-center'>Your socials</h3>
-      {{#each twitterAccounts}}
+      {{#each socials}}
         <hr>
         <div>
           <img src={{this.profilePicture}} class='social-profile-picture'>
-          <a class='btn btn-social-icon btn-twitter social-icon-overlap'>
-            <span class='fa fa-twitter'></span>
+          <a class='btn btn-social-icon btn-{{this.provider}} social-icon-overlap'>
+            <span class='fa fa-{{this.provider}}'></span>
           </a>
-          <a href='/twitter/disconnect/{{this.username}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
-        </div>
-      {{/each}}
-
-      {{#each facebookAccounts}}
-        <hr>
-        <div>
-          <img src={{this.profilePicture}} class='social-profile-picture'>
-          <a class='btn btn-social-icon btn-facebook social-icon-overlap'>
-            <span class='fa fa-facebook'></span>
-          </a>
-          <a href='/facebook/disconnect/{{this.facebookId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
+          <a href='/social/disconnect/{{this.socialId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
         </div>
       {{/each}}
       <hr>
@@ -53,24 +42,20 @@
             <input id='publishAtDate' type='hidden' value=''>
         </div>
 
-        {{#each twitterAccounts}}
+        {{#each socials}}
           <label class='checkbox-inline'>
-            <input type='checkbox' name='twitterUsernames' value={{this.username}}>{{this.username}}
+            <input type='checkbox' name='twitterUsernames' value={{this.socialId}}>{{this.displayName}}
           </label>
         {{/each}}
-        {{#each facebookAccounts}}
-          <label class='checkbox-inline'>
-            <input type='checkbox' name='facebookUsernames' value={{this.displayName}}>{{this.displayName}}
-          </label>
-        {{/each}}
+
         <input type='file' name='photo'>
         <br>
         <button type='submit' class='btn btn-block btn-primary'>Submit</button>
       </form>
     </div>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
-      <h3 class='text-center'>Your scheduled contents</h3>
-      {{# each scheduledContents}}
+      <h3 class='text-center'>Your contents</h3>
+      {{# each contents}}
       <hr>
       {{this.message}}
       {{this.publishAt}}

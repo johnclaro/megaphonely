@@ -2,9 +2,6 @@ const passport = require('passport')
 const titleCase = require('titlecase')
 
 const Account = require('models').Account
-const TwitterAccount = require('models').TwitterAccount
-const FacebookAccount = require('models').FacebookAccount
-const Content = require('models').Content
 
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
@@ -213,53 +210,6 @@ exports.getVerifyPasswordToken = (req, res, next) => {
     return res.redirect(`/resetpassword/${req.params.passwordToken}`)
   })
   .catch(err => {
-    return next(err)
-  })
-}
-
-exports.getTwitterDisconnect = (req, res, next) => {
-  TwitterAccount.update(
-    {isConnected: false},
-    {where: {accountId: req.user.id, username: req.params.twitterUsername}}
-  )
-  .then(success => {
-    res.redirect(req.headers.referer)
-  })
-  .catch(err => {
-    return next(err)
-  })
-}
-
-exports.getFacebookDisconnect = (req, res, next) => {
-  FacebookAccount.update(
-    {isConnected: false},
-    {where: {accountId: req.user.id, facebookId: req.params.facebookId}}
-  )
-  .then(success => {
-    res.redirect(req.headers.referer)
-  })
-  .catch(err => {
-    return next(err)
-  })
-}
-
-exports.getDashboard = (req, res, next) => {
-  Promise.all([
-    TwitterAccount.findAll({where: {accountId: req.user.id, isConnected: true}}),
-    FacebookAccount.findAll({where: {accountId: req.user.id, isConnected: true}}),
-    Content.findAll({where: {accountId: req.user.id, isPublished: false}, order: [['publishAt', 'ASC']]})
-  ])
-  .then(results => {
-    return res.render('account/dashboard', {
-      title: 'Dashboard',
-      account: req.user,
-      twitterAccounts: results[0],
-      facebookAccounts: results[1],
-      scheduledContents: results[2]
-    })
-  })
-  .catch(err => {
-    console.error(`Err: ${err}`)
     return next(err)
   })
 }
