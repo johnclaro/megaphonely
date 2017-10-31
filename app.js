@@ -63,9 +63,12 @@ const accountController = require('controllers/account')
 const socialController = require('controllers/social')
 
 const passportMiddleware = require('middlewares/passport')
+
 app.get('/', homeController.index)
 app.get('/terms', homeController.getTerms)
 app.get('/privacy', homeController.getPrivacy)
+app.get('/dashboard', passportMiddleware.isAuthenticated, homeController.getDashboard)
+
 app.get('/login', accountController.getLogin)
 app.post('/login', accountController.postLogin)
 app.get('/logout', accountController.getLogout)
@@ -79,8 +82,6 @@ app.get('/verifypasswordtoken/:passwordToken', accountController.getVerifyPasswo
 app.get('/verifyverificationtoken/:verificationToken', accountController.getVerifyVerificationToken)
 app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, accountController.postSendVerificationToken)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
-
-app.get('/dashboard', passportMiddleware.isAuthenticated, homeController.getDashboard)
 
 app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
 
