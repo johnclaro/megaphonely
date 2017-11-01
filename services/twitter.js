@@ -1,4 +1,4 @@
-const Twit = require('Twit')
+const Twit = require('twit')
 const path = require('path')
 const fs = require('fs')
 
