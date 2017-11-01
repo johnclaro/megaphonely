@@ -51,12 +51,9 @@ describe('contents', () => {
     })
 
     it('POST /content valid content', () => {
-      var publishAt = new Date()
-      publishAt.setSeconds(publishAt.getSeconds() + 1);
-
       return agent
         .post('/content')
-        .send({message: 'foo', publishAt: publishAt, socialIds: '901476753272655872'})
+        .send({message: 'foo', publishAt: 'Today', socialIds: '901476753272655872'})
         .expect('Location', '/dashboard')
         .expect('flash-message', 'Succesfully scheduled: foo')
     })
