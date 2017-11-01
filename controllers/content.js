@@ -48,7 +48,7 @@ exports.postContent = (req, res, next) => {
         schedule.scheduleJob(content.publishAt, (err, info) => {
           if(social.provider == 'twitter') {
             twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
-              if(err) return next(err)
+              if(err) console.error(err)
               console.log(`Done tweeting: ${data}`)
             })
           } else if (social.provider == 'facebook') {
