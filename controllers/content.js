@@ -31,10 +31,6 @@ exports.postContent = (req, res, next) => {
   var publishAt = publishAt.toISOString()
 
   for(var i=0; i<req.body.socialIds.length; i++) {
-    // This is a hack based on the value given by the dashboard HTML checkboxes
-    var socialId = req.body.socialIds[i].split('-')[0]
-    var provider = req.body.socialIds[i].split('-')[1]
-
     Social.findOne({where: {socialId: socialId, accountId: req.user.id}})
     .then(social => {
       if(!social) return new Error('Social did not exist')
@@ -56,13 +52,8 @@ exports.postContent = (req, res, next) => {
           }
         })
       })
-      .catch(err => {
-        console.error(`Inside err: ${err}`)
-        return next(err)
-      })
     })
     .catch(err => {
-      console.error(`Outside err: ${err}`)
       return next(err)
     })
   }
