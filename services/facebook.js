@@ -15,7 +15,6 @@ exports.post = (accessToken, socialId, message, file, cb) => {
         token: accessToken,
         id: socialId,
         stream: fs.createReadStream(filePath),
-        title: 'Video', // TODO: Ask user for a title
         description: message
       })
       .then(res => {
