@@ -1,7 +1,11 @@
+'use strict'
+
 const fs = require('fs')
+const schedule = require('node-schedule')
 
 const Content = require('models').Content
 const Social = require('models').Social
+const twitterService = require('services/twitter')
 
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
@@ -31,26 +35,34 @@ exports.postContent = (req, res, next) => {
     var socialId = req.body.socialIds[i].split('-')[0]
     var provider = req.body.socialIds[i].split('-')[1]
 
-    Social.findOne(
-      {where: {socialId: socialId, accountId: req.user.id, provider: provider}}
-    )
+    Social.findOne({where: {socialId: socialId, accountId: req.user.id}})
     .then(social => {
       if(!social) return new Error('Social did not exist')
-      if(social.provider == 'twitter') {
-        Content.scheduleTwitterContent(
-          req.user.id,
-          req.body.message,
-          publishAt,
-          social.accessTokenKey,
-          social.accessTokenSecret,
-          req.file
-        )
-      } else {
-        // TODO: Post facebook content
-        console.log(`Not yet implemented!: ${i} | Provider: ${social.provider}`)
-      }
+      Content.create({
+        accountId: req.user.id,
+        socialId: social.socialId,
+        message: req.body.message,
+        publishAt: publishAt
+      })
+      .then(content => {
+        schedule.scheduleJob(content.publishAt, (err, info) => {
+          if(social.provider == 'twitter') {
+            twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
+              if(err) return next(err)
+              console.log(`Done tweeting: ${data}`)
+            })
+          } else if (social.provider == 'facebook') {
+            console.log(`'${social.provider}' provider not yet implemented`)
+          }
+        })
+      })
+      .catch(err => {
+        console.error(`Inside err: ${err}`)
+        return next(err)
+      })
     })
     .catch(err => {
+      console.error(`Outside err: ${err}`)
       return next(err)
     })
   }
