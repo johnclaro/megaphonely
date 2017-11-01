@@ -5,7 +5,7 @@ const path = require('path')
 const fbVideoUploader = require('facebook-api-video-upload');
 var FB = require('fb')
 
-exports.post = (accessToken, socialId, message, file, cb) => {
+exports.post = (message, file, socialId, accessToken, cb) => {
   FB.setAccessToken(accessToken)
   if(file) {
     const filePath = path.join(__dirname, '..', file.path)
