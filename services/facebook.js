@@ -1,12 +1,23 @@
 'use strict'
 
-const graph = require('fbgraph')
+const fs = require('fs')
+const path = require('path')
+var FB = require('fb')
 
-exports.post = (accessToken, socialId, message, cb) => {
-  const wallPost = {message: message}
-  graph.setAccessToken(accessToken)
-  graph.post(`${socialId}/feed?access_token=${accessToken}`, wallPost, (err, res) => {
-    if(err) cb(err, null)
-    cb(null, res)
-  })
+exports.post = (accessToken, socialId, message, file, cb) => {
+  FB.setAccessToken(accessToken)
+  if(file) {
+    const filePath = path.join(__dirname, '..', file.path)
+    FB.api('me/photos', 'post', {source: fs.createReadStream(filePath), caption: 'My cappppption!'}, (data) => {
+      if(data.error) cb(data.error, null)
+      if(!data) cb('Data was empty', null)
+      cb(data.post_id, null)
+    })
+  } else {
+    FB.api('me/feed', 'post', {message: message}, (data) => {
+      if(data.error) cb(data.error, null)
+      if(!data) cb('Data was empty', null)
+      cb(data.post_id, null)
+    })
+  }
 }

@@ -48,7 +48,7 @@ exports.postContent = (req, res, next) => {
               console.log(`Posted to twitter: ${data}`)
             })
           } else if (social.provider == 'facebook') {
-            facebookService.post(social.accessTokenKey, social.socialId, req.body.message, (err, data) => {
+            facebookService.post(social.accessTokenKey, social.socialId, req.body.message, req.file, (err, data) => {
               if(err) console.error(err)
               console.log(`Posted to facebook: ${data}`)
             })
