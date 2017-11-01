@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require('fs')
 const schedule = require('node-schedule')
 
 const Content = require('models').Content
