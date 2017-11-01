@@ -2,12 +2,12 @@ const Twit = require('Twit')
 const path = require('path')
 const fs = require('fs')
 
-function mediaTweet (twit, message, mediaId, done) {
+function mediaTweet (twit, message, mediaId, cb) {
   twit.post('/media/metadata/create', {media_id: mediaId}, (err, data, res) => {
     const payload = {status: message, media_ids: [mediaId]}
     twit.post('statuses/update', payload, (err, tweet, msg) => {
-      if (err) return (err, null)
-      done(null, tweet)
+      if (err) cb(err, null)
+      cb(null, tweet)
     })
   })
 }
@@ -35,7 +35,7 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
         const payload = {media_data: data.toString('base64')}
         twit.post('media/upload', payload, (err, data, response) => {
           mediaTweet(twit, message, data.media_id_string, (err, data) => {
-            if(err) console.error('Could not post tweet with picture')
+            if(err) cb(err, null)
             cb(null, `Finished tweeting picture: ${data}`)
           })
         })
@@ -43,7 +43,7 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
     }
   } else {
     twit.post('statuses/update', {status: message}, (err, tweet, msg) => {
-      if (err) return (err, null)
+      if (err) cb(err, null)
       cb(null, tweet)
     })
   }
