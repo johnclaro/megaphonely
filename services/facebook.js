@@ -8,7 +8,8 @@ exports.post = (accessToken, socialId, message, file, cb) => {
   FB.setAccessToken(accessToken)
   if(file) {
     const filePath = path.join(__dirname, '..', file.path)
-    FB.api('me/photos', 'post', {source: fs.createReadStream(filePath), caption: 'My cappppption!'}, (data) => {
+    const payload = {source: fs.createReadStream(filePath), caption: message}
+    FB.api('me/photos', 'post', payload, (data) => {
       if(data.error) cb(data.error, null)
       if(!data) cb('Data was empty', null)
       cb(data.post_id, null)
