@@ -93,7 +93,7 @@ app.get('/social/disconnect/:provider/:socialId', passportMiddleware.isAuthentic
 const oauthRedirect = {successRedirect: '/dashboard', failureRedirect: '/login'}
 app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
-app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email']}))
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email', 'publish_actions']}))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
 /**
 * Custom error handlers

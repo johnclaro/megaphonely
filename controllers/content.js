@@ -5,6 +5,7 @@ const schedule = require('node-schedule')
 const Content = require('models').Content
 const Social = require('models').Social
 const twitterService = require('services/twitter')
+const facebookService = require('services/facebook')
 
 exports.postContent = (req, res, next) => {
   req.assert('message', 'Message cannot be empty').notEmpty()
@@ -30,7 +31,7 @@ exports.postContent = (req, res, next) => {
   var publishAt = publishAt.toISOString()
 
   for(var i=0; i<req.body.socialIds.length; i++) {
-    Social.findOne({where: {socialId: socialId, accountId: req.user.id}})
+    Social.findOne({where: {socialId: req.body.socialIds[i], accountId: req.user.id}})
     .then(social => {
       if(!social) return new Error('Social did not exist')
       Content.create({
@@ -44,10 +45,13 @@ exports.postContent = (req, res, next) => {
           if(social.provider == 'twitter') {
             twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
               if(err) console.error(err)
-              console.log(`Done tweeting: ${data}`)
+              console.log(`Posted to twitter: ${data}`)
             })
           } else if (social.provider == 'facebook') {
-            console.log('TODO: Facebook service')
+            facebookService.post(social.accessTokenKey, social.socialId, req.body.message, (err, data) => {
+              if(err) console.error(err)
+              console.log(`Posted to facebook: ${data}`)
+            })
           } else {
             console.log(`'${social.provider}' provider not yet implemented`)
           }
