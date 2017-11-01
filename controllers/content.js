@@ -47,6 +47,8 @@ exports.postContent = (req, res, next) => {
               console.log(`Done tweeting: ${data}`)
             })
           } else if (social.provider == 'facebook') {
+            console.log('TODO: Facebook service')
+          } else {
             console.log(`'${social.provider}' provider not yet implemented`)
           }
         })
