@@ -24,16 +24,18 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
     const filePath = path.join(__dirname, '..', file.path)
     if(file.mimetype == 'video/mp4') {
       twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
-        if(err) console.error(`Post media chunked errored: ${err}`)
+        if(err) cb(err, null)
         mediaTweet(twit, message, data.media_id_string, (err, data) => {
-          if(err) console.error('Could not post tweet with video')
+          if(err) cb(err, null)
           cb(null, `Finished tweeting video: ${data}`)
         })
       })
     } else {
       fs.readFile(filePath, (err, data) => {
+        if(err) cb(err, null)
         const payload = {media_data: data.toString('base64')}
         twit.post('media/upload', payload, (err, data, response) => {
+          if(err) cb(err, null)
           mediaTweet(twit, message, data.media_id_string, (err, data) => {
             if(err) cb(err, null)
             cb(null, `Finished tweeting picture: ${data}`)
