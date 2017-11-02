@@ -81,8 +81,9 @@
       <h3 class='text-center'>Your contents</h3>
       {{# each contents}}
         <hr>
-        {{this.message}}
-        {{this.publishAt}}
+          {{this.socialId}}
+          {{this.message}}
+          <div id='your-contents-publishAt'>{{this.publishAt}}</div>
       {{/each}}
     </div>
   </div>
