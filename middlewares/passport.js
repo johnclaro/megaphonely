@@ -158,9 +158,6 @@ passport.use(new InstagramStrategy({
   callbackURL: '/auth/instagram/callback',
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  console.log(`Access token: ${JSON.stringify(accessToken, null, 4)}`)
-  console.log(`Refresh token: ${JSON.stringify(refreshToken, null, 4)}`)
-  console.log(`Profile: ${JSON.stringify(profile, null, 4)}`)
   Social.findOne(
     {where: {socialId: profile.id, accountId: req.user.id, provider: profile.provider}}
   )
