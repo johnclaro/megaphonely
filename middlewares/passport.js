@@ -2,6 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const TwitterStrategy = require('passport-twitter').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
+const InstagramStrategy = require('passport-instagram').Strategy
 
 const Account = require('models').Account
 const Social = require('models').Social
@@ -148,6 +149,63 @@ passport.use(new FacebookStrategy({
   })
   .catch(err => {
     return done(err, null)
+  })
+}))
+
+passport.use(new InstagramStrategy({
+  clientID: process.env.INSTAGRAM_CLIENT_ID,
+  clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+  callbackURL: '/auth/instagram/callback',
+  passReqToCallback: true
+}, (req, accessToken, refreshToken, profile, done) => {
+  console.log(`Access token: ${JSON.stringify(accessToken, null, 4)}`)
+  console.log(`Refresh token: ${JSON.stringify(refreshToken, null, 4)}`)
+  console.log(`Profile: ${JSON.stringify(profile, null, 4)}`)
+  Social.findOne(
+    {where: {socialId: profile.id, accountId: req.user.id, provider: profile.provider}}
+  )
+  .then(social => {
+    if(!social) {
+      Social.create({
+        accountId: req.user.id,
+        socialId: profile.id,
+        displayName: profile.displayName,
+        profilePicture: profile._json.data.profile_picture,
+        accessTokenKey: accessToken,
+        isConnected: true,
+        provider: profile.provider
+      })
+      .then(success => {
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          console.log('Created instagram account')
+          return done(null, account)
+        })
+      })
+      .catch(err => {
+        return done(err, null)
+      })
+    } else {
+      social.update({
+        accountId: req.user.id,
+        socialId: profile.id,
+        displayName: profile.displayName,
+        profilePicture: profile._json.data.profile_picture,
+        accessTokenKey: accessToken,
+        isConnected: true,
+        provider: profile.provider
+      })
+      .then(success => {
+        console.log('Updated instagram account')
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          return done(null, account)
+        })
+      })
+      .catch(err => {
+        return done(err, null)
+      })
+    }
   })
 }))
 
