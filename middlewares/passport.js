@@ -166,6 +166,7 @@ passport.use(new InstagramStrategy({
       Social.create({
         accountId: req.user.id,
         socialId: profile.id,
+        username: profile.username,
         displayName: profile.displayName,
         profilePicture: profile._json.data.profile_picture,
         accessTokenKey: accessToken,
@@ -186,6 +187,7 @@ passport.use(new InstagramStrategy({
       social.update({
         accountId: req.user.id,
         socialId: profile.id,
+        username: profile.username,
         displayName: profile.displayName,
         profilePicture: profile._json.data.profile_picture,
         accessTokenKey: accessToken,
