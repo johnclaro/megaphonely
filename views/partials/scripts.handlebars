@@ -42,3 +42,13 @@ $(function() {
 
 });
 </script>
+
+<!--Turn dates into human readable formats-->
+<script type='text/javascript' src='/js/moment.js'></script>
+<script type='text/javascript' src='/js/moment-shortformat.js'></script>
+<script type='text/javascript'>
+document.addEventListener('DOMContentLoaded', function() {
+  const t = document.getElementById('your-contents-publishAt').firstChild
+  t.nodeValue = moment(t.nodeValue).short()
+}, false);
+</script>

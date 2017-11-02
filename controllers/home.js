@@ -1,3 +1,7 @@
+'use strict'
+
+const moment = require('moment-shortformat')
+
 const Social = require('models').Social
 const Content = require('models').Content
 
