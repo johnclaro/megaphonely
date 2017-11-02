@@ -95,6 +95,8 @@ app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email', 'publish_actions']}))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
+app.get('/auth/instagram', passport.authenticate('instagram'))
+app.get('/auth/instagram/callback', passport.authenticate('instagram', oauthRedirect))
 /**
 * Custom error handlers
 * https://github.com/expressjs/vhost/issues/14
