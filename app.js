@@ -107,7 +107,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV != 'production') {
+  if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'dev') {
     console.error(err)
   }
 
