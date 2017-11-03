@@ -2,8 +2,8 @@
 
 module.exports = (db, Sequelize) => {
   var Social = db.define('Social', {
-    providerId: {
-      field: 'provider_id',
+    accountId: {
+      field: 'account_id',
       type: Sequelize.INTEGER
     },
     socialId: {
@@ -39,8 +39,8 @@ module.exports = (db, Sequelize) => {
   })
 
   Social.associate = (models) => {
-    Social.belongsTo(models.Account, {foreignKey: 'providerId'})
-    Social.hasMany(models.Content, {foreignKey: 'contentId'})
+    Social.belongsTo(models.Account, {foreignKey: 'accountId'})
+    Social.hasMany(models.Content, {foreignKey: 'socialId'})
   }
   return Social
 }
