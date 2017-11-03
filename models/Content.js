@@ -2,10 +2,6 @@
 
 module.exports = (db, Sequelize) => {
   var Content = db.define('Content', {
-    socialId: {
-      field: 'social_id',
-      type: Sequelize.INTEGER,
-    },
     message: Sequelize.STRING,
     fileformat: Sequelize.STRING,
     filename: Sequelize.STRING,
@@ -24,7 +20,7 @@ module.exports = (db, Sequelize) => {
   })
 
   Content.associate = (models, cb) => {
-    Content.belongsTo(models.Social, {foreignKey: 'socialId'})
+    Content.belongsToMany(models.Social, {through: models.Schedule})
   }
   return Content
 }
