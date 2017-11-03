@@ -37,7 +37,7 @@ exports.postContent = (req, res, next) => {
   })
   .then(content => {
     Social.findAll({
-      where: {accountId: req.user.id, isConnected: true}
+      where: {socialId: req.body.socialIds, isConnected: true}
     })
     .then(socials => {
       for(let i=0; i<socials.length; i++) {
