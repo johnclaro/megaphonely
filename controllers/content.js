@@ -1,9 +1,10 @@
 'use strict'
 
-const schedule = require('node-schedule')
+const nodeSchedule = require('node-schedule')
 
 const Content = require('models').Content
 const Social = require('models').Social
+const Schedule = require('models').Schedule
 const twitterService = require('services/twitter')
 const facebookService = require('services/facebook')
 
@@ -30,18 +31,19 @@ exports.postContent = (req, res, next) => {
   }
   var publishAt = publishAt.toISOString()
 
-  for(var i=0; i<req.body.socialIds.length; i++) {
-    Social.findOne({where: {socialId: req.body.socialIds[i], accountId: req.user.id}})
-    .then(social => {
-      if(!social) return new Error('Social did not exist')
-      console.log(req.file)
-      Content.create({
-        socialId: social.id,
-        message: req.body.message,
-        publishAt: publishAt
-      })
-      .then(content => {
-        schedule.scheduleJob(content.publishAt, (err, info) => {
+  Content.create({
+    message: req.body.message,
+    publishAt: publishAt
+  })
+  .then(content => {
+    Social.findAll({
+      where: {accountId: req.user.id, isConnected: true}
+    })
+    .then(socials => {
+      for(let i=0; i<socials.length; i++) {
+        let social = socials[i]
+        social.addContent(content)
+        nodeSchedule.scheduleJob(content.publishAt, (err, info) => {
           if(social.provider == 'twitter') {
             twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
               if(err) console.error(err)
@@ -56,12 +58,9 @@ exports.postContent = (req, res, next) => {
             console.log(`'${social.provider}' provider not yet implemented`)
           }
         })
-      })
+      }
     })
-    .catch(err => {
-      return next(err)
-    })
-  }
+  })
 
   const flashMessage = `Succesfully scheduled: ${req.body.message}`
   req.flash('success', flashMessage)
