@@ -107,6 +107,10 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV != 'production') {
+    console.error(err)
+  }
+
   if (req._body == true) {
     if (err == 'Error: 404') {
       // console.error(`Error _body 404: ${err}`)
