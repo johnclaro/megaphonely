@@ -2,9 +2,13 @@
 
 module.exports = (db, Sequelize) => {
   var Social = db.define('Social', {
+    providerId: {
+      field: 'provider_id',
+      type: Sequelize.INTEGER
+    },
     socialId: {
       field: 'social_id',
-      type: Sequelize.INTEGER
+      type: Sequelize.STRING
     },
     username: Sequelize.STRING,
     displayName: {
@@ -35,7 +39,7 @@ module.exports = (db, Sequelize) => {
   })
 
   Social.associate = (models) => {
-    Social.belongsTo(models.Account, {foreignKey: 'socialId'})
+    Social.belongsTo(models.Account, {foreignKey: 'providerId'})
     Social.hasMany(models.Content, {foreignKey: 'contentId'})
   }
   return Social
