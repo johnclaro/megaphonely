@@ -2,10 +2,6 @@
 
 module.exports = (db, Sequelize) => {
   var Social = db.define('Social', {
-    accountId: {
-      field: 'account_id',
-      type: Sequelize.INTEGER,
-    },
     socialId: {
       field: 'social_id',
       type: Sequelize.STRING
@@ -44,5 +40,10 @@ module.exports = (db, Sequelize) => {
   }, {
     tableName: 'socials'
   })
+
+  Social.associate = (models) => {
+    Social.belongsTo(models.Account)
+    Social.hasMany(models.Content)
+  }
   return Social
 }

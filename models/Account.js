@@ -74,7 +74,9 @@ module.exports = (db, Sequelize) => {
     tableName: 'accounts'
   })
 
-  Account.associate = (models) => {}
+  Account.associate = (models) => {
+    Account.hasMany(models.Social)
+  }
   Account.findAccount = (email, password) => {
     return Account.findOne({where: { email: email.toLowerCase() }})
       .then(account => {

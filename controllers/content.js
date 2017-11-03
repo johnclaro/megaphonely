@@ -34,11 +34,13 @@ exports.postContent = (req, res, next) => {
     Social.findOne({where: {socialId: req.body.socialIds[i], accountId: req.user.id}})
     .then(social => {
       if(!social) return new Error('Social did not exist')
+      console.log(req.file)
       Content.create({
-        accountId: req.user.id,
         socialId: social.socialId,
         message: req.body.message,
-        publishAt: publishAt
+        publishAt: publishAt,
+        fileformat: req.file.mimetype,
+        filename: req.file.path
       })
       .then(content => {
         schedule.scheduleJob(content.publishAt, (err, info) => {
