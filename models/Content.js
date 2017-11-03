@@ -2,15 +2,13 @@
 
 module.exports = (db, Sequelize) => {
   var Content = db.define('Content', {
-    accountId: {
-      field: 'account_id',
-      type: Sequelize.INTEGER,
-    },
     socialId: {
       field: 'social_id',
       type: Sequelize.STRING,
     },
     message: Sequelize.STRING,
+    fileformat: Sequelize.STRING,
+    filename: Sequelize.STRING,
     isPublished: {
       field: 'is_published',
       type: Sequelize.BOOLEAN,
@@ -32,6 +30,8 @@ module.exports = (db, Sequelize) => {
     tableName: 'contents'
   })
 
-  Content.associate = (models, cb) => {}
+  Content.associate = (models, cb) => {
+    Content.belongsTo(models.Social)
+  }
   return Content
 }
