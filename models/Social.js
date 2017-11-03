@@ -40,7 +40,7 @@ module.exports = (db, Sequelize) => {
 
   Social.associate = (models) => {
     Social.belongsTo(models.Account, {foreignKey: 'accountId'})
-    Social.hasMany(models.Content, {foreignKey: 'socialId'})
+    Social.belongsToMany(models.Content, {through: models.Schedule})
   }
   return Social
 }
