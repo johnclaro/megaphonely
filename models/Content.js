@@ -6,10 +6,6 @@ module.exports = (db, Sequelize) => {
       field: 'social_id',
       type: Sequelize.INTEGER,
     },
-    contentId: {
-      field: 'content_id',
-      type: Sequelize.INTEGER
-    },
     message: Sequelize.STRING,
     fileformat: Sequelize.STRING,
     filename: Sequelize.STRING,
