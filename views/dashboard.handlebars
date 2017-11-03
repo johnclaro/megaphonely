@@ -79,11 +79,13 @@
     </div>
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
       <h3 class='text-center'>Your contents</h3>
-      {{# each contents}}
+      {{#each contents}}
         <hr>
-          {{this.socialId}}
-          {{this.message}}
+          {{#each Socials}}
+            {{this.provider}}
+          {{/each}}
           <div id='your-contents-publishAt'>{{this.publishAt}}</div>
+          <li>{{this.message}}</li>
       {{/each}}
     </div>
   </div>
