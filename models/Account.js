@@ -61,21 +61,14 @@ module.exports = (db, Sequelize) => {
         var today = new Date()
         return today.setDate(today.getDate())
       }
-    },
-    createdAt: {
-      field: 'created_at',
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      field: 'updated_at',
-      type: Sequelize.DATE
     }
   }, {
-    tableName: 'accounts'
+    tableName: 'accounts',
+    underscored: true
   })
 
   Account.associate = (models) => {
-    Account.hasMany(models.Social)
+    Account.hasMany(models.Social, {'foreignKey': 'socialId'})
   }
   Account.findAccount = (email, password) => {
     return Account.findOne({where: { email: email.toLowerCase() }})

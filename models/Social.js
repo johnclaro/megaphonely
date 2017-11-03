@@ -4,7 +4,7 @@ module.exports = (db, Sequelize) => {
   var Social = db.define('Social', {
     socialId: {
       field: 'social_id',
-      type: Sequelize.STRING
+      type: Sequelize.INTEGER
     },
     username: Sequelize.STRING,
     displayName: {
@@ -28,22 +28,15 @@ module.exports = (db, Sequelize) => {
       field: 'is_connected',
       type: Sequelize.BOOLEAN,
       defaultValue: true
-    },
-    createdAt: {
-      field: 'created_at',
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      field: 'updated_at',
-      type: Sequelize.DATE
     }
   }, {
-    tableName: 'socials'
+    tableName: 'socials',
+    underscored: true
   })
 
   Social.associate = (models) => {
-    Social.belongsTo(models.Account)
-    Social.hasMany(models.Content)
+    Social.belongsTo(models.Account, {foreignKey: 'socialId'})
+    Social.hasMany(models.Content, {foreignKey: 'contentId'})
   }
   return Social
 }
