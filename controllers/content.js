@@ -36,11 +36,9 @@ exports.postContent = (req, res, next) => {
       if(!social) return new Error('Social did not exist')
       console.log(req.file)
       Content.create({
-        socialId: social.socialId,
+        socialId: social.id,
         message: req.body.message,
-        publishAt: publishAt,
-        fileformat: req.file.mimetype,
-        filename: req.file.path
+        publishAt: publishAt
       })
       .then(content => {
         schedule.scheduleJob(content.publishAt, (err, info) => {
