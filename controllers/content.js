@@ -1,10 +1,10 @@
 'use strict'
 
-const schedule = require('node-schedule')
+const nodeSchedule = require('node-schedule')
 
 const Content = require('models').Content
 const Social = require('models').Social
-const models = require('models')
+const Schedule = require('models').Schedule
 const twitterService = require('services/twitter')
 const facebookService = require('services/facebook')
 
@@ -43,23 +43,31 @@ exports.postContent = (req, res, next) => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        schedule.scheduleJob(content.publishAt, (scheduleErr, info) => {
-          if(social.provider == 'twitter') {
-            twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
-              if(err) {
-                content.update({statusCode: err.code, statusMessage: err.message})
-              } else {
-                content.update({statusCode: data.statusCode, statusMessage: data.headers.status})
-              }
-            })
-          } else if (social.provider == 'facebook') {
-            facebookService.post(req.body.message, req.file, social.socialId, social.accessTokenKey, (err, data) => {
-              if(err) console.error(err)
-              console.log(`Posted to facebook: ${data}`)
-            })
-          } else {
-            console.log(`'${social.provider}' provider not yet implemented`)
-          }
+        nodeSchedule.scheduleJob(content.publishAt, (scheduleErr, info) => {
+          Schedule.findOne({
+            where: {content_id: content.id, social_id: social.id}
+          })
+          .then(schedule => {
+            if(social.provider == 'twitter') {
+              twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
+                if(err) {
+                  schedule.update({statusCode: err.code, statusMessage: err.message})
+                } else {
+                  schedule.update({isPublished: true, statusCode: data.statusCode, statusMessage: data.headers.status})
+                }
+              })
+            } else if (social.provider == 'facebook') {
+              facebookService.post(req.body.message, req.file, social.socialId, social.accessTokenKey, (err, data) => {
+                if(err) {
+                  schedule.update({statusCode: err.code, statusMessage: err.error_user_msg})
+                } else {
+                  schedule.update({isPublished: true, statusCode: 200, statusMessage: 'Success'})
+                }
+              })
+            } else {
+              console.log(`'${social.provider}' provider not yet implemented`)
+            }
+          })
         })
       }
     })

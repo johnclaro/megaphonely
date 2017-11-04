@@ -5,20 +5,6 @@ module.exports = (db, Sequelize) => {
     message: Sequelize.STRING,
     fileformat: Sequelize.STRING,
     filename: Sequelize.STRING,
-    statusCode: {
-      field: 'status_code',
-      type: Sequelize.INTEGER,
-      defaultValue: 0
-    },
-    statusMessage: {
-      field: 'status_message',
-      type: Sequelize.STRING
-    },
-    isPublished: {
-      field: 'is_published',
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
-    },
     publishAt: {
       field: 'publish_at',
       type: Sequelize.DATE

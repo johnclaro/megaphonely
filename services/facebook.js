@@ -26,16 +26,24 @@ exports.post = (message, file, socialId, accessToken, cb) => {
     } else {
       const payload = {source: fs.createReadStream(filePath), caption: message}
       FB.api('me/photos', 'post', payload, (data) => {
-        if(data.error) cb(data.error, null)
-        if(!data) cb('Data was empty', null)
-        cb(null, data.post_id)
+        if(data.error || !data) {
+          cb(data.error, null)
+        } else if (!data) {
+          cb('Data was empty', null)
+        } else {
+          cb(null, data)
+        }
       })
     }
   } else {
     FB.api('me/feed', 'post', {message: message}, (data) => {
-      if(data.error) cb(data.error, null)
-      if(!data) cb('Data was empty', null)
-      cb(null, data.post_id)
+      if(data.error || !data) {
+        cb(data.error, null)
+      } else if (!data) {
+        cb('Data was empty', null)
+      } else {
+        cb(null, data)
+      }
     })
   }
 }
