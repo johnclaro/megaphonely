@@ -1,10 +1,9 @@
 'use strict'
 
-const nodeSchedule = require('node-schedule')
+const schedule = require('node-schedule')
 
 const Content = require('models').Content
 const Social = require('models').Social
-const Schedule = require('models').Schedule
 const twitterService = require('services/twitter')
 const facebookService = require('services/facebook')
 
@@ -43,7 +42,7 @@ exports.postContent = (req, res, next) => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        nodeSchedule.scheduleJob(content.publishAt, (err, info) => {
+        schedule.scheduleJob(content.publishAt, (err, info) => {
           if(social.provider == 'twitter') {
             twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
               if(err) console.error(err)
