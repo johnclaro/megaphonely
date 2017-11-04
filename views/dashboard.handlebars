@@ -1,31 +1,8 @@
 <div class='col-lg-12'>
   <div class='row'>
+
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
-      <h3 class='text-center'>Your socials</h3>
-      {{#each socials}}
-        <hr>
-        <div>
-          <img src={{this.profilePicture}} class='social-profile-picture'>
-          <a class='btn btn-social-icon btn-{{this.provider}} social-icon-overlap'>
-            <span class='fa fa-{{this.provider}}'></span>
-          </a>
-          <a href='/social/disconnect/{{this.provider}}/{{this.socialId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
-        </div>
-      {{/each}}
-      <hr>
-      <div class='text-center'>
-        <a href='/auth/twitter' class='btn btn-block btn-social btn-twitter' style='font-size: 12px'>
-          <span class='fa fa-twitter'></span> Connect Twitter
-        </a>
-        <a href='/auth/facebook' class='btn btn-block btn-social btn-facebook' style='font-size: 12px'>
-          <span class='fa fa-facebook'></span> Connect Facebook
-        </a>
-        <a href='/auth/instagram' class='btn btn-block btn-social btn-instagram' style='font-size: 12px'>
-          <span class='fa fa-instagram'></span> Connect Instagram
-        </a>
-      </div>
-    </div>
-    <div class='col-lg-6' style='padding-top: 20px;'>
+      <h3 class='text-center'>Your feeder</h3>
       <form method='post' action='/content' enctype='multipart/form-data'>
         <div class='form-group'>
           <textarea class='form-control' name='message' cols='45' rows='5' placeholder='What do you want to share?'></textarea>
@@ -61,7 +38,7 @@
         {{/each}}
 
         <div class='row'>
-          <div class='col-xs-8' style='padding-bottom: 225px'>
+          <div class='col-xs-8'>
             <div class='input-group date form_datetime' data-link-field='publishAtDate'>
                 <input id='dateTimePickerInput' class='form-control'  size='16' type='text' name='publishAt' readonly>
                 <span class='input-group-addon'>
@@ -77,8 +54,11 @@
 
       </form>
     </div>
-    <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
+    <div class='col-lg-6' style='padding-top: 20px'>
       <h3 class='text-center'>Your contents</h3>
+      {{#unless contents}}
+        <p>You currently have no scheduled contents</p>
+      {{/unless}}
       {{#each contents}}
         <div class='col-lg-12'>
           <hr>
@@ -105,5 +85,34 @@
         </div>
       {{/each}}
     </div>
+
+
+    <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
+      <h3 class='text-center'>Your socials</h3>
+      {{#each socials}}
+        <hr>
+        <div>
+          <img src={{this.profilePicture}} class='social-profile-picture'>
+          <a class='btn btn-social-icon btn-{{this.provider}} social-icon-overlap'>
+            <span class='fa fa-{{this.provider}}'></span>
+          </a>
+          <a href='/social/disconnect/{{this.provider}}/{{this.socialId}}' class='pull-right' style='padding-top: 15px'>Disconnect</a>
+        </div>
+      {{/each}}
+      <hr>
+      <div class='text-center'>
+        <a href='/auth/twitter' class='btn btn-block btn-social btn-twitter' style='font-size: 12px'>
+          <span class='fa fa-twitter'></span> Connect Twitter
+        </a>
+        <a href='/auth/facebook' class='btn btn-block btn-social btn-facebook' style='font-size: 12px'>
+          <span class='fa fa-facebook'></span> Connect Facebook
+        </a>
+        <a href='/auth/instagram' class='btn btn-block btn-social btn-instagram' style='font-size: 12px'>
+          <span class='fa fa-instagram'></span> Connect Instagram
+        </a>
+      </div>
+    </div>
+
+
   </div>
 </div>
