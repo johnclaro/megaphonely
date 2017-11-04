@@ -80,12 +80,24 @@
     <div class='col-lg-3' style='background-color: #F6F9FC; border-radius: 5%; padding-top: 5px; padding-bottom: 20px'>
       <h3 class='text-center'>Your contents</h3>
       {{#each contents}}
-        <hr>
-          {{#each Socials}}
-            <span class='fa fa-{{this.provider}}'></span>
-          {{/each}}
-          <div id='your-contents-publishAt'>{{this.publishAt}}</div>
-          <li>{{this.message}}</li>
+        <div class='col-lg-12'>
+          <hr>
+          <div class='row'>
+              <div class='date-to-moment-shortformat pull-left'>
+                {{this.publishAt}}
+              </div>
+              <div class='row'>
+                {{#each Socials}}
+                  <div class='pull-right' style='padding-right: 10px;'>
+                    <span class='fa fa-{{this.provider}}'></span>
+                  </div>
+                {{/each}}
+              </div>
+          </div>
+        </div>
+        <div class='col-lg-12'>
+          {{this.message}}
+        </div>
       {{/each}}
     </div>
   </div>
