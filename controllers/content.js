@@ -4,6 +4,7 @@ const schedule = require('node-schedule')
 
 const Content = require('models').Content
 const Social = require('models').Social
+const models = require('models')
 const twitterService = require('services/twitter')
 const facebookService = require('services/facebook')
 
@@ -36,17 +37,20 @@ exports.postContent = (req, res, next) => {
   })
   .then(content => {
     Social.findAll({
-      where: {socialId: req.body.socialIds, isConnected: true}
+      where: {socialId: req.body.socialIds, accountId: req.user.id, isConnected: true}
     })
     .then(socials => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        schedule.scheduleJob(content.publishAt, (err, info) => {
+        schedule.scheduleJob(content.publishAt, (scheduleErr, info) => {
           if(social.provider == 'twitter') {
             twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
-              if(err) console.error(err)
-              console.log(`Posted to twitter: ${data}`)
+              if(err) {
+                content.update({statusCode: err.code, statusMessage: err.message})
+              } else {
+                content.update({statusCode: data.statusCode, statusMessage: data.headers.status})
+              }
             })
           } else if (social.provider == 'facebook') {
             facebookService.post(req.body.message, req.file, social.socialId, social.accessTokenKey, (err, data) => {

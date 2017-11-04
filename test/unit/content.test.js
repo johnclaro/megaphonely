@@ -6,20 +6,14 @@ const Account = require('models').Account
 const Social = require('models').Social
 const Content = require('models').Content
 const Schedule = require('models').Schedule
+const models = require('models')
 
 const agent = request.agent(app)
 
 describe('contents', () => {
 
   before(() => {
-    return Promise.all(
-      [
-        Account.sync({force: true}),
-        Social.sync({force: true}),
-        Content.sync({force: true}),
-        Schedule.sync({force: true})
-      ]
-    )
+    return models.sequelize.sync({force:true})
     .then(success => {
       Account.create({firstName: 'Foo', lastName: 'Bar', email: 'foobar@gmail.com', password: 'p455w0rd'})
 
@@ -28,6 +22,7 @@ describe('contents', () => {
         socialId: '901476753272655872',
         username: 'johnclaro3',
         displayName: 'John Claro',
+        provider: 'twitter',
         profilePicture: 'https://pbs.twimg.com/profile_images/923214026250899456/hVlVVOtC_normal.jpg',
         accessTokenKey: '901476753272655872-kJ82EuZD9h1fdtORaL5IOxEnPQPHxJw',
         accessTokenSecret: 'LIqmsCjFcGAbfUwSHqUELPWxPrtTJExR5lkS3JALovFWX',
@@ -53,11 +48,12 @@ describe('contents', () => {
     })
 
     it('POST /content valid content', () => {
+      const message = 'kendrf'
       return agent
         .post('/content')
-        .send({message: 'foo', publishAt: 'Today', socialIds: '901476753272655872'})
+        .send({message: message, publishAt: 'Today', socialIds: '901476753272655872'})
         .expect('Location', '/dashboard')
-        .expect('flash-message', 'Succesfully scheduled: foo')
+        .expect('flash-message', `Succesfully scheduled: ${message}`)
     })
 
     it('POST /content invalid message', () => {

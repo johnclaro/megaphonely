@@ -21,6 +21,7 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
   })
 
   if(file) {
+    console.log('File?')
     const filePath = path.join(__dirname, '..', file.path)
     if(file.mimetype == 'video/mp4') {
       twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
@@ -45,8 +46,11 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
     }
   } else {
     twit.post('statuses/update', {status: message}, (err, tweet, msg) => {
-      if (err) cb(err, null)
-      cb(null, tweet)
+      if (err) {
+        cb(err, null)
+      } else {
+        cb(null, msg)
+      }
     })
   }
 }
