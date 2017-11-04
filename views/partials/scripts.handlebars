@@ -7,7 +7,8 @@
   $('.form_datetime').datetimepicker({
       autoclose: true,
       startDate: new Date(),
-      todayBtn: true
+      todayBtn: true,
+      todayHighlight: true
   })
   $('#dateTimePickerInput').val('Today');
 </script>
@@ -48,7 +49,9 @@ $(function() {
 <script type='text/javascript' src='/js/moment-shortformat.js'></script>
 <script type='text/javascript'>
 document.addEventListener('DOMContentLoaded', function() {
-  const t = document.getElementById('your-contents-publishAt').firstChild
-  t.nodeValue = moment(t.nodeValue).short()
+  var dates = document.getElementsByClassName('date-to-moment-shortformat')
+  for(let i=0; i<dates.length; i++) {
+    dates[i].innerHTML = new Date(dates[i].textContent).toLocaleString()
+  }
 }, false);
 </script>
