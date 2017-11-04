@@ -7,7 +7,8 @@ module.exports = (db, Sequelize) => {
     filename: Sequelize.STRING,
     statusCode: {
       field: 'status_code',
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     },
     statusMessage: {
       field: 'status_message',
