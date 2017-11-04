@@ -73,7 +73,7 @@ exports.postContent = (req, res, next) => {
     })
   })
 
-  const flashMessage = `Succesfully scheduled: ${req.body.message}`
+  const flashMessage = `Succesfully scheduled content`
   req.flash('success', flashMessage)
   res.header('flash-message', flashMessage)
   return res.redirect('/dashboard')
