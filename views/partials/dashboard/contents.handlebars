@@ -1,0 +1,37 @@
+{{#unless contents}}
+  <p class='text-center'>You currently have no scheduled contents</p>
+{{/unless}}
+{{#each contents}}
+  <div class='col-lg-12'>
+    <div class='row'>
+      <div class='col-lg-12'>
+        <div class='date-to-moment-shortformat pull-left'>{{this.publishAt}}</div>
+        <div class='pull-right'>
+          <div class='row'>
+              {{#each Socials}}
+                <div class='pull-right' style='padding-right: 10px;'>
+                  {{#if this.username}}
+                    <span title={{this.username}} class='fa fa-{{this.provider}}'></span>
+                  {{else}}
+                    <span title={{this.displayName}} class='fa fa-{{this.provider}}'></span>
+                  {{/if}}
+                </div>
+              {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='col-lg-12' style='padding-top: 20px'>
+    {{this.message}}
+  </div>
+  <div class='col-lg-12' style='padding-top: 30px;'>
+    <a href='#' class='pull-right' style='padding-left: 5px'>Delete</a>
+    <a href='#' class='pull-right' style='padding-left: 5px'>Edit</a>
+    <a href='#' class='pull-right' style='padding-left: 5px'>Pause</a>
+  </div>
+
+  <div class='col-lg-12'>
+    <hr>
+  </div>
+{{/each}}
