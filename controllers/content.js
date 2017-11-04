@@ -51,15 +51,15 @@ exports.postContent = (req, res, next) => {
             if(social.provider == 'twitter') {
               twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
                 if(err) {
-                  schedule.update({statusCode: err.code, statusMessage: err.message})
+                  schedule.update({isPublished: true, statusCode: err.code, statusMessage: err.message})
                 } else {
-                  schedule.update({isPublished: true, statusCode: data.statusCode, statusMessage: data.headers.status})
+                  schedule.update({isPublished: true, statusCode: 200, statusMessage: 'Success'})
                 }
               })
             } else if (social.provider == 'facebook') {
               facebookService.post(req.body.message, req.file, social.socialId, social.accessTokenKey, (err, data) => {
                 if(err) {
-                  schedule.update({statusCode: err.code, statusMessage: err.error_user_msg})
+                  schedule.update({isPublished: true, statusCode: err.code, statusMessage: err.error_user_msg})
                 } else {
                   schedule.update({isPublished: true, statusCode: 200, statusMessage: 'Success'})
                 }
