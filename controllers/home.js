@@ -31,7 +31,6 @@ exports.getDashboard = (req, res, next) => {
     })
   ])
   .then(results => {
-    console.log(JSON.stringify(results[1], null, 4))
     return res.render('dashboard', {
       title: 'Dashboard',
       account: req.user,
