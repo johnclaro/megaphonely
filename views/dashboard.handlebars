@@ -88,7 +88,7 @@
               </div>
               <div class='row'>
                 {{#each Socials}}
-                  <div class='pull-right' style='padding-right: 10px;'>
+                  <div class='pull-right' style='padding-right: 15px;'>
                     <span class='fa fa-{{this.provider}}'></span>
                   </div>
                 {{/each}}
@@ -97,6 +97,11 @@
         </div>
         <div class='col-lg-12'>
           {{this.message}}
+        </div>
+        <div class='col-lg-12' style='padding-top: 30px;'>
+          <a href='#' class='pull-right' style='padding-left: 5px'>Delete</a>
+          <a href='#' class='pull-right' style='padding-left: 5px'>Edit</a>
+          <a href='#' class='pull-right' style='padding-left: 5px'>Pause</a>
         </div>
       {{/each}}
     </div>
