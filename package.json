@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive",
     "start": "NODE_PATH=. nodemon ./bin/www",
-    "prod": "NODE_PATH=. NODE_ENV=production node ./bin/www"
+    "prod": "NODE_PATH=. node ./bin/www"
   },
   "repository": {
     "type": "git",
