@@ -3,19 +3,22 @@
   <p class='text-center'>You currently have no contents scheduled from us</p>
 {{/unless}}
 {{#each contents}}
-  <div class='col-lg-12 card' style='margin-bottom: 20px; cursor: pointer' onclick="location.href='/content/{{this.id}}';">
+  <div class='col-lg-12 card' style='margin-bottom: 20px;'>
     <div class='col-lg-12' style='padding-top: 10px; margin-left: -5px;'>
       <div class='row'>
         {{#each Socials}}
-          {{#if this.username}}
-            <a class='btn btn-social-icon btn-{{this.provider}}' title={{this.username}} href='http://{{this.provider}}.com/{{this.username}}'>
-              <span class='fa fa-{{this.provider}}'></span>
-            </a>
-          {{else}}
-            <a class='btn btn-social-icon btn-{{this.provider}}' title={{this.displayName}} href='http://{{this.provider}}.com/{{this.socialId}}'>
-              <span class='fa fa-{{this.provider}}'></span>
-            </a>
-          {{/if}}
+          <div class='col-xs-1' style='cursor: pointer' onclick="location.href='/schedule/{{this.id}}/{{../this.id}}'">
+            <img src={{this.profilePicture}} height='30px' width='30px' style='border-radius: 50%; margin-left: -10px'>
+            {{#if this.Schedule.isPublished}}
+              <span class='glyphicon glyphicon-ok-circle' style='color: green'></span>
+            {{else}}
+              {{#if this.Schedule.statusCode}}
+                <span class='glyphicon glyphicon-remove-circle' style='color: red'></span>
+              {{else}}
+                <span class='glyphicon glyphicon-hourglass' style='color: #7B8993'></span>
+              {{/if}}
+            {{/if}}
+          </div>
         {{/each}}
       </div>
     </div>
@@ -23,26 +26,9 @@
       {{this.message}}
     </div>
     <div class='col-lg-12' style='font-size: 12px; padding-top: 10px; margin-left: -20px;'>
-      {{#each Socials}}
-        <div style='color: #7B8993'>
-          {{#if this.Schedule.isPublished}}
-            <span style='color: green'>
-              Successfully published at <span class='date-to-moment-shortformat'>{{../this.publishAt}}</span>
-            </span>
-          {{else}}
-            {{#if this.Schedule.statusCode}}
-              <span style='color: red'>
-                Failed to publish at
-                <span class='date-to-moment-shortformat'>{{../this.publishAt}}</span>
-              </span>
-            {{else}}
-              <span>
-                To be publish at <span class='date-to-moment-shortformat'>{{../this.publishAt}}</span>
-              </span>
-            {{/if}}
-          {{/if}}
-        </div>
-      {{/each}}
+      <span style='color: #7B8993'>
+        Publish at <span class='date-to-moment-shortformat'>{{this.publishAt}}</span>
+      </span>
     </div>
   </div>
 {{/each}}
