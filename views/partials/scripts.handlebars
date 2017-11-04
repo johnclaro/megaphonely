@@ -51,7 +51,7 @@ $(function() {
 document.addEventListener('DOMContentLoaded', function() {
   var dates = document.getElementsByClassName('date-to-moment-shortformat')
   for(let i=0; i<dates.length; i++) {
-    let date = moment(dates[i].textContent).format('DD/MM/YYYY hh:mm')
+    let date = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
     dates[i].innerHTML = date
   }
 }, false);
