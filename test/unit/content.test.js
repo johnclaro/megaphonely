@@ -5,6 +5,7 @@ const app = require('app.js')
 const Account = require('models').Account
 const Social = require('models').Social
 const Content = require('models').Content
+const Schedule = require('models').Schedule
 
 const agent = request.agent(app)
 
@@ -15,7 +16,8 @@ describe('contents', () => {
       [
         Account.sync({force: true}),
         Social.sync({force: true}),
-        Content.sync({force:true})
+        Content.sync({force: true}),
+        Schedule.sync({force: true})
       ]
     )
     .then(success => {
