@@ -51,7 +51,8 @@ $(function() {
 document.addEventListener('DOMContentLoaded', function() {
   var dates = document.getElementsByClassName('date-to-moment-shortformat')
   for(let i=0; i<dates.length; i++) {
-    dates[i].innerHTML = new Date(dates[i].textContent).toLocaleString()
+    let date = moment(dates[i].textContent).format('DD/MM/YYYY hh:mm')
+    dates[i].innerHTML = date
   }
 }, false);
 </script>

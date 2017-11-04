@@ -39,8 +39,9 @@
 
         <div class='row'>
           <div class='col-xs-8'>
+
             <div class='input-group date form_datetime' data-link-field='publishAtDate'>
-                <input id='dateTimePickerInput' class='form-control'  size='16' type='text' name='publishAt' readonly>
+                <input id='dateTimePickerInput' class='form-control' type='text' name='publishAt' readonly>
                 <span class='input-group-addon'>
                   <span class='glyphicon glyphicon-calendar'></span>
                 </span>
@@ -63,16 +64,20 @@
         <div class='col-lg-12'>
           <hr>
           <div class='row'>
+            <div class='col-lg-12'>
               <div class='date-to-moment-shortformat pull-left'>
                 {{this.publishAt}}
               </div>
-              <div class='row'>
-                {{#each Socials}}
-                  <div class='pull-right' style='padding-right: 15px;'>
-                    <span class='fa fa-{{this.provider}}'></span>
-                  </div>
-                {{/each}}
+              <div class='pull-right'>
+                <div class='row'>
+                    {{#each Socials}}
+                      <div class='pull-right' style='padding-right: 10px;'>
+                        <span class='fa fa-{{this.provider}}'></span>
+                      </div>
+                    {{/each}}
+                </div>
               </div>
+            </div>
           </div>
         </div>
         <div class='col-lg-12'>
