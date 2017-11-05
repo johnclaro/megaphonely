@@ -38,8 +38,10 @@ exports.postContent = (req, res, next) => {
   const message = req.body.message
   const socialIds = req.body.socialIds
   const publishAt = req.body.publishAt
+  const file = req.file || {}
+  const filename = file.filename || ''
 
-  Content.create({message: message, publishAt: publishAt})
+  Content.create({message: message, publishAt: publishAt, filename: filename})
   .then(content => {
     Social.findAll({
       where: {socialId: socialIds, accountId: req.user.id, isConnected: true}
