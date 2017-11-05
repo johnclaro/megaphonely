@@ -6,8 +6,11 @@ function mediaTweet (twit, message, mediaId, cb) {
   twit.post('/media/metadata/create', {media_id: mediaId}, (err, data, res) => {
     const payload = {status: message, media_ids: [mediaId]}
     twit.post('statuses/update', payload, (err, tweet, msg) => {
-      if (err) cb(err, null)
-      cb(null, tweet)
+      if (err) {
+        cb(err, null)
+      } else {
+        cb(null, msg)
+      }
     })
   })
 }
@@ -21,26 +24,37 @@ exports.post = (message, file, accessTokenKey, accessTokenSecret, cb) => {
   })
 
   if(file) {
-    console.log('File?')
     const filePath = path.join(__dirname, '..', file.path)
     if(file.mimetype == 'video/mp4') {
       twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
-        if(err) cb(err, null)
-        mediaTweet(twit, message, data.media_id_string, (err, data) => {
-          if(err) cb(err, null)
-          cb(null, `Finished tweeting video: ${data}`)
-        })
+        if(err) {
+          cb(err, null)
+        } else {
+          mediaTweet(twit, message, data.media_id_string, (err, data) => {
+            if(err) {
+              cb(err, null)
+            } else {
+              cb(null, data)
+            }
+          })
+        }
       })
     } else {
       fs.readFile(filePath, (err, data) => {
         if(err) cb(err, null)
         const payload = {media_data: data.toString('base64')}
         twit.post('media/upload', payload, (err, data, response) => {
-          if(err) cb(err, null)
-          mediaTweet(twit, message, data.media_id_string, (err, data) => {
-            if(err) cb(err, null)
-            cb(null, `Finished tweeting picture: ${data}`)
-          })
+          if(err) {
+            cb(err, null)
+          } else {
+            mediaTweet(twit, message, data.media_id_string, (err, data) => {
+              if(err) {
+                cb(err, null)
+              } else {
+                cb(null, data)
+              }
+            })
+          }
         })
       })
     }
