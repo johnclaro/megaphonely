@@ -12,12 +12,16 @@ module.exports = (db, Sequelize) => {
     },
     statusCode: {
       field: 'status_code',
-      type: Sequelize.INTEGER,
-      defaultValue: 0
+      type: Sequelize.INTEGER
     },
     statusMessage: {
       field: 'status_message',
       type: Sequelize.STRING
+    },
+    isSuccess: {
+      field: 'is_success',
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     },
     isPublished: {
       field: 'is_published',

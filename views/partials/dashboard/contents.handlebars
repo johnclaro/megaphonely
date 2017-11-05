@@ -1,3 +1,5 @@
+{{>modals/schedule}}
+
 <h3 class='text-center'>Contents</h3>
 {{#unless contents}}
   <p class='text-center'>You currently have no contents scheduled from us</p>
@@ -7,18 +9,22 @@
     <div class='col-lg-12' style='padding-top: 10px; margin-left: -5px;'>
       <div class='row'>
         {{#each Socials}}
-          <div class='col-xs-1' style='cursor: pointer' title='{{this.Schedule.statusMessage}}'>
+          {{#if this.username}}
+            <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.username}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
+          {{else}}
+            <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.socialId}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
+          {{/if}}
             <img src={{this.profilePicture}} height='30px' width='30px' style='border-radius: 50%; margin-left: -10px'>
             {{#if this.Schedule.isPublished}}
-              <span class='glyphicon glyphicon-ok-circle' style='color: green'></span>
-            {{else}}
-              {{#if this.Schedule.statusCode}}
-                <span class='glyphicon glyphicon-remove-circle' style='color: red'></span>
+              {{#if this.Schedule.isSuccess}}
+                <span class='glyphicon glyphicon-ok-sign' style='color: green'></span>
               {{else}}
-                <span class='glyphicon glyphicon-hourglass' style='color: #7B8993'></span>
+                <span class='glyphicon glyphicon-remove-sign' style='color: red'></span>
               {{/if}}
+            {{else}}
+              <span class='glyphicon glyphicon-hourglass' style='color: #4185fc'></span>
             {{/if}}
-          </div>
+          </a>
         {{/each}}
       </div>
     </div>
