@@ -28,7 +28,7 @@ exports.getDashboard = (req, res, next) => {
         where: {accountId: req.user.id},
         include: [{model: Account}]
       }],
-      order: [['publishAt', 'DESC']]
+      order: [['created_at', 'DESC']]
     })
   ])
   .then(results => {
