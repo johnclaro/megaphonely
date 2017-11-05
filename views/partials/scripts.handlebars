@@ -49,7 +49,7 @@ $(function() {
 <script type='text/javascript' src='/js/moment-shortformat.js'></script>
 <script type='text/javascript'>
 document.addEventListener('DOMContentLoaded', function() {
-  var dates = document.getElementsByClassName('date-to-moment-shortformat')
+  const dates = document.getElementsByClassName('date-to-moment-shortformat')
   for(let i=0; i<dates.length; i++) {
     let date = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
     dates[i].innerHTML = date
@@ -58,24 +58,26 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script type='text/javascript'>
 $('#scheduleModal').on('show.bs.modal', function (event) {
-  let button = $(event.relatedTarget)
-  let statusCode = button.data('status-code')
-  let statusMessage = button.data('status-message').toLowerCase()
-  let publishAt = moment(button.data('publish-at')).format('DD/MM/YYYY HH:mm')
-  let profile = button.data('provider')
-  let username = button.data('username')
-  let profileSite = `<a href='http://${profile}.com/${username}'> http://${profile}.com/${username} </a>`
-
-  if (statusCode == 200) {
-    var modalBodyText = `<b>Successfully</b> published content at <b>${publishAt}</b>`
-  } else if (statusCode) {
-    var modalBodyText = `<b>Failed</b> to publish content at <b>${publishAt}</b> because <b>${statusMessage}</b>`
-  } else {
-    var modalBodyText = `<b>Scheduled</b> content to be publish at <b>${publishAt}</b>`
-  }
-  let modal = $(this)
+  const button = $(event.relatedTarget)
+  const statusCode = button.data('status-code')
+  const statusMessage = button.data('status-message')
+  const publishAt = moment(button.data('publish-at')).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  const profile = button.data('provider')
+  const username = button.data('username')
+  const profileSite = `<a href='http://${profile}.com/${username}'> http://${profile}.com/${username} </a>`
+  const modal = $(this)
 
   modal.find('.modal-title').html(profileSite)
-  modal.find('.modal-body').html(modalBodyText)
+
+  if (statusCode == 200) {
+    const modalBodyText = `Successfully published content at ${publishAt}`
+    modal.find('.modal-body').html(modalBodyText)
+  } else if (statusCode) {
+    const modalBodyText = `Failed to publish content at ${publishAt} because <b>${statusMessage}</b>`
+    modal.find('.modal-body').html(modalBodyText)
+  } else {
+    const modalBodyText = `Scheduled content to be publish at ${publishAt}`
+    modal.find('.modal-body').html(modalBodyText)
+  }
 })
 </script>
