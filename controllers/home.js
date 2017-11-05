@@ -27,7 +27,8 @@ exports.getDashboard = (req, res, next) => {
         model: Social,
         where: {accountId: req.user.id},
         include: [{model: Account}]
-      }]
+      }],
+      order: [['publishAt', 'DESC']]
     })
   ])
   .then(results => {

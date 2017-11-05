@@ -10,7 +10,14 @@ exports.post = (message, file, socialId, accessToken, cb) => {
   if(file) {
     const filePath = path.join(__dirname, '..', file.path)
 
-    if(file.mimetype == 'video/mp4') {
+    // TODO: Store this as a variable somewhere
+    const videoFormats = [
+      'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
+      'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
+      'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv',
+    ]
+
+    if(videoFormats.indexOf(file.filename.split('.')[1]) >= 0) {
       fbVideoUploader({
         token: accessToken,
         id: socialId,

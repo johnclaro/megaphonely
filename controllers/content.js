@@ -9,10 +9,19 @@ const twitterService = require('services/twitter')
 const facebookService = require('services/facebook')
 
 exports.postContent = (req, res, next) => {
+  const file = req.file || {}
+  const filename = file.filename || ''
+  const fileformat = filename.split('.').pop() || ''
+
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('socialIds', 'You must choose a social account').notEmpty()
   req.assert('publishAt', 'You must specify a scheduling date').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
+
+  if(filename) {
+    const message = `File is not valid. Please visit our FAQs for more info`
+    req.checkBody('media', message).isValidFile(fileformat)
+  }
 
   const errors = req.validationErrors()
   if(errors) {
@@ -38,10 +47,13 @@ exports.postContent = (req, res, next) => {
   const message = req.body.message
   const socialIds = req.body.socialIds
   const publishAt = req.body.publishAt
-  const file = req.file || {}
-  const filename = file.filename || ''
 
-  Content.create({message: message, publishAt: publishAt, filename: filename})
+  Content.create({
+    message: message,
+    publishAt: publishAt,
+    filename: filename,
+    fileformat: fileformat
+  })
   .then(content => {
     Social.findAll({
       where: {socialId: socialIds, accountId: req.user.id, isConnected: true}
@@ -67,7 +79,7 @@ exports.postContent = (req, res, next) => {
                   schedule.update({
                     isSuccess: false,
                     isPublished: true,
-                    statusCode: err.code,
+                    statusCode: err.statusCode,
                     statusMessage: err.message
                   })
                 } else {
