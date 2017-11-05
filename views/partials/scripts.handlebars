@@ -51,8 +51,17 @@ $(function() {
 document.addEventListener('DOMContentLoaded', function() {
   const dates = document.getElementsByClassName('date-to-moment-shortformat')
   for(let i=0; i<dates.length; i++) {
-    let date = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
-    dates[i].innerHTML = date
+    dates[i].innerHTML = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
+  }
+
+  // Checks if any publishAt contents has expired
+  const expires = document.getElementsByClassName('expires')
+  for(let i=0; i<expires.length; i++) {
+    // Check if expires date is not valid for today
+    if (!moment(expires[i].id).isAfter(moment(), 'day')) {
+      expires[i].className = 'glyphicon glyphicon-trash expires'
+      expires[i].style.color = 'gray'
+    }
   }
 }, false);
 </script>
@@ -61,22 +70,27 @@ $('#scheduleModal').on('show.bs.modal', function (event) {
   const button = $(event.relatedTarget)
   const statusCode = button.data('status-code')
   const statusMessage = button.data('status-message')
-  const publishAt = moment(button.data('publish-at')).format('DD/MM/YYYY HH:mm')
+  const publishAt = moment(button.data('publish-at'))
   const profile = button.data('provider')
   const username = button.data('username')
   const profileSite = `<a href='http://${profile}.com/${username}'> http://${profile}.com/${username} </a>`
+  const publishAtFormatted = publishAt.format('DD/MM/YYYY HH:mm')
+
   const modal = $(this)
 
   modal.find('.modal-title').html(profileSite)
 
   if (statusCode == 200) {
-    const modalBodyText = `Successfully published content at ${publishAt}`
+    const modalBodyText = `Successfully published content at ${publishAtFormatted}`
     modal.find('.modal-body').html(modalBodyText)
   } else if (statusCode) {
-    const modalBodyText = `Failed to publish content at ${publishAt} because <b>${statusMessage}</b>`
+    const modalBodyText = `Failed to publish content at ${publishAtFormatted} because <b>${statusMessage}</b>`
+    modal.find('.modal-body').html(modalBodyText)
+  } else if (moment(publishAt).isAfter(moment(), 'day')) {
+    const modalBodyText = `Scheduled content to be publish at ${publishAtFormatted}`
     modal.find('.modal-body').html(modalBodyText)
   } else {
-    const modalBodyText = `Scheduled content to be publish at ${publishAt}`
+    const modalBodyText = `This content has expired and was suppose to have been published at ${publishAtFormatted}`
     modal.find('.modal-body').html(modalBodyText)
   }
 })
