@@ -19,7 +19,6 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {
       if (err) return cb(err)
-
       cb(null, raw.toString('hex') + path.extname(file.originalname))
     })
   }
@@ -46,6 +45,20 @@ app.use(validator({
       var rightNow = new Date().getTime()
       var inputTime = new Date(inputTime).getTime()
       return rightNow < inputTime
+    },
+    isValidFile: (value, mimetype) => {
+      console.log(`Got mimetype: ${mimetype}`)
+      const validExtensions = [
+        // Facebook only allows these images
+        'jpg', 'png', 'gif', 'tiff', 'jpeg',
+
+        // Facebook only allows these videos
+        'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
+        'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
+        'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv',
+      ]
+      if (validExtensions.indexOf(mimetype.toLowerCase()) >= 0) return true
+      return false
     }
   }
 }))
@@ -83,7 +96,7 @@ app.get('/verifyverificationtoken/:verificationToken', accountController.getVeri
 app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, accountController.postSendVerificationToken)
 app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSettings)
 
-app.post('/content', upload.single('photo'), passportMiddleware.isAuthenticated, contentController.postContent)
+app.post('/content', upload.single('media'), passportMiddleware.isAuthenticated, contentController.postContent)
 
 app.get('/social/disconnect/:provider/:socialId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
 
