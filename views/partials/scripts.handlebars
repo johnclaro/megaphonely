@@ -61,7 +61,7 @@ $('#scheduleModal').on('show.bs.modal', function (event) {
   const button = $(event.relatedTarget)
   const statusCode = button.data('status-code')
   const statusMessage = button.data('status-message')
-  const publishAt = moment(button.data('publish-at')).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  const publishAt = moment(button.data('publish-at')).format('DD/MM/YYYY HH:mm')
   const profile = button.data('provider')
   const username = button.data('username')
   const profileSite = `<a href='http://${profile}.com/${username}'> http://${profile}.com/${username} </a>`
