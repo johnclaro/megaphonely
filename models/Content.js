@@ -3,7 +3,6 @@
 module.exports = (db, Sequelize) => {
   var Content = db.define('Content', {
     message: Sequelize.TEXT,
-    fileformat: Sequelize.STRING,
     filename: Sequelize.STRING,
     publishAt: {
       field: 'publish_at',
