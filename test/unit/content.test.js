@@ -48,12 +48,11 @@ describe('contents', () => {
     })
 
     it('POST /content valid content', () => {
-      const message = 'kendrf'
       return agent
         .post('/content')
-        .send({message: message, publishAt: 'Today', socialIds: '901476753272655872'})
+        .send({message: 'foo', publishAt: 'Today', socialIds: '901476753272655872'})
         .expect('Location', '/dashboard')
-        .expect('flash-message', `Succesfully scheduled: ${message}`)
+        .expect('flash-message', `Succesfully scheduled content`)
     })
 
     it('POST /content invalid message', () => {
