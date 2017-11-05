@@ -21,35 +21,46 @@ exports.postContent = (req, res, next) => {
     return res.redirect('/dashboard')
   }
 
-  if(typeof req.body.socialIds == 'string') req.body.socialIds = [req.body.socialIds]
+  if(typeof req.body.socialIds == 'string') {
+    req.body.socialIds = [req.body.socialIds]
+  }
 
   if (req.body.publishAt == 'Today') {
-      var publishAt = new Date()
-      publishAt.setSeconds(publishAt.getSeconds() + 1);
+    let publishAt = new Date()
+    publishAt.setSeconds(publishAt.getSeconds() + 1);
+    req.body.publishAt = publishAt.toISOString()
   } else {
-    var publishAt = new Date(req.body.publishAt)
+    let publishAt = new Date(req.body.publishAt)
+    publishAt.toISOString()
+    req.body.publishAt = publishAt
   }
-  var publishAt = publishAt.toISOString()
 
-  Content.create({
-    message: req.body.message,
-    publishAt: publishAt
-  })
+  const message = req.body.message
+  const socialIds = req.body.socialIds
+  const publishAt = req.body.publishAt
+
+  Content.create({message: message, publishAt: publishAt})
   .then(content => {
     Social.findAll({
-      where: {socialId: req.body.socialIds, accountId: req.user.id, isConnected: true}
+      where: {socialId: socialIds, accountId: req.user.id, isConnected: true}
     })
     .then(socials => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        nodeSchedule.scheduleJob(content.publishAt, (scheduleErr, info) => {
+        nodeSchedule.scheduleJob(publishAt, (err, info) => {
           Schedule.findOne({
             where: {content_id: content.id, social_id: social.id}
           })
           .then(schedule => {
             if(social.provider == 'twitter') {
-              twitterService.post(req.body.message, req.file, social.accessTokenKey, social.accessTokenSecret, (err, data) => {
+              twitterService.post(
+                message,
+                req.file,
+                social.accessTokenKey,
+                social.accessTokenSecret,
+                (err, data) => {
+
                 if(err) {
                   schedule.update({
                     isSuccess: false,
@@ -67,7 +78,13 @@ exports.postContent = (req, res, next) => {
                 }
               })
             } else if (social.provider == 'facebook') {
-              facebookService.post(req.body.message, req.file, social.socialId, social.accessTokenKey, (err, data) => {
+              facebookService.post(
+                message,
+                req.file,
+                social.socialId,
+                social.accessTokenKey,
+                (err, data) => {
+
                 if(err) {
                   schedule.update({
                     isSuccess: false,
