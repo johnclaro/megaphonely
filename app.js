@@ -15,7 +15,7 @@ const app = express()
 
 // This adds the extension to the filename https://github.com/expressjs/multer/issues/170
 const storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: 'public/img/uploads/',
   filename: function (req, file, cb) {
     crypto.pseudoRandomBytes(16, function (err, raw) {
       if (err) return cb(err)

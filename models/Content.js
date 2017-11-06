@@ -5,6 +5,10 @@ module.exports = (db, Sequelize) => {
     message: Sequelize.TEXT,
     filename: Sequelize.STRING,
     fileformat: Sequelize.STRING,
+    isVideo: {
+      field: 'is_video',
+      type: Sequelize.BOOLEAN
+    },
     publishAt: {
       field: 'publish_at',
       type: Sequelize.DATE

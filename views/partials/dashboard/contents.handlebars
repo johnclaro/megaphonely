@@ -29,7 +29,19 @@
       </div>
     </div>
     <div class='col-lg-12' style='padding-top: 10px; margin-left: -20px;'>
-      {{this.message}}
+      <div class='col-lg-12'>
+        {{#if this.filename}}
+          {{#if this.isVideo}}
+            <div>{{this.message}}</div>
+            <video src='/img/uploads/{{this.filename}}' class='img-responsive' controls>
+          {{else}}
+            <div>{{this.message}}</div>
+            <img src='/img/uploads/{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
+          {{/if}}
+        {{else}}
+          <div class='caption'>{{this.message}}</div>
+        {{/if}}
+      </div>
     </div>
     <div class='col-lg-12' style='font-size: 12px; padding-top: 10px; margin-left: -20px;'>
       <span style='color: #7B8993'>
