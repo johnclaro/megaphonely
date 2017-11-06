@@ -70,7 +70,9 @@ exports.postContent = (req, res, next) => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        nodeSchedule.scheduleJob(publishAt, (err, info) => {
+        let jobId = `${social.id}-${content.id}`
+
+        nodeSchedule.scheduleJob(jobId, publishAt, (err, info) => {
           Schedule.findOne({
             where: {content_id: content.id, social_id: social.id}
           })
@@ -90,6 +92,8 @@ exports.postContent = (req, res, next) => {
                     statusCode: err.statusCode,
                     statusMessage: err.message
                   })
+                  const doneJob = nodeSchedule.scheduledJobs[jobId]
+                  doneJob.cancel()
                 } else {
                   schedule.update({
                     isSuccess: true,
@@ -97,6 +101,8 @@ exports.postContent = (req, res, next) => {
                     statusCode: data.statusCode,
                     statusMessage: data.headers.status
                   })
+                  const doneJob = nodeSchedule.scheduledJobs[jobId]
+                  doneJob.cancel()
                 }
               })
             } else if (social.provider == 'facebook') {
@@ -114,6 +120,8 @@ exports.postContent = (req, res, next) => {
                     statusCode: err.code,
                     statusMessage: err.error_user_msg
                   })
+                  const doneJob = nodeSchedule.scheduledJobs[jobId]
+                  doneJob.cancel()
                 } else {
                   schedule.update({
                     isSuccess: true,
@@ -121,6 +129,8 @@ exports.postContent = (req, res, next) => {
                     statusCode: 200,
                     statusMessage: 'Success'
                   })
+                  const doneJob = nodeSchedule.scheduledJobs[jobId]
+                  doneJob.cancel()
                 }
               })
             } else {
