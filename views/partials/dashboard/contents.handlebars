@@ -32,14 +32,14 @@
       <div class='col-lg-12'>
         {{#if this.filename}}
           {{#if this.isVideo}}
-            <div>{{this.message}}</div>
+            {{this.message}}
             <video src='/img/uploads/{{this.filename}}' class='img-responsive' controls>
           {{else}}
-            <div>{{this.message}}</div>
+            {{this.message}}
             <img src='/img/uploads/{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
           {{/if}}
         {{else}}
-          <div class='caption'>{{this.message}}</div>
+          {{this.message}}
         {{/if}}
       </div>
     </div>
