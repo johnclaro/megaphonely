@@ -6,18 +6,18 @@ services:
     ports:
       - '3000:3000'
 
-  cat:
+  twitter:
     env_file: .env
     build:
-      context: services/cat/
+      context: services/twitter/
       dockerfile: Dockerfile
     ports:
       - '3001:3000'
 
-  dog:
+  facebook:
     env_file: .env
     build:
-      context: services/dog/
+      context: services/facebook/
       dockerfile: Dockerfile
     ports:
       - '3002:3000'
