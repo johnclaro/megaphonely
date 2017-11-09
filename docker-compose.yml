@@ -9,15 +9,15 @@ services:
   twitter:
     env_file: .env
     build:
-      context: .
-      dockerfile: Dockerfile.publisher.twitter
+      context: services/twitter/
+      dockerfile: Dockerfile
     ports:
       - '3001:3000'
 
   facebook:
     env_file: .env
     build:
-      context: .
-      dockerfile: Dockerfile.publisher.facebook
+      context: services/facebook/
+      dockerfile: Dockerfile
     ports:
       - '3002:3000'
