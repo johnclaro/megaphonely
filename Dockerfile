@@ -1,13 +1,13 @@
-FROM node:boron
+FROM node:boron-slim
 
 EXPOSE 3000
 
-WORKDIR /data
+WORKDIR /app
 
-COPY package.json /data
+COPY package.json /app
 
 RUN npm install
 
-ADD . /data
+ADD . /app
 
 CMD npm start

@@ -1,5 +1,11 @@
 const kue = require('kue')
-const queue = kue.createQueue()
+const queue = kue.createQueue({
+  prefix: 'q',
+  redis: {
+    port: 6379,
+    host: 'redis'
+  }
+})
 
 const service = require('service')
 
