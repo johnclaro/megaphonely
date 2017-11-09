@@ -5,8 +5,8 @@ const nodeSchedule = require('node-schedule')
 const Content = require('models').Content
 const Social = require('models').Social
 const Schedule = require('models').Schedule
-const twitterService = require('services/publisher/facebook/facebook')
-const facebookService = require('services/publisher/twitter/twitter')
+const twitterService = require('services/facebook/facebook')
+const facebookService = require('services/twitter/twitter')
 
 exports.postContent = (req, res, next) => {
   const file = req.file || {}
