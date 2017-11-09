@@ -95,7 +95,7 @@ exports.postContent = (req, res, next) => {
                 contentId: content.id
               }
 
-              queue.create('twitter', payload).save((err) => {
+              const job = queue.create('twitter', payload).save((err) => {
                 if(!err) console.log('Created job:', job.id)
               })
             } else if (social.provider == 'facebook') {
