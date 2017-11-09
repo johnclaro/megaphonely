@@ -1,0 +1,25 @@
+{
+  "name": "publisher-twitter",
+  "version": "1.0.0",
+  "description": "Publishes to Twitter",
+  "scripts": {
+    "start": "node worker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkrclaro/megaphone.git"
+  },
+  "keywords": [
+    "publisher",
+    "twitter"
+  ],
+  "author": "John Claro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkrclaro/megaphone/issues"
+  },
+  "homepage": "https://github.com/jkrclaro/megaphone#readme",
+  "dependencies": {
+    "twit": "^2.2.9"
+  }
+}
