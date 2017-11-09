@@ -92,7 +92,7 @@ exports.postContent = (req, res, next) => {
               }
 
               const job = queue.create('twitter', payload).save((err) => {
-                if(!err) console.log('Created job:', job.id)
+                if(!err) console.log('Created new job!')
               })
             } else if (social.provider == 'facebook') {
               facebookService.post(
