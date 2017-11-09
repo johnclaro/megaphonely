@@ -6,7 +6,7 @@ WORKDIR /data
 
 COPY package.json /data
 
-RUN npm install --verbose
+RUN npm install
 
 ADD . /data
 

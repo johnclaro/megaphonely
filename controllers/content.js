@@ -1,6 +1,8 @@
 'use strict'
 
 const nodeSchedule = require('node-schedule')
+const kue = require('kue')
+const queue = kue.createQueue()
 
 const Content = require('models').Content
 const Social = require('models').Social
@@ -78,32 +80,17 @@ exports.postContent = (req, res, next) => {
           })
           .then(schedule => {
             if(social.provider == 'twitter') {
-              twitterService.post(
-                message,
-                req.file,
-                social.accessTokenKey,
-                social.accessTokenSecret,
-                (err, data) => {
+              const payload = {
+                message: message,
+                file: req.file,
+                accessTokenKey: social.accessTokenKey,
+                accessTokenSecret: social.accessTokenSecret,
+                socialId: social.id,
+                contentId: content.id
+              }
 
-                if(err) {
-                  schedule.update({
-                    isSuccess: false,
-                    isPublished: true,
-                    statusCode: err.statusCode,
-                    statusMessage: err.message
-                  })
-                  const doneJob = nodeSchedule.scheduledJobs[jobId]
-                  doneJob.cancel()
-                } else {
-                  schedule.update({
-                    isSuccess: true,
-                    isPublished: true,
-                    statusCode: data.statusCode,
-                    statusMessage: data.headers.status
-                  })
-                  const doneJob = nodeSchedule.scheduledJobs[jobId]
-                  doneJob.cancel()
-                }
+              queue.create('twitter', payload).save((err) => {
+                if(!err) console.log('Created job:', job.id)
               })
             } else if (social.provider == 'facebook') {
               facebookService.post(
