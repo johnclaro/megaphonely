@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const fbVideoUploader = require('facebook-api-video-upload');
-var FB = require('fb')
+const FB = require('fb')
 
 exports.post = (message, file, socialId, accessToken, cb) => {
   FB.setAccessToken(accessToken)
