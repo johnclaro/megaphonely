@@ -68,3 +68,6 @@ scratch.js
 
 # Multer
 uploads/
+
+# Redis
+dump.rdb
