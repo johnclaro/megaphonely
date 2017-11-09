@@ -6,7 +6,7 @@ services:
     ports:
       - '3000:3000'
 
-  twitter:
+  cat:
     env_file: .env
     build:
       context: services/twitter/
@@ -14,7 +14,7 @@ services:
     ports:
       - '3001:3000'
 
-  facebook:
+  dog:
     env_file: .env
     build:
       context: services/facebook/
