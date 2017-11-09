@@ -1,4 +1,4 @@
-FROM node:boron-slim
+FROM node:boron
 
 EXPOSE 3000
 
