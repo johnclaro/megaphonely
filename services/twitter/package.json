@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Communicates with Twitter using their APIs",
   "scripts": {
-    "start": "node worker.js"
+    "start": "NODE_PATH=. node worker.js"
   },
   "dependencies": {
     "kue": "^0.11.6",
