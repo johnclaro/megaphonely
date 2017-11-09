@@ -2,13 +2,7 @@
 
 const nodeSchedule = require('node-schedule')
 const kue = require('kue')
-const queue = kue.createQueue({
-  prefix: 'q',
-  redis: {
-    port: 6379,
-    host: 'redis'
-  }
-})
+const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 
 const Content = require('models').Content
 const Social = require('models').Social
