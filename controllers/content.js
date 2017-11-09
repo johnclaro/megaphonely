@@ -85,6 +85,8 @@ exports.postContent = (req, res, next) => {
                 file: req.file,
                 accessTokenKey: social.accessTokenKey,
                 accessTokenSecret: social.accessTokenSecret,
+                consumerKey: process.env.TWITTER_CONSUMER_KEY,
+                consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
                 socialId: social.id,
                 contentId: content.id
               }
