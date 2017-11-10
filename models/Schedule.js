@@ -10,6 +10,10 @@ module.exports = (db, Sequelize) => {
       field: 'social_id',
       type: Sequelize.INTEGER
     },
+    jobId: {
+      field: 'job_id',
+      type: Sequelize.INTEGER
+    },
     statusCode: {
       field: 'status_code',
       type: Sequelize.INTEGER
@@ -28,6 +32,11 @@ module.exports = (db, Sequelize) => {
       type: Sequelize.BOOLEAN,
       defaultValue: false
     },
+    isQueued: {
+      field: 'is_queued',
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     tableName: 'schedules',
     underscored: true
