@@ -15,8 +15,10 @@ function mediaTweet (twit, message, mediaId, cb) {
   })
 }
 
-exports.post = (message, file, accessTokenKey, accessTokenSecret,
-                consumerKey, consumerSecret, cb) => {
+exports.post = (payload, cb) => {
+  const {message, file, accessTokenKey, accessTokenSecret, consumerKey,
+         consumerSecret} = payload
+
   const twit = new Twit({
     consumer_key: consumerKey,
     consumer_secret: consumerSecret,
