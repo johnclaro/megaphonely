@@ -5,6 +5,7 @@ const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 
 const Content = require('models').Content
 const Social = require('models').Social
+const Schedule = require('models').Schedule
 const twitterService = require('services/twitter/service')
 const facebookService = require('services/facebook/service')
 
@@ -70,45 +71,51 @@ exports.postContent = (req, res, next) => {
       for(let i=0; i<socials.length; i++) {
         let social = socials[i]
         social.addContent(content)
-        if(social.provider == 'twitter') {
-          const payload = {
-            message: message,
-            file: req.file,
-            accessTokenKey: social.accessTokenKey,
-            accessTokenSecret: social.accessTokenSecret,
-            consumerKey: process.env.TWITTER_CONSUMER_KEY,
-            consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-            socialId: social.id,
-            contentId: content.id
-          }
 
-          const job = queue.create('twitter', payload).save((err) => {
-            if(!err) {
-              console.log('Created new twitter job:', job.id)
-            } else {
-              console.error('Error creating twitter job:', err)
+        Schedule.findOne({
+          where: {contentId: content.id, socialId: social.id}
+        })
+        .then(schedule => {
+          if(social.provider == 'twitter') {
+            const payload = {
+              message: message,
+              file: req.file,
+              accessTokenKey: social.accessTokenKey,
+              accessTokenSecret: social.accessTokenSecret,
+              consumerKey: process.env.TWITTER_CONSUMER_KEY,
+              consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+              socialId: social.id,
+              contentId: content.id
             }
-          })
-        } else if (social.provider == 'facebook') {
-          const payload = {
-            message: message,
-            file: req.file,
-            socialId: social.socialId,
-            accessToken: social.accessTokenKey,
-            socialId: social.id,
-            contentId: content.id
-          }
 
-          const job = queue.create('facebook', payload).save(err => {
-            if(!err) {
-              console.log('Created new facebook job:', job.id)
-            } else {
-              console.error('Error creating facebook job:', err)
+            const job = queue.create('twitter', payload).save((err) => {
+              if(!err) {
+                schedule.update({isQueued: true, jobId: job.id})
+              } else {
+                console.error('Error creating twitter job:', err)
+              }
+            })
+          } else if (social.provider == 'facebook') {
+            const payload = {
+              message: message,
+              file: req.file,
+              socialId: social.socialId,
+              accessToken: social.accessTokenKey,
+              socialId: social.id,
+              contentId: content.id
             }
-          })
-        } else {
-          console.log(`'${social.provider}' provider not yet implemented`)
-        }
+
+            const job = queue.create('facebook', payload).save(err => {
+              if(!err) {
+                schedule.update({isQueued: true, jobId: job.id})
+              } else {
+                console.error('Error creating facebook job:', err)
+              }
+            })
+          } else {
+            console.log(`'${social.provider}' provider not yet implemented`)
+          }
+        })
       }
     })
   })
