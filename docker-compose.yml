@@ -1,26 +1,23 @@
 version: '3.3'
 services:
-  web:
+  app:
     env_file: .env
     build: .
-    ports:
-      - '3000:3000'
-
-  redis:
-    image: 'redis:alpine'
-    ports:
-      - '6379:6379'
+    ports: ['3000:3000']
 
   twitter:
     env_file: .env
     image: jkrclaro/penguin
-    ports:
-      - '3001:3000'
+    ports: ['3001:3000']
     command: ["npm", "run", "twitter"]
 
   facebook:
     env_file: .env
     image: jkrclaro/penguin
-    ports:
-      - '3002:3000'
+    ports: ['3002:3000']
     command: ["npm", "run", "facebook"]
+
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
