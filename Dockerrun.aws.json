@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "twitter",
+      "image": "jkrclaro/penguin",
+      "essential": true,
+      "memory": 128,
+      "command": ["npm", "run", "twitter"]
+    }
+  ]
+}
