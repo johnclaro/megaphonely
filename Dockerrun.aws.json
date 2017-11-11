@@ -1,5 +1,13 @@
 {
   "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "twitter",
+      "host": {
+        "sourcePath": "/var/app/current/twitter"
+      }
+    }
+  ],
   "containerDefinitions": [
     {
       "name": "twitter",
