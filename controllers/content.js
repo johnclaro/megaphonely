@@ -6,8 +6,6 @@ const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 const Content = require('models').Content
 const Social = require('models').Social
 const Schedule = require('models').Schedule
-const twitterService = require('services/twitter/service')
-const facebookService = require('services/facebook/service')
 
 exports.postContent = (req, res, next) => {
   const file = req.file || {}
