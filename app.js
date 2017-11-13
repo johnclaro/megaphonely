@@ -10,20 +10,26 @@ const multer = require('multer')
 const validator = require('express-validator')
 const favicon = require('serve-favicon')
 const crypto = require('crypto')
+const multerS3 = require('multer-s3')
+const aws = require('aws-sdk')
 
 const app = express()
-
-// This adds the extension to the filename https://github.com/expressjs/multer/issues/170
-const storage = multer.diskStorage({
-  destination: 'public/img/uploads/',
-  filename: function (req, file, cb) {
-    crypto.pseudoRandomBytes(16, function (err, raw) {
-      if (err) return cb(err)
-      cb(null, raw.toString('hex') + path.extname(file.originalname))
-    })
-  }
+const s3 = new aws.S3()
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_S3_BUCKET,
+    metadata: (req, file, cb) => {
+      cb(null, {fieldName: file.fieldname})
+    },
+    key: (req, file, cb) => {
+      crypto.pseudoRandomBytes(16, function (err, raw) {
+        if (err) return cb(err)
+        cb(null, raw.toString('hex') + path.extname(file.originalname))
+      })
+    }
+  })
 })
-const upload = multer({storage: storage})
 
 /**
 * Express configs
