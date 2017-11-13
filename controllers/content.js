@@ -9,7 +9,7 @@ const Schedule = require('models').Schedule
 
 exports.postContent = (req, res, next) => {
   const file = req.file || {}
-  const filename = file.filename || ''
+  const filename = file.key || ''
   const fileformat = filename.split('.').pop() || ''
 
   req.assert('message', 'Message cannot be empty').notEmpty()
