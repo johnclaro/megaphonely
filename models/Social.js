@@ -6,8 +6,8 @@ module.exports = (db, Sequelize) => {
       field: 'account_id',
       type: Sequelize.INTEGER
     },
-    socialId: {
-      field: 'social_id',
+    profileId: {
+      field: 'profile_id',
       type: Sequelize.STRING
     },
     username: Sequelize.STRING,
