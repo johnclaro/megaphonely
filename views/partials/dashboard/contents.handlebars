@@ -33,10 +33,10 @@
         {{#if this.filename}}
           {{#if this.isVideo}}
             {{this.message}}
-            <video src='/img/uploads/{{this.filename}}' class='img-responsive' controls>
+            <video src='{{this.filename}}' class='img-responsive' controls>
           {{else}}
             {{this.message}}
-            <img src='/img/uploads/{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
+            <img src='{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
           {{/if}}
         {{else}}
           {{this.message}}
