@@ -51,7 +51,7 @@
     "pg": "^7.3.0",
     "sequelize": "^4.13.5",
     "serve-favicon": "^2.4.5",
-    "titlecase": "^1.1.2",
+    "titlecase": "^1.1.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
