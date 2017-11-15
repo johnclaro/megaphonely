@@ -13,7 +13,7 @@ exports.postContent = (req, res, next) => {
   const fileformat = filename.split('.').pop() || ''
 
   req.assert('message', 'Message cannot be empty').notEmpty()
-  req.assert('socialIds', 'You must choose a social account').notEmpty()
+  req.assert('profileIds', 'You must choose a social account').notEmpty()
   req.assert('publishAt', 'You must specify a scheduling date').notEmpty()
   req.assert('publishAt', 'Cannot schedule in the past').isPastTime()
 
@@ -29,8 +29,8 @@ exports.postContent = (req, res, next) => {
     return res.redirect('/dashboard')
   }
 
-  if(typeof req.body.socialIds == 'string') {
-    req.body.socialIds = [req.body.socialIds]
+  if(typeof req.body.profileIds == 'string') {
+    req.body.profileIds = [req.body.profileIds]
   }
 
   if (req.body.publishAt == 'Today') {
@@ -44,7 +44,7 @@ exports.postContent = (req, res, next) => {
   }
 
   const message = req.body.message
-  const socialIds = req.body.socialIds
+  const profileIds = req.body.profileIds
   const publishAt = req.body.publishAt
 
   const videoFormats = [
@@ -63,7 +63,7 @@ exports.postContent = (req, res, next) => {
   })
   .then(content => {
     Social.findAll({
-      where: {socialId: socialIds, accountId: req.user.id, isConnected: true}
+      where: {profileId: profileIds, accountId: req.user.id, isConnected: true}
     })
     .then(socials => {
       for(let i=0; i<socials.length; i++) {
@@ -97,7 +97,7 @@ exports.postContent = (req, res, next) => {
               const payload = {
                 message: message,
                 file: req.file,
-                socialId: social.socialId,
+                profileId: social.profileId,
                 accessToken: social.accessTokenKey,
                 socialId: social.id,
                 contentId: content.id
