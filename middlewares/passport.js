@@ -41,13 +41,13 @@ passport.use(new TwitterStrategy({
   passReqToCallback: true
 }, (req, token, tokenSecret, profile, done) => {
   Social.findOne(
-    {where: {socialId: profile.id, accountId: req.user.id, provider: 'twitter'}}
+    {where: {profileId: profile.id, accountId: req.user.id, provider: 'twitter'}}
   )
   .then(social => {
     if(!social) {
       Social.create({
           accountId: req.user.id,
-          socialId: profile.id,
+          profileId: profile.id,
           username: profile.username,
           displayName: profile.displayName,
           profilePicture: profile.photos[0].value,
@@ -72,7 +72,7 @@ passport.use(new TwitterStrategy({
       // newly received data!
       social.update({
           accountId: req.user.id,
-          socialId: profile.id,
+          profileId: profile.id,
           username: profile.username,
           displayName: profile.displayName,
           profilePicture: profile.photos[0].value,
@@ -102,13 +102,13 @@ passport.use(new FacebookStrategy({
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
   Social.findOne(
-    {where: {socialId: profile.id, accountId: req.user.id, provider: 'facebook'}}
+    {where: {profileId: profile.id, accountId: req.user.id, provider: 'facebook'}}
   )
   .then(social => {
     if(!social) {
       Social.create({
         accountId: req.user.id,
-        socialId: profile.id,
+        profileId: profile.id,
         displayName: profile.displayName,
         profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
         accessTokenKey: accessToken,
@@ -128,7 +128,7 @@ passport.use(new FacebookStrategy({
     } else {
       social.update({
         accountId: req.user.id,
-        socialId: profile.id,
+        profileId: profile.id,
         displayName: profile.displayName,
         profilePicture: `https://graph.facebook.com/${profile.id}/picture?type=large`,
         accessTokenKey: accessToken,
@@ -159,13 +159,13 @@ passport.use(new InstagramStrategy({
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
   Social.findOne(
-    {where: {socialId: profile.id, accountId: req.user.id, provider: profile.provider}}
+    {where: {profileId: profile.id, accountId: req.user.id, provider: profile.provider}}
   )
   .then(social => {
     if(!social) {
       Social.create({
         accountId: req.user.id,
-        socialId: profile.id,
+        profileId: profile.id,
         username: profile.username,
         displayName: profile.displayName,
         profilePicture: profile._json.data.profile_picture,
@@ -186,7 +186,7 @@ passport.use(new InstagramStrategy({
     } else {
       social.update({
         accountId: req.user.id,
-        socialId: profile.id,
+        profileId: profile.id,
         username: profile.username,
         displayName: profile.displayName,
         profilePicture: profile._json.data.profile_picture,
