@@ -12,6 +12,7 @@ const favicon = require('serve-favicon')
 const crypto = require('crypto')
 const multerS3 = require('multer-s3')
 const aws = require('aws-sdk')
+const handlebarsHelpers = require('libs/handlebars/helpers')
 
 const app = express()
 const s3 = new aws.S3()
@@ -36,6 +37,7 @@ const upload = multer({
 **/
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
+  helpers: handlebarsHelpers,
   partialsDir: path.join(__dirname, 'views/partials')
 }))
 app.set('view engine', 'handlebars')
