@@ -47,7 +47,7 @@ app.use(validator({
   customValidators: {
     isPastTime: (inputTime) => {
       if(!inputTime) return false
-      if(inputTime == 'Today') return true
+      if(inputTime == 'Schedule Now') return true
       var rightNow = new Date().getTime()
       var inputTime = new Date(inputTime).getTime()
       return rightNow < inputTime
