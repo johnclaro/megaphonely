@@ -71,3 +71,6 @@ uploads/
 
 # Redis
 dump.rdb
+
+# config/ for sequelize
+config/*
