@@ -430,8 +430,8 @@
               this.hasInput && this.element.find('input').val()
             )
         )
-        if (this.element.find('input').val() == 'Today') {
-          this.setValue('Today');
+        if (this.element.find('input').val() == 'Schedule Now') {
+          this.setValue('Schedule Now');
         } else {
           this.setValue();
         }
@@ -503,12 +503,12 @@
       }
     },
 
-    setValue: function (Today) {
+    setValue: function (scheduleNow) {
       var formatted = this.getFormattedDate();
       if (!this.isInput) {
         if (this.component) {
-          if (Today) {
-            this.element.find('input').val('Today');
+          if (scheduleNow) {
+            this.element.find('input').val('Schedule Now');
           } else {
             this.element.find('input').val(formatted);
           }
@@ -1076,7 +1076,7 @@
 
                 this.viewMode = this.startViewMode;
                 this.showMode(0);
-                this._setDate('Today');
+                this._setDate('Schedule Now');
                 this.fill();
                 if (this.autoclose) {
                   this.hide();
@@ -1204,8 +1204,8 @@
     },
 
     _setDate: function (date, which) {
-      if (date == 'Today') {
-        this.setValue('Today');
+      if (date == 'Schedule Now') {
+        this.setValue('Schedule Now');
         return;
       }
       if (!which || which === 'date')
@@ -1519,7 +1519,7 @@
       monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       meridiem:    ['am', 'pm'],
       suffix:      ['st', 'nd', 'rd', 'th'],
-      today:       'Today',
+      today:       'Schedule Now',
       clear:       'Clear'
     }
   };

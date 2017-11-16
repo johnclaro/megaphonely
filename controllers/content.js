@@ -33,7 +33,7 @@ exports.postContent = (req, res, next) => {
     req.body.profileIds = [req.body.profileIds]
   }
 
-  if (req.body.publishAt == 'Today') {
+  if (req.body.publishAt == 'Schedule Now') {
     let publishAt = new Date()
     publishAt.setSeconds(publishAt.getSeconds() + 1);
     req.body.publishAt = publishAt.toISOString()
