@@ -54,16 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
   for(let i=0; i<dates.length; i++) {
     dates[i].innerHTML = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
   }
-
-  // Checks if any publishAt contents has expired
-  const expires = document.getElementsByClassName('expires')
-  for(let i=0; i<expires.length; i++) {
-    // Check if expires date is not valid for today
-    if (!moment(expires[i].id).isAfter(moment(), 'day')) {
-      expires[i].className = 'glyphicon glyphicon-trash expires'
-      expires[i].style.color = 'gray'
-    }
-  }
 }, false);
 </script>
 <script type='text/javascript'>
@@ -87,11 +77,8 @@ $('#scheduleModal').on('show.bs.modal', function (event) {
   } else if (statusCode) {
     const modalBodyText = `Failed to publish content at ${publishAtFormatted} because <b>${statusMessage}</b>`
     modal.find('.modal-body').html(modalBodyText)
-  } else if (moment(publishAt).isAfter(moment(), 'day')) {
-    const modalBodyText = `Scheduled content to be publish at ${publishAtFormatted}`
-    modal.find('.modal-body').html(modalBodyText)
   } else {
-    const modalBodyText = `This content has expired and was suppose to have been published at ${publishAtFormatted}`
+    const modalBodyText = `Scheduled content to be publish at ${publishAtFormatted}`
     modal.find('.modal-body').html(modalBodyText)
   }
 })
