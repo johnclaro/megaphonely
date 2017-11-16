@@ -36,6 +36,7 @@
     "express-session": "^1.15.6",
     "express-validator": "^4.2.1",
     "handlebars": "^4.0.11",
+    "handlebars-paginate": "^0.1.0",
     "jsonwebtoken": "^8.1.0",
     "kue": "^0.11.6",
     "moment-shortformat": "^2.1.0",

@@ -41,6 +41,9 @@ exports.getPrivacy = (req, res, next) => {
 }
 
 exports.getDashboard = (req, res, next) => {
+  const currentPage = req.query.page || 1
+  const limit = 5
+
   Promise.all([
     Social.findAll({where: {accountId: req.user.id, isConnected: true}}),
     Content.findAll({
@@ -49,17 +52,29 @@ exports.getDashboard = (req, res, next) => {
         where: {accountId: req.user.id},
         include: [{model: Account}]
       }],
-      order: [['created_at', 'DESC']]
+      order: [['created_at', 'DESC']],
+      limit: limit,
+      offset: currentPage
+    }),
+    Content.count({
+      include: [{
+        model: Social,
+        where: {accountId: req.user.id},
+        include: [{model: Account}]
+      }]
     })
   ])
   .then(results => {
-    signS3Filename(results[1])
 
+    const pageCount = Math.floor(results[2] / limit)
+
+    signS3Filename(results[1])
     return res.render('dashboard', {
       title: 'Dashboard',
       account: req.user,
       socials: results[0],
-      contents: results[1]
+      contents: results[1],
+      pagination: {page: currentPage, pageCount: pageCount}
     })
   })
 }
