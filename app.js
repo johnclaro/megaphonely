@@ -88,7 +88,7 @@ const passportMiddleware = require('middlewares/passport')
 app.get('/', homeController.index)
 app.get('/terms', homeController.getTerms)
 app.get('/privacy', homeController.getPrivacy)
-app.get('/dashboard/:id?', passportMiddleware.isAuthenticated, homeController.getDashboard)
+app.get('/dashboard', passportMiddleware.isAuthenticated, homeController.getDashboard)
 
 app.get('/login', accountController.getLogin)
 app.post('/login', accountController.postLogin)
