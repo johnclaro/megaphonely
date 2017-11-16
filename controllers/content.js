@@ -86,7 +86,9 @@ exports.postContent = (req, res, next) => {
                 contentId: content.id
               }
 
-              const job = queue.create('twitter', payload).save((err) => {
+              const job = queue.create('twitter', payload)
+              .delay(publishAt)
+              .save(err => {
                 if(!err) {
                   schedule.update({isQueued: true, jobId: job.id})
                 } else {
@@ -103,7 +105,9 @@ exports.postContent = (req, res, next) => {
                 contentId: content.id
               }
 
-              const job = queue.create('facebook', payload).save(err => {
+              const job = queue.create('facebook', payload)
+              .delay(publishAt)
+              .save(err => {
                 if(!err) {
                   schedule.update({isQueued: true, jobId: job.id})
                 } else {
