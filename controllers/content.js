@@ -83,7 +83,8 @@ exports.postContent = (req, res, next) => {
                 consumerKey: process.env.TWITTER_CONSUMER_KEY,
                 consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
                 socialId: social.id,
-                contentId: content.id
+                contentId: content.id,
+                title: publishAt
               }
 
               const job = queue.create('twitter', payload)
@@ -102,7 +103,8 @@ exports.postContent = (req, res, next) => {
                 profileId: social.profileId,
                 accessToken: social.accessTokenKey,
                 socialId: social.id,
-                contentId: content.id
+                contentId: content.id,
+                title: publishAt
               }
 
               const job = queue.create('facebook', payload)
