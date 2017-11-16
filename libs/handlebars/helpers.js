@@ -1,3 +1,3 @@
 'use strict'
 
-exports.paginate = require('handlebars-paginate')
+// exports.paginate = require('handlebars-paginate')

@@ -41,7 +41,7 @@ exports.getPrivacy = (req, res, next) => {
 }
 
 exports.getDashboard = (req, res, next) => {
-  const currentPage = req.query.page || 1
+  const currentPage = req.query.page || 0
   const limit = 5
 
   Promise.all([
@@ -54,14 +54,7 @@ exports.getDashboard = (req, res, next) => {
       }],
       order: [['created_at', 'DESC']],
       limit: limit,
-      offset: currentPage
-    }),
-    Content.count({
-      include: [{
-        model: Social,
-        where: {accountId: req.user.id},
-        include: [{model: Account}]
-      }]
+      offset: currentPage * limit
     })
   ])
   .then(results => {
@@ -73,8 +66,7 @@ exports.getDashboard = (req, res, next) => {
       title: 'Dashboard',
       account: req.user,
       socials: results[0],
-      contents: results[1],
-      pagination: {page: currentPage, pageCount: pageCount}
+      contents: results[1]
     })
   })
 }

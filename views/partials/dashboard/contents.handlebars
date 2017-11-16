@@ -5,67 +5,59 @@
   <p class='text-center'>You currently have no contents scheduled from us</p>
 {{/unless}}
 {{#each contents}}
-  <div class='col-lg-12 card' style='margin-bottom: 20px;'>
-    <div class='col-lg-12' style='padding-top: 10px; margin-left: -5px;'>
-      <div class='row'>
-        {{#each Socials}}
-          {{#if this.username}}
-            <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.username}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
-          {{else}}
-            <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.socialId}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
-          {{/if}}
-            <img src={{this.profilePicture}} height='30px' width='30px' style='border-radius: 50%; margin-left: -10px'>
-            {{#if this.Schedule.isPublished}}
-              {{#if this.Schedule.isSuccess}}
-                <span class='glyphicon glyphicon-ok-sign' style='color: green'></span>
-              {{else}}
-                <span class='glyphicon glyphicon-remove-sign' style='color: red'></span>
-              {{/if}}
+  <div class='content'>
+    <div class='col-lg-12 card' style='margin-bottom: 20px;'>
+      <div class='col-lg-12' style='padding-top: 10px; margin-left: -5px;'>
+        <div class='row'>
+          {{#each Socials}}
+            {{#if this.username}}
+              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.username}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
             {{else}}
-              <span id='{{../this.publishAt}}' class='glyphicon glyphicon-time expires' style='color: #4185fc'></span>
+              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.socialId}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
             {{/if}}
-          </a>
-        {{/each}}
+              <img src={{this.profilePicture}} height='30px' width='30px' style='border-radius: 50%; margin-left: -10px'>
+              {{#if this.Schedule.isPublished}}
+                {{#if this.Schedule.isSuccess}}
+                  <span class='glyphicon glyphicon-ok-sign' style='color: green'></span>
+                {{else}}
+                  <span class='glyphicon glyphicon-remove-sign' style='color: red'></span>
+                {{/if}}
+              {{else}}
+                <span id='{{../this.publishAt}}' class='glyphicon glyphicon-time expires' style='color: #4185fc'></span>
+              {{/if}}
+            </a>
+          {{/each}}
+        </div>
       </div>
-    </div>
-    <div class='col-lg-12' style='padding-top: 10px; margin-left: -20px;'>
-      <div class='col-lg-12'>
-        {{#if this.filename}}
-          {{#if this.isVideo}}
-            {{this.message}}
-            <video src='{{this.filename}}' class='img-responsive' controls>
+      <div class='col-lg-12' style='padding-top: 10px; margin-left: -20px;'>
+        <div class='col-lg-12'>
+          {{#if this.filename}}
+            {{#if this.isVideo}}
+              {{this.message}}
+              <video src='{{this.filename}}' class='img-responsive' controls>
+            {{else}}
+              {{this.message}}
+              <img src='{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
+            {{/if}}
           {{else}}
             {{this.message}}
-            <img src='{{this.filename}}' class='img-rounded img-responsive' style='border: solid 1px; border-color: lightgray'>
           {{/if}}
-        {{else}}
-          {{this.message}}
-        {{/if}}
+        </div>
       </div>
-    </div>
-    <div class='col-lg-12' style='font-size: 12px; padding-top: 10px; margin-left: -20px;'>
-      <span style='color: #7B8993'>
-        Created at <span class='date-to-moment-shortformat'>{{this.created_at}}</span>
-      </span>
+      <div class='col-lg-12' style='font-size: 12px; padding-top: 10px; margin-left: -20px;'>
+        <span style='color: #7B8993'>
+          Created at <span class='date-to-moment-shortformat'>{{this.created_at}}</span>
+        </span>
+      </div>
     </div>
   </div>
 {{/each}}
-{{#if contents}}
-  <ul class='pagination pagination-centered'>
-    {{#paginate pagination type='first'}}
-      <li {{#if disabled}}class='disabled'{{/if}}><a href='?page={{n}}'>First</a></li>
-    {{/paginate}}
-    {{#paginate pagination type='previous'}}
-      <li {{#if disabled}}class='disabled'{{/if}}><a href='?page={{n}}'>Prev</a></li>
-    {{/paginate}}
-    {{#paginate pagination type='middle' limit='7'}}
-      <li {{#if active}}class='active'{{/if}}><a href='?page={{n}}'>{{n}}</a></li>
-    {{/paginate}}
-    {{#paginate pagination type='next'}}
-      <li {{#if disabled}}class='disabled'{{/if}}><a href='?page={{n}}'>Next</a></li>
-    {{/paginate}}
-    {{#paginate pagination type='last'}}
-      <li {{#if disabled}}class='disabled'{{/if}}><a href='?page={{n}}'>Last</a></li>
-    {{/paginate}}
-  </ul>
-{{/if}}
+<div class='scroller-status'>
+  <div class='infinite-scroll-request loader-ellips'></div>
+  <p class='infinite-scroll-last'>End of content</p>
+  <p class='infinite-scroll-error'>No more pages to load</p>
+</div>
+
+<p class='pagination'>
+  <a class='pagination__next' href='/dashboard?page=1'>Next page</a>
+</p>
