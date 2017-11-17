@@ -10,19 +10,11 @@ const Content = require('models').Content
 
 const s3 = new aws.S3()
 
-function signS3Filename(data) {
+function prependCloudFront(data) {
   for(let key in data) {
     if (data[key].filename) {
-      const s3File = {
-        Bucket: process.env.AWS_S3_BUCKET, Key: data[key].filename, Expires: 20
-      }
-      s3.getSignedUrl('getObject', s3File, (err, url) => {
-        if(err) {
-          console.error(err)
-        } else {
-          data[key].filename = url
-        }
-      })
+      const cloudfrontUrl = `https://${process.env.CLOUDFRONT}/${data[key].filename}`
+      data[key].filename = cloudfrontUrl
     }
   }
 }
@@ -61,7 +53,7 @@ exports.getDashboard = (req, res, next) => {
 
     const pageCount = Math.floor(results[2] / limit)
 
-    signS3Filename(results[1])
+    prependCloudFront(results[1])
     return res.render('dashboard', {
       title: 'Dashboard',
       account: req.user,
