@@ -1,6 +1,7 @@
 'use strict'
 
 const aws = require('aws-sdk')
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const moment = require('moment-shortformat')
 
@@ -30,6 +31,32 @@ exports.getTerms = (req, res, next) => {
 
 exports.getPrivacy = (req, res, next) => {
   res.render('legal/privacy', {title: 'Privacy'})
+}
+
+exports.getPlans = (req, res, next) => {
+  const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY
+  res.render('plans', {title: 'Plans', publishableKey: publishableKey})
+}
+
+exports.postPayment = (req, res, next) => {
+  console.log(JSON.stringify(req.body, null, 4))
+  stripe.customers.create({
+    email: req.body.stripeEmail,
+    card: req.body.stripeToken
+  })
+  .then(customer => {
+    stripe.charges.create({
+      amount: 2000,
+      description: 'Standard',
+      currency: 'eur',
+      customer: customer.id
+    })
+    .then(success => {
+      console.log(success)
+    })
+    req.flash('success', 'You successfully paid!')
+  })
+  res.redirect('/plans')
 }
 
 exports.getDashboard = (req, res, next) => {
