@@ -26,16 +26,22 @@ exports.index = (req, res, next) => {
 }
 
 exports.getTerms = (req, res, next) => {
-  res.render('legal/terms', {title: 'Terms'})
+  res.render('legal/terms', {
+    title: 'Terms', account: req.user
+  })
 }
 
 exports.getPrivacy = (req, res, next) => {
-  res.render('legal/privacy', {title: 'Privacy'})
+  res.render('legal/privacy', {
+    title: 'Privacy', account: req.user
+  })
 }
 
 exports.getPlans = (req, res, next) => {
   const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY
-  res.render('plans', {title: 'Plans', publishableKey: publishableKey})
+  res.render('plans', {
+    title: 'Plans', publishableKey: publishableKey, account: req.user
+  })
 }
 
 exports.postPayment = (req, res, next) => {

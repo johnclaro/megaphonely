@@ -1,10 +1,10 @@
-<h2>Plans</h2>
+<h1>Plans</h1>
 <table class='table table-hover'>
   <thead>
     <tr>
       <th></th>
-      <th>Individual</th>
-      <th>Team</th>
+      <th>Basic</th>
+      <th>Standard</th>
     </tr>
   </thead>
   <tbody>
@@ -41,10 +41,51 @@
       <td><span class='glyphicon glyphicon-ok-sign' style='color: #4185fc'></span></td>
       <td><span class='glyphicon glyphicon-ok-sign' style='color: #4185fc'></span></td>
     </tr>
-    <tr>
-      <td></td>
-      <td><a class='btn btn-primary btn-large' href='/register'>Try for free</a></td>
-      <td><a class='btn btn-primary btn-large' href='/register'>Try for free</a></td>
-    </tr>
+
+    {{#if account}}
+      <tr>
+        <td></td>
+        <td>
+          <form action='/payment' method='POST'>
+            <script
+              src='https://checkout.stripe.com/checkout.js' class='stripe-button'
+              data-key='pk_test_CLGOUyRqMlJVQ4NekRLkPZsX'
+              data-amount='1000'
+              data-name='Basic'
+              data-description='€10 every month. Cancel at anytime.'
+              data-image='/img/megaphone2048x2048.png'
+              data-locale='auto'
+              data-zip-code='true'
+              data-currency='eur'
+              data-label='€10/mo'
+              >
+            </script>
+          </form>
+        </td>
+        <td>
+          <form action='/payment' method='POST'>
+            <script
+              src='https://checkout.stripe.com/checkout.js' class='stripe-button'
+              data-key='pk_test_CLGOUyRqMlJVQ4NekRLkPZsX'
+              data-amount='2000'
+              data-name='Standard'
+              data-description='€20 every month. Cancel at anytime.'
+              data-image='/img/megaphone2048x2048.png'
+              data-locale='auto'
+              data-zip-code='true'
+              data-currency='eur'
+              data-label='€20/mo'
+              >
+            </script>
+          </form>
+        </td>
+      </tr>
+    {{/if}}
   </tbody>
 </table>
+
+{{#unless account}}
+  <div class='col-lg-12 text-center'>
+    <a class='btn btn-primary btn-large' href='/register'>Try it for 7 days</a>
+  </div>
+{{/unless}}
