@@ -116,3 +116,8 @@ fieldset[disabled] .btn-primary.active {
   color: #4185FC;
   background-color: #ffffff;
 }
+
+/*Borderless table*/
+.borderless td, .borderless th {
+    border: none;
+}
