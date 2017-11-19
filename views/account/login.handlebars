@@ -1,11 +1,17 @@
-<h1>Login</h1>
-<form action='/login' method='post'>
-  <div class='form-group'>
-    <input type='text' class='form-control' name='email' placeholder='Email' id='email'>
-  </div>
-  <div class='form-group'>
-    <input type='password' class='form-control' name='password' placeholder='Password' id='password'>
-  </div>
-  <button type='submit' class='btn btn-primary'>Login</button>
-</form>
-<a href='/forgot'>Forgot your password?</a>
+<div class='col-lg-6 text-center'>
+  <img src='/img/megaphone2048x2048.png' height='200' width='200'/>
+</div>
+<div class='col-lg-4 col-xs-12' style='padding-top: 30px'>
+    <p class='pull-left' style='font-weight: bold'>Sign in</p>
+    <p class='pull-right'>or <a href='/register'>create an account</a></p>
+  <form action='/login' method='post'>
+    <div class='form-group'>
+      <input type='text' class='form-control' name='email' placeholder='Email' id='email'>
+    </div>
+    <div class='form-group'>
+      <input type='password' class='form-control' name='password' placeholder='Password' id='password'>
+    </div>
+    <button type='submit' class='btn btn-primary'>Login</button>
+  </form>
+  <a href='/forgot'>Forgot your password?</a>
+</div>
