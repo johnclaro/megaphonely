@@ -1,10 +1,37 @@
-<h1>Settings</h1>
-<p>Hello {{{account.firstName}}}</p>
-
-{{#if account.verificationToken}}
-  <form action='/sendverificationtoken' method='post'>
-    <button type='submit' class='btn btn-primary'>Verify email</button>
-  </form>
-{{ else }}
-  Email: {{{account.email}}}
-{{/if}}
+<table class='table'>
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td>
+        <p class='pull-right'>Hubert Blaine Wolfe­schlegel­stein­hausen­berger­dorff</p>
+      </td>
+      <td>
+        <a href='/edit' class='pull-right'>Edit</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td>
+        <p class='pull-right'>{{account.email}}</p>
+      </td>
+      <td>
+        {{#if account.verificationToken}}
+          <form action='/sendverificationtoken' method='post'>
+            <button type='submit' class='btn btn-primary pull-right'>Verify email</button>
+          </form>
+        {{ else }}
+          <a href='/edit' class='pull-right'>Edit</a>
+        {{/if}}
+      </td>
+    </tr>
+    <tr>
+      <td>Plan</td>
+      <td>
+        <p class='pull-right'>Free trial</p>
+      </td>
+      <td>
+        <a href='/plans' class='btn btn-primary pull-right'>Upgrade</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
