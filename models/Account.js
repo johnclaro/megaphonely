@@ -91,7 +91,10 @@ module.exports = (db, Sequelize) => {
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
       const token = jwt.sign({data: receiverEmail}, process.env.SECRET)
-      const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {user: process.env.EMAIL, pass: process.env.EMAIL_PASSWORD}
+      })
       const html = `
       <p>
         Hi ${account.firstName},
@@ -143,7 +146,10 @@ module.exports = (db, Sequelize) => {
     const receiverEmail = email.toLowerCase()
     return Account.findOne({where: {email: receiverEmail}})
     .then(account => {
-      const transporter = nodemailer.createTransport(`smtps://${process.env.EMAIL}:${process.env.EMAIL_PASSWORD}@smtp.gmail.com`)
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {user: process.env.EMAIL, pass: process.env.EMAIL_PASSWORD}
+      })
       const html = `
       <p>
         Hi ${account.firstName},
