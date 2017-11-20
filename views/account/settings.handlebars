@@ -1,37 +1,41 @@
-<table class='table'>
-  <tbody>
-    <tr>
-      <td>Name</td>
-      <td>
-        <p class='pull-right'>Hubert Blaine Wolfe­schlegel­stein­hausen­berger­dorff</p>
-      </td>
-      <td>
-        <a href='/edit' class='pull-right'>Edit</a>
-      </td>
-    </tr>
-    <tr>
-      <td>Email</td>
-      <td>
-        <p class='pull-right'>{{account.email}}</p>
-      </td>
-      <td>
-        {{#if account.verificationToken}}
-          <form action='/sendverificationtoken' method='post'>
-            <button type='submit' class='btn btn-primary pull-right'>Verify email</button>
-          </form>
-        {{ else }}
-          <a href='/edit' class='pull-right'>Edit</a>
-        {{/if}}
-      </td>
-    </tr>
-    <tr>
-      <td>Plan</td>
-      <td>
-        <p class='pull-right'>Free trial</p>
-      </td>
-      <td>
-        <a href='/plans' class='btn btn-primary pull-right'>Upgrade</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div style='width: 100%; text-align: center'>
+  <div style='display: inline-block'>
+    <table class='table'>
+      <tbody>
+        <tr class='border_bottom'>
+          <td>Name</td>
+          <td>
+            <p class='pull-right'>{{account.firstName}} {{account.lastName}}</p>
+          </td>
+          <td>
+            <a href='/edit' class='pull-right'>Edit</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>
+            <p class='pull-right'>{{account.email}}</p>
+          </td>
+          <td>
+            {{#if account.verificationToken}}
+              <form action='/sendverificationtoken' method='post'>
+                <button type='submit' class='btn btn-primary pull-right'>Verify email</button>
+              </form>
+            {{ else }}
+              <a href='/edit' class='pull-right'>Edit</a>
+            {{/if}}
+          </td>
+        </tr>
+        <tr>
+          <td>Plan</td>
+          <td>
+            <p class='pull-right'>Free trial</p>
+          </td>
+          <td>
+            <a href='/plans' class='btn btn-primary btn-block pull-right'>Upgrade</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

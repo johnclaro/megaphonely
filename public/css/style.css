@@ -118,6 +118,7 @@ fieldset[disabled] .btn-primary.active {
 }
 
 /*Borderless table*/
-.borderless td, .borderless th {
-    border: none;
+td {
+  border-collapse:collapse;
+  border-bottom: 1px solid lightgray;
 }
