@@ -44,8 +44,7 @@ exports.getPlans = (req, res, next) => {
   })
 }
 
-exports.postPayment = (req, res, next) => {
-  console.log(JSON.stringify(req.body, null, 4))
+exports.postSubscribe = (req, res, next) => {
   stripe.customers.create({
     email: req.body.stripeEmail,
     card: req.body.stripeToken
