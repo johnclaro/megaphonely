@@ -1,3 +1,6 @@
+'use strict'
+
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 const passport = require('passport')
 const titleCase = require('titlecase')
 
@@ -57,16 +60,29 @@ exports.postRegister = (req, res, next) => {
     return res.redirect('/register')
   }
 
+  const email = req.body.email.toLowerCase()
+
   Account.create({
     firstName: titleCase(req.body.firstName),
     lastName: titleCase(req.body.lastName),
-    email: req.body.email.toLowerCase(),
+    email: email,
     password: req.body.password
   })
   .then(account => {
     req.login(account, (err) => {
       if(err) return next(err)
-      Account.emailVerificationToken(req.body.email, req.headers.host)
+      Account.emailVerificationToken(email, req.headers.host)
+
+      stripe.customers.create({email: email}, (err, customer) => {
+        if(err) console.error(err)
+        account.update({stripeId: customer.id})
+        stripe.subscriptions.create({
+          customer: customer.id,
+          items: [{plan: 'basic-monthly'}],
+          trial_period_days: 7
+        })
+      })
+
       res.header('flash-message', 'Register successful')
       return res.redirect('/dashboard')
     })
