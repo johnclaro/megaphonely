@@ -8,6 +8,10 @@ const salt = bcrypt.genSaltSync(parseInt(process.env.DB_SALT));
 
 module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
+    stripeId: {
+      field: 'stripe_id',
+      type: Sequelize.INTEGER
+    },
     firstName: {
       field: 'first_name',
       type: Sequelize.STRING
