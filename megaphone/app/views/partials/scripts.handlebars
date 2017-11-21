@@ -45,40 +45,28 @@ $(function() {
 });
 </script>
 
-<!--Turn dates into human readable formats-->
-<script type='text/javascript' src='/js/moment.js'></script>
-<script type='text/javascript' src='/js/moment-shortformat.js'></script>
-<script type='text/javascript'>
-document.addEventListener('DOMContentLoaded', function() {
-  const dates = document.getElementsByClassName('date-to-moment-shortformat')
-  for(let i=0; i<dates.length; i++) {
-    dates[i].innerHTML = moment(dates[i].textContent).format('DD/MM/YYYY HH:mm')
-  }
-}, false);
-</script>
 <script type='text/javascript'>
 $('#scheduleModal').on('show.bs.modal', function (event) {
   const button = $(event.relatedTarget)
   const statusCode = button.data('status-code')
   const statusMessage = button.data('status-message')
-  const publishAt = moment(button.data('publish-at'))
+  const publishAtReadable = button.data('publish-at-readable')
   const profile = button.data('provider')
   const username = button.data('username')
   const profileSite = `<a href='http://${profile}.com/${username}'> http://${profile}.com/${username} </a>`
-  const publishAtFormatted = publishAt.format('DD/MM/YYYY HH:mm')
 
   const modal = $(this)
 
   modal.find('.modal-title').html(profileSite)
 
   if (statusCode == 200) {
-    const modalBodyText = `Successfully published content at ${publishAtFormatted}`
+    const modalBodyText = `Successfully published content at ${publishAtReadable}`
     modal.find('.modal-body').html(modalBodyText)
   } else if (statusCode) {
-    const modalBodyText = `Failed to publish content at ${publishAtFormatted} because <b>${statusMessage}</b>`
+    const modalBodyText = `Failed to publish content at ${publishAtReadable} because <b>${statusMessage}</b>`
     modal.find('.modal-body').html(modalBodyText)
   } else {
-    const modalBodyText = `Scheduled content to be publish at ${publishAtFormatted}`
+    const modalBodyText = `Scheduled content to be publish at ${publishAtReadable}`
     modal.find('.modal-body').html(modalBodyText)
   }
 })

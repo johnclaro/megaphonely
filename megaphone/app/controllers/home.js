@@ -17,6 +17,8 @@ function prependCloudFront(data) {
       const cloudfrontUrl = `https://${process.env.CLOUDFRONT}/${data[key].filename}`
       data[key].filename = cloudfrontUrl
     }
+    data[key].publishAtReadable = moment(data[key].publishAt).format('DD/MM/YYYY HH:mm')
+    data[key].createdAtReadable = moment(data[key].created_at).format('DD/MM/YYYY HH:mm')
   }
 }
 
