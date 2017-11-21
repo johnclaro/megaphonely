@@ -6,6 +6,8 @@ services:
       context: megaphone/app
       dockerfile: Dockerfile
     ports: ['3000:3000']
+    volumes:
+      - ./megaphone/app:/app
 
   twitter:
     env_file: .env
@@ -15,6 +17,8 @@ services:
     image: scheduler
     ports: ['3001:3000']
     command: ["npm", "run", "twitter"]
+    volumes:
+      - ./megaphone/scheduler:/app
 
   facebook:
     env_file: .env
@@ -23,6 +27,8 @@ services:
       dockerfile: Dockerfile
     ports: ['3002:3000']
     command: ["npm", "run", "facebook"]
+    volumes:
+      - ./megaphone/scheduler:/app
 
   redis:
     image: 'redis:alpine'
