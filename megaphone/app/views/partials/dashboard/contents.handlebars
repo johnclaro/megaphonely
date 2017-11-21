@@ -9,9 +9,9 @@
         <div class='row'>
           {{#each Socials}}
             {{#if this.username}}
-              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.username}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
+              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.username}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at-readable='{{../this.publishAtReadable}}'>
             {{else}}
-              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.socialId}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at='{{../this.publishAt}}'>
+              <a class='col-xs-1' style='cursor: pointer' data-toggle='modal' data-target='#scheduleModal' data-provider='{{this.provider}}' data-username='{{this.socialId}}' data-status-message="{{this.Schedule.statusMessage}}" data-status-code='{{this.Schedule.statusCode}}' data-publish-at-readable='{{../this.publishAtReadable}}'>
             {{/if}}
               <img src={{this.profilePicture}} height='30px' width='30px' style='border-radius: 50%; margin-left: -10px'>
               {{#if this.Schedule.isPublished}}
@@ -44,7 +44,7 @@
       </div>
       <div class='col-lg-12' style='font-size: 12px; padding-top: 10px; margin-left: -20px;'>
         <span style='color: #7B8993'>
-          Created at <span class='date-to-moment-shortformat'>{{this.created_at}}</span>
+          Created at <span class='date-to-moment-shortformat'>{{this.createdAtReadable}}</span>
         </span>
       </div>
     </div>
