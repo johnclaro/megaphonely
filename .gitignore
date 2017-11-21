@@ -59,9 +59,9 @@ typings/
 !.env.example
 
 # Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
+megaphone/app/.elasticbeanstalk/*
+megaphone/app/!.elasticbeanstalk/*.cfg.yml
+megaphone/app/!.elasticbeanstalk/*.global.yml
 
 *sqlite
 scratch.js
