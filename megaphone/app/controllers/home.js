@@ -11,14 +11,17 @@ const Content = require('models').Content
 
 const s3 = new aws.S3()
 
-function prependCloudFront(data) {
+function updateContents(data) {
+  const format = 'DD/MM/YYYY HH:mm'
+
   for(let key in data) {
     if (data[key].filename) {
       const cloudfrontUrl = `https://${process.env.CLOUDFRONT}/${data[key].filename}`
       data[key].filename = cloudfrontUrl
     }
-    data[key].publishAtReadable = moment(data[key].publishAt).format('DD/MM/YYYY HH:mm')
-    data[key].createdAtReadable = moment(data[key].created_at).format('DD/MM/YYYY HH:mm')
+
+    data[key].publishAtReadable = moment(data[key].publishAt).format(format)
+    data[key].createdAtReadable = moment(data[key].created_at).format(format)
   }
 }
 
@@ -87,7 +90,7 @@ exports.getDashboard = (req, res, next) => {
 
     const pageCount = Math.floor(results[2] / limit)
 
-    prependCloudFront(results[1])
+    updateContents(results[1])
     return res.render('dashboard', {
       title: 'Dashboard',
       account: req.user,
