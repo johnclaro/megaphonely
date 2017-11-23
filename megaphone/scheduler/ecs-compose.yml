@@ -1,7 +1,7 @@
 version: '2'
 services:
   facebook:
-    env_file: .env.prod
+    env_file: ../../.env.prod
     mem_limit: 134217728
     image: jkrclaro/scheduler
     command: ["npm", "run", "facebook"]
@@ -11,7 +11,7 @@ services:
         awslogs-region: "eu-west-1"
         awslogs-group: "scheduler-log-group"
   twitter:
-    env_file: .env.prod
+    env_file: ../../.env.prod
     mem_limit: 134217728
     image: jkrclaro/scheduler
     command: ["npm", "run", "twitter"]
