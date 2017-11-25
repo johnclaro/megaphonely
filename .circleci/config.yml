@@ -2,6 +2,7 @@ version: 2
 jobs:
   build:
     docker:
+      - image: redis:2.8.19
       - image: circleci/node:6.11.4
     environment:
       NODE_ENV: development
@@ -42,4 +43,5 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run: apt-get update && apt-get install -y redis-tools && echo "CONFIG SET save ''" && redis-cli -x
       - run: npm test
