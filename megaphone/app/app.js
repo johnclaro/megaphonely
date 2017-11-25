@@ -130,10 +130,6 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'dev') {
-    console.error(err)
-  }
-
   if (req._body == true) {
     if (err == 'Error: 404') {
       // console.error(`Error _body 404: ${err}`)
