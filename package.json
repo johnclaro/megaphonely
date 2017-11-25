@@ -4,7 +4,7 @@
   "description": "Social media management tool",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_PATH=. mocha --recursive --exit",
+    "test": "make test",
     "start": "NODE_PATH=. nodemon ./bin/www",
     "prod": "NODE_PATH=. node ./bin/www"
   },

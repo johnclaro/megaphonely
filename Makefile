@@ -4,7 +4,7 @@ test:
 	make test-scheduler
 
 test-app:
-	cd megaphone/app && npm test
+	cd megaphone/app && npm i && npm test
 
 test-scheduler:
-	echo 'Scheduler!'
+	cd megaphone/scheduler && npm i && npm test
