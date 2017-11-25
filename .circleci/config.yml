@@ -1,8 +1,6 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/node:7.10
     environment:
       NODE_ENV: development
       DB_NAME:
@@ -30,6 +28,8 @@ jobs:
       CLOUDFRONT: test
       STRIPE_PUBLISHABLE_KEY: pk_test_CLGOUyRqMlJVQ4NekRLkPZsX
       STRIPE_SECRET_KEY: sk_test_ZLBtDfXkGtdSNKMMD1GLpjqQ
+    docker:
+      - image: circleci/node:7.10
     steps:
       - checkout
       - restore_cache:
