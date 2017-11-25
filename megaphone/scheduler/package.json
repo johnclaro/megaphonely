@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "NODE_PATH=. mocha --recursive --exit",
     "facebook": "NODE_PATH=. node facebook/worker.js",
     "twitter": "NODE_PATH=. node twitter/worker.js"
   },
