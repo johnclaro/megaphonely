@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: redis:alpine
+      - image: redis:2.8.19
       - image: circleci/node:7.10
     environment:
       NODE_ENV: development
@@ -24,7 +24,7 @@ jobs:
       FACEBOOK_APP_SECRET: test
       INSTAGRAM_CLIENT_ID: test
       INSTAGRAM_CLIENT_SECRET: test
-      REDIS_HOST: 0.0.0.0
+      REDIS_HOST: redis
       AWS_ACCESS_KEY_ID: test
       AWS_SECRET_ACCESS_KEY: test
       AWS_S3_BUCKET: test
