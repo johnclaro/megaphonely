@@ -19,7 +19,7 @@ describe('contents', () => {
 
       Social.create({
         accountId: 1,
-        socialId: '901476753272655872',
+        profileId: '901476753272655872',
         username: 'johnclaro3',
         displayName: 'John Claro',
         provider: 'twitter',
@@ -48,9 +48,14 @@ describe('contents', () => {
     })
 
     it('POST /content valid content', () => {
+      const payload = {
+        message: 'foo',
+        publishAt: 'Schedule Now',
+        profileIds: '901476753272655872'
+      }
       return agent
         .post('/content')
-        .send({message: 'foo', publishAt: 'Today', socialIds: '901476753272655872'})
+        .send(payload)
         .expect('Location', '/dashboard')
         .expect('flash-message', `Succesfully scheduled content`)
     })
@@ -72,9 +77,14 @@ describe('contents', () => {
     })
 
     it('POST /content invalid publishAt', () => {
+      const payload = {
+        message: 'foo',
+        profileIds: '901476753272655872',
+        publishAt: '2016-10-10T12:12'
+      }
       return agent
         .post('/content')
-        .send({message: 'foo', socialIds: '901476753272655872', publishAt: '2016-10-10T12:12'})
+        .send(payload)
         .expect('Location', '/dashboard')
         .expect('flash-message', 'Cannot schedule in the past')
     })
