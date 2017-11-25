@@ -1,5 +1,5 @@
 # Megaphone
-[![CircleCI](https://circleci.com/gh/jkrclaro/megaphone.svg?style=svg)](https://circleci.com/gh/jkrclaro/megaphone)
+[![CircleCI](https://circleci.com/gh/jkrclaro/megaphone/tree/master.svg?style=svg&circle-token=08d741d0a59a7704053acdfd6be5fdb6591784c5)](https://circleci.com/gh/jkrclaro/megaphone/tree/master)
 
 Root path is mainly for Sequelize related operations.
 
