@@ -1,4 +1,33 @@
 version: 2
+defaults:
+  environment:
+    NODE_ENV: development
+    DB_NAME:
+    DB_USERNAME:
+    DB_PASSWORD:
+    DB_HOST: test
+    DB_DIALECT: sqlite
+    DB_STORAGE:
+    DB_LOGGING:
+    DB_SALT: 10
+    SECRET: test
+    PORT: 3000
+    EMAIL: test@megaphone.social
+    EMAIL_PASSWORD: test
+    TWITTER_CONSUMER_KEY: a0sOs78qSFA3mfN2O4tkp2BzS
+    TWITTER_CONSUMER_SECRET: test
+    FACEBOOK_APP_ID: test
+    FACEBOOK_APP_SECRET: test
+    INSTAGRAM_CLIENT_ID: test
+    INSTAGRAM_CLIENT_SECRET: test
+    REDIS_HOST: 0.0.0.0
+    AWS_ACCESS_KEY_ID: test
+    AWS_SECRET_ACCESS_KEY: test
+    AWS_S3_BUCKET: test
+    CLOUDFRONT: test
+    STRIPE_PUBLISHABLE_KEY: pk_test_CLGOUyRqMlJVQ4NekRLkPZsX
+    STRIPE_SECRET_KEY: sk_test_ZLBtDfXkGtdSNKMMD1GLpjqQ
+
 jobs:
   build:
     docker:
