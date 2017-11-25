@@ -8,7 +8,7 @@ jobs:
       DB_NAME:
       DB_USERNAME:
       DB_PASSWORD:
-      DB_HOST: test
+      DB_HOST: test-sqlite
       DB_DIALECT: sqlite
       DB_STORAGE:
       DB_LOGGING:
@@ -17,7 +17,7 @@ jobs:
       PORT: 3000
       EMAIL: test@megaphone.social
       EMAIL_PASSWORD: test
-      TWITTER_CONSUMER_KEY: a0sOs78qSFA3mfN2O4tkp2BzS
+      TWITTER_CONSUMER_KEY: test
       TWITTER_CONSUMER_SECRET: test
       FACEBOOK_APP_ID: test
       FACEBOOK_APP_SECRET: test
@@ -37,7 +37,7 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: npm install
-      - run: npm install --only=dev
+      - run: npm install --only: dev
       - save_cache:
           paths:
             - node_modules
