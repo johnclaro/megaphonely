@@ -13,7 +13,7 @@ describe('accounts', () => {
       Account.create({firstName: 'valid', lastName: 'verification token', email: 'validverificationtoken@gmail.com'})
 
       // passwordToken
-      Account.create({firstName: 'valid', lastName: 'password token', email: 'validpasswordtoken@gmail.com', password: 'r0bst4rk', passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg'})
+      Account.create({firstName: 'valid', lastName: 'password token', email: 'validpasswordtoken@gmail.com', password: 'r0bst4rk', passwordToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTUxMTY0OTQ1OCIsImlhdCI6MTUxMTY0OTQ1OH0.NwdDGrqt46tCZr8F13GDb_1qeOOFPeYBZzpGHhKKijs'})
 
       // register
       Account.create({firstName: 'foo', lastName: 'bar', email: 'foobar@gmail.com', password: 'foobar'})
@@ -76,9 +76,10 @@ describe('accounts', () => {
       })
 
       it('GET /verifypasswordtoken valid passwordToken', () => {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTUxMTY0OTQ1OCIsImlhdCI6MTUxMTY0OTQ1OH0.NwdDGrqt46tCZr8F13GDb_1qeOOFPeYBZzpGHhKKijs'
         return request(app)
-          .get('/verifypasswordtoken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
-          .expect('Location', '/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
+          .get(`/verifypasswordtoken/${token}`)
+          .expect('Location', `/resetpassword/${token}`)
       })
 
       it('GET /verifypasswordtoken invalid passwordToken', () => {
@@ -89,7 +90,7 @@ describe('accounts', () => {
 
       it('POST /resetpassword valid password token', () => {
         return request(app)
-          .post('/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoicm9ic3RhcmtAZ21haWwuY29tIiwiaWF0IjoxNTA4MzUyNzIzfQ.70qzzfFCIhbfAt8Gy4t9kOQCngbolnXEzFUIvdNiLPg')
+          .post('/resetpassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiMTUxMTY0OTQ1OCIsImlhdCI6MTUxMTY0OTQ1OH0.NwdDGrqt46tCZr8F13GDb_1qeOOFPeYBZzpGHhKKijs')
           .send({password: 'newpassword'})
           .expect('Location', '/dashboard')
           .expect('flash-message', 'Successfully updated password')
