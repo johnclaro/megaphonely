@@ -21,7 +21,7 @@ jobs:
       FACEBOOK_APP_SECRET: test
       INSTAGRAM_CLIENT_ID: test
       INSTAGRAM_CLIENT_SECRET: test
-      REDIS_HOST: redis
+      REDIS_HOST: 0.0.0.0
       AWS_ACCESS_KEY_ID: test
       AWS_SECRET_ACCESS_KEY: test
       AWS_S3_BUCKET: test
