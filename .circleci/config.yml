@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:6.11.4
     environment:
       NODE_ENV: development
       DB_NAME:
