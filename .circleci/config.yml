@@ -29,9 +29,8 @@ jobs:
       STRIPE_PUBLISHABLE_KEY: pk_test_CLGOUyRqMlJVQ4NekRLkPZsX
       STRIPE_SECRET_KEY: sk_test_ZLBtDfXkGtdSNKMMD1GLpjqQ
     docker:
-      - image: ubuntu:14.04
       - image: circleci/node:7.10
-      - image: redis:2.8.19
+      - image: redis:3.0.7
     steps:
       - checkout
       - restore_cache:
