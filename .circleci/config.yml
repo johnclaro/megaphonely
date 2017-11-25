@@ -2,7 +2,6 @@ version: 2
 jobs:
   build:
     docker:
-      - image: redis:2.8.19
       - image: circleci/node:7.10
     environment:
       NODE_ENV: development
