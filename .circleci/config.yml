@@ -48,6 +48,8 @@ jobs:
       - run: npm test
   test:
     <<: *defaults
+    requires:
+      - build
     docker:
       - image: circleci/node:7.10
       - image: redis:3.0.7
@@ -66,6 +68,8 @@ jobs:
       - run: npm test
   deploy:
     <<: *defaults
+    requires:
+      - test
     docker:
       - image: circleci/node:7.10
       - image: redis:3.0.7
