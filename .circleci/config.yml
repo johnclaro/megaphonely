@@ -48,6 +48,8 @@ jobs:
       - run: npm test
   test:
     <<: *defaults
+    requires:
+      - build
     docker:
       - image: circleci/node:7.10
       - image: redis:3.0.7
