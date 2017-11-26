@@ -87,3 +87,6 @@ workflows:
   release:
     jobs:
       - build
+      - test:
+          requires:
+            - build
