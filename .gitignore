@@ -58,12 +58,6 @@ typings/
 .env*
 !.env.example
 
-# Elastic Beanstalk Files
-megaphone/app/.elasticbeanstalk/*
-megaphone/app/!.elasticbeanstalk/*.cfg.yml
-megaphone/app/!.elasticbeanstalk/*.global.yml
-megaphone/app/.ebextensions/001_securelistener.config
-
 *sqlite
 scratch.js
 
