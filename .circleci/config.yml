@@ -47,6 +47,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
   test:
+    <<: *defaults
     docker:
       - image: circleci/node:7.10
       - image: redis:3.0.7
