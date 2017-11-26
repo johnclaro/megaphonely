@@ -15,10 +15,10 @@ test:
 push:
 	docker-compose build
 	@eval $(shell aws ecr get-login --no-include-email --region eu-west-1)
-	docker tag megaphone/app 775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:app
-	docker push 775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:app
-	docker tag megaphone/scheduler 775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:scheduler
-	docker push 775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:scheduler
+	docker tag megaphone/app ${ECR_URI}/megaphone:app
+	docker push ${ECR_URI}/megaphone:app
+	docker tag megaphone/scheduler ${ECR_URI}/megaphone:scheduler
+	docker push ${ECR_URI}/megaphone:scheduler
 
 deploy:
 	cd megaphone/app && eb deploy
