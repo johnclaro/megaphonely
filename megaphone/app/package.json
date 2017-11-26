@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive --exit",
-    "start": "NODE_PATH=. nodemon ./bin/www",
-    "prod": "NODE_PATH=. node ./bin/www"
+    "start": "NODE_PATH=. node ./bin/www",
+    "dev": "NODE_PATH=. nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
