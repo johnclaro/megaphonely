@@ -39,11 +39,11 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
+      - run: npm run build
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run build
   test:
     <<: *defaults
     docker:
@@ -55,13 +55,11 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
-      - run: npm install
-      - run: npm install --only=dev
+      - run: npm test
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
   deploy:
     <<: *defaults
     docker:
@@ -69,17 +67,7 @@ jobs:
       - image: redis:3.0.7
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: npm install
-      - run: npm install --only=dev
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
+      - run: echo 'Deploy'
 workflows:
   version: 2
   release:
