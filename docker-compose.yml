@@ -5,6 +5,7 @@ services:
     build:
       context: megaphone/app
       dockerfile: Dockerfile
+    image: megaphone/app
     ports: ['3000:3000']
     volumes:
       - ./megaphone/app:/app
@@ -15,7 +16,7 @@ services:
     build:
       context: megaphone/scheduler
       dockerfile: Dockerfile
-    image: scheduler
+    image: megaphone/scheduler
     ports: ['3001:3000']
     command: ["npm", "run", "twitter"]
     volumes:
@@ -27,6 +28,7 @@ services:
     build:
       context: megaphone/scheduler
       dockerfile: Dockerfile
+    image: megaphone/scheduler
     ports: ['3002:3000']
     command: ["npm", "run", "facebook"]
     volumes:
