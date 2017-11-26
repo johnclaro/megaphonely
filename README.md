@@ -6,3 +6,8 @@ Social media management tool
 npm i megaphone/app
 sequelize db:migrate --env=production
 ```
+
+# Release
+```
+make release
+```
