@@ -54,7 +54,6 @@ jobs:
       - image: circleci/node:7.10
       - image: redis:3.0.7
     steps:
-      - checkout
       - run: echo 'hello world'
 workflows:
   version: 2
