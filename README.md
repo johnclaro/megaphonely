@@ -7,7 +7,13 @@ npm i megaphone/app
 sequelize db:migrate --env=production
 ```
 
-# Release
+# Makefile
+Export ECR_URI if you want to push images to AWS ECR
+```
+export ECR_URI=123456789.dkr.ecr.eu-west-1.amazonaws.com
+make push
+```
+
 ```
 make release
 ```
