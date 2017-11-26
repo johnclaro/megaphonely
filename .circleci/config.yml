@@ -39,6 +39,8 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
+      - run: npm install
+      - run: npm install --only=dev
       - save_cache:
           paths:
             - node_modules
@@ -64,9 +66,22 @@ jobs:
       - run: npm test
   deploy:
     <<: *defaults
+    docker:
+      - image: circleci/node:7.10
+      - image: redis:3.0.7
     steps:
       - checkout
-      - run: echo 'Deploy!'
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: npm install
+      - run: npm install --only=dev
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm test
 workflows:
   version: 2
   release:
