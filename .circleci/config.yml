@@ -86,8 +86,10 @@ workflows:
   version: 2
   release:
     jobs:
-      - build:
+      - build
+      - test:
           requires:
-            - test:
-                requires:
-                  - deploy
+            build
+      - deploy:
+          requires:
+            test
