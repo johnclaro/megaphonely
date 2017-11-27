@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:6.12
 
 EXPOSE 3000
 
