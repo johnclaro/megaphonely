@@ -2,11 +2,11 @@
   "name": "megaphone",
   "version": "1.1.0",
   "description": "Social media management tool",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive --exit",
-    "start": "NODE_PATH=. node ./bin/www",
-    "dev": "NODE_PATH=. nodemon ./bin/www"
+    "start": "NODE_PATH=. nodemon ./bin/www",
+    "prod": "NODE_PATH=. node ./bin/www"
   },
   "repository": {
     "type": "git",
