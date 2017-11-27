@@ -16,3 +16,6 @@ make push
 ```
 make release
 ```
+
+# Infrastructure
+Add Custom TCP rule for Port 6379 to Anywhere on SG for ElasticCache
