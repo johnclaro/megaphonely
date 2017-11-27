@@ -5,8 +5,8 @@ release:
 	make deploy
 
 build:
-	cd megaphone/app && npm i
-	cd megaphone/scheduler && npm i
+	cd megaphone/app && npm i && docker build -t megaphone/app .
+	cd megaphone/scheduler && npm i && docker build -t megaphone/scheduler .
 
 test:
 	cd megaphone/app && npm test
