@@ -1,3 +1,5 @@
+include .env.test
+
 release:
 	make test
 	make build
