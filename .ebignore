@@ -1,1 +1,3 @@
 !.ebextensions/001_securelistener.config
+.git/
+**/**/node_modules/
