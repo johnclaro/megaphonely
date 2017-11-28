@@ -1,3 +1,6 @@
+-include .env.test
+export
+
 release:
 	make test
 	make build
