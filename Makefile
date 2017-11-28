@@ -17,4 +17,4 @@ build:
 	docker push ${ECR_URI}:scheduler
 
 deploy:
-	cd megaphone/app && eb deploy --debug
+	eb deploy --debug
