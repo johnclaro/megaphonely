@@ -1,2 +1,1 @@
 !.ebextensions/001_securelistener.config
-node_modules/
