@@ -1,4 +1,5 @@
 include .env.test
+export
 
 release:
 	make test
@@ -6,8 +7,8 @@ release:
 	make deploy
 
 test:
-	cd megaphone/app && npm i && npm test
-	cd megaphone/scheduler && npm i && npm test
+	cd megaphone/app && npm i && npm i --only=dev && npm test
+	cd megaphone/scheduler && npm i && npm i --only=dev && npm test
 
 build:
 	cd megaphone/app && docker build -t megaphone/app .
