@@ -12,32 +12,6 @@
           "containerPort": 80
         }
       ]
-    },
-    {
-      "name": "facebook",
-      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:scheduler",
-      "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 3001,
-          "containerPort": 3000
-        }
-      ],
-      "command": ["npm", "run", "facebook"]
-    },
-    {
-      "name": "twitter",
-      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:scheduler",
-      "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 3002,
-          "containerPort": 3000
-        }
-      ],
-      "command": ["npm", "run", "twitter"]
     }
   ]
 }
