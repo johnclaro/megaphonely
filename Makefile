@@ -23,4 +23,5 @@ push:
 	docker push ${ECR_URI}:scheduler
 
 deploy:
+	eb setenv $(shell cat .env.prod)
 	eb deploy --debug
