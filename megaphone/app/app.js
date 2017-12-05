@@ -106,7 +106,7 @@ app.get('/settings', passportMiddleware.isAuthenticated, accountController.getSe
 
 app.post('/content', upload.single('media'), passportMiddleware.isAuthenticated, contentController.postContent)
 
-app.get('/social/disconnect/:provider/:socialId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
+app.get('/social/disconnect/:provider/:profileId', passportMiddleware.isAuthenticated, socialController.getSocialDisconnect)
 
 /**
 * OAuths
@@ -116,6 +116,8 @@ app.get('/auth/twitter', passport.authenticate('twitter'))
 app.get('/auth/twitter/callback', passport.authenticate('twitter', oauthRedirect))
 app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['public_profile', 'email', 'publish_actions']}))
 app.get('/auth/facebook/callback', passport.authenticate('facebook', oauthRedirect))
+app.get('/auth/linkedin', passport.authenticate('linkedin'))
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', oauthRedirect))
 // app.get('/auth/instagram', passport.authenticate('instagram'))
 // app.get('/auth/instagram/callback', passport.authenticate('instagram', oauthRedirect))
 /**

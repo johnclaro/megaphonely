@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const TwitterStrategy = require('passport-twitter').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const InstagramStrategy = require('passport-instagram').Strategy
+const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy
 
 const Account = require('models').Account
 const Social = require('models').Social
@@ -202,6 +203,70 @@ passport.use(new InstagramStrategy({
         })
       })
       .catch(err => {
+        return done(err, null)
+      })
+    }
+  })
+}))
+
+passport.use(new LinkedInStrategy({
+  clientID: process.env.LINKEDIN_CLIENT_ID,
+  clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+  callbackURL: '/auth/linkedin/callback',
+  passReqToCallback: true,
+  state: true
+}, (req, accessToken, refreshToken, profile, done) => {
+  console.log(JSON.stringify(profile, null, 4))
+  console.log('Hey')
+  console.log(profile._json.pictureUrl)
+  Social.findOne(
+    {where: {
+      profileId: profile.id, accountId: req.user.id, provider: profile.provider
+    }}
+  )
+  .then(social => {
+    if(!social) {
+      Social.create({
+        accountId: req.user.id,
+        profileId: profile.id,
+        username: profile._json.publicProfileUrl.split('/').pop(),
+        displayName: profile.formattedName,
+        profilePicture: profile._json.pictureUrl,
+        accessTokenKey: accessToken,
+        isConnected: true,
+        provider: profile.provider
+      })
+      .then(success => {
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          console.log('Created linkedin account')
+          return done(null, account)
+        })
+      })
+      .catch(err => {
+        console.error(err)
+        return done(err, null)
+      })
+    } else {
+      social.update({
+        accountId: req.user.id,
+        profileId: profile.id,
+        username: profile._json.publicProfileUrl.split('/').pop(),
+        displayName: profile.formattedName,
+        profilePicture: profile._json.pictureUrl,
+        accessTokenKey: accessToken,
+        isConnected: true,
+        provider: profile.provider
+      })
+      .then(success => {
+        console.log('Updated linkedin account')
+        Account.findOne({where: {email: req.user.email}})
+        .then(account => {
+          return done(null, account)
+        })
+      })
+      .catch(err => {
+        console.error(err)
         return done(err, null)
       })
     }

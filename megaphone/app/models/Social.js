@@ -22,7 +22,7 @@ module.exports = (db, Sequelize) => {
     },
     accessTokenKey: {
       field: 'access_token_key',
-      type: Sequelize.STRING
+      type: Sequelize.STRING(1000)
     },
     accessTokenSecret: {
       field: 'access_token_secret',
