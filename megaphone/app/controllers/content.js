@@ -116,6 +116,28 @@ exports.postContent = (req, res, next) => {
                   console.error('Error creating facebook job:', err)
                 }
               })
+            } else if (social.provider == 'linkedin') {
+              const payload = {
+                message: message,
+                file: req.file,
+                profileId: social.profileId,
+                accessToken: social.accessTokenKey,
+                socialId: social.id,
+                contentId: content.id,
+                title: publishAt,
+                clientId: process.env.LINKEDIN_CLIENT_ID,
+                clientSecret: process.env.LINKEDIN_CLIENT_SECRET
+              }
+
+              const job = queue.create('linkedin', payload)
+              .delay(publishAt)
+              .save(err => {
+                if(!err) {
+                  schedule.update({isQueued: true, jobId: job.id})
+                } else {
+                  console.error('Error creating linkedin job:', err)
+                }
+              })
             } else {
               console.log(`'${social.provider}' provider not yet implemented`)
             }
