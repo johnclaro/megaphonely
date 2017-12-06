@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     image: megaphone/scheduler
     ports: ['3001:3000']
-    command: ["npm", "run", "twitter"]
+    command: ["npm", "run", "twitter-dev"]
     volumes:
       - ./megaphone/scheduler:/app
       - /app/node_modules
@@ -31,7 +31,19 @@ services:
       dockerfile: Dockerfile
     image: megaphone/scheduler
     ports: ['3002:3000']
-    command: ["npm", "run", "facebook"]
+    command: ["npm", "run", "facebook-dev"]
+    volumes:
+      - ./megaphone/scheduler:/app
+      - /app/node_modules
+
+  linkedin:
+    env_file: .env
+    build:
+      context: megaphone/scheduler
+      dockerfile: Dockerfile
+    image: megaphone/scheduler
+    ports: ['3003:3000']
+    command: ["npm", "run", "linkedin-dev"]
     volumes:
       - ./megaphone/scheduler:/app
       - /app/node_modules

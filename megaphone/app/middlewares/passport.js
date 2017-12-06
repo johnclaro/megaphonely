@@ -213,12 +213,9 @@ passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_CLIENT_ID,
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
   callbackURL: '/auth/linkedin/callback',
+  scope: ['r_basicprofile', 'w_share'],
   passReqToCallback: true,
-  state: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  console.log(JSON.stringify(profile, null, 4))
-  console.log('Hey')
-  console.log(profile._json.pictureUrl)
   Social.findOne(
     {where: {
       profileId: profile.id, accountId: req.user.id, provider: profile.provider
