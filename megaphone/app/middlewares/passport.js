@@ -228,7 +228,7 @@ passport.use(new LinkedInStrategy({
         profileId: profile.id,
         username: profile._json.publicProfileUrl.split('/').pop(),
         displayName: profile.formattedName,
-        profilePicture: profile._json.pictureUrl,
+        profilePicture: profile._json.pictureUrl || '/img/anonymous.png',
         accessTokenKey: accessToken,
         isConnected: true,
         provider: profile.provider
@@ -250,7 +250,7 @@ passport.use(new LinkedInStrategy({
         profileId: profile.id,
         username: profile._json.publicProfileUrl.split('/').pop(),
         displayName: profile.formattedName,
-        profilePicture: profile._json.pictureUrl,
+        profilePicture: profile._json.pictureUrl || '/img/anonymous.png',
         accessTokenKey: accessToken,
         isConnected: true,
         provider: profile.provider
