@@ -8,10 +8,23 @@ exports.post = (payload, cb) => {
   const LinkedIn = require('node-linkedin')(clientId, clientSecret)
   const linkedin = LinkedIn.init(accessToken)
 
-  const content = {
-    comment: message,
-    visibility: {
-      code: "anyone"
+  if (file) {
+    var content = {
+      comment: message,
+      content: {
+        'title': '',
+        'submitted-url': `https://${process.env.CLOUDFRONT}/${file.key}`
+      },
+      visibility: {
+        code: 'connections-only'
+      }
+    }
+  } else {
+    var content = {
+      comment: message,
+      visibility: {
+        code: 'connections-only'
+      }
     }
   }
 
@@ -19,7 +32,11 @@ exports.post = (payload, cb) => {
     if (err) {
       cb(err, null)
     } else {
-      cb(null, data)
+      if (data.updateKey && data.updateUrl) {
+        cb(null, data)
+      } else {
+        cb(data, null)
+      }
     }
   })
 }
