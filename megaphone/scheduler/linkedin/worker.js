@@ -23,8 +23,8 @@ queue.process('linkedin', (job, done) => {
         schedule.update({
           isSuccess: false,
           isPublished: true,
-          statusCode: err.statusCode,
-          statusMessage: err.error.error.message
+          statusCode: err.status,
+          statusMessage: err.message
         })
       } else {
         console.log('Successfully posted to LinkedIn')
