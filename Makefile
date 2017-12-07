@@ -2,7 +2,7 @@
 export
 
 release:
-	make test
+	make test 
 	make build
 	make push
 	make deploy
