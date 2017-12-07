@@ -19,9 +19,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.AWS_S3_BUCKET,
-    metadata: (req, file, cb) => {
-      cb(null, {fieldName: file.fieldname})
-    },
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     key: (req, file, cb) => {
       crypto.pseudoRandomBytes(16, function (err, raw) {
         if (err) return cb(err)
