@@ -79,14 +79,14 @@ const content = require('controllers/content')
 const account = require('controllers/account')
 const social = require('controllers/social')
 
-const passportMiddleware = require('middlewares/passport')
+const passportConfig = require('modules/passport')
 
 app.get('/', home.index)
 app.get('/terms', home.getTerms)
 app.get('/privacy', home.getPrivacy)
 app.get('/plans', home.getPlans)
 app.post('/subscribe', home.postSubscribe)
-app.get('/dashboard', passportMiddleware.isAuthenticated, home.getDashboard)
+app.get('/dashboard', passportConfig.isAuthenticated, home.getDashboard)
 
 app.get('/login', account.getLogin)
 app.post('/login', account.postLogin)
@@ -99,12 +99,12 @@ app.get('/resetpassword/:passwordToken', account.getResetPassword)
 app.post('/resetpassword/:passwordToken', account.postResetPassword)
 app.get('/verifypasswordtoken/:passwordToken', account.getVerifyPasswordToken)
 app.get('/verifyverificationtoken/:verificationToken', account.getVerifyVerificationToken)
-app.post('/sendverificationtoken', passportMiddleware.isAuthenticated, account.postSendVerificationToken)
-app.get('/settings', passportMiddleware.isAuthenticated, account.getSettings)
+app.post('/sendverificationtoken', passportConfig.isAuthenticated, account.postSendVerificationToken)
+app.get('/settings', passportConfig.isAuthenticated, account.getSettings)
 
-app.post('/content', upload.single('media'), passportMiddleware.isAuthenticated, content.postContent)
+app.post('/content', upload.single('media'), passportConfig.isAuthenticated, content.postContent)
 
-app.get('/social/disconnect/:provider/:profileId', passportMiddleware.isAuthenticated, social.getSocialDisconnect)
+app.get('/social/disconnect/:provider/:profileId', passportConfig.isAuthenticated, social.getSocialDisconnect)
 
 /**
 * OAuths
