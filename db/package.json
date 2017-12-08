@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jkrclaro/megaphone.git"
+    "url": "git+https://github.com/megaphonesm/megaphone.git"
   },
   "keywords": [
     "social",
@@ -19,9 +19,9 @@
   "author": "John Claro",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jkrclaro/megaphone/issues"
+    "url": "https://github.com/megaphonesm/megaphone/issues"
   },
-  "homepage": "https://github.com/jkrclaro/megaphone#readme",
+  "homepage": "https://github.com/megaphonesm/megaphone#readme",
   "dependencies": {
     "sequelize-cli": "^3.1.0"
   }
