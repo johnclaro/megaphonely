@@ -1,17 +1,19 @@
 'use strict'
 
+const provider = process.argv.slice(2)[0]
+
 const fs = require('fs')
 
 const kue = require('kue')
 
 const Schedule = require('models').Schedule
-const service = require('facebook/service')
+const service = require(`libs/${provider}`)
 const s3 = require('libs/s3')
 
 const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 
-queue.process('facebook', (job, done) => {
-  console.log(`Found a facebook job`)
+queue.process(provider, (job, done) => {
+  console.log(`Found a ${provider} job`)
 
   service.post(job.data, (err, data, file) => {
     Schedule.findOne({
@@ -19,7 +21,7 @@ queue.process('facebook', (job, done) => {
     })
     .then(schedule => {
       if(err) {
-        console.log('Failed to post to Facebook')
+        console.log(`Failed to publish for ${provider}`)
         schedule.update({
           isSuccess: false,
           isPublished: true,
@@ -27,7 +29,7 @@ queue.process('facebook', (job, done) => {
           statusMessage: err.error.error.message
         })
       } else {
-        console.log('Successfully posted to Facebook')
+        console.log(`Successfully posted to ${provider}`)
         schedule.update({
           isSuccess: true,
           isPublished: true,

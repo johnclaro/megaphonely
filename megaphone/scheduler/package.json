@@ -5,12 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=. mocha --recursive --exit",
-    "facebook": "NODE_PATH=. node facebook/worker.js",
-    "twitter": "NODE_PATH=. node twitter/worker.js",
-    "linkedin": "NODE_PATH=. node linkedin/worker.js",
-    "linkedin-dev": "NODE_PATH=. nodemon linkedin/worker.js",
-    "twitter-dev": "NODE_PATH=. nodemon twitter/worker.js",
-    "facebook-dev": "NODE_PATH=. nodemon facebook/worker.js"
+    "start": "NODE_PATH=. node index.js",
+    "dev": "NODE_PATH=. nodemon index.js"
   },
   "repository": {
     "type": "git",
