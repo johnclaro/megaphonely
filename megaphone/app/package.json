@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jkrclaro/megaphone.git"
+    "url": "git+https://github.com/megaphonesm/megaphone.git"
   },
   "keywords": [
     "social",
@@ -21,9 +21,9 @@
   "author": "John Claro",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jkrclaro/megaphone/issues"
+    "url": "https://github.com/megaphonesm/megaphone/issues"
   },
-  "homepage": "https://github.com/jkrclaro/megaphone#readme",
+  "homepage": "https://github.com/megaphonesm/megaphone#readme",
   "dependencies": {
     "aws-sdk": "^2.149.0",
     "bcrypt": "^1.0.3",
