@@ -1,7 +1,5 @@
 'use strict'
 
-const s3 = require('libs/s3')
-
 exports.post = (payload, cb) => {
   const {message, file, accessToken, clientId, clientSecret} = payload
 
