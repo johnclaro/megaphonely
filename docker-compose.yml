@@ -15,37 +15,37 @@ services:
   twitter:
     env_file: .env
     build:
-      context: megaphone/scheduler
+      context: megaphone/publisher
       dockerfile: Dockerfile
-    image: megaphone/scheduler
+    image: megaphone/publisher
     ports: ['3001:3000']
     command: ["npm", "run", "dev", "twitter"]
     volumes:
-      - ./megaphone/scheduler:/app
+      - ./megaphone/publisher:/app
       - /app/node_modules
 
   facebook:
     env_file: .env
     build:
-      context: megaphone/scheduler
+      context: megaphone/publisher
       dockerfile: Dockerfile
-    image: megaphone/scheduler
+    image: megaphone/publisher
     ports: ['3002:3000']
     command: ["npm", "run", "dev", "facebook"]
     volumes:
-      - ./megaphone/scheduler:/app
+      - ./megaphone/publisher:/app
       - /app/node_modules
 
   linkedin:
     env_file: .env
     build:
-      context: megaphone/scheduler
+      context: megaphone/publisher
       dockerfile: Dockerfile
-    image: megaphone/scheduler
+    image: megaphone/publisher
     ports: ['3003:3000']
     command: ["npm", "run", "dev", "linkedin"]
     volumes:
-      - ./megaphone/scheduler:/app
+      - ./megaphone/publisher:/app
       - /app/node_modules
 
   redis:
