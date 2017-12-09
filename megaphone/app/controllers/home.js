@@ -49,14 +49,14 @@ exports.getPlans = (req, res, next) => {
   })
 }
 
-exports.postSubscribe = (req, res, next) => {
+exports.postPayment = (req, res, next) => {
   stripe.customers.create({
     email: req.body.stripeEmail,
     card: req.body.stripeToken
   })
   .then(customer => {
     stripe.charges.create({
-      amount: 2000,
+      amount: 1500,
       description: 'Standard',
       currency: 'eur',
       customer: customer.id

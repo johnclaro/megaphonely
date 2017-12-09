@@ -85,7 +85,7 @@ app.get('/', home.index)
 app.get('/terms', home.getTerms)
 app.get('/privacy', home.getPrivacy)
 app.get('/plans', home.getPlans)
-app.post('/subscribe', home.postSubscribe)
+app.post('/payment', home.postPayment)
 app.get('/dashboard', passportConfig.isAuthenticated, home.getDashboard)
 
 app.get('/login', account.getLogin)
