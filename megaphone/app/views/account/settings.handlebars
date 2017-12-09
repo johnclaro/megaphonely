@@ -28,12 +28,53 @@
         </tr>
         <tr>
           <td style='font-weight: bold'>Plan</td>
-          <td>
-            <p class='pull-right'>Free trial</p>
-          </td>
-          <td>
-            <a href='/plans' class='btn btn-primary btn-block pull-right'>Upgrade</a>
-          </td>
+          {{#if stripeCustomer.trial_start}}
+            <td>
+              <p class='pull-right'>
+                Free Trial
+                <br/>
+                <a href='/plans'>(Click here to see our plans)</a>
+              </p>
+            </td>
+            <td>
+              <form action='/payment' method='POST'>
+                <script
+                  src='https://checkout.stripe.com/checkout.js' class='stripe-button'
+                  data-key={{stripePublishableKey}}
+                  data-image='/img/megaphone2048x2048.png'
+                  data-name='megaphone.social'
+                  data-panel-label='Upgrade'
+                  data-label='Upgrade'
+                  data-description='Upgrades to Standard Plan'
+                  data-allow-remember-me='false'
+                  data-currency='eur'
+                  data-amount='1500'
+                  data-email={{account.email}}
+                  >
+                </script>
+              </form>
+            </td>
+          {{else}}
+            <td>
+              <p class='pull-right'>{{stripeCustomer.plan.name}}</p>
+            </td>
+            <td>
+              <form action='/payment/edit' method='POST'>
+                <script
+                  src='https://checkout.stripe.com/checkout.js' class='stripe-button'
+                  data-key={{stripePublishableKey}}
+                  data-image='/img/megaphone2048x2048.png'
+                  data-name='megaphone.social'
+                  data-panel-label='Update payment method'
+                  data-label='Update payment method'
+                  data-description='Edit your default payment method'
+                  data-allow-remember-me='false'
+                  data-email={{account.email}}
+                  >
+                </script>
+              </form>
+            </td>
+          {{/if}}
         </tr>
       </tbody>
     </table>
