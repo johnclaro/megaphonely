@@ -9,17 +9,22 @@ const Account = require('models').Account
 exports.getSettings = (req, res, next) => {
   Account.findById(req.user.id)
   .then(account => {
-    return stripe.customers.retrieve(account.stripeId)
-    .then(res => {
-      return Promise.resolve({account: account, stripe: res})
-    })
+    if (account.stripeId) {
+      return stripe.customers.retrieve(account.stripeId)
+      .then(res => {
+        return Promise.resolve({account: account, stripe: res})
+      })
+    } else {
+      return Promise.resolve({account: account})
+    }
   })
   .then(data => {
     res.header('Location', '/settings')
+    const stripeCustomer = data.stripe ? data.stripe.subscriptions.data[0] : null
     return res.render('account/settings', {
       title: 'Settings',
       account: data.account,
-      stripeCustomer: data.stripe.subscriptions.data[0],
+      stripeCustomer: stripeCustomer,
       stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     })
   })
