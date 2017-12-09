@@ -2,20 +2,24 @@
   <thead>
     <tr>
       <th></th>
+      <th>Free</th>
       <th>Standard</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Monthly price</td>
+      <td>€0</td>
       <td>€15</td>
     </tr>
     <tr>
       <td>Connectable social accounts</td>
+      <td>1 per platform</span></td>
       <td>12 total</span></td>
     </tr>
     <tr>
       <td>Scheduled posts per social account</td>
+      <td>10</span></td>
       <td>250</td>
     </tr>
     <tr>
@@ -25,35 +29,17 @@
         <a class='btn btn-social-icon btn-xs btn-facebook'><span class='fa fa-facebook'></span></a>
         <a class='btn btn-social-icon btn-xs btn-instagram'><span class='fa fa-instagram'></span></a>
       </td>
+      <td>
+        <a class='btn btn-social-icon btn-xs btn-twitter'><span class='fa fa-twitter'></span></a>
+        <a class='btn btn-social-icon btn-xs btn-facebook'><span class='fa fa-facebook'></span></a>
+        <a class='btn btn-social-icon btn-xs btn-instagram'><span class='fa fa-instagram'></span></a>
+      </td>
     </tr>
     <tr>
       <td>Upload image or video</td>
       <td><span class='glyphicon glyphicon-ok-sign' style='color: #4185fc'></span></td>
+      <td><span class='glyphicon glyphicon-ok-sign' style='color: #4185fc'></span></td>
     </tr>
-
-    {{#if account}}
-      <tr>
-        <td></td>
-        <td>
-          <form action='/payment' method='POST'>
-            <script
-              src='https://checkout.stripe.com/checkout.js'
-              class='stripe-button'
-              data-key='pk_test_CLGOUyRqMlJVQ4NekRLkPZsX'
-              data-amount='1500'
-              data-name='Standard'
-              data-description='€15 every month. Cancel at anytime.'
-              data-image='/img/megaphone2048x2048.png'
-              data-locale='auto'
-              data-zip-code='true'
-              data-currency='eur'
-              data-label='Select'
-              >
-            </script>
-          </form>
-        </td>
-      </tr>
-    {{/if}}
   </tbody>
 </table>
 

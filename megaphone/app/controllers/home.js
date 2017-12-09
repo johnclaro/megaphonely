@@ -49,24 +49,22 @@ exports.getPlans = (req, res, next) => {
   })
 }
 
+exports.postPaymentMethod = (req, res, next) => {
+  Account.findById(req.user.id)
+  .then(account => {
+    stripe.customers.update(account.stripeId, {source: req.body.stripeToken})
+    req.flash('success', 'Your default payment method has now been updated')
+    return res.redirect('/settings')
+  })
+}
+
 exports.postPayment = (req, res, next) => {
-  stripe.customers.create({
-    email: req.body.stripeEmail,
-    card: req.body.stripeToken
+  Account.findById(req.user.id)
+  .then(account => {
+    stripe.customers.update(account.stripeId, {source: req.body.stripeToken})
+    req.flash('success', 'You successfully paid')
+    return res.redirect('/settings')
   })
-  .then(customer => {
-    stripe.charges.create({
-      amount: 1500,
-      description: 'Standard',
-      currency: 'eur',
-      customer: customer.id
-    })
-    .then(success => {
-      console.log(success)
-    })
-    req.flash('success', 'You successfully paid!')
-  })
-  res.redirect('/plans')
 }
 
 exports.getDashboard = (req, res, next) => {
