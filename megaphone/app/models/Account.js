@@ -10,7 +10,7 @@ module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
     stripeId: {
       field: 'stripe_id',
-      type: Sequelize.INTEGER
+      type: Sequelize.STRING
     },
     firstName: {
       field: 'first_name',
