@@ -24,7 +24,7 @@
           "containerPort": 3000
         }
       ],
-      "command": ["npm", "run", "facebook"]
+      "command": ["npm", "run", "start", "facebook"]
     },
     {
       "name": "twitter",
@@ -37,7 +37,7 @@
           "containerPort": 3000
         }
       ],
-      "command": ["npm", "run", "twitter"]
+      "command": ["npm", "run", "start", "twitter"]
     },
     {
       "name": "linkedin",
@@ -50,7 +50,7 @@
           "containerPort": 3000
         }
       ],
-      "command": ["npm", "run", "linkedin"]
+      "command": ["npm", "run", "start", "linkedin"]
     }
   ]
 }
