@@ -2,14 +2,19 @@
 export
 
 release:
-	make test 
+	make install
+	make test
 	make build
 	make push
 	make deploy
 
+make install:
+	cd megaphone/app && npm i && npm i --only=dev
+	cd megaphone/publisher && npm i && npm i --only=dev
+
 test:
-	cd megaphone/app && npm i && npm i --only=dev && npm test
-	cd megaphone/publisher && npm i && npm i --only=dev && npm test
+	cd megaphone/app && npm test
+	cd megaphone/publisher && npm test
 
 build:
 	cd megaphone/app && docker build -t megaphone/app .
