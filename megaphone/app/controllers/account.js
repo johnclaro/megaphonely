@@ -78,8 +78,8 @@ exports.postRegister = (req, res, next) => {
         account.update({stripeId: customer.id})
         stripe.subscriptions.create({
           customer: customer.id,
-          items: [{plan: 'basic-monthly'}],
-          trial_period_days: 7
+          items: [{plan: 'standard-monthly'}],
+          trial_period_days: 14
         })
       })
 
