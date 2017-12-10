@@ -5,9 +5,10 @@ const aws = require('aws-sdk')
 
 const s3 = new aws.S3()
 
-exports.download = (bucket, key, cb) => {
+exports.download = (bucket, key, provider, cb) => {
   s3.getObject({Bucket: bucket, Key: key}, (err, data) => {
-    const file = fs.createWriteStream(key)
+    const prependedFilename = `${provider}-${key}`
+    const file = fs.createWriteStream(prependedFilename)
     if(err) {
       console.error(err)
     } else {

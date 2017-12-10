@@ -31,7 +31,7 @@ exports.post = (payload, cb) => {
   })
 
   if(file) {
-    s3.download(file.bucket, file.key, (downloadFileError, downloadedFile) => {
+    s3.download(file.bucket, file.key, 'twitter', (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
         const error = {
           statusCode: downloadFileError.statusCode,
