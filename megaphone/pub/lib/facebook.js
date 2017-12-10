@@ -5,7 +5,7 @@ const path = require('path')
 const fbVideoUploader = require('facebook-api-video-upload');
 const FB = require('fb')
 
-const s3 = require('libs/s3')
+const s3 = require('lib/s3')
 
 exports.post = (payload, cb) => {
   const {message, file, profileId, accessToken} = payload

@@ -4,7 +4,7 @@ const Twit = require('twit')
 const path = require('path')
 const fs = require('fs')
 
-const s3 = require('libs/s3')
+const s3 = require('lib/s3')
 
 function mediaTweet (twit, message, mediaId, cb) {
   twit.post('/media/metadata/create', {media_id: mediaId}, (err, data, res) => {
