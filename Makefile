@@ -6,6 +6,7 @@ release:
 	make test
 	make build
 	make push
+	make environment
 	make deploy
 
 install:
@@ -27,6 +28,8 @@ push:
 	docker tag megaphone/pub ${ECR_URI}:pub
 	docker push ${ECR_URI}:pub
 
-deploy:
+environment:
 	eb setenv $(shell cat .env.prod)
+
+deploy:
 	eb deploy --debug
