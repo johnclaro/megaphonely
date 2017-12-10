@@ -1,9 +1,7 @@
 const ffmpeg = require('fluent-ffmpeg')
 const fs = require('fs')
 
-const filePath = '/Users/johnclaro/Downloads/SampleVideo_1280x720_1mb.mp4'
-
-ffmpeg(filePath)
+ffmpeg('mymovie.mp4')
   .videoCodec('libx264')
   .audioCodec('libmp3lame')
   .size('1280x1024')
