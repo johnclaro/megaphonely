@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
     image: megaphone/chameleon
     ports: ['3004:3000']
-    command: ["npm", "run", "start"]
+    command: ["npm", "run", "dev"]
     volumes:
       - ./megaphone/chameleon:/app
       - /app/node_modules
