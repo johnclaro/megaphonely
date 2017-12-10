@@ -7,7 +7,7 @@ const fs = require('fs')
 const kue = require('kue')
 
 const Schedule = require('models').Schedule
-const service = require(`libs/${provider}`)
+const service = require(`lib/${provider}`)
 const s3 = require('libs/s3')
 
 const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
