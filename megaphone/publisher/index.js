@@ -26,7 +26,7 @@ queue.process(provider, (job, done) => {
           isSuccess: false,
           isPublished: true,
           statusCode: err.statusCode,
-          statusMessage: err.error.error.message
+          statusMessage: err.statusMessage
         })
       } else {
         console.log(`Successfully posted to ${provider}`)
