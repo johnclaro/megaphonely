@@ -33,18 +33,29 @@ exports.post = (payload, cb) => {
   if(file) {
     s3.download(file.bucket, file.key, (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
+        const error = {
+          statusCode: downloadFileError.statusCode,
+          statusMessage: downloadFileError.message
+        }
         cb(downloadFileError, null, downloadedFile)
       } else {
         const filePath = path.join(__dirname, '..', downloadedFile.path)
         if(file.mimetype == 'video/mp4') {
-          console.log('Got twitter video')
           twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
             if(err) {
-              cb(err, null, downloadedFile)
+              const error = {
+                statusCode: err.statusCode,
+                statusMessage: err.message
+              }
+              cb(error, null, downloadedFile)
             } else {
               mediaTweet(twit, message, data.media_id_string, (err, data) => {
                 if(err) {
-                  cb(err, null, downloadedFile)
+                  const error = {
+                    statusCode: err.statusCode,
+                    statusMessage: err.message
+                  }
+                  cb(error, null, downloadedFile)
                 } else {
                   cb(null, data, downloadedFile)
                 }
@@ -57,11 +68,19 @@ exports.post = (payload, cb) => {
             const payload = {media_data: data.toString('base64')}
             twit.post('media/upload', payload, (err, data, response) => {
               if(err) {
-                cb(err, null, downloadedFile)
+                const error = {
+                  statusCode: err.statusCode,
+                  statusMessage: err.message
+                }
+                cb(error, null, downloadedFile)
               } else {
                 mediaTweet(twit, message, data.media_id_string, (err, data) => {
                   if(err) {
-                    cb(err, null, downloadedFile)
+                    const error = {
+                      statusCode: err.statusCode,
+                      statusMessage: err.message
+                    }
+                    cb(error, null, downloadedFile)
                   } else {
                     cb(null, data, downloadedFile)
                   }
@@ -75,7 +94,11 @@ exports.post = (payload, cb) => {
   } else {
     twit.post('statuses/update', {status: message}, (err, tweet, msg) => {
       if (err) {
-        cb(err, null)
+        const error = {
+          statusCode: err.statusCode,
+          statusMessage: err.message
+        }
+        cb(error, null)
       } else {
         cb(null, msg)
       }

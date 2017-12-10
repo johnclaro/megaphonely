@@ -34,7 +34,11 @@ exports.post = (payload, cb) => {
             cb(null, res, downloadedFile)
           })
           .catch(err => {
-            cb(err, null, downloadedFile)
+            const error = {
+              statusCode: err.statusCode,
+              statusMessage: err.error.error.message
+            }
+            cb(error, null, downloadedFile)
           })
         } else {
           const payload = {
@@ -43,7 +47,11 @@ exports.post = (payload, cb) => {
           }
           FB.api('me/photos', 'post', payload, (data) => {
             if(data.error || !data) {
-              cb(data.error, null, downloadedFile)
+              const error = {
+                statusCode: data.error.code,
+                statusMessage: data.error.message
+              }
+              cb(error, null, downloadedFile)
             } else if (!data) {
               cb('Data was empty', null, downloadedFile)
             } else {
@@ -56,7 +64,11 @@ exports.post = (payload, cb) => {
   } else {
     FB.api('me/feed', 'post', {message: message}, (data) => {
       if(data.error || !data) {
-        cb(data.error, null)
+        const error = {
+          statusCode: data.error.code,
+          statusMessage: data.error.message
+        }
+        cb(error, null)
       } else if (!data) {
         cb('Data was empty', null)
       } else {

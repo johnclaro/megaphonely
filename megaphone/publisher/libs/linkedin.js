@@ -28,12 +28,21 @@ exports.post = (payload, cb) => {
 
   linkedin.people.share(content, (err, data) => {
     if (err) {
-      cb(err, null)
+      console.error(`ERRRRROR: ${JSON.stringify(err, null, 4)}`)
+      const error = {
+        statusCode: err.status,
+        statusMessage: err.message
+      }
+      cb(error, null)
     } else {
       if (data.updateKey && data.updateUrl) {
         cb(null, data)
       } else {
-        cb(data, null)
+        const error = {
+          statusCode: data.status,
+          statusMessage: data.message
+        }
+        cb(error, null)
       }
     }
   })
