@@ -15,7 +15,7 @@
     },
     {
       "name": "facebook",
-      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:publisher",
+      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:pub",
       "essential": true,
       "memory": 128,
       "portMappings": [
@@ -28,7 +28,7 @@
     },
     {
       "name": "twitter",
-      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:publisher",
+      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:pub",
       "essential": true,
       "memory": 128,
       "portMappings": [
@@ -41,7 +41,7 @@
     },
     {
       "name": "linkedin",
-      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:publisher",
+      "image": "775451337188.dkr.ecr.eu-west-1.amazonaws.com/megaphone:pub",
       "essential": true,
       "memory": 128,
       "portMappings": [
