@@ -8,7 +8,7 @@ release:
 	make push
 	make deploy
 
-make install:
+install:
 	cd megaphone/app && npm i && npm i --only=dev
 	cd megaphone/publisher && npm i && npm i --only=dev
 
