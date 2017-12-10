@@ -1,4 +1,4 @@
-FROM jkrclaro/ffmpeg-node
+FROM megaphone/ffmpeg-node
 
 WORKDIR /app
 COPY package.json /app
