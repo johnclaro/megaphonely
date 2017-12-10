@@ -48,6 +48,18 @@ services:
       - ./megaphone/publisher:/app
       - /app/node_modules
 
+  chameleon:
+    env_file: .env
+    build:
+      context: megaphone/chameleon
+      dockerfile: Dockerfile
+    image: megaphone/chameleon
+    ports: ['3004:3000']
+    command: ["npm", "run", "start"]
+    volumes:
+      - ./megaphone/chameleon:/app
+      - /app/node_modules
+
   redis:
     image: 'redis:alpine'
     ports:
