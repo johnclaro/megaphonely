@@ -1,4 +1,4 @@
-FROM raman148/ffmpeg-node
+FROM jkrclaro/ffmpeg-node
 
 WORKDIR /app
 COPY package.json /app
