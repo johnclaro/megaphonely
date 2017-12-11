@@ -4,6 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const fbVideoUploader = require('facebook-api-video-upload');
 const FB = require('fb')
+const isVideo = require('is-video')
+const replaceExt = require('replace-ext')
 
 const content = require('lib/content')
 
@@ -12,18 +14,13 @@ exports.post = (payload, cb) => {
 
   FB.setAccessToken(accessToken)
   if(file) {
-    // TODO: Store this as a variable somewhere
-    const videoFormats = [
-      'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
-      'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
-      'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv',
-    ]
     content.download(file.bucket, file.key, 'facebook', (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
         cb(downloadFileError, null, downloadedFile)
       } else {
-        const filePath = path.join(__dirname, '..', downloadedFile.path)
-        if(videoFormats.indexOf(downloadedFile.path.split('.').pop()) >= 0) {
+        const mp4 = replaceExt(downloadedFile.path, '.mp4')
+        const filePath = path.join(__dirname, '..', mp4)
+        if(isVideo(filePath)) {
           fbVideoUploader({
             token: accessToken,
             id: profileId,

@@ -5,6 +5,8 @@ const provider = process.argv.slice(2)[0]
 const fs = require('fs')
 
 const kue = require('kue')
+const isVideo = require('is-video')
+const replaceExt = require('replace-ext')
 
 const Schedule = require('models').Schedule
 const service = require(`lib/${provider}`)
@@ -38,7 +40,11 @@ queue.process(provider, (job, done) => {
       }
     })
 
-    if(file) fs.unlink(file.path)
+    if(file) {
+      const mp4 = replaceExt(file.path, '.mp4')
+      fs.unlink(file.path)
+      fs.unlink(mp4)
+    }
     done()
   })
 })

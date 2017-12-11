@@ -3,6 +3,8 @@
 const Twit = require('twit')
 const path = require('path')
 const fs = require('fs')
+const isVideo = require('is-video')
+const replaceExt = require('replace-ext')
 
 const content = require('lib/content')
 
@@ -39,8 +41,10 @@ exports.post = (payload, cb) => {
         }
         cb(downloadFileError, null, downloadedFile)
       } else {
-        const filePath = path.join(__dirname, '..', downloadedFile.path)
-        if(file.mimetype == 'video/mp4') {
+        const mp4 = replaceExt(downloadedFile.path, '.mp4')
+        const filePath = path.join(__dirname, '..', mp4)
+        console.log(`Twitter: ${filePath}`)
+        if(isVideo(filePath)) {
           twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
             if(err) {
               const error = {
