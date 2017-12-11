@@ -4,7 +4,7 @@ const Twit = require('twit')
 const path = require('path')
 const fs = require('fs')
 
-const s3 = require('lib/s3')
+const content = require('lib/content')
 
 function mediaTweet (twit, message, mediaId, cb) {
   twit.post('/media/metadata/create', {media_id: mediaId}, (err, data, res) => {
@@ -31,7 +31,7 @@ exports.post = (payload, cb) => {
   })
 
   if(file) {
-    s3.download(file.bucket, file.key, 'twitter', (downloadFileError, downloadedFile) => {
+    content.download(file.bucket, file.key, 'twitter', (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
         const error = {
           statusCode: downloadFileError.statusCode,

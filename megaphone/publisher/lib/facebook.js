@@ -5,7 +5,7 @@ const path = require('path')
 const fbVideoUploader = require('facebook-api-video-upload');
 const FB = require('fb')
 
-const s3 = require('lib/s3')
+const content = require('lib/content')
 
 exports.post = (payload, cb) => {
   const {message, file, profileId, accessToken} = payload
@@ -18,7 +18,7 @@ exports.post = (payload, cb) => {
       'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
       'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv',
     ]
-    s3.download(file.bucket, file.key, 'facebook', (downloadFileError, downloadedFile) => {
+    content.download(file.bucket, file.key, 'facebook', (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
         cb(downloadFileError, null, downloadedFile)
       } else {
