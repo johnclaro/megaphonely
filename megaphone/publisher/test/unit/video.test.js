@@ -8,28 +8,14 @@ const ffmpeg = require('fluent-ffmpeg')
 const expect = require('chai').expect
 
 describe('home', () => {
-  after(() => {
-    const filesToDelete = ['3gp', 'flv', 'mkv', 'mp4', 'ogv', 'webm']
-
-    for (let i=0; i<filesToDelete.length; i++) {
-      const fileToDelete = `${filesToDelete[i]}.mp4`
-      try {
-        fs.unlink(`${path.join(__dirname, '..', fileToDelete)}`)
-      } catch(err) {
-        console.error('Do nothing')
-      }
-    }
-  })
-
-  it('should convert mp4', (done) => {
+  it('should convert mp4', () => {
     ffmpeg(path.join(__dirname, '..', 'video.mp4'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', 'mp4.mp4'));
@@ -39,11 +25,10 @@ describe('home', () => {
     ffmpeg(path.join(__dirname, '..', 'video.mkv'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', 'mkv.mp4'));
@@ -53,11 +38,10 @@ describe('home', () => {
     ffmpeg(path.join(__dirname, '..', 'video.3gp'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', '3gp.mp4'));
@@ -67,11 +51,10 @@ describe('home', () => {
     ffmpeg(path.join(__dirname, '..', 'video.flv'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', 'flv.mp4'));
@@ -81,11 +64,10 @@ describe('home', () => {
     ffmpeg(path.join(__dirname, '..', 'video.ogv'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', 'ogv.mp4'));
@@ -95,13 +77,38 @@ describe('home', () => {
     ffmpeg(path.join(__dirname, '..', 'video.webm'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
-      .on('error', function(err) {
-        console.log('An error occurred: ' + err.message);
+      .on('error', (err, stdout, stderr) => {
         done(err, null)
       })
-      .on('end', function() {
+      .on('end', (stdout, stderr) => {
         done()
       })
       .save(path.join(__dirname, '..', 'webm.mp4'));
+  })
+
+  it('should convert avi', (done) => {
+    ffmpeg(path.join(__dirname, '..', 'video.avi'))
+      .videoCodec('libx264')
+      .audioCodec('libmp3lame')
+      .on('error', (err, stdout, stderr) => {
+        done(err, null)
+      })
+      .on('end', (stdout, stderr) => {
+        done()
+      })
+      .save(path.join(__dirname, '..', 'avi.mp4'));
+  })
+
+  it('should not convert corrupt webm', (done) => {
+    ffmpeg(path.join(__dirname, '..', 'corrupt.webm'))
+      .videoCodec('libx264')
+      .audioCodec('libmp3lame')
+      .on('error', (err, stdout, stderr) => {
+        done(null, err)
+      })
+      .on('end', (stdout, stderr) => {
+        done('Expected this to fail', null)
+      })
+      .save(path.join(__dirname, '..', 'corrupt.mp4'));
   })
 })
