@@ -14,7 +14,7 @@ install:
 	cd megaphone/publisher && npm i && npm i --only=dev
 
 test:
-	# cd megaphone/app && npm test
+	cd megaphone/app && npm test
 	cd megaphone/publisher && npm test
 
 build:
