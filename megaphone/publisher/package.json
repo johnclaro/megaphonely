@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_PATH=. mocha --recursive --exit",
+    "test": "NODE_PATH=. mocha --recursive",
     "start": "NODE_PATH=. node index.js",
     "dev": "NODE_PATH=. nodemon index.js"
   },
