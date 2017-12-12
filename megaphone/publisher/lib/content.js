@@ -31,7 +31,7 @@ exports.download = (bucket, key, provider, cb) => {
                 cb(err, null)
               })
               .on('end', () => {
-                cb(null, file.path)
+                cb(null, mp4)
               })
               .save(mp4);
           } else {

@@ -42,11 +42,10 @@ queue.process(provider, (job, done) => {
 
     if(job.data.file) {
       const filename = `${provider}-${job.data.file.key}`
+      fs.unlink(filename)
       if (isVideo(filename)) {
         const mp4 = replaceExt(filename, '.mp4')
         fs.unlink(mp4)
-      } else {
-        fs.unlink(filename)
       }
     }
     done()
