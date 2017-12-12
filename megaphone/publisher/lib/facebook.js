@@ -14,12 +14,15 @@ exports.post = (payload, cb) => {
 
   FB.setAccessToken(accessToken)
   if(file) {
-    content.download(file.bucket, file.key, 'facebook', (downloadFileError, downloadedFile) => {
-      if(downloadFileError) {
-        cb(downloadFileError, null, downloadedFile)
+    content.download(file.bucket, file.key, 'facebook', (err, filename) => {
+      if(err) {
+        const error = {
+          statusCode: 503,
+          statusMessage: 'Our video processing failed'
+        }
+        cb(error, null, filename)
       } else {
-        const mp4 = replaceExt(downloadedFile.path, '.mp4')
-        const filePath = path.join(__dirname, '..', mp4)
+        const filePath = path.join(__dirname, '..', filename)
         if(isVideo(filePath)) {
           fbVideoUploader({
             token: accessToken,
@@ -28,14 +31,14 @@ exports.post = (payload, cb) => {
             description: message
           })
           .then(res => {
-            cb(null, res, downloadedFile)
+            cb(null, res)
           })
           .catch(err => {
             const error = {
               statusCode: err.statusCode,
               statusMessage: err.error.error.message
             }
-            cb(error, null, downloadedFile)
+            cb(error, null)
           })
         } else {
           const payload = {
@@ -48,11 +51,11 @@ exports.post = (payload, cb) => {
                 statusCode: data.error.code,
                 statusMessage: data.error.message
               }
-              cb(error, null, downloadedFile)
+              cb(error, null)
             } else if (!data) {
-              cb('Data was empty', null, downloadedFile)
+              cb('Data was empty', null)
             } else {
-              cb(null, data, downloadedFile)
+              cb(null, data)
             }
           })
         }

@@ -13,33 +13,29 @@ const s3 = new aws.S3()
 
 exports.download = (bucket, key, provider, cb) => {
   s3.getObject({Bucket: bucket, Key: key}, (err, data) => {
-    const prependedFilename = `${provider}-${key}`
-    const file = fs.createWriteStream(prependedFilename)
-    if(err) {
-      console.error(err)
+    if (err) {
+      cb(err, null)
     } else {
-      file.write(data.Body, (fileCreateFailed, fileCreated) => {
-        if(fileCreateFailed) {
-          cb(fileCreateFailed, null)
+      let filename = `${provider}-${key}`
+      const file = fs.createWriteStream(filename)
+      file.write(data.Body, (err) => {
+        if(err) {
+          cb(err, null)
         } else {
           if (isVideo(file.path)) {
             const mp4 = replaceExt(file.path, '.mp4')
             ffmpeg(file.path)
               .videoCodec('libx264')
               .audioCodec('libmp3lame')
-              .on('error', function(err) {
-                console.log('An error occurred: ' + err.message);
-                fs.unlink(file.path)
-                fs.unlink(mp4)
+              .on('error', (err) => {
                 cb(err, null)
               })
-              .on('end', function() {
-                console.log('Processing finished !');
-                cb(null, file)
+              .on('end', () => {
+                cb(null, file.path)
               })
               .save(mp4);
           } else {
-            cb(null, file)
+            cb(null, file.path)
           }
         }
       })

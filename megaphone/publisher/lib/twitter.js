@@ -33,16 +33,15 @@ exports.post = (payload, cb) => {
   })
 
   if(file) {
-    content.download(file.bucket, file.key, 'twitter', (downloadFileError, downloadedFile) => {
-      if(downloadFileError) {
+    content.download(file.bucket, file.key, 'twitter', (err, filename) => {
+      if(err) {
         const error = {
           statusCode: 503,
           statusMessage: 'Our video processing failed'
         }
-        cb(error, null, downloadedFile)
+        cb(error, null, filename)
       } else {
-        const mp4 = replaceExt(downloadedFile.path, '.mp4')
-        const filePath = path.join(__dirname, '..', mp4)
+        const filePath = path.join(__dirname, '..', filename)
         console.log(`Twitter: ${filePath}`)
         if(isVideo(filePath)) {
           twit.postMediaChunked({file_path: filePath}, (err, data, res) => {
@@ -51,7 +50,7 @@ exports.post = (payload, cb) => {
                 statusCode: err.statusCode,
                 statusMessage: err.message
               }
-              cb(error, null, downloadedFile)
+              cb(error, null)
             } else {
               mediaTweet(twit, message, data.media_id_string, (err, data) => {
                 if(err) {
@@ -59,9 +58,9 @@ exports.post = (payload, cb) => {
                     statusCode: err.statusCode,
                     statusMessage: err.message
                   }
-                  cb(error, null, downloadedFile)
+                  cb(error, null)
                 } else {
-                  cb(null, data, downloadedFile)
+                  cb(null, data)
                 }
               })
             }
@@ -76,7 +75,7 @@ exports.post = (payload, cb) => {
                   statusCode: err.statusCode,
                   statusMessage: err.message
                 }
-                cb(error, null, downloadedFile)
+                cb(error, null)
               } else {
                 mediaTweet(twit, message, data.media_id_string, (err, data) => {
                   if(err) {
@@ -84,9 +83,9 @@ exports.post = (payload, cb) => {
                       statusCode: err.statusCode,
                       statusMessage: err.message
                     }
-                    cb(error, null, downloadedFile)
+                    cb(error, null)
                   } else {
-                    cb(null, data, downloadedFile)
+                    cb(null, data)
                   }
                 })
               }

@@ -16,7 +16,7 @@ const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 queue.process(provider, (job, done) => {
   console.log(`Found a ${provider} job`)
 
-  service.post(job.data, (err, data, file) => {
+  service.post(job.data, (err, data) => {
     Schedule.findOne({
       where: {content_id: job.data.contentId, social_id: job.data.socialId}
     })
@@ -40,11 +40,13 @@ queue.process(provider, (job, done) => {
       }
     })
 
-    if(file) {
-      const mp4 = replaceExt(file.path, '.mp4')
-      fs.unlink(file.path)
-      if (isVideo(file.path) && file.path != mp4) {
+    if(job.data.file) {
+      const filename = `${provider}-${job.data.file.key}`
+      if (isVideo(filename)) {
+        const mp4 = replaceExt(filename, '.mp4')
         fs.unlink(mp4)
+      } else {
+        fs.unlink(filename)
       }
     }
     done()
