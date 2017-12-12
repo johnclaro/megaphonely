@@ -20,7 +20,7 @@ exports.postContent = (req, res, next) => {
 
   if(filename) {
     const message = `File is not valid. Please visit our FAQs for more info`
-    req.checkBody('media', message).isValidFile(filename)
+    req.checkBody('media', message).isValidFile(filename.toLowerCase())
   }
 
   const errors = req.validationErrors()
