@@ -18,7 +18,7 @@ describe('home', () => {
       .on('end', (stdout, stderr) => {
         done()
       })
-      .save(path.join(__dirname, '..', 'mp4.mp4'));
+      .pipe(res, {end:true});
   })
 
   it('should convert mkv', (done) => {
