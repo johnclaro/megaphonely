@@ -7,6 +7,7 @@ const request = require('request')
 const aws = require('aws-sdk')
 const isVideo = require('is-video')
 const replaceExt = require('replace-ext')
+// const getDuration = require('get-video-duration')
 
 const s3 = new aws.S3()
 
@@ -26,16 +27,20 @@ exports.download = (bucket, key, provider, cb) => {
             ffmpeg(file.path)
               .videoCodec('libx264')
               .audioCodec('libmp3lame')
-              .size('1280x1024')
               .on('error', function(err) {
                 console.log('An error occurred: ' + err.message);
+                fs.unlink(file.path)
+                fs.unlink(mp4)
+                cb(err, null)
               })
               .on('end', function() {
                 console.log('Processing finished !');
+                cb(null, file)
               })
               .save(mp4);
+          } else {
+            cb(null, file)
           }
-          cb(null, file)
         }
       })
     }

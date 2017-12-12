@@ -43,7 +43,9 @@ queue.process(provider, (job, done) => {
     if(file) {
       const mp4 = replaceExt(file.path, '.mp4')
       fs.unlink(file.path)
-      fs.unlink(mp4)
+      if (isVideo(file.path) && file.path != mp4) {
+        fs.unlink(mp4)
+      }
     }
     done()
   })
