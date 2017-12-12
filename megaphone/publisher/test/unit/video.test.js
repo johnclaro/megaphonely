@@ -6,15 +6,25 @@ const fs = require('fs')
 const ffmpeg = require('fluent-ffmpeg')
 const expect = require('chai').expect
 
-const filePath = path.join(__dirname, '..', '.mp4')
+const filePath = path.join(__dirname, '..', 'mp4')
 
 describe('home', () => {
   after(() => {
-    return Account.destroy({truncate: true})
+    fs.unlink(mp4)
   })
 
   it('should convert mp4', (done) => {
-    done()
+    ffmpeg(file.path)
+      .videoCodec('libx264')
+      .audioCodec('libmp3lame')
+      .on('error', function(err) {
+        console.log('An error occurred: ' + err.message);
+        done(err, null)
+      })
+      .on('end', function() {
+        done()
+      })
+      .save(mp4);
   })
 
   it('should convert mkv', (done) => {
