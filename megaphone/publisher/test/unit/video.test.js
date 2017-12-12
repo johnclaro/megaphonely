@@ -7,8 +7,17 @@ const replaceExt = require('replace-ext')
 const ffmpeg = require('fluent-ffmpeg')
 const expect = require('chai').expect
 
-describe('home', () => {
-  it('should convert mp4', () => {
+describe('video', () => {
+  after(() => {
+    const filesToDelete = ['3gp', 'flv', 'mkv', 'mp4', 'ogv', 'webm', 'avi']
+
+    for (let i=0; i<filesToDelete.length; i++) {
+      const fileToDelete = `${filesToDelete[i]}.mp4`
+      fs.unlink(`${path.join(__dirname, '..', fileToDelete)}`, (err) => {})
+    }
+  })
+
+  it('should convert mp4', (done) => {
     ffmpeg(path.join(__dirname, '..', 'video.mp4'))
       .videoCodec('libx264')
       .audioCodec('libmp3lame')
