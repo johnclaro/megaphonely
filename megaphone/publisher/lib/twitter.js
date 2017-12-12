@@ -36,10 +36,10 @@ exports.post = (payload, cb) => {
     content.download(file.bucket, file.key, 'twitter', (downloadFileError, downloadedFile) => {
       if(downloadFileError) {
         const error = {
-          statusCode: downloadFileError.statusCode,
-          statusMessage: downloadFileError.message
+          statusCode: 503,
+          statusMessage: 'Our video processing failed'
         }
-        cb(downloadFileError, null, downloadedFile)
+        cb(error, null, downloadedFile)
       } else {
         const mp4 = replaceExt(downloadedFile.path, '.mp4')
         const filePath = path.join(__dirname, '..', mp4)

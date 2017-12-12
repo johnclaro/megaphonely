@@ -1,4 +1,4 @@
-FROM megaphone/ffmpeg-node
+FROM lucasilverentand/ffmpeg-node
 
 WORKDIR /app
 COPY package.json /app

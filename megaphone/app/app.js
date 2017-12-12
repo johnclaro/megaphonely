@@ -59,7 +59,7 @@ app.use(validator({
         // Facebook only allows these videos
         'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
         'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
-        'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv',
+        'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv', '3gp'
       ]
       if (validExtensions.indexOf(mimetype.toLowerCase()) >= 0) return true
       return false
