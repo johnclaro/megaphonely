@@ -1,5 +1,6 @@
 'use strict'
 
+const isVideo = require('is-video')
 const kue = require('kue')
 const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 
@@ -19,7 +20,7 @@ exports.postContent = (req, res, next) => {
 
   if(filename) {
     const message = `File is not valid. Please visit our FAQs for more info`
-    req.checkBody('media', message).isValidFile(fileformat)
+    req.checkBody('media', message).isValidFile(filename)
   }
 
   const errors = req.validationErrors()
@@ -47,19 +48,12 @@ exports.postContent = (req, res, next) => {
   const profileIds = req.body.profileIds
   const publishAt = req.body.publishAt
 
-  const videoFormats = [
-    'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
-    'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
-    'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv'
-  ]
-  const isVideo = videoFormats.indexOf(fileformat) >= 0 ? true : false
-
   Content.create({
     message: message,
     publishAt: publishAt,
     filename: filename,
     fileformat: fileformat,
-    isVideo: isVideo,
+    isVideo: isVideo(filename) ? true : false,
   })
   .then(content => {
     Social.findAll({

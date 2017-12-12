@@ -12,6 +12,8 @@ const favicon = require('serve-favicon')
 const crypto = require('crypto')
 const multerS3 = require('multer-s3')
 const aws = require('aws-sdk')
+const isVideo = require('is-video')
+const isImage = require('is-image')
 
 const app = express()
 const s3 = new aws.S3()
@@ -50,19 +52,8 @@ app.use(validator({
       var inputTime = new Date(inputTime).getTime()
       return rightNow < inputTime
     },
-    isValidFile: (value, mimetype) => {
-      console.log(`Got mimetype: ${mimetype}`)
-      const validExtensions = [
-        // Facebook only allows these images
-        'jpg', 'png', 'gif', 'tiff', 'jpeg',
-
-        // Facebook only allows these videos
-        'mp4', '3g2', '3gpp', 'asf', 'dat', 'divx', 'dv', 'f4v', 'flv', 'gif',
-        'm2ts', 'm4v', 'mkv', 'mod', 'mp4', 'mpe', 'mpeg', 'mpeg4', 'mpg',
-        'mts', 'nsv', 'ogm', 'ogv', 'qt', 'tod', 'ts', 'vob', 'wmv', '3gp'
-      ]
-      if (validExtensions.indexOf(mimetype.toLowerCase()) >= 0) return true
-      return false
+    isValidFile: (value, file) => {
+      return (isImage(file) || isVideo(file)) ? true : false
     }
   }
 }))
