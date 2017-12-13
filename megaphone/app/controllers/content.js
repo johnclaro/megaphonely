@@ -10,8 +10,8 @@ const Schedule = require('models').Schedule
 
 exports.postContent = (req, res, next) => {
   const file = req.file || {}
-  const filename = file.key || ''
-  const fileformat = filename.split('.').pop() || ''
+  const filename = file.key.toLowerCase() || ''
+  const fileformat = filename.split('.').pop().toLowerCase() || ''
 
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('profileIds', 'You must choose a social account').notEmpty()
@@ -20,7 +20,7 @@ exports.postContent = (req, res, next) => {
 
   if(filename) {
     const message = `File is not valid. Please visit our FAQs for more info`
-    req.checkBody('media', message).isValidFile(filename.toLowerCase())
+    req.checkBody('media', message).isValidFile(filename)
   }
 
   const errors = req.validationErrors()
