@@ -1,3 +1,5 @@
+'use strict'
+
 import React from 'react';
 
 const formatName = user => `${user.firstName} ${user.lastName}`;
@@ -7,12 +9,12 @@ const user = {
   lastName: 'Doe'
 };
 
-const Home = () => {
+const Layout = () => {
     return (
-     <div>
+      <div class='container'>
         <h1>Hello, {formatName(user)}!</h1>
       </div>
    )
 };
 
-export default Home;
+export default Layout;
