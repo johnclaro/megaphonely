@@ -12,6 +12,7 @@ exports.postContent = (req, res, next) => {
   const file = req.file || {}
   const filename = file.key.toLowerCase() || ''
   const fileformat = filename.split('.').pop().toLowerCase() || ''
+  console.log(`Got file: ${JSON.stringify(req.file, null, 4)}`)
 
   req.assert('message', 'Message cannot be empty').notEmpty()
   req.assert('profileIds', 'You must choose a social account').notEmpty()

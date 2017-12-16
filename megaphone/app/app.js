@@ -52,9 +52,7 @@ app.use(validator({
       var inputTime = new Date(inputTime).getTime()
       return rightNow < inputTime
     },
-    isValidFile: (value, file) => {
-      return (isImage(file) || isVideo(file)) ? true : false
-    }
+    isValidFile: (value, file) => {return (isImage(file) || isVideo(file))}
   }
 }))
 app.use(session({secret: 'secret', resave: false, saveUninitialized: false}))
@@ -122,20 +120,20 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (req._body == true) {
     if (err == 'Error: 404') {
-      // console.error(`Error _body 404: ${err}`)
+      console.error(`Error _body 404: ${err}`)
       res.status(404)
       return res.render('4xx', {title: '4xx'})
     } else {
-      // console.error(`Error _body: ${err}`)
+      console.error(`Error _body: ${err}`)
       return res.redirect(req.headers.referer)
     }
   } else {
     if (err == 'Error: 404') {
-      // console.error(`400: ${err}`)
+      console.error(`400: ${err}`)
       res.status(404)
       return res.render('4xx', {title: '4xx'})
     } else {
-      // console.error(`500: ${err}`)
+      console.error(`500: ${err}`)
       res.status(500)
       return res.render('5xx', {title: '5xx'})
     }
