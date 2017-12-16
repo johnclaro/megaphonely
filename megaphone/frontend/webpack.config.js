@@ -33,49 +33,23 @@ module.exports = {
 			{
 				test: /\.(js|jsx)$/,
 				loader: 'babel-loader',
-				exclude: /node_modules/,
+				exclude: /node_modules/
 			}
 		]
 	},
 	plugins: [
 		new ExtractTextPlugin("bundle.css"),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				screw_ie8: true,
-				warnings: false
-			},
-			mangle: {
-				screw_ie8: true
-			},
-			output: {
-				comments: false,
-				screw_ie8: true
-			},
-			minimize: true,
-			sourceMap: true
-		}),
+		new webpack.HotModuleReplacementPlugin(),
 		new HtmlWebpackPlugin({
 			inject: true,
-			template: path.join(__dirname, '/index.html'),
-			minify: {
-				removeComments: true,
-				collapseWhitespace: true,
-				removeRedundantAttributes: true,
-				useShortDoctype: true,
-				removeEmptyAttributes: true,
-				removeStyleLinkTypeAttributes: true,
-				keepClosingSlash: true,
-				minifyJS: true,
-				minifyCSS: true,
-				minifyURLs: true
-			}
+			template: path.join(__dirname, '/index.html')
 		}),
-		new webpack.EnvironmentPlugin({ NODE_ENV: 'production' }),
+		new webpack.EnvironmentPlugin({ NODE_ENV: process.env.NODE_ENV }),
 	],
 	devtool: "source-map",
 	devServer: {
 		port,
-		compress: true,
+		hot: true,
 		historyApiFallback: true
 	}
 }
