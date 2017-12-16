@@ -14,7 +14,7 @@ const service = require(`lib/${provider}`)
 const queue = kue.createQueue({redis: {host: process.env.REDIS_HOST}})
 
 queue.process(provider, (job, done) => {
-  console.log(`Found a ${provider} job`)
+  console.log(`Found a ${provider} job: ${JSON.stringify(job, null, 4)}`)
 
   service.post(job.data, (err, data) => {
     Schedule.findOne({
