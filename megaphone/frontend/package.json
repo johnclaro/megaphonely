@@ -34,7 +34,6 @@
     "babel-preset-env": "^1.6.0",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.1",
-    "html-webpack-plugin": "^2.30.1",
     "sass-loader": "^6.0.6",
     "webpack": "^3.7.1"
   }

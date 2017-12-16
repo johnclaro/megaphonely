@@ -1,10 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const port = process.env.PORT || 3000;
-const outputPath = path.join(__dirname, "dist")
+const outputPath = path.join(__dirname, 'dist')
 
 module.exports = {
 	entry: './src/App.js',
@@ -38,15 +37,11 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin("bundle.css"),
+		new ExtractTextPlugin('bundle.css'),
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
-			inject: true,
-			template: path.join(__dirname, '/index.html')
-		}),
 		new webpack.EnvironmentPlugin({ NODE_ENV: process.env.NODE_ENV }),
 	],
-	devtool: "source-map",
+	devtool: 'source-map',
 	devServer: {
 		port,
 		hot: true,
