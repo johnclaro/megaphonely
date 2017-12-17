@@ -2,11 +2,11 @@
   "name": "megaphone-backend",
   "version": "1.1.0",
   "description": "Social media management tool",
-  "main": "src/index.js",
+  "main": "src/bin/www.js",
   "scripts": {
     "test": "jest --config=jest.config.js",
-    "start": "node ./src/bin/www",
-    "dev": "nodemon ./src/bin/www"
+    "start": "node",
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
