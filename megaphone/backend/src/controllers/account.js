@@ -1,6 +1,6 @@
 'use strict'
 
-const Account = require('models').Account
+const Account = require('../models').Account
 
 exports.index = (req, res, next) => {
   Account.findAll()

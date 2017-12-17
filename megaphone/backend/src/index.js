@@ -3,7 +3,7 @@ const express = require('express')
 
 const app = express()
 
-const account = require('controllers/account')
+const account = require('./controllers/account')
 
 app.get('/', account.index)
 
