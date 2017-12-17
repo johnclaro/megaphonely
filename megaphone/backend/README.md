@@ -1,12 +1,12 @@
-# mp-web-backend
+# Backend
 
-Backend for megaphone
+Backend code for Megaphone
 
 # Setup
 ```
-virtualenv -p python3 ~/virtualenvs/mp-web-backend
-source ~/virtualenvs/mp-web-backend/bin/activate
-pip3 install django
+virtualenv -p python3 ~/virtualenvs/megaphone
+source ~/virtualenvs/megaphone/bin/activate
+pip3 install > requirements.txt
 ```
 
 # Usage
