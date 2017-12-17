@@ -7,8 +7,8 @@
     "build": "NODE_ENV=production webpack --config webpack/prd.js",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/dev.js"
   },
-  "homepage": "https://github.com/megaphonesm/megaphone",
-  "repository": "https://github.com/megaphonesm/megaphone.git",
+  "homepage": "https://github.com/megaphonesm/megaphone-web",
+  "repository": "https://github.com/megaphonesm/megaphone-web.git",
   "keywords": [
     "social",
     "media",
