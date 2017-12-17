@@ -4,7 +4,7 @@
   "description": "Social media management tool",
   "main": "index.js",
   "scripts": {
-    "test": "jest --config=jest.config.js",
+    "test": "NODE_PATH=. jest --config=jest.config.js",
     "start": "NODE_PATH=. NODE_ENV=production node index.js",
     "dev": "NODE_PATH=. NODE_ENV=development nodemon index.js"
   },
