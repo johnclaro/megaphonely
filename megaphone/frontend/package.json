@@ -1,12 +1,11 @@
 {
   "name": "megaphone-frontend",
   "version": "1.0.0",
-  "description": "a boiler plate for creating react applications bundled by webpack",
-  "main": "src/js/index.js",
+  "description": "",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "webpack",
-    "start": "NODE_ENV=production webpack-dev-server"
+    "build": "NODE_ENV=production webpack --config webpack/prod.config.js",
+    "start": "NODE_ENV=development webpack-dev-server --config webpack/dev.config.js"
   },
   "homepage": "https://github.com/megaphonesm/megaphone",
   "repository": "https://github.com/megaphonesm/megaphone.git",
@@ -19,10 +18,6 @@
   ],
   "author": "John Claro",
   "dependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-react-hmre": "^1.1.1",
-    "node-sass": "^4.5.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "^3.1.1"
@@ -30,10 +25,14 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.28.7",
-    "extract-text-webpack-plugin": "^3.0.1",
-    "sass-loader": "^6.0.6",
-    "webpack": "^3.7.1"
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0",
+    "webpack-merge": "^4.1.1"
   }
 }
