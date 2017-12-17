@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-console.log(path.resolve(process.cwd(), './src/index'))
 module.exports = {
   entry: {
     app: path.resolve(process.cwd(), './src/index'),
