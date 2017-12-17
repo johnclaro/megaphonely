@@ -3,8 +3,8 @@ const express = require('express')
 
 const app = express()
 
-const home = require('controllers/home')
+const account = require('controllers/account')
 
-app.get('/', home.index)
+app.get('/', account.index)
 
 module.exports = app
