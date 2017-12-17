@@ -1,13 +1,19 @@
+'use strict'
+
+const path = require('path');
+
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const baseConfig = require('./base.config.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = merge(baseConfig, {
+const base = require('./base.js');
+
+module.exports = merge(base, {
   output: {
-    path: 'build',
+    path: path.join(process.cwd(), 'build'),
     filename: '[name].bundle.[chunkhash].js',
+    publicPath: '/megaphone/megaphone/frontend/',
   },
 
   module: {
