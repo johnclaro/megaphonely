@@ -44,8 +44,6 @@ module.exports = (db, Sequelize) => {
     underscored: true
   })
 
-  Account.associate = (models) => {
-
-  }
-  return Account;
+  Account.associate = (models) => {}
+  return Account
 }
