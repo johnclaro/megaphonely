@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('app')
+var server = require('server')
 var http = require('http')
 var models = require('models')
 
@@ -13,11 +13,11 @@ var models = require('models')
  */
 
 var port = normalizePort(process.env.PORT || '3000')
-app.set('port', port)
+server.set('port', port)
   /**
    * Create HTTP server.
    */
-var server = http.createServer(app)
+var server = http.createServer(server)
 
 models.sequelize.sync({force: true}).then(function() {
   server.listen(port, function() {

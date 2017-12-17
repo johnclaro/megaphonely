@@ -1,7 +1,7 @@
 const expect = require('chai').expect
 const request = require('supertest')
 
-const app = require('app')
+const server = require('server')
 const Account = require('models').Account
 
 describe('accounts', () => {
@@ -18,7 +18,7 @@ describe('accounts', () => {
       where: {email: 'validverificationtoken@gmail.com'}
     })
     .then(account => {
-      return request(app)
+      return request(server)
         .get('/')
         .expect(200)
     })
