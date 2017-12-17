@@ -13,7 +13,7 @@ const user = {
 
 const Layout = () => {
     return (
-      <div class='container'>
+      <div className='container'>
         <h1>Hello, {formatName(user)}!</h1>
       </div>
    )
