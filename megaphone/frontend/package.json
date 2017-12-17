@@ -2,7 +2,7 @@
   "name": "megaphone-frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/prd.js",
     "start": "NODE_ENV=development webpack-dev-server --config webpack/dev.js"
