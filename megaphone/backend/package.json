@@ -1,0 +1,37 @@
+{
+  "name": "megaphone-backend",
+  "version": "1.1.0",
+  "description": "Social media management tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_PATH=. mocha --recursive --exit",
+    "start": "NODE_PATH=. node ./bin/www",
+    "dev": "NODE_PATH=. nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megaphonesm/megaphone-web.git"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "management",
+    "tool"
+  ],
+  "author": "John Claro",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/megaphonesm/megaphone-web/issues"
+  },
+  "homepage": "https://github.com/megaphonesm/megaphone-web#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "nodemailer": "^4.4.1",
+    "pg": "^7.4.0",
+    "sequelize": "^4.28.5"
+  },
+  "devDependencies": {}
+}
