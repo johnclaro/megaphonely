@@ -12,8 +12,7 @@ const base = require('./base.js');
 module.exports = merge(base, {
   output: {
     path: path.join(process.cwd(), 'build'),
-    filename: '[name].bundle.[chunkhash].js',
-    publicPath: '/megaphone/megaphone/frontend/',
+    filename: '[name].bundle.[chunkhash].js'
   },
 
   module: {
@@ -26,6 +25,15 @@ module.exports = merge(base, {
           ],
         }),
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      }
     ],
   },
 

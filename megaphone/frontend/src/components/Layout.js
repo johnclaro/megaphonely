@@ -2,7 +2,9 @@
 
 import React from 'react';
 
-const formatName = user => `${user.firstName} ${user.lastName} on ${process.env.APPLE}`;
+import anonymousImg from '../images/anonymous.png';
+
+const formatName = user => `${user.firstName} ${user.lastName}`;
 
 const user = {
   firstName: 'John',
