@@ -1,13 +1,13 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
-const NotFound = ({ location }) => {
-  return (
-    <div className='not-found'>
-      <h1>Page Not Found</h1>
-    </div>
-  )
+class NotFound extends Component {
+  render() {
+    return (
+        <h1>Page not found</h1>
+    )
+  }
 }
 
 export default NotFound;
