@@ -1,8 +1,8 @@
 const expect = require('chai').expect
 const request = require('supertest')
 
-const app = require('../src/index')
-const Account = require('../src/models').Account
+const app = require('app')
+const Account = require('models').Account
 
 describe('accounts', () => {
 

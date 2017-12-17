@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../index')
+var app = require('app')
 var http = require('http')
-var models = require('../models')
+var models = require('models')
 
 /**
  * Get port from environment and store in Express.
