@@ -9,6 +9,7 @@ module.exports = merge(base, {
     inline: true,
     contentBase: 'src',
     port: '3000',
+    historyApiFallback: true
   },
 
   module: {
