@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const formatName = user => `${user.firstName} ${user.lastName}`;
+const formatName = user => `${user.firstName} ${user.lastName} on ${process.env.APPLE}`;
 
 const user = {
   firstName: 'John',
