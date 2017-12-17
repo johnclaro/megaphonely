@@ -1,13 +1,13 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
-const Register = () => {
-  return (
-    <div className='register'>
-      <h1>Register</h1>
-    </div>
-  )
+class Register extends Component {
+  render() {
+    return (
+        <h1>Register</h1>
+    )
+  }
 }
 
 export default Register;

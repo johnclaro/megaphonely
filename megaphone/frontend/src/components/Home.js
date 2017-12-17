@@ -1,13 +1,13 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
-const Home = () => {
-  return (
-    <div className='container'>
-      <h1>Home</h1>
-    </div>
-  )
+class Home extends Component {
+  render() {
+    return (
+        <h1>Home</h1>
+    )
+  }
 }
 
 export default Home;

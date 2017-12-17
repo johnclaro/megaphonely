@@ -1,13 +1,13 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 
-const Login = () => {
-  return (
-    <div className='login'>
-      <h1>Login</h1>
-    </div>
-  )
+class Login extends Component {
+  render() {
+    return (
+        <h1>Login</h1>
+    )
+  }
 }
 
 export default Login;
