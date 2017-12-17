@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Layout from './components/Layout.js';
+import IndexPage from './components/IndexPage.js';
 
 ReactDOM.render(
-  <Layout /> ,
+  <IndexPage /> ,
   document.querySelector('#root')
 );
