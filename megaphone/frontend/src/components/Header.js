@@ -1,11 +1,40 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import {
+  Navbar,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink
+} from 'reactstrap';
 
-const Header = (props) => (
-  <div>
-    <h1>Header</h1>
-    <Button color='danger'>Danger!</Button>
-  </div>
-);
+export default class Header extends React.Component {
+  constructor(props) {
+    super(props);
 
-export default Header;
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  };
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <Navbar color='faded' light expand='md'>
+          <NavbarBrand href='/'>Megaphone</NavbarBrand>
+          <Nav className='ml-auto' navbar>
+            <NavItem>
+              <NavLink href='/components/'>Sign in</NavLink>
+            </NavItem>
+          </Nav>
+        </Navbar>
+      </div>
+    );
+  };
+};
