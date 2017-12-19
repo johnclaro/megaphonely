@@ -72,6 +72,9 @@ export default class LoginForm extends React.Component {
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Login
             </Button>
+            <a href='/forgot_password'>Forgot password?</a>
+            <br/>
+            <span>{"Don't have an account?"} <a href='/signup'>Sign Up</a></span>
           </Form>
         )}
       />

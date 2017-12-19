@@ -47,7 +47,7 @@ export default class Header extends React.Component {
               <NavLink onClick={this.toggleLoginModal} style={pointerCursorStyle}>Login</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink onClick={this.toggleSignupModal} style={pointerCursorStyle}>Register</NavLink>
+              <NavLink onClick={this.toggleSignupModal} style={pointerCursorStyle}>Sign Up</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
@@ -59,7 +59,7 @@ export default class Header extends React.Component {
             </ModalBody>
           </Modal>
           <Modal isOpen={this.state.signupModal} toggle={this.toggleSignupModal} className={this.props.className}>
-            <ModalHeader toggle={this.toggleSignupModal}>Register</ModalHeader>
+            <ModalHeader toggle={this.toggleSignupModal}>Sign Up</ModalHeader>
             <ModalBody>
               <SignupForm/>
             </ModalBody>
