@@ -1,7 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 
-import LoginSchema from './LoginSchema';
+const LoginSchema = yup.object().shape({
+  email: yup.string().email('Email is not valid').required('Required'),
+  password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Required')
+})
 
 export default class LoginForm extends React.Component {
   render() {
