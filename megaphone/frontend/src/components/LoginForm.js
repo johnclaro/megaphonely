@@ -15,26 +15,24 @@ export default class LoginForm extends React.Component {
       <Formik
         validationSchema={LoginSchema}
         initialValues={{
-          email: '',
-          password: '',
+          email: 'jkrclaro@outlook.com',
+          password: 'postmalone',
         }}
         onSubmit={(
           values,
           { setSubmitting, setErrors /* setValues and other goodies */ }
         ) => {
-          // LoginToMyApp(values).then(
-          //   user => {
-          //     setSubmitting(false);
-          //     // do whatevs...
-          //     // props.updateUser(user)
-          //   },
-          //   errors => {
-          //     setSubmitting(false);
-          //     // Maybe transform your API's errors into the same shape as Formik's
-          //     setErrors(transformMyApiErrors(errors));
-          //   }
-          // );
-          console.log('Logging in..')
+          const url = 'http://localhost:3001/account/authenticate'
+          fetch(url, {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'username': 'jkrclaro@outlook.com', 'password': 'postmalone'})
+          })
+          .then(response => response.json())
+          .then(token => {
+            console.log(token)
+          })
+          .catch(error => setErrors(error))
           setSubmitting(false)
         }}
         render={({
