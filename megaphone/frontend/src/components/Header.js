@@ -30,7 +30,7 @@ export default class Header extends React.Component {
           <NavbarBrand href='/'>Megaphone</NavbarBrand>
           <Nav className='ml-auto' navbar>
             <NavItem>
-              <NavLink href='/components/'>Sign in</NavLink>
+              <NavLink href='/login'>Login</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
