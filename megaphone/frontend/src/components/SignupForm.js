@@ -5,8 +5,8 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 const SignupSchema = yup.object().shape({
-  firstName: yup.string().required('Please enter your first name'),
-  lastName: yup.string(),
+  firstName: yup.string().max(100, 'First name must be fewer than 100 characters').required('Please enter your first name'),
+  lastName: yup.string().max(100, 'Last name must be fewer than 100 characters'),
   email: yup.string().email('Email is not valid').required('Required'),
   password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Required')
 })
@@ -100,7 +100,7 @@ export default class SignupForm extends React.Component {
               {touched.password && errors.password && <div>{errors.password}</div>}
             </FormGroup>
 
-            <Button type='submit' disabled={isSubmitting}>
+            <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Sign up
             </Button>
           </Form>

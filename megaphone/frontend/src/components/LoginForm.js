@@ -69,7 +69,7 @@ export default class LoginForm extends React.Component {
               />
               {touched.password && errors.password && <div>{errors.password}</div>}
             </FormGroup>
-            <Button type='submit' disabled={isSubmitting}>
+            <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Login
             </Button>
           </Form>
