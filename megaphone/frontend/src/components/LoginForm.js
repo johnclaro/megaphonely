@@ -70,7 +70,7 @@ export default class LoginForm extends React.Component {
               {touched.password && errors.password && <div>{errors.password}</div>}
             </div>
             <button type='submit' disabled={isSubmitting}>
-              Submit
+              Login
             </button>
           </form>
         )}

@@ -99,7 +99,7 @@ export default class SignupForm extends React.Component {
               {touched.password && errors.password && <div>{errors.password}</div>}
             </div>
             <button type='submit' disabled={isSubmitting}>
-              Submit
+              Sign up
             </button>
           </form>
         )}
