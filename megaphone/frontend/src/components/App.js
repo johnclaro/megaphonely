@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { Container } from 'reactstrap';
 
 import Dashboard from './Dashboard';
 import Home from './Home'
@@ -10,11 +11,13 @@ import Header from './Header';
 const App = () => (
   <div>
     <Header />
-    <Switch>
-      <Route exact path='/' component={Home}/>
-      <Route path='/dashboard' component={Dashboard}/>
-      <Route component={NotFound} />
-    </Switch>
+    <Container>
+      <Switch>
+        <Route exact path='/' component={Home}/>
+        <Route path='/dashboard' component={Dashboard}/>
+        <Route component={NotFound} />
+      </Switch>
+    </Container>
     <Footer />
   </div>
 )
