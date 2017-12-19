@@ -5,7 +5,7 @@ const Account = require('models').Account
 exports.auth = (req, res, next) => {
   const expiresIn = {expiresIn: '1h'}
   // TODO: Change 1 to be the user id in the database
-  jwt.sign({id: 1}, process.env.SECRET, expiresIn, (err, token) => {
+  jwt.sign({}, process.env.SECRET, expiresIn, (err, token) => {
     if (err) {
       res.json({'error': err})
     } else {

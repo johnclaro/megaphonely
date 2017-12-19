@@ -6,7 +6,6 @@ module.exports = function(req, res, next) {
       if (err) {
         res.status(401).json({msg: 'Invalid token'})
       } else {
-        req.user = data.id
         res.json({msg: 'Authenticated'})
       }
     })
