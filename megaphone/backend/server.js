@@ -8,12 +8,14 @@ server.use(cors())
 
 const health = require('./controllers/health')
 const account = require('./controllers/account')
+const jwt = require('./middlewares/jwt')
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({extended: true}))
 
 server.get('/health', health.index)
-server.post('/account/authenticate', account.authenticate)
+server.post('/auth', account.auth)
+server.get('/settings', jwt, account.settings)
 
 server.use((req, res, next) => {
   res.status(404)

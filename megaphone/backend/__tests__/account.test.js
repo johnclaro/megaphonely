@@ -6,21 +6,19 @@ const Account = require('models').Account
 
 describe('accounts', () => {
 
-  beforeAll(() => {
-    return Account.sync({force: true})
-    .then(account => {
-      Account.create({firstName: 'John', lastName: 'Claro', email: 'jkrclaro@outlook.com', password: 'postmalone'})
-    })
+  it('POST /auth', () => {
+    const user = {email: 'jkrclaro@outlook.com', password: 'postmalone'}
+    return request(server).post('/auth').send(user).expect(200)
   })
 
-  it('POST /account/auth', () => {
-    return request(server)
-      .post('/account/authenticate')
-      .send({email: 'jkrclaro@outlook.com', password: 'postmalone'})
-      .expect(200)
-      .then(res => {
-        console.log(res.body.token)
-      })
+  it('GET /settings with no token', () => {
+    return request(server).get('/settings').expect(401)
+  })
+
+  it('GET /settings with valid token', () => {
+    // This token had a secret of 'secret' (without quotes) and no expiration
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTEzNzIxOTAyfQ.wVpQ10weBXlSwLgFoaxxrO90Ezseo9laQkXvOng1PNY'
+    return request(server).get('/settings').set('Authorization', token).expect(200)
   })
 
 })
