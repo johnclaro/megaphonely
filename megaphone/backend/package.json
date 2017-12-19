@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_PATH=. jest --config=jest.config.js",
     "start": "NODE_PATH=. NODE_ENV=production node index.js",
-    "dev": "NODE_PATH=. NODE_ENV=development nodemon index.js"
+    "dev": "NODE_PATH=. NODE_ENV=development DEBUG=express:* nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,8 @@
   "homepage": "https://github.com/megaphonesm/megaphone-web#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.1.0",
