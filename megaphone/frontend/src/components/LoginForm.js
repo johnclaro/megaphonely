@@ -1,4 +1,6 @@
 import React from 'react';
+
+import yup from 'yup';
 import { Formik } from 'formik';
 
 const LoginSchema = yup.object().shape({
