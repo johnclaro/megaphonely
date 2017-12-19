@@ -5,13 +5,12 @@ const bodyParser = require('body-parser')
 
 const server = express()
 server.use(cors())
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({extended: true}))
 
 const health = require('./controllers/health')
 const account = require('./controllers/account')
 const jwt = require('./middlewares/jwt')
-
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({extended: true}))
 
 server.get('/health', health.index)
 server.post('/auth', account.auth)
