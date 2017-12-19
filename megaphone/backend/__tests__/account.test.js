@@ -9,19 +9,18 @@ describe('accounts', () => {
   beforeAll(() => {
     return Account.sync({force: true})
     .then(account => {
-      Account.create({firstName: 'valid', lastName: 'verification token', email: 'validverificationtoken@gmail.com'})
+      Account.create({firstName: 'John', lastName: 'Claro', email: 'jkrclaro@outlook.com', password: 'postmalone'})
     })
   })
 
-  it('GET / all accounts', () => {
-    return Account.findOne({
-      where: {email: 'validverificationtoken@gmail.com'}
-    })
-    .then(account => {
-      return request(server)
-        .get('/')
-        .expect(200)
-    })
+  it('POST /account/auth', () => {
+    return request(server)
+      .post('/account/authenticate')
+      .send({email: 'jkrclaro@outlook.com', password: 'postmalone'})
+      .expect(200)
+      .then(res => {
+        console.log(res.body.token)
+      })
   })
 
 })

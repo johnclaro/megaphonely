@@ -2,12 +2,7 @@
 
 const Account = require('models').Account
 
-exports.index = (req, res, next) => {
-  Account.findAll()
-  .then(accounts => {
-    res.send({'data': accounts})
-  })
-  .catch(error => {
-    next(error)
-  })
+exports.authenticate = (req, res, next) => {
+  console.log(req.body)
+  res.json({'cows': 'ok'})
 }
