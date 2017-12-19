@@ -1,19 +1,18 @@
 import React from 'react';
 import { Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
 
-var divStyle = {
+var footerStyle = {
   background: '#F6F9FC',
-  padding: 50,
-  paddingLeft: 50
+  padding: 25
 }
 
 export default class Footer extends React.Component {
   render() {
     return (
-      <div className='text-center' style={divStyle}>
+      <div className='text-center' style={footerStyle}>
         <Row>
           <Col lg='3' xs='6'>
-            <p className='footer-text-title'>Megaphone</p>
+            <p>Megaphone</p>
             <Nav vertical>
               <NavItem>
                 <NavLink href='/plans'>Plans</NavLink>
@@ -21,7 +20,7 @@ export default class Footer extends React.Component {
             </Nav>
           </Col>
           <Col lg='3' xs='6'>
-            <p className='footer-text-title'>Company</p>
+            <p>Company</p>
             <Nav vertical>
               <NavItem>
                 <NavLink href='/about'>About</NavLink>
@@ -29,7 +28,7 @@ export default class Footer extends React.Component {
             </Nav>
           </Col>
           <Col lg='3' xs='6'>
-            <p className='footer-text-title'>Support</p>
+            <p>Support</p>
             <Nav vertical>
               <NavItem>
                 <NavLink href='/contact'>Contact</NavLink>
@@ -43,7 +42,7 @@ export default class Footer extends React.Component {
             </Nav>
           </Col>
           <Col lg='3' xs='6'>
-            <p className='footer-text-title'>Connect</p>
+            <p>Connect</p>
 
             <Nav vertical>
               <NavItem>
