@@ -103,6 +103,7 @@ export default class SignupForm extends React.Component {
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Sign up
             </Button>
+            <p>By clicking sign up, I agree to the Megaphone <a href='/privacy'>Privacy Policy</a> and <a href='/terms'> Terms of Services </a> </p>
           </Form>
         )}
       />
