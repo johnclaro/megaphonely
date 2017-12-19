@@ -2,6 +2,7 @@ import React from 'react';
 
 import yup from 'yup';
 import { Formik } from 'formik';
+import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 const LoginSchema = yup.object().shape({
   email: yup.string().email('Email is not valid').required('Required'),
@@ -45,9 +46,9 @@ export default class LoginForm extends React.Component {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <div className='input-group'>
-              <input
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Input
                 type='email'
                 name='email'
                 placeholder='Email'
@@ -56,10 +57,9 @@ export default class LoginForm extends React.Component {
                 value={values.email}
               />
               {touched.email && errors.email && <div>{errors.email}</div>}
-            </div>
-
-            <div className='input-group'>
-              <input
+            </FormGroup>
+            <FormGroup>
+              <Input
                 type='password'
                 name='password'
                 placeholder='Password'
@@ -68,11 +68,11 @@ export default class LoginForm extends React.Component {
                 value={values.password}
               />
               {touched.password && errors.password && <div>{errors.password}</div>}
-            </div>
-            <button type='submit' disabled={isSubmitting}>
+            </FormGroup>
+            <Button type='submit' disabled={isSubmitting}>
               Login
-            </button>
-          </form>
+            </Button>
+          </Form>
         )}
       />
     )

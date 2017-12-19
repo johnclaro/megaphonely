@@ -2,6 +2,7 @@ import React from 'react';
 
 import yup from 'yup';
 import { Formik } from 'formik';
+import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 const SignupSchema = yup.object().shape({
   firstName: yup.string().required('Please enter your first name'),
@@ -50,9 +51,9 @@ export default class SignupForm extends React.Component {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <div className='input-group'>
-              <input
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Input
                 type='text'
                 name='firstName'
                 placeholder='First name'
@@ -61,10 +62,10 @@ export default class SignupForm extends React.Component {
                 value={values.firstName}
               />
               {touched.firstName && errors.firstName && <div>{errors.firstName}</div>}
-            </div>
+            </FormGroup>
 
-            <div className='input-group'>
-              <input
+            <FormGroup>
+              <Input
                 type='text'
                 name='lastName'
                 placeholder='Last name'
@@ -73,10 +74,10 @@ export default class SignupForm extends React.Component {
                 value={values.lastName}
               />
               {touched.lastName && errors.lastName && <div>{errors.lastName}</div>}
-            </div>
+            </FormGroup>
 
-            <div className='input-group'>
-              <input
+            <FormGroup>
+              <Input
                 type='email'
                 name='email'
                 placeholder='Email'
@@ -85,10 +86,10 @@ export default class SignupForm extends React.Component {
                 value={values.email}
               />
               {touched.email && errors.email && <div>{errors.email}</div>}
-            </div>
+            </FormGroup>
 
-            <div className='input-group'>
-              <input
+            <FormGroup>
+              <Input
                 type='password'
                 name='password'
                 placeholder='Password'
@@ -97,11 +98,12 @@ export default class SignupForm extends React.Component {
                 value={values.password}
               />
               {touched.password && errors.password && <div>{errors.password}</div>}
-            </div>
-            <button type='submit' disabled={isSubmitting}>
+            </FormGroup>
+
+            <Button type='submit' disabled={isSubmitting}>
               Sign up
-            </button>
-          </form>
+            </Button>
+          </Form>
         )}
       />
     )
