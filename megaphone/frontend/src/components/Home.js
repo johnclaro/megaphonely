@@ -1,10 +1,11 @@
 import React from 'react';
+import { Col, Row } from 'reactstrap';
 
 const Home = () => (
-  <div className='col-md-12'>
-    <div className='row'>
-      <div className='col-md-6'>
-        <h1>Social media management tool for small businesses</h1>
+  <Col md='12'>
+    <Row>
+      <Col md='6'>
+        <h1>Lorem Ipsum</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vitae auctor ante. Sed elementum est odio, nec pellentesque leo dictum vulputate. Nam ac magna urna. Nunc ut mollis justo. Ut vel enim velit. Nulla venenatis aliquet ligula vitae sagittis. Curabitur tincidunt dolor pulvinar, tempus nibh vitae, mollis ante. Suspendisse tellus lorem, facilisis eget justo a, sollicitudin tristique tellus. Sed nec ultricies massa. Cras imperdiet volutpat nisl, vel vestibulum urna rhoncus ut. Nunc dolor mi, hendrerit sed velit et, iaculis fringilla lorem. Phasellus venenatis diam vel orci euismod, id hendrerit nisl lobortis.
 
@@ -16,9 +17,9 @@ const Home = () => (
 
           Praesent et lectus et diam mattis blandit. Pellentesque lobortis eros eu turpis viverra, ut efficitur nulla interdum. Sed erat sem, varius vitae blandit sit amet, congue in metus. Nullam sed iaculis est, a blandit quam. Sed fermentum nunc eu ultrices auctor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec posuere malesuada suscipit. Duis lacinia enim arcu, non sollicitudin augue sagittis sollicitudin. Maecenas mauris risus, fringilla in volutpat eleifend, condimentum non mi. Donec tincidunt lacinia vestibulum. Proin sollicitudin at nulla vitae egestas. Sed ut leo rhoncus nunc malesuada consequat hendrerit ut nunc. Nunc mauris purus, congue non gravida at, semper ac risus.
         </p>
-      </div>
-    </div>
-  </div>
+      </Col>
+    </Row>
+  </Col>
 )
 
 export default Home;
