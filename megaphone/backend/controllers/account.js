@@ -8,13 +8,13 @@ exports.login = (req, res, next) => {
     const expiresIn = {expiresIn: '1h'}
     jwt.sign(data, process.env.SECRET, expiresIn, (err, token) => {
       if (err) {
-        res.status(400).json({error: err})
+        res.status(401).json({error: err})
       } else {
         res.json({token: token})
       }
     })
   } else {
-    res.status(404).json({error: 'Invalid email or password'})
+    res.status(401).json({error: 'Invalid email or password'})
   }
 }
 
