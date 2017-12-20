@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const rp = require('request-promise')
 
 const Account = require('models').Account
 
@@ -8,8 +9,14 @@ exports.new = (req, res, next) => {
     first_name: firstName, last_name: lastName, email: email, password: password
   }
   Account.create(user)
-  .then(account => res.status(201).json({msg: 'success'}))
-  .catch(error => next(err))
+  .then(account => {
+    const options = {
+      uri: `http://${req.headers.host}/login`, body: user, json: true
+    }
+    return rp.post(options)
+  })
+  .then(data => res.json(data))
+  .catch(error => error)
 }
 
 exports.login = (req, res, next) => {
