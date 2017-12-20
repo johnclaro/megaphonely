@@ -18,6 +18,10 @@ exports.login = (req, res, next) => {
   }
 }
 
+exports.forgotPassword = (req, res, next) => {
+  res.json({msg: 'success'})
+}
+
 exports.settings = (req, res, next) => {
-  res.json({success: 'settings!'})
+  res.json({msg: 'settings!'})
 }
