@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
               }
             })
           })
-          .catch(error => setErrors(error))
+          .catch(error => console.error(error))
           setSubmitting(false)
         }}
         render={({
