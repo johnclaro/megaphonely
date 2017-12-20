@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Container } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 
 import SignupForm from './SignupForm';
 
-export default class Signup extends React.Component {
+class Signup extends Component {
+  constructor(props) {
+    super(props);
+    this.redirectToDashboard = this.redirectToDashboard.bind(this)
+  }
+
+  redirectToDashboard() {
+    this.props.history.push('/dashboard')
+  }
+
   render() {
     return (
       <Container>
         <h1>Signup</h1>
-        <SignupForm/>
+        <SignupForm redirectToDashboard={this.redirectToDashboard}/>
       </Container>
     );
   };
 };
+
+export default withRouter(Signup)
