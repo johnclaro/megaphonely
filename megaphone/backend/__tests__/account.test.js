@@ -6,21 +6,22 @@ const Account = require('models').Account
 
 describe('accounts', () => {
 
-  beforeAll(() => {return Account.destroy({truncate: true})})
+  beforeAll(() => Account.sync({force: true}))
 
   it('POST /account create new account', () => {
     const user = {
       firstName: 'John', lastName: 'Doe', email: 'johndoe@outlook.com',
       password: 'johndoe'
     }
-    return request(server).post('/account').send(user).expect(201)
+    return request(server).post('/account').send(user).expect(200)
   })
 
   it('POST /login valid credentials', () => {
     const user = {
       firstName: 'John', email: 'johndoe@gmail.com', password: 'johndoe'
     }
-    return request(server).post('/login').send(user).expect(200)
+    return request(server).post('/account').send(user)
+    .then(created => request(server).post('/login').send(user).expect(200))
   })
 
   it('POST /login invalid credentials', () => {
