@@ -34,6 +34,8 @@
     "jsonwebtoken": "^8.1.0",
     "nodemailer": "^4.4.1",
     "pg": "^7.4.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "sequelize": "^4.28.5"
   },
   "devDependencies": {
