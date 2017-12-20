@@ -31,11 +31,17 @@ export default class SignupForm extends Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(values)
           })
-          .then(success => success.json())
-          .then(data => {
-            localStorage.setItem('jwt', data.token);
-            if (modal) modal();
-            if (redirectToDashboard) redirectToDashboard();
+          .then(response => {
+            return response.json()
+            .then(data => {
+              if (response.status === 200) {
+                localStorage.setItem('jwt', data.token);
+                if (modal) modal();
+                if (redirectToDashboard) redirectToDashboard();
+              } else {
+                return Promise.reject(data.message)
+              }
+            })
           })
           .catch(error => console.error(error))
           setSubmitting(false)
