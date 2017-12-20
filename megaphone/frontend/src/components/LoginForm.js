@@ -22,13 +22,12 @@ export default class LoginForm extends React.Component {
           values,
           { setSubmitting, setErrors /* setValues and other goodies */ }
         ) => {
-          const url = 'http://localhost:3001/account/authenticate'
-          fetch(url, {
+          fetch('http://localhost:3001/login', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'username': 'jkrclaro@outlook.com', 'password': 'postmalone'})
+            body: JSON.stringify(values)
           })
-          .then(response => response.json())
+          .then(success => success.json())
           .then(token => {
             console.log(token)
           })
