@@ -10,13 +10,6 @@ import {
   ModalBody
 } from 'reactstrap';
 
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
-
-const pointerCursorStyle = {
-  cursor: 'pointer'
-}
-
 export default class Header extends React.Component {
   render() {
     return (
@@ -25,10 +18,10 @@ export default class Header extends React.Component {
           <NavbarBrand href='/'>Megaphone</NavbarBrand>
           <Nav className='ml-auto' navbar>
             <NavItem>
-              <NavLink href='/login' style={pointerCursorStyle}>Login</NavLink>
+              <NavLink href='/login'>Login</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href='/signup' style={pointerCursorStyle}>Sign Up</NavLink>
+              <NavLink href='/signup'>Sign Up</NavLink>
             </NavItem>
           </Nav>
         </Navbar>
