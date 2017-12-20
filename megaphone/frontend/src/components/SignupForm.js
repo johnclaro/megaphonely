@@ -64,7 +64,7 @@ export default class SignupForm extends Component {
                 onBlur={handleBlur}
                 value={values.firstName}
               />
-              {touched.firstName && errors.firstName && <div>{errors.firstName}</div>}
+              {touched.firstName && errors.firstName && <div className='error-input'>{errors.firstName}</div>}
             </FormGroup>
 
             <FormGroup>
@@ -76,7 +76,7 @@ export default class SignupForm extends Component {
                 onBlur={handleBlur}
                 value={values.lastName}
               />
-              {touched.lastName && errors.lastName && <div>{errors.lastName}</div>}
+              {touched.lastName && errors.lastName && <div className='error-input'>{errors.lastName}</div>}
             </FormGroup>
 
             <FormGroup>
@@ -88,7 +88,7 @@ export default class SignupForm extends Component {
                 onBlur={handleBlur}
                 value={values.email}
               />
-              {touched.email && errors.email && <div>{errors.email}</div>}
+              {touched.email && errors.email && <div className='error-input'>{errors.email}</div>}
             </FormGroup>
 
             <FormGroup>
@@ -100,7 +100,7 @@ export default class SignupForm extends Component {
                 onBlur={handleBlur}
                 value={values.password}
               />
-              {touched.password && errors.password && <div>{errors.password}</div>}
+              {touched.password && errors.password && <div className='error-input'>{errors.password}</div>}
             </FormGroup>
 
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
