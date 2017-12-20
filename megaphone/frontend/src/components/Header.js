@@ -4,10 +4,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  Modal,
-  ModalHeader,
-  ModalBody
+  NavLink
 } from 'reactstrap';
 
 export default class Header extends React.Component {

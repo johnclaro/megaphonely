@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import yup from 'yup';
 import { Formik } from 'formik';
@@ -9,7 +10,7 @@ const LoginSchema = yup.object().shape({
   password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Required')
 })
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   render() {
     return (
       <Formik
@@ -28,8 +29,9 @@ export default class LoginForm extends React.Component {
             body: JSON.stringify(values)
           })
           .then(success => success.json())
-          .then(token => {
-            console.log(token)
+          .then(data => {
+            localStorage.setItem('jwt', data.token);
+            this.props.history.push('/dashboard');
           })
           .catch(error => setErrors(error))
           setSubmitting(false)
@@ -78,3 +80,5 @@ export default class LoginForm extends React.Component {
     )
   }
 }
+
+export default withRouter(LoginForm)
