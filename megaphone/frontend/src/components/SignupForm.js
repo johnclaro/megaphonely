@@ -14,7 +14,7 @@ const SignupSchema = yup.object().shape({
 
 export default class SignupForm extends Component {
   render() {
-    const { redirectToDashboard, modal } = this.props
+    const { redirectToDashboard } = this.props
     return (
       <Formik
         validationSchema={SignupSchema}
@@ -36,7 +36,6 @@ export default class SignupForm extends Component {
             .then(data => {
               if (response.status === 200) {
                 localStorage.setItem('jwt', data.token);
-                if (modal) modal();
                 if (redirectToDashboard) redirectToDashboard();
               } else {
                 return Promise.reject(data.message)

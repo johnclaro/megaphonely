@@ -12,7 +12,7 @@ const LoginSchema = yup.object().shape({
 
 class LoginForm extends React.Component {
   render() {
-    const { redirectToDashboard, modal } = this.props;
+    const { redirectToDashboard } = this.props;
     return (
       <Formik
         validationSchema={LoginSchema}
@@ -33,7 +33,6 @@ class LoginForm extends React.Component {
             .then(data => {
               if (response.status === 200) {
                 localStorage.setItem('jwt', data.token);
-                if (modal) modal();
                 if (redirectToDashboard) redirectToDashboard();
               } else {
                 return Promise.reject(data.message)
