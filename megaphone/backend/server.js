@@ -13,7 +13,7 @@ const account = require('./controllers/account')
 const jwt = require('./middlewares/jwt')
 
 server.get('/health', health.index)
-server.post('/auth', account.auth)
+server.post('/login', account.login)
 server.get('/settings', jwt, account.settings)
 
 server.use((req, res, next) => {

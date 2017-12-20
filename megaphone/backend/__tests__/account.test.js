@@ -6,9 +6,9 @@ const Account = require('models').Account
 
 describe('accounts', () => {
 
-  it('POST /auth', () => {
+  it('POST /login', () => {
     const user = {email: 'jkrclaro@outlook.com', password: 'postmalone'}
-    return request(server).post('/auth').send(user).expect(200)
+    return request(server).post('/login').send(user).expect(200)
   })
 
   it('GET /settings with no token', () => {
