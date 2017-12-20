@@ -3,7 +3,7 @@ const rp = require('request-promise')
 
 const Account = require('models').Account
 
-exports.new = (req, res, next) => {
+exports.create = (req, res, next) => {
   const url = `http://${req.headers.host}/login`
   const { firstName, email , password, lastName='' } = req.body
   const user = {
