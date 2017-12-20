@@ -19,8 +19,8 @@ export default class SignupForm extends Component {
       <Formik
         validationSchema={SignupSchema}
         initialValues={{
-          firstName: 'Foo', lastName: 'Bar', email: 'foobar@gmail.com',
-          password: 'foobar',
+          firstName: 'John', lastName: 'Doe', email: 'johndoe@gmail.com',
+          password: 'johndoe',
         }}
         onSubmit={(
           values,

@@ -11,8 +11,8 @@ export default class Dashboard extends React.Component {
       }
     })
     .then(success => success.json())
-    .then(data => console.log(data))
-    .catch(error => console.error(error))
+    .then(data => console.log(`Dashboard: ${JSON.stringify(data)}`))
+    .catch(error => console.error(`Dashboard Error: ${error}`))
     return (
       <Container>
         <h1>Dashboard</h1>
