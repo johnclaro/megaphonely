@@ -27,13 +27,13 @@ class Header extends Component {
   }
 
   toggleLogin() {
-    if (this.props.location.pathname == '/') {
+    if (this.props.location.pathname === '/') {
       this.setState({loginModal: !this.state.loginModal});
     }
   }
 
   toggleSignup() {
-    if (this.props.location.pathname == '/') {
+    if (this.props.location.pathname === '/') {
       this.setState({signupModal: !this.state.signupModal});
     }
   }

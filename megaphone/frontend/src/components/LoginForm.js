@@ -17,8 +17,7 @@ class LoginForm extends React.Component {
       <Formik
         validationSchema={LoginSchema}
         initialValues={{
-          email: 'jkrclaro@outlook.com',
-          password: 'postmalone',
+          email: 'johndoe@gmail.com', password: 'johndoe'
         }}
         onSubmit={(
           values,
