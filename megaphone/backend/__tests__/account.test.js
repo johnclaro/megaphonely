@@ -6,9 +6,14 @@ const Account = require('models').Account
 
 describe('accounts', () => {
 
-  it('POST /login', () => {
+  it('POST /login valid credentials', () => {
     const user = {email: 'jkrclaro@outlook.com', password: 'postmalone'}
     return request(server).post('/login').send(user).expect(200)
+  })
+
+  it('POST /login invalid credentials', () => {
+    const user = {email: 'foo@gmail.com', password: 'bar'}
+    return request(server).post('/login').send(user).expect(404)
   })
 
   it('GET /settings with no token', () => {
