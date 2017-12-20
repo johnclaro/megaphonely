@@ -39,7 +39,6 @@ export default class SignupForm extends React.Component {
           //     setErrors(transformMyApiErrors(errors));
           //   }
           // );
-          console.log('Signing up..')
           setSubmitting(false)
         }}
         render={({
