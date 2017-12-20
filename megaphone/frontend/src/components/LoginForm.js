@@ -6,8 +6,8 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 const LoginSchema = yup.object().shape({
-  email: yup.string().email('Email is not valid').required('Required'),
-  password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Required')
+  email: yup.string().email('Email is not valid').required('Please enter an email address'),
+  password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Please enter a password')
 })
 
 class LoginForm extends React.Component {
@@ -21,7 +21,7 @@ class LoginForm extends React.Component {
         }}
         onSubmit={(
           values,
-          { setSubmitting, setErrors /* setValues and other goodies */ }
+          { setSubmitting, setErrors }
         ) => {
           fetch('http://localhost:3001/login', {
             method: 'post',
@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
               }
             })
           })
-          .catch(error => console.error(error))
+          .catch(error => setErrors(error))
           setSubmitting(false)
         }}
         render={({
