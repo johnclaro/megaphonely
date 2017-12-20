@@ -27,11 +27,15 @@ class Header extends Component {
   }
 
   toggleLogin() {
-    this.setState({loginModal: !this.state.loginModal});
+    if (this.props.location.pathname == '/') {
+      this.setState({loginModal: !this.state.loginModal});
+    }
   }
 
   toggleSignup() {
-    this.setState({signupModal: !this.state.signupModal});
+    if (this.props.location.pathname == '/') {
+      this.setState({signupModal: !this.state.signupModal});
+    }
   }
 
   redirectToDashboard() {
