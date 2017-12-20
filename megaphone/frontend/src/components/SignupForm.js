@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import yup from 'yup';
 import { Formik } from 'formik';
@@ -12,33 +12,30 @@ const SignupSchema = yup.object().shape({
 })
 
 
-export default class SignupForm extends React.Component {
+export default class SignupForm extends Component {
   render() {
     return (
       <Formik
         validationSchema={SignupSchema}
         initialValues={{
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
+          firstName: 'Foo', lastName: 'Bar', email: 'foobar@gmail.com',
+          password: 'foobar',
         }}
         onSubmit={(
           values,
           { setSubmitting, setErrors /* setValues and other goodies */ }
         ) => {
-          // LoginToMyApp(values).then(
-          //   user => {
-          //     setSubmitting(false);
-          //     // do whatevs...
-          //     // props.updateUser(user)
-          //   },
-          //   errors => {
-          //     setSubmitting(false);
-          //     // Maybe transform your API's errors into the same shape as Formik's
-          //     setErrors(transformMyApiErrors(errors));
-          //   }
-          // );
+          fetch('http://localhost:3001/account', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(values)
+          })
+          .then(success => success.json())
+          .then(data => {
+            localStorage.setItem('jwt', data.token);
+            this.props.redirectToDashboard()
+          })
+          .catch(error => console.error(error))
           setSubmitting(false)
         }}
         render={({
