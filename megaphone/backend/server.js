@@ -19,14 +19,15 @@ server.get('/settings', jwt, account.settings)
 
 server.use((req, res, next) => {
   res.status(404)
-  res.send({'error': 'Page not found'})
+  res.send({message: 'Page not found'})
 })
 
 server.use((error, req, res, next) => {
   if (process.env.NODE_ENV == 'production') {
-    res.status(500).send({'error': 'internal server error'})
+    return res.status(500).send({message: 'Internal server error'})
   } else {
-    res.status(500).send({'error': error})
+    console.error(error)
+    return res.status(500).send({message: error})
   }
 })
 

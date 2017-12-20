@@ -20,7 +20,7 @@ describe('accounts', () => {
     const user = {
       firstName: 'John', email: 'johndoe@gmail.com', password: 'johndoe'
     }
-    return request(server).post('/login').send(user).expect(201)
+    return request(server).post('/login').send(user).expect(200)
   })
 
   it('POST /login invalid credentials', () => {
