@@ -11,3 +11,7 @@
 .nav>li>a:focus, .nav>li>a:hover {
   background-color: transparent !important;
 }
+
+.error-input {
+  color: #ff0033;
+}

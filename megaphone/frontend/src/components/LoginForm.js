@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
                 onBlur={handleBlur}
                 value={values.email}
               />
-              {touched.email && errors.email && <div>{errors.email}</div>}
+              {touched.email && errors.email && <div className='error-input'>{errors.email}</div>}
             </FormGroup>
             <FormGroup>
               <Input
@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
                 onBlur={handleBlur}
                 value={values.password}
               />
-              {touched.password && errors.password && <div>{errors.password}</div>}
+              {touched.password && errors.password && <div className='error-input'>{errors.password}</div>}
             </FormGroup>
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Login
