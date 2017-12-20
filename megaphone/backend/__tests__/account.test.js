@@ -6,14 +6,28 @@ const Account = require('models').Account
 
 describe('accounts', () => {
 
+  beforeAll(() => {return Account.destroy({truncate: true})})
+
+  it('POST /account create new account', () => {
+    const user = {
+      firstName: 'John', lastName: 'Doe', email: 'johndoe@outlook.com',
+      password: 'johndoe'
+    }
+    return request(server).post('/account').send(user).expect(201)
+  })
+
   it('POST /login valid credentials', () => {
-    const user = {email: 'jkrclaro@outlook.com', password: 'postmalone'}
-    return request(server).post('/login').send(user).expect(200)
+    const user = {
+      firstName: 'John', email: 'johndoe@gmail.com', password: 'johndoe'
+    }
+    return request(server).post('/login').send(user).expect(201)
   })
 
   it('POST /login invalid credentials', () => {
-    const user = {email: 'foo@gmail.com', password: 'bar'}
-    return request(server).post('/login').send(user).expect(404)
+    const user = {
+      firstName: 'Foo', email: 'foobar@gmail.com', password: 'foobar'
+    }
+    return request(server).post('/login').send(user).expect(401)
   })
 
   it('GET /settings with no token', () => {
