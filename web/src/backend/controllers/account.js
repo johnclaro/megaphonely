@@ -1,11 +1,22 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const Account = require('../models').Account
 const { LoginValidator, SignupValidator } = require('../validators')
 
 exports.create = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
+  const saltRounds = parseInt(process.env.SALT_ROUNDS) || 12
+
   SignupValidator.validate({ firstName, lastName, email, password})
+  .then(account => {
+    return bcrypt.hash(account.password, saltRounds)
+    .then(hashed => {
+      account.password = hashed
+      return Promise.resolve(account)
+    })
+    .catch(error => Promise.reject(error))
+  })
   .then(valid => Account.create(valid))
   .then(data => res.json(data))
   .catch(error => {
