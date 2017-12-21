@@ -34,8 +34,7 @@ exports.login = (req, res, next) => {
     return bcrypt.compare(password, account.password)
     .then(matched => {
       if (!matched) return res.status(401).json({message: 'Invalid credentials'})
-      const expiresIn = {expiresIn: '1h'}
-      jwt.sign({}, process.env.SECRET, expiresIn, (error, token) => {
+      jwt.sign({}, process.env.SECRET, {expiresIn: '1h'}, (error, token) => {
         if (error) return res.status(500).json({message: 'Could not sign data'})
         return res.status(200).json({token: token})
       })
