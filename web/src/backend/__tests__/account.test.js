@@ -1,8 +1,9 @@
 const expect = require('chai').expect;
 const request = require('supertest');
+const bcrypt = require('bcrypt');
 
-const app = require('app');
-const Account = require('models').Account;
+const app = require('../app');
+const Account = require('../models').Account;
 
 const johndoe = {firstName: 'John', lastName: 'Doe', email: 'johndoe@outlook.com', password: 'johndoe'};
 const foobar = {firstName: 'Foo', email: 'foobar@gmail.com', password: 'foobar'};
@@ -12,18 +13,20 @@ describe('accounts', () => {
 
   beforeEach(() => Account.sync({force: true}))
 
-  it('POST /account create new account', () => {
+  it.only('POST /account create new account', () => {
     return request(app).post('/account').send(johndoe)
     .then(response => {
+      const saltRounds = parseInt(process.env.SALT_ROUNDS)
       let user = {
         firstName: johndoe.firstName,
         lastName: johndoe.lastName,
         email: johndoe.email,
-        password: johndoe.password,
+        password: bcrypt.hashSync(johndoe.password, saltRounds).length,
         id: 1,
         created_at: response.body.created_at,
         updated_at: response.body.updated_at
       }
+      response.body.password = response.body.password.length || 0
       expect(user).to.deep.equal(response.body)
     })
   })
