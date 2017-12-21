@@ -4,13 +4,13 @@ const Account = require('models').Account
 
 exports.create = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body
-  let user = {}
-  user.first_name = firstName
-  user.last_name = lastName
-  user.email = email
-  user.password = password
-
-  Account.create(user)
+  // Validate here
+  Account.create({
+    first_name: firstName
+    last_name: lastName
+    email: email
+    password: password
+  })
   .then(data => res.json(data))
   .catch(error => res.status(500).json({message: error.errors[0].message}))
 }

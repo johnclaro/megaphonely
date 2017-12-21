@@ -17,7 +17,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <Container>
-      <Alert isOpen={this.state.alerted} color='danger'>{this.state.alertedMessage}</Alert>
+        <Alert isOpen={this.state.alerted} color='danger'>{this.state.alertedMessage}</Alert>
         <h1>Login</h1>
         <LoginForm openAlert={this.openAlert} redirectToDashboard={this.redirectToDashboard}/>
       </Container>

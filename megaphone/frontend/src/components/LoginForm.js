@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
           .catch(error => {
             if (openAlert) {
               if (error.message === 'NetworkError when attempting to fetch resource.') {
-                openAlert('Our login server is currently down. Please try again in a few minutes.')
+                openAlert('Our login server is currently down. Please try again later.')
               } else {
                 openAlert(error.message)
               }

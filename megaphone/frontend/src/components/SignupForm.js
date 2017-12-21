@@ -14,7 +14,7 @@ const SignupSchema = yup.object().shape({
 
 export default class SignupForm extends Component {
   render() {
-    const { redirectToDashboard } = this.props
+    const { redirectToDashboard, openAlert } = this.props;
     return (
       <Formik
         validationSchema={SignupSchema}
@@ -38,11 +38,22 @@ export default class SignupForm extends Component {
                 localStorage.setItem('jwt', data.token);
                 if (redirectToDashboard) redirectToDashboard();
               } else {
-                return Promise.reject(data.message)
+                console.log(data)
+                return Promise.reject(data)
               }
             })
           })
-          .catch(error => console.error(error))
+          .catch(error => {
+            if (openAlert) {
+              if (error === 'NetworkError when attempting to fetch resource.') {
+                openAlert('Our signup server is currently down. Please try again later.')
+              } else {
+                openAlert(error)
+              }
+            } else {
+              console.error(error)
+            }
+          })
           setSubmitting(false)
         }}
         render={({
