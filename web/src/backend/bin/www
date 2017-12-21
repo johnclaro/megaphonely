@@ -1,0 +1,11 @@
+const app = require('../app');
+const debug = require('debug')('express-sequelize');
+const http = require('http');
+const models = require('../models');
+
+const server = http.createServer(app);
+const port = process.env.PORT || 3000
+
+models.sequelize.sync()
+.then(database => server.listen(port))
+.then(server => console.log(`${new Date()} -> listening on ${port}`))

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
-const Account = require('models').Account
-const { LoginValidator, SignupValidator } = require('validators')
+const Account = require('../models').Account
+const { LoginValidator, SignupValidator } = require('../validators')
 
 exports.create = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
