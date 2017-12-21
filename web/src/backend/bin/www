@@ -4,8 +4,8 @@ const http = require('http');
 const models = require('../models');
 
 const server = http.createServer(app);
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 models.sequelize.sync()
 .then(database => server.listen(port))
-.then(server => console.log(`${new Date()} -> listening on ${port}`))
+.then(server => console.log(`Started at ${new Date()}: Listening on ${port}`))
