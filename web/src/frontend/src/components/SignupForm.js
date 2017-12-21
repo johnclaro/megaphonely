@@ -25,7 +25,7 @@ export default class SignupForm extends Component {
           .then(loggedIn => {
             if (redirectToDashboard) redirectToDashboard()
           })
-          .catch(error => alert(openAlert, error))
+          .catch(error => alert(openAlert, error, 'danger'))
           setSubmitting(false)
         }}
         render={({

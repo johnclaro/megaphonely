@@ -1,12 +1,12 @@
-function alert(openAlert, error) {
+function alert(openAlert, response, color) {
   if (openAlert) {
-    if (error.message === 'NetworkError when attempting to fetch resource.') {
-      openAlert('We cannot perform that action right now. Please try again later.')
+    if (response.message === 'NetworkError when attempting to fetch resource.') {
+      openAlert('We cannot perform that action right now. Please try again later.', 'danger')
     } else {
-      openAlert(error.message)
+      openAlert(response.message, color)
     }
   } else {
-    console.error(error)
+    console.error(response)
   }
   return Promise.resolve('Done')
 }
@@ -48,8 +48,27 @@ function signup(account) {
   })
 }
 
+function forgotPassword(email) {
+  return fetch('http://localhost:3001/forgot_password', {
+    method: 'post',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(email)
+  })
+  .then(response => {
+    return response.json()
+    .then(data => {
+      if (response.status === 200) {
+        return Promise.resolve(email)
+      } else {
+        return Promise.reject(data)
+      }
+    })
+  })
+}
+
 module.exports = {
   alert: alert,
   signup: signup,
   login: login,
+  forgotPassword: forgotPassword
 }

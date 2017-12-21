@@ -1,19 +1,17 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-
-import yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
-const ForgotPasswordSchema = yup.object().shape({
-  email: yup.string().email('Email is not valid').required('Required')
-})
+import { forgotPassword, alert } from '../api';
+import { ForgotPasswordValidator } from '../validators';
 
 class ForgotPasswordForm extends React.Component {
   render() {
+    const { openAlert } = this.props;
     return (
       <Formik
-        validationSchema={ForgotPasswordSchema}
+        validationSchema={ForgotPasswordValidator}
         initialValues={{
           email: 'jkrclaro@outlook.com'
         }}
@@ -21,18 +19,9 @@ class ForgotPasswordForm extends React.Component {
           values,
           { setSubmitting, setErrors /* setValues and other goodies */ }
         ) => {
-          fetch('http://localhost:3001/forgot_password', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(values)
-          })
-          .then(success => success.json())
-          .then(data => {
-            this.props.toggleSubmittedAlert()
-            this.props.attachSentEmail(values.email)
-          })
-          .catch(error => setErrors(error))
-          setSubmitting(false)
+          forgotPassword()
+          .then(success => alert(openAlert, success, 'success'))
+          .catch(error => alert(openAlert, error, 'danger'))
         }}
         render={({
           values,
@@ -53,7 +42,7 @@ class ForgotPasswordForm extends React.Component {
                 onBlur={handleBlur}
                 value={values.email}
               />
-              {touched.email && errors.email && <div>{errors.email}</div>}
+              {touched.email && errors.email && <div className='error-input'>{errors.email}</div>}
             </FormGroup>
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Send me instructions
