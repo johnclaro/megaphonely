@@ -17,18 +17,13 @@ server.post('/account', account.create)
 server.post('/login', account.login)
 server.get('/settings', jwt, account.settings)
 
-server.use((req, res, next) => {
-  res.status(404)
-  res.send({message: 'Page not found'})
-})
+server.use((req, res, next) => res.status.send({message: 'not found'}))
 
 server.use((error, req, res, next) => {
-  if (process.env.NODE_ENV == 'production') {
-    return res.status(500).send({message: 'Internal server error'})
-  } else {
-    console.error(error)
-    return res.status(500).send({message: error})
-  }
+  const env = process.env.NODE_ENV
+  const message = env === 'production' ? 'internal server error' : error
+  console.error(message)
+  return res.status(500).send({message: message})
 })
 
 module.exports = server
