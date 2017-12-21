@@ -1,38 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Container, Alert } from 'reactstrap';
 
 import ForgotPasswordForm from './ForgotPasswordForm';
 
-export default class ForgotPassword extends React.Component {
+export default class ForgotPassword extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      submittedAlert: false,
-      email: ''
-    }
-
-    this.toggleSubmittedAlert = this.toggleSubmittedAlert.bind(this)
+    this.state = {alerted: false, alertedMessage: '', alertedColor: ''};
+    this.openAlert = this.openAlert.bind(this);
+    this.redirectToDashboard = this.redirectToDashboard.bind(this)
   }
 
-  toggleSubmittedAlert() {
-    this.setState({submittedAlert: true})
+  openAlert(alertedMessage, alertedColor) {
+    this.setState({
+      alerted: true, alertedMessage: alertedMessage, alertedColor: alertedColor
+    })
   }
 
-  attachSentEmail(email) {
-    this.setState({email: email})
-  }
+  redirectToDashboard() {this.props.history.push('/dashboard');}
 
   render() {
     return (
       <Container>
-        <Alert isOpen={this.state.submittedAlert} color='success'>
-          If a Megaphone account exists for this {this.state.email}, an
-          e-mail will be sent with further instructions.
-        </Alert>
-
+        <Alert isOpen={this.state.alerted} color={this.state.alertedColor}>{this.state.alertedMessage}</Alert>
         <h1>Forgot your password?</h1>
-        <ForgotPasswordForm toggleSubmittedAlert={this.toggleSubmittedAlert} attachSentEmail={this.attachSentEmail.bind(this)}/>
+        <ForgotPasswordForm openAlert={this.openAlert}/>
       </Container>
     );
   };
