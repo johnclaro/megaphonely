@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { LoginValidator } from '../validators';
-import { login, alert } from '../api';
+import { login, alert } from '../apis';
 
 class LoginForm extends React.Component {
   render() {

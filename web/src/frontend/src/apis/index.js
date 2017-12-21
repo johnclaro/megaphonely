@@ -31,7 +31,7 @@ function login(account) {
 }
 
 function signup(account) {
-  return fetch('http://localhost:3001/account', {
+  return fetch('http://localhost:3001/signup', {
     method: 'post',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(account)

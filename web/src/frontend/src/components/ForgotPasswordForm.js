@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
-import { forgotPassword, alert } from '../api';
 import { ForgotPasswordValidator } from '../validators';
+import { forgotPassword, alert } from '../apis';
 
 class ForgotPasswordForm extends React.Component {
   render() {
