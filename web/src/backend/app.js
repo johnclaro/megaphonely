@@ -13,7 +13,7 @@ const health = require('./controllers/health')
   , jwt = require('./middlewares/jwt')
 
 app.get('/health', health.index)
-app.post('/account', account.create)
+app.post('/signup', account.signup)
 app.post('/login', account.login)
 app.get('/settings', jwt, account.settings)
 
