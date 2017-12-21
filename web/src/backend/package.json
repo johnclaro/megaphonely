@@ -2,11 +2,11 @@
   "name": "megaphone-backend",
   "version": "1.1.0",
   "description": "Social media management tool",
-  "main": "index.js",
+  "main": "bin/www",
   "scripts": {
-    "test": "NODE_PATH=. jest --config=jest.config.js",
-    "start": "NODE_PATH=. NODE_ENV=production node index.js",
-    "dev": "NODE_PATH=. NODE_ENV=development DEBUG=express:* nodemon index.js"
+    "test": "jest --config=jest.config.js",
+    "start": "NODE_ENV=production node bin/www",
+    "dev": "DEBUG=express:router nodemon ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
+    "debug": "^3.1.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "express-jwt": "^5.3.0",
