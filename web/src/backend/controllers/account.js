@@ -39,6 +39,7 @@ exports.login = (req, res, next) => {
         return res.status(200).json({token: token})
       })
     })
+    .catch(error => Promise.reject(error))
   })
   .catch(error => res.status(500).json({message: error}))
 }
