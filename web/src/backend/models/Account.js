@@ -2,8 +2,8 @@
 
 module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
-    first_name: Sequelize.STRING,
-    last_name: Sequelize.STRING,
+    firstName: {field: 'first_name', type: Sequelize.STRING,},
+    lastName: {field: 'last_name', type: Sequelize.STRING},
     email: {
       type: Sequelize.STRING,
       unique: {args: true, msg: 'This email is already taken'}

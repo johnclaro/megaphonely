@@ -1,23 +1,20 @@
 const jwt = require('jsonwebtoken')
 
 const Account = require('models').Account
+const { LoginValidator, SignupValidator } = require('validators')
 
 exports.create = (req, res, next) => {
-  const { firstName, email , password, lastName='' } = req.body
-  // Validate here
-  Account.create({
-    first_name: firstName
-    last_name: lastName
-    email: email
-    password: password
-  })
+  const { firstName, email , password, lastName='' } = req.body;
+  SignupValidator.validate({ firstName, lastName, email, password})
+  .then(valid => Account.create(valid))
   .then(data => res.json(data))
   .catch(error => res.status(500).json({message: error.errors[0].message}))
 }
 
 exports.login = (req, res, next) => {
   const { email, password } = req.body
-  Account.findOne({where: {email: email, password: password}})
+  LoginValidator.validate({ email, password })
+  .then(valid => Account.findOne({where: { email, password }}))
   .then(account => {
     if(!account) return res.status(401).json({message: 'Invalid credentials'})
     const data = {email: email}
