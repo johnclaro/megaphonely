@@ -16,8 +16,8 @@ describe('accounts', () => {
     return request(server).post('/account').send(johndoe)
     .then(response => {
       let user = {
-        first_name: johndoe.firstName,
-        last_name: johndoe.lastName,
+        firstName: johndoe.firstName,
+        lastName: johndoe.lastName,
         email: johndoe.email,
         password: johndoe.password,
         id: 1,
