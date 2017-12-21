@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { SignupValidator } from '../validators';
-import { signup, login, alert } from '../api';
+import { signup, login, alert } from '../apis';
 
 export default class SignupForm extends Component {
   render() {
