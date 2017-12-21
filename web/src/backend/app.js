@@ -17,11 +17,11 @@ app.post('/account', account.create)
 app.post('/login', account.login)
 app.get('/settings', jwt, account.settings)
 
-app.use((req, res, next) => res.status(404).send({message: 'not found'}))
+app.use((req, res, next) => res.status(404).send({message: 'Page not found'}))
 
 app.use((error, req, res, next) => {
   const env = process.env.NODE_ENV
-  const message = env === 'production' ? 'internal server error' : error
+  const message = env === 'production' ? 'Internal Server Error' : error
   return res.status(500).send({message: message})
 })
 
