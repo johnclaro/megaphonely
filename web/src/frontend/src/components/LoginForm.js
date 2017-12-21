@@ -5,17 +5,14 @@ import yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
-const LoginSchema = yup.object().shape({
-  email: yup.string().email('Email is not valid').required('Please enter an email address'),
-  password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Please enter a password')
-})
+import { LoginValidator } from '../validators';
 
 class LoginForm extends React.Component {
   render() {
     const { redirectToDashboard, openAlert } = this.props;
     return (
       <Formik
-        validationSchema={LoginSchema}
+        validationSchema={LoginValidator}
         initialValues={{
           email: 'johndoe@gmail.com', password: 'johndoe'
         }}
