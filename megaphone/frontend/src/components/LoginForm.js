@@ -12,7 +12,7 @@ const LoginSchema = yup.object().shape({
 
 class LoginForm extends React.Component {
   render() {
-    const { redirectToDashboard } = this.props;
+    const { redirectToDashboard, openAlert } = this.props;
     return (
       <Formik
         validationSchema={LoginSchema}
@@ -35,11 +35,21 @@ class LoginForm extends React.Component {
                 localStorage.setItem('jwt', data.token);
                 if (redirectToDashboard) redirectToDashboard();
               } else {
-                return Promise.reject(data.message)
+                return Promise.reject(data)
               }
             })
           })
-          .catch(error => console.error(error))
+          .catch(error => {
+            if (openAlert) {
+              if (error.message === 'NetworkError when attempting to fetch resource.') {
+                openAlert('Our login server is currently down. Please try again in a few minutes.')
+              } else {
+                openAlert(error.message)
+              }
+            } else {
+              console.error(error)
+            }
+          })
           setSubmitting(false)
         }}
         render={({
