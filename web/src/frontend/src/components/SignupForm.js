@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
@@ -32,17 +31,16 @@ export default class SignupForm extends Component {
                 localStorage.setItem('jwt', data.token);
                 if (redirectToDashboard) redirectToDashboard();
               } else {
-                console.log(data)
                 return Promise.reject(data)
               }
             })
           })
           .catch(error => {
             if (openAlert) {
-              if (error === 'NetworkError when attempting to fetch resource.') {
+              if (error.message === 'NetworkError when attempting to fetch resource.') {
                 openAlert('Our signup server is currently down. Please try again later.')
               } else {
-                openAlert(error)
+                openAlert(error.message)
               }
             } else {
               console.error(error)

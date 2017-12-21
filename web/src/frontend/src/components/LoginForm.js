@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
