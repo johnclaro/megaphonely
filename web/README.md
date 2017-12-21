@@ -1,5 +1,6 @@
-# Megaphone
-Social media management tool
+# megaphone-web
+
+Website platform
 
 # Usage
 ```
