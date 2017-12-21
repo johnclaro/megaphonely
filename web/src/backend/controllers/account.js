@@ -8,8 +8,11 @@ exports.create = (req, res, next) => {
   SignupValidator.validate({ firstName, lastName, email, password})
   .then(valid => Account.create(valid))
   .then(data => res.json(data))
-  .catch(error => res.status(500).json({message: error.errors[0].message}))
-}
+  .catch(error => {
+    const message = error.errors[0].message || error.message
+    return res.status(500).json({message: message})
+  });
+};
 
 exports.login = (req, res, next) => {
   const { email, password } = req.body

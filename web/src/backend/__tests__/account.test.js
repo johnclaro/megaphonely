@@ -54,4 +54,11 @@ describe('accounts', () => {
     .then(response => expect(response.body.message).to.equal('This email is already taken'))
   })
 
+  it.only('POST /account invalid password', () => {
+    let invalid = johndoe
+    invalid.password = '1'
+    return request(server).post('/account').send(invalid)
+    .then(response => expect(response.body.message).to.equal('Password must contain at least 6 characters long'))
+  })
+
 })
