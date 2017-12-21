@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { SignupValidator } from '../validators';
+import { signup, login, alert } from '../api';
 
 export default class SignupForm extends Component {
   render() {
@@ -19,33 +20,12 @@ export default class SignupForm extends Component {
           values,
           { setSubmitting, setErrors }
         ) => {
-          fetch('http://localhost:3001/account', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(values)
+          signup(values)
+          .then(account => login(account))
+          .then(loggedIn => {
+            if (redirectToDashboard) redirectToDashboard()
           })
-          .then(response => {
-            return response.json()
-            .then(data => {
-              if (response.status === 200) {
-                localStorage.setItem('jwt', data.token);
-                if (redirectToDashboard) redirectToDashboard();
-              } else {
-                return Promise.reject(data)
-              }
-            })
-          })
-          .catch(error => {
-            if (openAlert) {
-              if (error.message === 'NetworkError when attempting to fetch resource.') {
-                openAlert('Our signup server is currently down. Please try again later.')
-              } else {
-                openAlert(error.message)
-              }
-            } else {
-              console.error(error)
-            }
-          })
+          .catch(error => alert(openAlert, error))
           setSubmitting(false)
         }}
         render={({
