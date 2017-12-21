@@ -4,20 +4,14 @@ import yup from 'yup';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
-const SignupSchema = yup.object().shape({
-  firstName: yup.string().max(100, 'First name must be fewer than 100 characters').required('Please enter your first name'),
-  lastName: yup.string().max(100, 'Last name must be fewer than 100 characters'),
-  email: yup.string().email('Email is not valid').required('Please enter an email address'),
-  password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Please enter a password')
-})
-
+import { SignupValidator } from '../validators';
 
 export default class SignupForm extends Component {
   render() {
     const { redirectToDashboard, openAlert } = this.props;
     return (
       <Formik
-        validationSchema={SignupSchema}
+        validationSchema={SignupValidator}
         initialValues={{
           firstName: 'John', lastName: 'Doe', email: 'johndoe@gmail.com',
           password: 'johndoe',
