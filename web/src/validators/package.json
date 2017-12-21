@@ -1,0 +1,22 @@
+{
+  "name": "megaphone-web-validators",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megaphonesm/megaphone-web.git"
+  },
+  "author": "John Claro",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/megaphonesm/megaphone-web/issues"
+  },
+  "homepage": "https://github.com/megaphonesm/megaphone-web#readme",
+  "dependencies": {
+    "yup": "^0.23.0"
+  }
+}

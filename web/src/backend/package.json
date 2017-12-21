@@ -1,0 +1,49 @@
+{
+  "name": "megaphone-backend",
+  "version": "1.1.0",
+  "description": "Social media management tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_PATH=. jest --config=jest.config.js",
+    "start": "NODE_PATH=. NODE_ENV=production node index.js",
+    "dev": "NODE_PATH=. NODE_ENV=development DEBUG=express:* nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/megaphonesm/megaphone-web.git"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "management",
+    "tool"
+  ],
+  "author": "John Claro",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/megaphonesm/megaphone-web/issues"
+  },
+  "homepage": "https://github.com/megaphonesm/megaphone-web#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-jwt": "^5.3.0",
+    "joi": "^13.0.2",
+    "jsonwebtoken": "^8.1.0",
+    "nodemailer": "^4.4.1",
+    "pg": "^7.4.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "sequelize": "^4.28.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "jest": "^21.2.1",
+    "nodemon": "^1.13.3",
+    "sqlite3": "^3.1.13",
+    "supertest": "^3.0.0"
+  }
+}
