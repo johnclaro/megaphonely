@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const Account = require('../models').Account
 const { LoginValidator, SignupValidator } = require('../validators')
 
-exports.create = (req, res, next) => {
+exports.signup = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
   const saltRounds = parseInt(process.env.SALT_ROUNDS) || 12
   const account = { firstName, lastName, email, password }
