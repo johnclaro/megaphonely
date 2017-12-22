@@ -54,21 +54,19 @@ describe('accounts', () => {
   })
 
   it('POST /signup invalid password', () => {
-    let invalid = johndoe
-    invalid.password = '1'
+    const invalid = {firstName: 'foo', email: 'foobar@gmail.com', password: '1'}
     return request(app).post('/signup').send(invalid)
     .then(response => expect(response.body.message).to.equal('Password must contain at least 6 characters long'))
   })
 
   it('POST /forgot_password send forgot password link to email that does not exist', () => {
     return request(app).post('/forgot_password').send(johndoe)
-    .then(response => expect(response.body.message).to.equal('No email found in database'))
+    .then(response => expect(response.body.message).to.equal('Email sent'))
   })
 
   it('POST /forgot_password send forgot password link to email that exists', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/forgot_password').send(johndoe))
-    .then(response => console.log('Done test'))
-    // .then(response => expect(response.body.message).to.equal('Email sent'))
+    .then(response => expect(response.body.message).to.equal('Email sent'))
   })
 })
