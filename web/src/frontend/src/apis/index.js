@@ -48,17 +48,19 @@ function signup(account) {
   })
 }
 
-function forgotPassword(email) {
+function forgotPassword(values) {
   return fetch('http://localhost:3001/forgot_password', {
     method: 'post',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(email)
+    body: JSON.stringify(values)
   })
   .then(response => {
     return response.json()
     .then(data => {
+      const message = `If a Megaphone account exists for this ${values.email},
+        an e-mail will be sent with further instructions.`
       if (response.status === 200) {
-        return Promise.resolve(email)
+        return Promise.resolve({message: message})
       } else {
         return Promise.reject(data)
       }
