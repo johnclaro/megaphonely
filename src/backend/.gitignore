@@ -55,3 +55,6 @@ typings/
 .yarn-integrity
 
 *.sqlite3
+
+# Scratch pad
+scratch.js
