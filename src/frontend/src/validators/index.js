@@ -16,8 +16,4 @@ const SignupValidator = yup.object().shape({
   password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Please enter a password')
 });
 
-module.exports = {
-  SignupValidator: SignupValidator,
-  LoginValidator: LoginValidator,
-  ForgotPasswordValidator: ForgotPasswordValidator
-};
+module.exports = { SignupValidator, LoginValidator, ForgotPasswordValidator };
