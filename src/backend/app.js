@@ -15,7 +15,7 @@ const health = require('./controllers/health')
 app.get('/health', health.index)
 app.post('/signup', account.signup)
 app.post('/login', account.login)
-app.post('/forgot_password', account.forgotPassword)
+app.post('/forgot', account.forgot)
 app.get('/settings', jwt, account.settings)
 
 app.use((req, res, next) => res.status(404).send({message: 'Page not found'}))

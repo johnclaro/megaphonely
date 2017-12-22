@@ -46,7 +46,7 @@ exports.login = (req, res, next) => {
   .catch(error => next(error))
 }
 
-exports.forgotPassword = (req, res, next) => {
+exports.forgot = (req, res, next) => {
   const email = req.body.email;
   Account.findOne({where: { email }})
   .then(account => {
@@ -55,26 +55,26 @@ exports.forgotPassword = (req, res, next) => {
     .then(token => {
       const subject = 'Reset your megaphone password';
       const html = `
-        <p>
-          Hi ${account.firstName},
-          <br>
-          <br>
-          Someone recently requested a password change for your Megaphone account.
-          If this was you, you can set a new password here:
-          <br>
-          <br>
-          <a href='${req.headers.origin}/verify/${token}'>Reset password</a>
-          <br>
-          <br>
-          If you don't want to change your password or didn't request this, just
-          ignore and delete this message.
-          <br>
-          <br>
-          To keep your account secure, please don't forward this email to anyone.
-          <br>
-          <br>
-          Happy Megaphoning!
-        </p>
+      <p>
+        Hi ${account.firstName},
+        <br>
+        <br>
+        Someone recently requested a password change for your Megaphone account.
+        If this was you, you can set a new password here:
+        <br>
+        <br>
+        <a href='${req.headers.origin}/verify/${token}'>Reset password</a>
+        <br>
+        <br>
+        If you don't want to change your password or didn't request this, just
+        ignore and delete this message.
+        <br>
+        <br>
+        To keep your account secure, please don't forward this email to anyone.
+        <br>
+        <br>
+        Happy Megaphoning!
+      </p>
       `
       return emailer.send(email, subject, html)
     })
