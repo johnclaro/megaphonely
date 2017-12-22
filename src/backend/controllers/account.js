@@ -1,5 +1,8 @@
+'use strict';
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const promisify = require('bluebird').promisify;
 
 const Account = require('../models').Account;
 const { LoginValidator, SignupValidator } = require('../validators');
@@ -35,10 +38,9 @@ exports.login = (req, res, next) => {
     return bcrypt.compare(password, account.password)
     .then(matched => {
       if (!matched) return res.status(401).json({message: 'Invalid credentials'})
-      jwt.sign({}, process.env.SECRET, {expiresIn: '1h'}, (error, token) => {
-        if (error) return res.status(500).json({message: 'Could not sign data'})
-        return res.status(200).json({token: token})
-      })
+      return promisify(jwt.sign)({}, process.env.SECRET, {expiresIn: '1h'})
+      .then(token => res.status(200).json({token: token}))
+      .catch(error => res.status(500).json({message: 'Could not sign data'}))
     })
     .catch(error => Promise.reject(error))
   })
@@ -50,7 +52,7 @@ exports.forgotPassword = (req, res, next) => {
   Account.findOne({where: { email }})
   .then(account => {
     if (!account) return Promise.resolve({message: 'Email sent'})
-    return bcrypt.hash(email, saltRounds)
+    return promisify(jwt.sign)({ email }, process.env.SECRET, {expiresIn: '1h'})
     .then(token => {
       const subject = 'Reset your megaphone password';
       const html = `
@@ -75,9 +77,8 @@ exports.forgotPassword = (req, res, next) => {
           Happy Megaphoning!
         </p>
       `
-      return Promise.resolve({ email, subject, html })
+      return emailer.send(email, subject, html)
     })
-    .then(data => emailer.send(data.email, data.subject, data.html))
   })
   .then(sent => res.json({message: 'Email sent'}))
   .catch(error => res.status(500).json(error))
