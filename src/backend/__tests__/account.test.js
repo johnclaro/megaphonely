@@ -65,7 +65,7 @@ describe('accounts', () => {
     .then(response => expect(response.body.message).to.equal('No email found in database'))
   })
 
-  it.only('POST /forgot_password send forgot password link to email that exists', () => {
+  it('POST /forgot_password send forgot password link to email that exists', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/forgot_password').send(johndoe))
     .then(response => console.log('Done test'))
