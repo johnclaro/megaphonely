@@ -13,7 +13,7 @@ export default class SignupForm extends Component {
       <Formik
         validationSchema={SignupValidator}
         initialValues={{
-          firstName: 'John', lastName: 'Doe', email: 'johndoe@gmail.com',
+          firstName: 'John', lastName: 'Doe', email: 'jkrclaro@outlook.com',
           password: 'johndoe',
         }}
         onSubmit={(

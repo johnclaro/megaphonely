@@ -17,10 +17,10 @@ class ForgotPasswordForm extends React.Component {
         }}
         onSubmit={(
           values,
-          { setSubmitting, setErrors /* setValues and other goodies */ }
+          { setSubmitting, setErrors }
         ) => {
-          forgotPassword()
-          .then(success => alert(openAlert, success, 'success'))
+          forgotPassword(values)
+          .then(response => alert(openAlert, response, 'success'))
           .catch(error => alert(openAlert, error, 'danger'))
         }}
         render={({
