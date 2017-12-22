@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const Account = require('../models').Account
-const { LoginValidator, SignupValidator } = require('../validators')
+const Account = require('../models').Account;
+const { LoginValidator, SignupValidator } = require('../validators');
+const emailer = require('../services/emailer');
+const saltRounds = parseInt(process.env.SALT_ROUNDS) || 12
 
 exports.signup = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
-  const saltRounds = parseInt(process.env.SALT_ROUNDS) || 12
   const account = { firstName, lastName, email, password }
   SignupValidator.validate(account)
   .then(validated => {
@@ -44,10 +45,44 @@ exports.login = (req, res, next) => {
   .catch(error => res.status(500).json({message: error}))
 }
 
-exports.forgotpassword = (req, res, next) => {
-  res.json({message: 'success'})
+exports.forgotPassword = (req, res, next) => {
+  const email = req.body.email;
+  Account.findOne({where: { email }})
+  .then(account => {
+    if (!account) return Promise.reject('No email found in database')
+    return bcrypt.hash(email, saltRounds)
+    .then(token => {
+      const subject = 'Reset your megaphone password';
+      const html = `
+        <p>
+          Hi ${account.firstName},
+          <br>
+          <br>
+          Someone recently requested a password change for your Megaphone account.
+          If this was you, you can set a new password here:
+          <br>
+          <br>
+          <a href='${req.headers.origin}/verify/${token}'>Reset password</a>
+          <br>
+          <br>
+          If you don't want to change your password or didn't request this, just
+          ignore and delete this message.
+          <br>
+          <br>
+          To keep your account secure, please don't forward this email to anyone.
+          <br>
+          <br>
+          Happy Megaphoning!
+        </p>
+      `
+      return Promise.resolve({ email, subject, html })
+    })
+    .then(data => emailer.send(data.email, data.subject, data.html))
+  })
+  .then(sent => res.json({message: 'Email sent'}))
+  .catch(error => res.status(500).json(error))
 }
 
 exports.settings = (req, res, next) => {
-  res.json({message: 'settings!'})
+  return res.json({message: 'settings!'})
 }
