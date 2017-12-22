@@ -1,0 +1,3 @@
+[submodule "megaphone-backend"]
+	path = megaphone-backend
+	url = https://github.com/megaphonesm/megaphone-backend.git
