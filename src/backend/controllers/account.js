@@ -6,7 +6,7 @@ const promisify = require('bluebird').promisify;
 
 const Account = require('../models').Account;
 const { LoginValidator, SignupValidator } = require('../validators');
-const emailer = require('../services/emailer');
+const emailer = require('../lib/emailer');
 const saltRounds = parseInt(process.env.SALT_ROUNDS) || 12
 
 exports.signup = (req, res, next) => {
