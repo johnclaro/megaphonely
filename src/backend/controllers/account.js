@@ -49,7 +49,7 @@ exports.forgotPassword = (req, res, next) => {
   const email = req.body.email;
   Account.findOne({where: { email }})
   .then(account => {
-    if (!account) return Promise.reject('No email found in database')
+    if (!account) return Promise.resolve({message: 'Email sent'})
     return bcrypt.hash(email, saltRounds)
     .then(token => {
       const subject = 'Reset your megaphone password';
