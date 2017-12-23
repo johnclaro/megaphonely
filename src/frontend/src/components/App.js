@@ -8,7 +8,7 @@ import Footer from './Footer';
 import Header from './Header';
 import Login from './Login';
 import Signup from './Signup';
-import ForgotPassword from './ForgotPassword';
+import Forgot from './Forgot';
 
 const App = () => (
   <div>
@@ -17,7 +17,7 @@ const App = () => (
       <Route exact path='/' component={Home}/>
       <Route path='/login' component={Login}/>
       <Route path='/signup' component={Signup}/>
-      <Route path='/forgot_password' component={ForgotPassword}/>
+      <Route path='/forgot' component={Forgot}/>
       <Route path='/dashboard' component={Dashboard}/>
       <Route component={NotFound} />
     </Switch>
