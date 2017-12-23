@@ -37,7 +37,7 @@ describe('accounts', () => {
     .then(response => expect(response.body.message).to.equal('Password must contain at least 6 characters long'))
   })
 
-  it('POST /login valid credentials', () => {
+  it('POST /login', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(created => request(app).post('/login').send(johndoe).expect(200))
   })

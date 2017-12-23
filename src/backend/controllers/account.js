@@ -7,32 +7,36 @@ const Account = require('../models').Account;
 const emailer = require('../lib/emailer');
 const { jwtSign } = require('../lib/promisify');
 const { LoginValidator, SignupValidator } = require('../validators');
+const asaw = require('../middlewares/asaw');
 
 const { SECRET, SALT_ROUNDS } = process.env;
 const expiresIn = {expiresIn: '1h'};
 
-exports.signup = (req, res, next) => {
-  const { firstName, email , password, lastName='' } = req.body;
-  const account = { firstName, lastName, email, password };
-  SignupValidator.validate(account)
-  .then(validated => bcrypt.hash(password, parseInt(SALT_ROUNDS)))
-  .then(hashed => Account.create({ firstName, lastName, email, password: hashed }))
-  .then(created => res.json(account))
-  .catch(error => {
-    // SequelizeUniqueConstraintError or ValidationError
-    const message = error.errors[0].message || error.errors[0];
-    message ? res.status(400).json({ message }) : next(error);
-  });
+exports.signup = async (req, res, next) => {
+  try {
+    const { firstName, email , password, lastName='' } = req.body;
+    const account = { firstName, lastName, email, password };
+    const validated = await SignupValidator.validate(account);
+    const hash = await bcrypt.hash(validated.password, parseInt(SALT_ROUNDS));
+    validated.password = hash;
+    const created = await Account.create(validated);
+    return res.json(account)
+  } catch (err) {
+    const message = err.errors[0].message || err.errors[0];
+    message ? res.status(400).json({ message }) : next(err);
+  };
 };
 
-exports.login = (req, res, next) => {
+exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-  LoginValidator.validate({ email, password })
-  .then(validated => Account.findOne({where: { email }}))
-  .then(found => found ? bcrypt.compare(password, found.password) : res.status(401).send())
-  .then(matched => matched ? jwtSign({}, SECRET, expiresIn) : res.status(401).send())
-  .then(token => res.json({ token }))
-  .catch(error => next(error))
+
+  const validated = await LoginValidator.validate({ email, password });
+  const found = validated ? await Account.findOne({where: { email }}) : null;
+  if (!found) return res.status(401).json({});
+  const matched = found ? await bcrypt.compare(password, found.password) : null;
+  if (!matched) return res.status(401).json({});
+  const token = matched ? await jwtSign({}, SECRET, expiresIn) : null;
+  return res.json({ token });
 };
 
 exports.forgot = (req, res, next) => {
