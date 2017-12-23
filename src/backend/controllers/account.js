@@ -15,27 +15,30 @@ exports.signup = async (req, res, next) => {
   try {
     const { firstName, email , password, lastName='' } = req.body;
     const account = { firstName, lastName, email, password };
-    const validated = await SignupValidator.validate(account);
-    const hash = await bcrypt.hash(validated.password, parseInt(SALT_ROUNDS));
-    validated.password = hash;
-    const created = await Account.create(validated);
-    return res.json(account)
+    const hash = await bcrypt.hash(account.password, parseInt(SALT_ROUNDS));
+    const created = await Account.create({ firstName, lastName, email, password: hash });
+    return res.json(account);
   } catch (err) {
-    const message = err.errors[0].message || err.errors[0];
-    message ? res.status(400).json({ message }) : next(err);
+    let invalid = {};
+    for (let error of err.errors) invalid[error.path] = error.message;
+    invalid ? res.status(400).json(invalid) : next(err);
   };
 };
 
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
 
-  const validated = await LoginValidator.validate({ email, password });
-  const found = validated ? await Account.findOne({where: { email }}) : null;
-  if (!found) return res.status(401).json({});
-  const matched = found ? await bcrypt.compare(password, found.password) : null;
-  if (!matched) return res.status(401).json({});
-  const token = matched ? await jwtSign({}, SECRET, expiresIn) : null;
-  return res.json({ token });
+  try {
+    const { email, password } = req.body;
+    const validated = await LoginValidator.validate({ email, password });
+    const found = validated ? await Account.findOne({where: { email }}) : null;
+    if (!found) return res.status(401).json({ email: 'Invalid email or password' });
+    const matched = found ? await bcrypt.compare(password, found.password) : null;
+    if (!matched) return res.status(401).json({ email: 'Invalid email or password' });
+    const token = matched ? await jwtSign({}, SECRET, expiresIn) : null;
+    return res.json({ token });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.forgot = async (req, res, next) => {
@@ -43,8 +46,8 @@ exports.forgot = async (req, res, next) => {
   const subject = 'Reset your Megaphone password';
 
   const validated = await ForgotValidator.validate({ email });
-  const found = await Account.findOne({where: { email }})
-  if (!found) return res.json({})
+  const found = await Account.findOne({where: { email }});
+  if (!found) return res.json({});
   const token = await jwtSign({ email: validated.email }, SECRET, expiresIn);
   const html = `
   <p>
@@ -69,7 +72,7 @@ exports.forgot = async (req, res, next) => {
   </p>
   `;
   const sent = await emailer.send(validated.email, subject, html);
-  return res.json({})
+  return res.json({});
 };
 
 exports.settings = (req, res, next) => {
