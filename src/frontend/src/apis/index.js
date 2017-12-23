@@ -1,16 +1,3 @@
-function alert(openAlert, response, color) {
-  if (openAlert) {
-    if (response.message === 'NetworkError when attempting to fetch resource.') {
-      openAlert('We cannot perform that action right now. Please try again later.', 'danger')
-    } else {
-      openAlert(response, color)
-    }
-  } else {
-    console.error(response)
-  }
-  return Promise.resolve()
-}
-
 function login(input) {
   return fetch('http://localhost:3001/login', {
     method: 'post',
@@ -35,4 +22,4 @@ function forgot(input) {
   })
 };
 
-module.exports = { alert, signup, login, forgot };
+module.exports = { signup, login, forgot };
