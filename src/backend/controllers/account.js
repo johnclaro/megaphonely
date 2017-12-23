@@ -14,15 +14,9 @@ exports.signup = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
   const account = { firstName, lastName, email, password };
   SignupValidator.validate(account)
-  .then(validated => {
-    return bcrypt.hash(validated.password, parseInt(SALT_ROUNDS))
-    .then(hashed => {
-      validated.password = hashed;
-      return Promise.resolve(validated);
-    });
-  })
-  .then(newAccount => Account.create(newAccount))
-  .then(created => res.json(account))
+  .then(validated => bcrypt.hash(password, parseInt(SALT_ROUNDS)))
+  .then(hash => Account.create({ firstName, lastName, email, password: hash }))
+  .then(success => res.json(account))
   .catch(error => {
     // SequelizeUniqueConstraintError or ValidationError
     const message = error.errors[0].message || error.errors[0];
@@ -42,7 +36,7 @@ exports.login = (req, res, next) => {
       return jwtSign({}, SECRET, {expiresIn: '1h'})
       .then(token => res.json({ token }))
     })
-  })
+  });
   .catch(error => next(error))
 }
 

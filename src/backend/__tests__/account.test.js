@@ -1,3 +1,5 @@
+'use strict';
+
 const expect = require('chai').expect;
 const request = require('supertest');
 const bcrypt = require('bcrypt');
@@ -63,7 +65,7 @@ describe('accounts', () => {
   it('GET /account', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/login').send(johndoe).expect(200))
-    .then(response => request(app).get('/settings').set('Authorization', response.body.token).expect(200))
+    .then(response => request(app).get('/settings').set('Authorization', `${response.body.token}`).expect(200))
     .then(response => expect(response.body.message).to.equal('settings!'))
   })
 
