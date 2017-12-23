@@ -21,11 +21,16 @@ export default class SignupForm extends Component {
           { setSubmitting, setErrors }
         ) => {
           signup(values)
+          .then(signedUp => {
+            return signedUp.json()
+            .then(res => signedUp.ok ? res : Promise.reject(res.message))
+          })
           .then(account => login(account))
           .then(loggedIn => {
-            if (redirectToDashboard) redirectToDashboard()
+            return loggedIn.json()
+            .then(res => loggedIn.ok ? redirectToDashboard() : null)
           })
-          .catch(error => alert(openAlert, error, 'danger'))
+          .catch(err => alert(openAlert, err, 'danger'))
           setSubmitting(false)
         }}
         render={({

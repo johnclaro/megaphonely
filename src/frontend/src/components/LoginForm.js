@@ -14,7 +14,7 @@ class LoginForm extends React.Component {
       <Formik
         validationSchema={LoginValidator}
         initialValues={{
-          email: 'johndoe@gmail.com', password: 'johndoe'
+          email: 'jkrclaro@outlook.com', password: 'johndoe'
         }}
         onSubmit={(
           values,
@@ -22,9 +22,10 @@ class LoginForm extends React.Component {
         ) => {
           login(values)
           .then(loggedIn => {
-            if (redirectToDashboard) redirectToDashboard()
+            return loggedIn.json()
+            .then(res => loggedIn.ok ? redirectToDashboard() : Promise.reject('Invalid email or password'))
           })
-          .catch(error => alert(openAlert, error, 'danger'))
+          .catch(err => alert(openAlert, err, 'danger'))
           setSubmitting(false)
         }}
         render={({
@@ -62,7 +63,7 @@ class LoginForm extends React.Component {
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Login
             </Button>
-            <a href='/forgot_password'>Forgot password?</a>
+            <a href='/forgot'>Forgot password?</a>
             <br/>
             <span>{"Don't have an account?"} <a href='/signup'>Sign Up</a></span>
           </Form>
