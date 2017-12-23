@@ -27,16 +27,10 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
   const { email, password } = req.body;
   LoginValidator.validate({ email, password })
-  .then(valid => Account.findOne({where: { email }}))
-  .then(account => {
-    if(!account) return res.status(401).send()
-    return bcrypt.compare(password, account.password)
-    .then(matched => {
-      if (!matched) return res.status(401).send()
-      return jwtSign({}, SECRET, {expiresIn: '1h'})
-      .then(token => res.json({ token }))
-    })
-  });
+  .then(validated => Account.findOne({where: { email }}))
+  .then(account => account ? bcrypt.compare(password, account.password) : res.status(401).send())
+  .then(matched => matched ? jwtSign({}, SECRET, {expiresIn: '1h'}) : res.status(401).send())
+  .then(token => res.json({ token }))
   .catch(error => next(error))
 }
 
