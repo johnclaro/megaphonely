@@ -28,7 +28,7 @@ exports.login = (req, res, next) => {
   const { email, password } = req.body;
   LoginValidator.validate({ email, password })
   .then(validated => Account.findOne({where: { email }}))
-  .then(account => account ? bcrypt.compare(password, account.password) : res.status(401).send())
+  .then(found => found ? bcrypt.compare(password, found.password) : res.status(401).send())
   .then(matched => matched ? jwtSign({}, SECRET, {expiresIn: '1h'}) : res.status(401).send())
   .then(token => res.json({ token }))
   .catch(error => next(error))
@@ -36,36 +36,38 @@ exports.login = (req, res, next) => {
 
 exports.forgot = (req, res, next) => {
   const email = req.body.email;
+  const subject = 'Reset your megaphone password';
+  let firstName, token = ''
+
   Account.findOne({where: { email }})
-  .then(account => {
-    if (!account) return res.status(200).send()
+  .then(found => {
+    if (!found) return res.status(200).send()
     return jwtSign({ email }, SECRET, {expiresIn: '1h'})
-    .then(token => {
-      const subject = 'Reset your megaphone password';
-      const html = `
-      <p>
-        Hi ${account.firstName},
-        <br>
-        <br>
-        Someone recently requested a password change for your Megaphone account.
-        If this was you, you can set a new password here:
-        <br>
-        <br>
-        <a href='${req.headers.origin}/verify/${token}'>Reset password</a>
-        <br>
-        <br>
-        If you don't want to change your password or didn't request this, just
-        ignore and delete this message.
-        <br>
-        <br>
-        To keep your account secure, please don't forward this email to anyone.
-        <br>
-        <br>
-        Happy Megaphoning!
-      </p>
-      `
-      return emailer.send(email, subject, html)
-    })
+  })
+  .then(token => {
+    const html = `
+    <p>
+      Hi ${firstName},
+      <br>
+      <br>
+      Someone recently requested a password change for your Megaphone account.
+      If this was you, you can set a new password here:
+      <br>
+      <br>
+      <a href='${req.headers.origin}/reset/${token}'>Reset password</a>
+      <br>
+      <br>
+      If you don't want to change your password or didn't request this, just
+      ignore and delete this message.
+      <br>
+      <br>
+      To keep your account secure, please don't forward this email to anyone.
+      <br>
+      <br>
+      Happy Megaphoning!
+    </p>
+    `
+    return emailer.send(email, subject, html)
   })
   .then(sent => res.status(200).send())
   .catch(error => next(error))
