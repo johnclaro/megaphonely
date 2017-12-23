@@ -22,4 +22,4 @@ exports.send = (to, subject, html) => {
 
   const transporter = nodemailer.createTransport(options);
   return transporter.sendMail({ from, to, subject, html})
-}
+};
