@@ -9,14 +9,15 @@ const { jwtSign } = require('../lib/promisify');
 const { LoginValidator, SignupValidator } = require('../validators');
 
 const { SECRET, SALT_ROUNDS } = process.env;
+const expiresIn = {expiresIn: '1h'};
 
 exports.signup = (req, res, next) => {
   const { firstName, email , password, lastName='' } = req.body;
   const account = { firstName, lastName, email, password };
   SignupValidator.validate(account)
   .then(validated => bcrypt.hash(password, parseInt(SALT_ROUNDS)))
-  .then(hash => Account.create({ firstName, lastName, email, password: hash }))
-  .then(success => res.json(account))
+  .then(hashed => Account.create({ firstName, lastName, email, password: hashed }))
+  .then(created => res.json(account))
   .catch(error => {
     // SequelizeUniqueConstraintError or ValidationError
     const message = error.errors[0].message || error.errors[0];
@@ -29,20 +30,21 @@ exports.login = (req, res, next) => {
   LoginValidator.validate({ email, password })
   .then(validated => Account.findOne({where: { email }}))
   .then(found => found ? bcrypt.compare(password, found.password) : res.status(401).send())
-  .then(matched => matched ? jwtSign({}, SECRET, {expiresIn: '1h'}) : res.status(401).send())
+  .then(matched => matched ? jwtSign({}, SECRET, expiresIn) : res.status(401).send())
   .then(token => res.json({ token }))
   .catch(error => next(error))
-}
+};
 
 exports.forgot = (req, res, next) => {
   const email = req.body.email;
-  const subject = 'Reset your megaphone password';
-  let firstName, token = ''
+  const subject = 'Reset your Megaphone password';
+  let firstName;
 
   Account.findOne({where: { email }})
   .then(found => {
-    if (!found) return res.status(200).send()
-    return jwtSign({ email }, SECRET, {expiresIn: '1h'})
+    if (!found) return res.status(200).send();
+    firstName = found.firstName;
+    return jwtSign({ email }, SECRET, expiresIn);
   })
   .then(token => {
     const html = `
@@ -66,14 +68,14 @@ exports.forgot = (req, res, next) => {
       <br>
       Happy Megaphoning!
     </p>
-    `
-    return emailer.send(email, subject, html)
+    `;
+    return emailer.send(email, subject, html);
   })
   .then(sent => res.status(200).send())
-  .catch(error => next(error))
-}
+  .catch(error => next(error));
+};
 
 exports.settings = (req, res, next) => {
-  const message = 'settings!'
-  return res.json({ message })
-}
+  const message = 'settings!';
+  return res.json({ message });
+};
