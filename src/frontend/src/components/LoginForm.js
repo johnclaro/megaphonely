@@ -5,11 +5,11 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { LoginValidator } from '../validators';
-import { login, alert } from '../apis';
+import { login } from '../apis';
 
 class LoginForm extends React.Component {
   render() {
-    const { redirectToDashboard, openAlert } = this.props;
+    const { redirect } = this.props;
     return (
       <Formik
         validationSchema={LoginValidator}
@@ -23,9 +23,9 @@ class LoginForm extends React.Component {
           login(values)
           .then(loggedIn => {
             return loggedIn.json()
-            .then(res => loggedIn.ok ? redirectToDashboard() : Promise.reject('Invalid email or password'))
+            .then(res => loggedIn.ok ? redirect('/dashboard') : Promise.reject({ email: 'Invalid email or password' }))
           })
-          .catch(err => alert(openAlert, err, 'danger'))
+          .catch(err => setErrors(err))
           setSubmitting(false)
         }}
         render={({

@@ -4,11 +4,11 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { SignupValidator } from '../validators';
-import { signup, login, alert } from '../apis';
+import { signup, login } from '../apis';
 
 export default class SignupForm extends Component {
   render() {
-    const { redirectToDashboard, openAlert } = this.props;
+    const { redirect } = this.props;
     return (
       <Formik
         validationSchema={SignupValidator}
@@ -23,14 +23,14 @@ export default class SignupForm extends Component {
           signup(values)
           .then(signedUp => {
             return signedUp.json()
-            .then(res => signedUp.ok ? res : Promise.reject(res.message))
+            .then(res => signedUp.ok ? res : Promise.reject(res))
           })
           .then(account => login(account))
           .then(loggedIn => {
             return loggedIn.json()
-            .then(res => loggedIn.ok ? redirectToDashboard() : null)
+            .then(res => loggedIn.ok ? redirect('/dashboard') : redirect('/error'))
           })
-          .catch(err => alert(openAlert, err, 'danger'))
+          .catch(err => setErrors(err))
           setSubmitting(false)
         }}
         render={({
