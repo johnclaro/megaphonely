@@ -1,6 +1,6 @@
 const yup = require('yup');
 
-const ForgotPasswordValidator = yup.object().shape({
+const ForgotValidator = yup.object().shape({
   email: yup.string().email('Email is not valid').required('Please enter an email address')
 });
 
@@ -19,5 +19,5 @@ const SignupValidator = yup.object().shape({
 module.exports = {
   SignupValidator: SignupValidator,
   LoginValidator: LoginValidator,
-  ForgotPasswordValidator: ForgotPasswordValidator
+  ForgotValidator: ForgotValidator
 };

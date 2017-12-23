@@ -27,6 +27,6 @@ app.use((error, req, res, next) => {
   const env = process.env.NODE_ENV;
   const message = env === 'production' ? 'Internal Server Error' : error;
   return res.status(500).send({message: message});
-})
+});
 
 module.exports = app;
