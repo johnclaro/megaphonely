@@ -4,11 +4,11 @@ import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { ForgotValidator } from '../validators';
-import { forgot, alert } from '../apis';
+import { forgot } from '../apis';
 
 class ForgotForm extends React.Component {
   render() {
-    const { openAlert } = this.props;
+    const { alert } = this.props;
     return (
       <Formik
         validationSchema={ForgotValidator}
@@ -16,12 +16,15 @@ class ForgotForm extends React.Component {
           email: 'jkrclaro@outlook.com'
         }}
         onSubmit={(
-          values,
+          data,
           { setSubmitting, setErrors }
         ) => {
-          forgot(values)
-          .then(response => alert(openAlert, 'Hello', 'success'))
-          .catch(error => alert(openAlert, error, 'danger'))
+          forgot(data)
+          .then(forgotten => {
+            return forgotten.json()
+            .then(res => forgotten.ok ? alert(data.email) : null)
+          })
+          .catch(err => setErrors(err))
         }}
         render={({
           values,
