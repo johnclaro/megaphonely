@@ -19,9 +19,9 @@ class ResetForm extends React.Component {
           values,
           { setSubmitting, setErrors }
         ) => {
-          reset(values)
-          .then(changed => console.log(changed))
-          .catch(err => console.error(err.response))
+          reset(values, token)
+          .then(changed => redirect('/dashboard'))
+          .catch(err => setErrors(err))
         }}
         render={({
           values,

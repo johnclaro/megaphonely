@@ -21,16 +21,9 @@ export default class SignupForm extends Component {
           { setSubmitting, setErrors }
         ) => {
           signup(values)
-          .then(signedUp => {
-            return signedUp.json()
-            .then(res => signedUp.ok ? res : Promise.reject(res))
-          })
-          .then(account => login(account))
-          .then(loggedIn => {
-            return loggedIn.json()
-            .then(res => loggedIn.ok ? redirect('/dashboard') : redirect('/error'))
-          })
-          .catch(err => setErrors(err))
+          .then(signedUp => login(signedUp.data))
+          .then(loggedIn => redirect('/dashboard'))
+          .catch(err => setErrors(err.response.data))
           setSubmitting(false)
         }}
         render={({
