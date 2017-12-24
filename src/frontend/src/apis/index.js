@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function login(data) {
+function login(data) {
   return axios.post('http://localhost:3001/login', data);
 };
 
@@ -13,7 +13,9 @@ function forgot(data) {
 };
 
 function reset(data, token) {
-  return axios.post('http://localhost:3001/reset', {headers: {'Authorization': token}})
+  const headers = {'Authorization': token}
+  const options = { headers }
+  return axios.post('http://localhost:3001/reset', data, options)
 };
 
 export { signup, login, forgot, reset };
