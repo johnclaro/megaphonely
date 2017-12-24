@@ -16,14 +16,12 @@ class ResetForm extends React.Component {
           password: 'johndoe'
         }}
         onSubmit={(
-          data,
+          values,
           { setSubmitting, setErrors }
         ) => {
-          reset(data, token)
-          .then(changed => {
-            return changed.json()
-            .then(res => changed.ok ? redirect('/dashboard') : null)
-          })
+          reset(values)
+          .then(changed => console.log(changed))
+          .catch(err => console.error(err.response))
         }}
         render={({
           values,
