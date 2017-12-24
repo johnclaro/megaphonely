@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt');
 const Account = require('../models').Account;
 const emailer = require('../lib/emailer');
 const { jwtSign } = require('../lib/promisify');
-const { LoginValidator, SignupValidator, ForgotValidator } = require('../validators');
+const {
+  LoginValidator, SignupValidator, ForgotValidator, ResetValidator
+ } = require('../validators');
 
 const { SECRET, SALT_ROUNDS } = process.env;
 const expiresIn = {expiresIn: '1h'};
@@ -26,14 +28,14 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-
   try {
+    const INVALID_ERROR_MESSAGE = 'Invalid email or password'
     const { email, password } = req.body;
     const validated = await LoginValidator.validate({ email, password });
     const found = validated ? await Account.findOne({where: { email }}) : null;
-    if (!found) return res.status(401).json({ email: 'Invalid email or password' });
+    if (!found) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
     const matched = found ? await bcrypt.compare(password, found.password) : null;
-    if (!matched) return res.status(401).json({ email: 'Invalid email or password' });
+    if (!matched) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
     const token = matched ? await jwtSign({}, SECRET, expiresIn) : null;
     return res.json({ token });
   } catch (err) {
@@ -45,34 +47,50 @@ exports.forgot = async (req, res, next) => {
   const email = req.body.email;
   const subject = 'Reset your Megaphone password';
 
-  const validated = await ForgotValidator.validate({ email });
-  const found = await Account.findOne({where: { email }});
-  if (!found) return res.json({});
-  const token = await jwtSign({ email: validated.email }, SECRET, expiresIn);
-  const html = `
-  <p>
-    Hi ${found.firstName},
-    <br>
-    <br>
-    Someone recently requested a password change for your Megaphone account.
-    If this was you, you can set a new password here:
-    <br>
-    <br>
-    <a href='${req.headers.origin}/reset/${token}'>Reset password</a>
-    <br>
-    <br>
-    If you don't want to change your password or didn't request this, just
-    ignore and delete this message.
-    <br>
-    <br>
-    To keep your account secure, please don't forward this email to anyone.
-    <br>
-    <br>
-    Happy Megaphoning!
-  </p>
-  `;
-  const sent = await emailer.send(validated.email, subject, html);
-  return res.json({});
+  try {
+    const validated = await ForgotValidator.validate({ email });
+    const found = await Account.findOne({where: { email }});
+    if (!found) return res.json({});
+    const token = await jwtSign({ email: validated.email }, SECRET, expiresIn);
+    const html = `
+    <p>
+      Hi ${found.firstName},
+      <br>
+      <br>
+      Someone recently requested a password change for your Megaphone account.
+      If this was you, you can set a new password here:
+      <br>
+      <br>
+      <a href='${req.headers.origin}/reset/${token}'>Reset password</a>
+      <br>
+      <br>
+      If you don't want to change your password or didn't request this, just
+      ignore and delete this message.
+      <br>
+      <br>
+      To keep your account secure, please don't forward this email to anyone.
+      <br>
+      <br>
+      Happy Megaphoning!
+    </p>
+    `;
+    const sent = await emailer.send(validated.email, subject, html);
+    return res.json({});
+  } catch (err) {
+    next(err);
+  };
+};
+
+exports.reset = async (data, req, res, next) => {
+  try {
+    const password = req.body.password;
+    const email = data.email;
+    const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
+    const updated = await Account.update({ password: hash }, { where: { email }});
+    return res.json({});
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.settings = (req, res, next) => {
