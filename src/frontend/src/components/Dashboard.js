@@ -1,11 +1,15 @@
-import React from 'react';
-import { Container } from 'reactstrap';
+import React, { Component } from 'react';
+import { Container, Button } from 'reactstrap';
+import { content } from '../apis';
 
-export default class Dashboard extends React.Component {
+import ContentForm from './ContentForm';
+
+export default class Dashboard extends Component {
   render() {
     return (
       <Container>
         <h1>Dashboard</h1>
+        <ContentForm/>
       </Container>
     );
   };

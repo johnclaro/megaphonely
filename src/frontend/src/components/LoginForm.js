@@ -21,7 +21,10 @@ class LoginForm extends React.Component {
           { setSubmitting, setErrors }
         ) => {
           login(values)
-          .then(loggedIn => redirect('/dashboard'))
+          .then(authenticated => {
+            localStorage.setItem('jwt', authenticated.data.token)
+            redirect('/dashboard')
+          })
           .catch(err => setErrors(err.response.data));
           setSubmitting(false)
         }}
