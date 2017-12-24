@@ -1,33 +1,19 @@
-function login(data) {
-  return fetch('http://localhost:3001/login', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  })
-}
+import axios from 'axios';
+
+async function login(data) {
+  return axios.post('http://localhost:3001/login', data);
+};
 
 function signup(data) {
-  return fetch('http://localhost:3001/signup', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  })
-}
+  return axios.post('http://localhost:3001/signup', data);
+};
 
 function forgot(data) {
-  return fetch('http://localhost:3001/forgot', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  })
+  return axios.post('http://localhost:3001/forgot', data);
 };
 
 function reset(data, token) {
-  return fetch('http://localhost:3001/reset', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json', 'Authorization': token},
-    body: JSON.stringify(data)
-  })
+  return axios.post('http://localhost:3001/reset', {headers: {'Authorization': token}})
 };
 
-module.exports = { signup, login, forgot, reset };
+export { signup, login, forgot, reset };

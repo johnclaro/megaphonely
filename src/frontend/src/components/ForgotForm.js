@@ -16,14 +16,11 @@ class ForgotForm extends React.Component {
           email: 'jkrclaro@outlook.com'
         }}
         onSubmit={(
-          data,
+          values,
           { setSubmitting, setErrors }
         ) => {
-          forgot(data)
-          .then(forgotten => {
-            return forgotten.json()
-            .then(res => forgotten.ok ? alert(data.email, 'success') : null)
-          })
+          forgot(values)
+          .then(forgotten => alert(values.email, 'success'))
         }}
         render={({
           values,

@@ -21,11 +21,8 @@ class LoginForm extends React.Component {
           { setSubmitting, setErrors }
         ) => {
           login(values)
-          .then(loggedIn => {
-            return loggedIn.json()
-            .then(res => loggedIn.ok ? redirect('/dashboard') : Promise.reject({ email: 'Invalid email or password' }))
-          })
-          .catch(err => setErrors(err))
+          .then(loggedIn => redirect('/dashboard'))
+          .catch(err => setErrors(err.response.data));
           setSubmitting(false)
         }}
         render={({
