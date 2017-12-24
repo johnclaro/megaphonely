@@ -19,9 +19,9 @@ const App = () => (
       <Route path='/login' component={Login}/>
       <Route path='/signup' component={Signup}/>
       <Route path='/forgot' component={Forgot}/>
-      <Route path='/reset/:token' name='hello' component={Reset}/>
+      <Route path='/reset/:token' component={Reset}/>
       <Route path='/dashboard' component={Dashboard}/>
-      <Route component={NotFound} status={404}/>
+      <Route component={NotFound}/>
     </Switch>
     <Footer />
   </div>
