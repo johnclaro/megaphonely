@@ -11,7 +11,6 @@ const {
  } = require('../validators');
 
 const { SECRET, SALT_ROUNDS } = process.env;
-const expiresIn = {expiresIn: '1h'};
 
 exports.signup = async (req, res, next) => {
   try {
@@ -36,7 +35,7 @@ exports.login = async (req, res, next) => {
     if (!found) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
     const matched = found ? await bcrypt.compare(password, found.password) : null;
     if (!matched) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
-    const token = matched ? await jwtSign({}, SECRET, expiresIn) : null;
+    const token = matched ? await jwtSign({}, SECRET, {expiresIn: '1h'}) : null;
     return res.json({ token });
   } catch (err) {
     next(err);
@@ -44,14 +43,13 @@ exports.login = async (req, res, next) => {
 };
 
 exports.forgot = async (req, res, next) => {
-  const email = req.body.email;
-  const subject = 'Reset your Megaphone password';
-
   try {
+    const email = req.body.email;
+    const subject = 'Reset your Megaphone password';
     const validated = await ForgotValidator.validate({ email });
     const found = await Account.findOne({where: { email }});
     if (!found) return res.json({});
-    const token = await jwtSign({ email: validated.email }, SECRET, expiresIn);
+    const token = await jwtSign({ email: validated.email }, SECRET, {expiresIn: '30 days'});
     const html = `
     <p>
       Hi ${found.firstName},

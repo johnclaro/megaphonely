@@ -25,9 +25,14 @@ app.get('/settings', jwt, account.settings);
 app.use((req, res, next) => res.status(404));
 
 app.use((error, req, res, next) => {
-  const env = process.env.NODE_ENV;
-  const message = env === 'production' ? 'Internal Server Error' : error;
-  return res.status(500).send({message: message});
+  let message;
+  if (process.env.NODE_ENV === 'production') {
+    message = 'Internal Server Error'
+  } else {
+    console.error(error)
+    message = error;
+  }
+  return res.status(500).send({ message });
 });
 
 module.exports = app;
