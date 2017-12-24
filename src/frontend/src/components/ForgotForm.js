@@ -22,9 +22,8 @@ class ForgotForm extends React.Component {
           forgot(data)
           .then(forgotten => {
             return forgotten.json()
-            .then(res => forgotten.ok ? alert(data.email) : null)
+            .then(res => forgotten.ok ? alert(data.email, 'success') : null)
           })
-          .catch(err => setErrors(err))
         }}
         render={({
           values,
