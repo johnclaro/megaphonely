@@ -15,26 +15,21 @@ describe('accounts', () => {
 
   beforeEach(() => Account.sync({force: true}))
 
-  it('POST /signup create new account', () => {
+  it('POST /signup', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(response => expect(johndoe).to.deep.equal(response.body))
   })
 
-  it('POST /signup account already exists', () => {
-    return request(app).post('/signup').send(johndoe).expect(200)
-    .then(response => request(app).post('/signup').send(johndoe).expect(400))
-  })
-
-  it('POST /signup existing user', () => {
+  it('POST /signup email already exists', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/signup').send(johndoe).expect(400))
-    .then(response => expect(response.body.message).to.equal('This email is already taken'))
+    .then(response => expect(response.body).to.deep.equal({email: 'This email is already taken'}))
   })
 
-  it('POST /signup invalid password', () => {
-    const invalid = {firstName: 'foo', email: 'foobar@gmail.com', password: '1'}
+  it('POST /signup invalid first name', () => {
+    const invalid = {firstName: '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789', email: 'foobar@gmail.com', password: '12'}
     return request(app).post('/signup').send(invalid).expect(400)
-    .then(response => expect(response.body.message).to.equal('Password must contain at least 6 characters long'))
+    .then(response => expect(response.body).to.deep.equal({firstName: 'First name must be fewer than 100 characters'}))
   })
 
   it('POST /login', () => {

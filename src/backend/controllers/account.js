@@ -88,7 +88,7 @@ exports.reset = async (data, req, res, next) => {
     return res.json({});
   } catch (err) {
     next(err);
-  }
+  };
 };
 
 exports.settings = (req, res, next) => {
