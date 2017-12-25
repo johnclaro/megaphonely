@@ -4,7 +4,9 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const multer = require('multer');
 
+const upload = multer({ dest: 'uploads/' })
 const app = express();
 
 app.use(cors());
@@ -21,8 +23,8 @@ app.post('/signup', account.signup);
 app.post('/login', account.login);
 app.post('/forgot', account.forgot);
 app.post('/reset', jwt, account.reset);
-app.post('/content', jwt, content.create);
 app.get('/settings', jwt, account.settings);
+app.post('/content', jwt, upload.single('media'), content.create);
 
 app.use((req, res, next) => res.status(404));
 
