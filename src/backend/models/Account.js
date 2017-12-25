@@ -28,8 +28,7 @@ module.exports = (db, Sequelize) => {
     password: {
       type: Sequelize.STRING,
       validate: {
-        notEmpty: {args: true, msg: 'Please enter a password'},
-        min: {args: 6, msg: 'Password must contain at least 6 characters long'}
+        notEmpty: {args: true, msg: 'Please enter a password'}
       }
     }
   }, {
