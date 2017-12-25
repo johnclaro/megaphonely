@@ -1,6 +1,5 @@
 'use strict';
 
-exports.create = (data, req, res, next) => {
-  console.log(req.body)
+exports.create = async (req, res, next) => {
   return res.json({})
 };

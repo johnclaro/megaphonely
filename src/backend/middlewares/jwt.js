@@ -6,7 +6,7 @@ module.exports = function(req, res, next) {
       if (err) {
         return res.status(401).json({})
       } else {
-        next(data)
+        next()
       }
     })
   } else {
