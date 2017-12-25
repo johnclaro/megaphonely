@@ -91,7 +91,7 @@ exports.reset = async (data, req, res, next) => {
   };
 };
 
-exports.settings = (req, res, next) => {
+exports.settings = async (req, res, next) => {
   const message = 'settings!';
   return res.json({ message });
 };
