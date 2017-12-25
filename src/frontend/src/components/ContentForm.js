@@ -20,10 +20,9 @@ class ContentForm extends React.Component {
           values,
           { setSubmitting, setErrors }
         ) => {
-          console.log(values)
           content(values)
-          .then(s => console.log(s))
-          .catch(e => console.error(e))
+          .then(s => console.log('Success'))
+          .catch(e => console.error('Error'))
         }}
         render={({
           values,
@@ -47,10 +46,12 @@ class ContentForm extends React.Component {
             </FormGroup>
             <FormGroup>
               <Input
-                id='file'
+                id='media'
                 type='file'
-                name='file'
-                onChange={(event) => setFieldValue('file', event.currentTarget.files[0])}
+                name='media'
+                onChange={(event) => {
+                  setFieldValue('media', event.currentTarget.files[0])
+                }}
               />
             </FormGroup>
             <FormGroup>

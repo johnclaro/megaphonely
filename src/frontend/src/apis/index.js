@@ -22,8 +22,11 @@ function reset(data, token) {
 
 function content(data) {
   const headers = {'Authorization': localStorage.getItem('jwt')}
-  const options = { headers }
-  return axios.post(`${URL}/content`, data, options)
+  const payload = new FormData();
+  payload.set('media', data.media);
+  payload.set('message', data.message)
+  payload.set('scheduleAt', data.scheduleAt)
+  return axios.post(`${URL}/content`, payload, { headers })
 }
 
 export { signup, login, forgot, reset, content };
