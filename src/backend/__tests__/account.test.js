@@ -17,19 +17,19 @@ describe('accounts', () => {
 
   it('POST /signup', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
-    .then(response => expect(johndoe).to.deep.equal(response.body))
+    .then(res => expect(johndoe).to.deep.equal(res.body))
   })
 
   it('POST /signup email already exists', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/signup').send(johndoe).expect(400))
-    .then(response => expect(response.body).to.deep.equal({email: 'This email is already taken'}))
+    .then(res => expect(res.body).to.deep.equal({email: 'This email is already taken'}))
   })
 
   it('POST /signup invalid first name', () => {
     const invalid = {firstName: '0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789', email: 'foobar@gmail.com', password: '12'}
     return request(app).post('/signup').send(invalid).expect(400)
-    .then(response => expect(response.body).to.deep.equal({firstName: 'First name must be fewer than 100 characters'}))
+    .then(res => expect(res.body).to.deep.equal({firstName: 'First name must be fewer than 100 characters'}))
   })
 
   it('POST /login', () => {
@@ -60,8 +60,8 @@ describe('accounts', () => {
   it('GET /account', () => {
     return request(app).post('/signup').send(johndoe).expect(200)
     .then(account => request(app).post('/login').send(johndoe).expect(200))
-    .then(response => request(app).get('/settings').set('Authorization', `${response.body.token}`).expect(200))
-    .then(response => expect(response.body.message).to.equal('settings!'))
+    .then(res => request(app).get('/settings').set('Authorization', `${res.body.token}`).expect(200))
+    .then(res => expect(res.body.message).to.equal('settings!'))
   })
 
   it('GET /account with no token', () => {
