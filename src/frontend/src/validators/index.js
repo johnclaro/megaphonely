@@ -1,4 +1,5 @@
 const yup = require('yup');
+const today = new Date();
 
 const SignupValidator = yup.object().shape({
   firstName: yup.string().trim().max(100, 'First name must be fewer than 100 characters').required('Please enter your first name'),
@@ -20,6 +21,12 @@ const ResetValidator = yup.object().shape({
   password: yup.string().min(6, 'Password must contain at least 6 characters long').required('Please enter a password')
 });
 
+const ContentValidator = yup.object().shape({
+  message: yup.string().trim().required('Please enter a message'),
+  schedule: yup.date().min(today, 'Cannot schedule in the past').required('Please enter a schedule')
+})
+
 module.exports = {
-  SignupValidator, LoginValidator, ForgotValidator, ResetValidator
+  SignupValidator, LoginValidator, ForgotValidator, ResetValidator,
+  ContentValidator
 };
