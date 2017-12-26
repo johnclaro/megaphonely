@@ -24,7 +24,7 @@ function content(data) {
   const payload = new FormData();
   payload.set('media', data.media);
   payload.set('message', data.message);
-  payload.set('scheduleAt', data.scheduleAt);
+  payload.set('schedule', data.schedule);
   return axios.post(`${URL}/content`, payload, { headers });
 }
 

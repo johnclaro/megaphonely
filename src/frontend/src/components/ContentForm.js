@@ -13,9 +13,9 @@ class ContentForm extends Component {
   constructor(props) {
     super(props);
     const flatpickrOptions = {
-      minDate: 'today', enableTime: true, time_24hr: true, minuteIncrement: 1
+      minDate: 'today', enableTime: true, time_24hr: true, minuteIncrement: 1,
       dateFormat: 'd/m/Y H:i',
-    }
+    };
     this.state = { flatpickrOptions };
   }
 
@@ -30,15 +30,17 @@ class ContentForm extends Component {
           values,
           { setSubmitting, setErrors }
         ) => {
+          console.log(values);
           content(values)
-          .then(s => console.log('Success'))
-          .catch(e => console.error('Error'))
+          .then(res => console.log(res))
+          .catch(err => console.error(err))
         }}
         render={({
           values,
           errors,
           touched,
           setFieldValue,
+          setFieldTouched,
           handleChange,
           handleBlur,
           handleSubmit,
@@ -46,13 +48,15 @@ class ContentForm extends Component {
         }) => (
           <Form onSubmit={handleSubmit}>
             <FormGroup>
-              <Input type='textarea'
+              <Input
+                type='textarea'
                 name='message'
                 placeholder='What do you want to share?'
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.message}
               />
+              {touched.message && errors.message && <div className='error-input'>{errors.message}</div>}
             </FormGroup>
             <FormGroup>
               <Input
@@ -66,17 +70,20 @@ class ContentForm extends Component {
             </FormGroup>
             <FormGroup row>
               <Flatpickr
-                className='schedule-at-flatpickr'
                 id='schedule'
-                onChange={(event) => {setFieldValue('schedule', event[0])}}
-                value={values.schedule}
+                name='schedule'
+                className='schedule-at-flatpickr'
                 options={this.state.flatpickrOptions}
+                onChange={(event) => {
+                  setFieldValue('schedule', event[0])
+                  setFieldTouched('schedule', true)
+                }}
+                value={values.schedule}
               />
-            </FormGroup>
-            <FormGroup>
+              {touched.schedule && errors.schedule && <div className='error-input'>{errors.schedule}</div>}
             </FormGroup>
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
-              Submit
+              Schedule
             </Button>
           </Form>
         )}
