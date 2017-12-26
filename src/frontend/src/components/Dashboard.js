@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import { Container, Col, Row } from 'reactstrap';
 
 import ContentForm from './ContentForm';
 
@@ -7,8 +7,15 @@ export default class Dashboard extends Component {
   render() {
     return (
       <Container>
-        <h1>Dashboard</h1>
-        <ContentForm/>
+        <Row>
+          <Col lg={4}>
+            <h1>Welcome</h1>
+            <ContentForm/>
+          </Col>
+          <Col lg={8}>
+            <h1>Contents</h1>
+          </Col>
+        </Row>
       </Container>
     );
   };
