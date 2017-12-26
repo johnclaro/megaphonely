@@ -6,7 +6,6 @@ import App from './components/App';
 
 import './css/index.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'flatpickr/dist/themes/airbnb.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
