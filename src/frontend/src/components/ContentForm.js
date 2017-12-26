@@ -52,7 +52,7 @@ class Kendrick extends Component {
            onMouseEnter={this.handleMouseEnter}
            onMouseDown={this.handleMouseDown}
            onMouseMove={this.handleMouseMove}>
-        <SocialIcon style={gravatarStyle} network={this.props.option.value}/>
+        <SocialIcon style={gravatarStyle} url={this.props.option.url}/>
         {this.props.children}
       </div>
     )
@@ -136,23 +136,23 @@ class ContentForm extends Component {
 
             <FormGroup>
               <Select
-                name='oauths'
+                name='networks'
                 multi
                 closeOnSelect={false}
-                placeholder='Select a social account'
-                value={values.oauths}
+                placeholder='Select your network(s)'
+                value={values.networks}
                 onChange={(event) => {
-                  setFieldValue('oauths', event)
-                  setFieldTouched('oauths', true)
+                  setFieldValue('networks', event)
+                  setFieldTouched('networks', true)
                 }}
                 options={[
-                  { value: 'twitter', label: 'megaphonesm' },
-                  { value: 'linkedin', label: 'Megaphone' },
-                  { value: 'facebook', label: 'Megaphone' },
+                  { value: '123', label: 'megaphonesm', url: 'https://twitter.com/megaphonesm' },
+                  { value: '456', label: 'Megaphone', url: 'https://linkedin.com/in/megaphonesm' },
+                  { value: '789', label: 'Megaphone', url: 'https://facebook.com/megaphonesm' },
                 ]}
                 optionComponent={Kendrick}
               />
-
+              {touched.networks && errors.networks && <div className='error-input'>{errors.networks}</div>}
             </FormGroup>
 
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
