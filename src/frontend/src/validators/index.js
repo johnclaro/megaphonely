@@ -23,7 +23,7 @@ const ResetValidator = yup.object().shape({
 const ContentValidator = yup.object().shape({
   message: yup.string().trim().required('Please enter a message'),
   schedule: yup.date().min(new Date(), 'Cannot schedule in the past').required('Please enter a schedule'),
-  networks: yup.array().required('You must select a network')
+  networks: yup.array().required('Please select a network')
 })
 
 module.exports = {
