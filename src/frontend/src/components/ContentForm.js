@@ -1,63 +1,16 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import {
   Form, FormGroup, Input, Button
 } from 'reactstrap';
-import { SocialIcon } from 'react-social-icons';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/airbnb.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 
+import ContentFormNetworks from './ContentFormNetworks';
 import { ContentValidator } from '../validators';
 import { content } from '../apis';
-
-class Kendrick extends Component {
-  constructor(props) {
-    super(props);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
-  };
-
-  handleMouseDown (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.onSelect(this.props.option, event);
-  };
-
-  handleMouseEnter (event) {
-    this.props.onFocus(this.props.option, event);
-  };
-
-  handleMouseMove (event) {
-    if (this.props.isFocused) return;
-    this.props.onFocus(this.props.option, event);
-  };
-
-  render() {
-    let gravatarStyle = {
-      display: 'inline-block',
-      marginRight: 10,
-      position: 'relative',
-      top: -2,
-      verticalAlign: 'middle',
-      height: 30,
-      width: 30
-    };
-
-    return (
-      <div className={this.props.className}
-           onMouseEnter={this.handleMouseEnter}
-           onMouseDown={this.handleMouseDown}
-           onMouseMove={this.handleMouseMove}>
-        <SocialIcon style={gravatarStyle} url={this.props.option.url}/>
-        {this.props.children}
-      </div>
-    )
-  }
-}
 
 class ContentForm extends Component {
   constructor(props) {
@@ -150,7 +103,7 @@ class ContentForm extends Component {
                   { value: '456', label: 'Megaphone', url: 'https://linkedin.com/in/megaphonesm' },
                   { value: '789', label: 'Megaphone', url: 'https://facebook.com/megaphonesm' },
                 ]}
-                optionComponent={Kendrick}
+                optionComponent={ContentFormNetworks}
               />
               {touched.networks && errors.networks && <div className='error-input'>{errors.networks}</div>}
             </FormGroup>
@@ -162,7 +115,7 @@ class ContentForm extends Component {
         )}
       />
     )
-  }
-}
+  };
+};
 
-export default withRouter(ContentForm)
+export default ContentForm;
