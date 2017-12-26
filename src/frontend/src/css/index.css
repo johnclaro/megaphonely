@@ -29,3 +29,19 @@
 .schedule-at-select {
   width: 100px;
 }
+
+.content-input-group {
+  text-align: center;
+}
+
+img {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+.imgA {
+  z-index: 1;
+}
+.imgB {
+  z-index: 2;
+}

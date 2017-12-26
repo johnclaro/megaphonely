@@ -1,13 +1,63 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
-import { Form, FormGroup, Input, Button } from 'reactstrap';
+import {
+  Form, FormGroup, Input, Button
+} from 'reactstrap';
+import { SocialIcon } from 'react-social-icons';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/airbnb.css';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import { ContentValidator } from '../validators';
 import { content } from '../apis';
 
+class Kendrick extends Component {
+  constructor(props) {
+    super(props);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+  };
+
+  handleMouseDown (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.onSelect(this.props.option, event);
+  };
+
+  handleMouseEnter (event) {
+    this.props.onFocus(this.props.option, event);
+  };
+
+  handleMouseMove (event) {
+    if (this.props.isFocused) return;
+    this.props.onFocus(this.props.option, event);
+  };
+
+  render() {
+    let gravatarStyle = {
+      display: 'inline-block',
+      marginRight: 10,
+      position: 'relative',
+      top: -2,
+      verticalAlign: 'middle',
+      height: 30,
+      width: 30
+    };
+
+    return (
+      <div className={this.props.className}
+           onMouseEnter={this.handleMouseEnter}
+           onMouseDown={this.handleMouseDown}
+           onMouseMove={this.handleMouseMove}>
+        <SocialIcon style={gravatarStyle} network={this.props.option.value}/>
+        {this.props.children}
+      </div>
+    )
+  }
+}
 
 class ContentForm extends Component {
   constructor(props) {
@@ -33,7 +83,8 @@ class ContentForm extends Component {
           console.log(values);
           content(values)
           .then(res => console.log(res))
-          .catch(err => console.error(err))
+          .catch(err => setErrors(err.response.data))
+          setSubmitting(false)
         }}
         render={({
           values,
@@ -82,6 +133,28 @@ class ContentForm extends Component {
               />
               {touched.schedule && errors.schedule && <div className='error-input'>{errors.schedule}</div>}
             </FormGroup>
+
+            <FormGroup>
+              <Select
+                name='oauths'
+                multi
+                closeOnSelect={false}
+                placeholder='Select a social account'
+                value={values.oauths}
+                onChange={(event) => {
+                  setFieldValue('oauths', event)
+                  setFieldTouched('oauths', true)
+                }}
+                options={[
+                  { value: 'twitter', label: 'megaphonesm' },
+                  { value: 'linkedin', label: 'Megaphone' },
+                  { value: 'facebook', label: 'Megaphone' },
+                ]}
+                optionComponent={Kendrick}
+              />
+
+            </FormGroup>
+
             <Button className='btn-block' type='submit' disabled={isSubmitting}>
               Schedule
             </Button>
