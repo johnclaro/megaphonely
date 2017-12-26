@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button } from 'reactstrap';
-import { content } from '../apis';
+import { Container } from 'reactstrap';
 
 import ContentForm from './ContentForm';
 
