@@ -91,6 +91,16 @@ exports.reset = async (data, req, res, next) => {
   };
 };
 
+exports.success = async (req, res, next) => {
+  console.log('Success!')
+  return res.json({status: 'success'})
+}
+
+exports.failed = async (req, res, next) => {
+  console.log('Failed!')
+  return res.json({status: 'failed'})
+}
+
 exports.settings = async (req, res, next) => {
   const message = 'settings!';
   return res.json({ message });
