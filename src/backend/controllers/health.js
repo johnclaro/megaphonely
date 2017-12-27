@@ -1,5 +1,5 @@
 'use strict'
 
 exports.index = (req, res, next) => {
-  res.json({'health': 'alive'})
+  return res.json({'health': 'alive'})
 }
