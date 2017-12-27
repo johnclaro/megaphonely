@@ -1,22 +1,20 @@
 import axios from 'axios';
 
-const URL = 'http://localhost:3001';
-
 function login(data) {
-  return axios.post(`${URL}/login`, data);
+  return axios.post(`/api/login`, data);
 };
 
 function signup(data) {
-  return axios.post(`${URL}/signup`, data);
+  return axios.post(`/api/signup`, data);
 };
 
 function forgot(data) {
-  return axios.post(`${URL}/forgot`, data);
+  return axios.post(`/api/forgot`, data);
 };
 
 function reset(data, token) {
   const headers = {'Authorization': token};
-  return axios.post(`${URL}/reset`, data, { headers });
+  return axios.post(`/api/reset`, data, { headers });
 };
 
 function content(data) {
@@ -25,7 +23,12 @@ function content(data) {
   payload.set('media', data.media);
   payload.set('message', data.message);
   payload.set('schedule', data.schedule);
-  return axios.post(`${URL}/content`, payload, { headers });
+  return axios.post(`/api/content`, payload, { headers });
 }
 
-export { signup, login, forgot, reset, content };
+function connect(data) {
+  const headers = {'Authorization': localStorage.getItem('jwt')};
+  return axios.get(`/api/auth/facebook`, { headers })
+}
+
+export { signup, login, forgot, reset, content, connect };
