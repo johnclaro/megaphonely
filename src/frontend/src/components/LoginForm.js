@@ -1,13 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
 
 import { LoginValidator } from '../validators';
 import { login } from '../apis';
 
-class LoginForm extends React.Component {
+export default class LoginForm extends React.Component {
   render() {
     const { redirect } = this.props;
     return (
@@ -70,7 +68,5 @@ class LoginForm extends React.Component {
         )}
       />
     )
-  }
-}
-
-export default withRouter(LoginForm)
+  };
+};

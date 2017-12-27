@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
 import {
-  Container, Modal, ModalHeader, ModalBody, ModalFooter, ListGroup, ListGroupItem
+  Container, Modal, ModalHeader, ModalBody, ListGroup, ListGroupItem
 } from 'reactstrap';
 
+import { connect } from '../apis';
+
 export default class ConnectNetworkModal extends Component {
+  constructor(props) {
+    super(props);
+    this.connect = this.connect.bind(this);
+  };
+
+  connect() {
+    connect({})
+    .then(s => console.log(s))
+    .catch(e => console.error(e))
+  };
+
   render() {
     const { modalState, modalToggle } = this.props;
     return (
@@ -12,9 +25,7 @@ export default class ConnectNetworkModal extends Component {
           <ModalHeader toggle={modalToggle}>Your networks</ModalHeader>
           <ModalBody>
             <ListGroup>
-              <ListGroupItem tag='a' href='/connect/facebook' action>Facebook</ListGroupItem>
-              <ListGroupItem tag='a' href='/connect/twitter' action>Twitter</ListGroupItem>
-              <ListGroupItem tag='a' href='/connect/linkedin' action>LinkedIn</ListGroupItem>
+              <ListGroupItem tag='a' href='http://megaphone.dev:3001/auth/facebook'>Connect Facebook</ListGroupItem>
             </ListGroup>
           </ModalBody>
         </Modal>

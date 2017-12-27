@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { Form, FormGroup, Input, Button, Col } from 'reactstrap';
 import Flatpickr from 'react-flatpickr';
 import Select from 'react-select';
-import FaPlusSquare from 'react-icons/lib/fa/plus-square';
 import GroupAdd from 'react-icons/lib/md/group-add';
 import 'flatpickr/dist/themes/airbnb.css';
 import 'react-select/dist/react-select.css';
@@ -20,7 +19,7 @@ class ContentForm extends Component {
       minDate: 'today', enableTime: true, time_24hr: true, minuteIncrement: 1,
       dateFormat: 'd/m/Y H:i',
     };
-    this.state = { flatpickrOptions, modal: false };
+    this.state = { flatpickrOptions, modal: true };
     this.toggle = this.toggle.bind(this);
   };
 
