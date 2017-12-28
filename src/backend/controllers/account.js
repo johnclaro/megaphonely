@@ -35,7 +35,7 @@ exports.login = async (req, res, next) => {
     if (!found) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
     const matched = found ? await bcrypt.compare(password, found.password) : null;
     if (!matched) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
-    const token = matched ? await jwtSign({}, SECRET, {expiresIn: '1h'}) : null;
+    const token = matched ? await jwtSign({ id: found.id }, SECRET, {expiresIn: '1h'}) : null;
     return res.json({ token });
   } catch (err) {
     next(err);
@@ -102,7 +102,7 @@ exports.failed = async (req, res, next) => {
 }
 
 exports.settings = async (req, res, next) => {
-  console.log(req.user)
+  console.log(req.cookies)
   const message = 'settings!';
   return res.json({ message });
 };
