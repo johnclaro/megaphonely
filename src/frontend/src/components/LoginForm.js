@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Button, Form, Input, FormGroup } from 'reactstrap';
+import Cookies from 'universal-cookie';
 
 import { LoginValidator } from '../validators';
 import { login } from '../apis';
@@ -20,7 +21,8 @@ export default class LoginForm extends React.Component {
         ) => {
           login(values)
           .then(authenticated => {
-            localStorage.setItem('jwt', authenticated.data.token)
+            const cookies = new Cookies();
+            cookies.set('jwt', authenticated.data.token, { path: '/' });
             redirect('/dashboard')
           })
           .catch(err => setErrors(err.response.data));
