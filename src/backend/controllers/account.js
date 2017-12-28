@@ -102,6 +102,7 @@ exports.failed = async (req, res, next) => {
 }
 
 exports.settings = async (req, res, next) => {
+  console.log(req.user)
   const message = 'settings!';
   return res.json({ message });
 };

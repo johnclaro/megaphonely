@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const passport = require('passport');
-const jwt = require('express-jwt');
+const JWT = require('express-jwt');
 
 const upload = multer({ dest: 'uploads/' })
 const app = express();
@@ -18,6 +18,7 @@ app.use(passport.session());
 const health = require('./controllers/health');
 const account = require('./controllers/account');
 const content = require('./controllers/content');
+const jwt = JWT({ secret: process.env.SECRET });
 const Passport = require('./middlewares/passport');
 
 const secret = process.env.SECRET;
@@ -26,7 +27,7 @@ app.post('/api/signup', account.signup);
 app.post('/api/login', account.login);
 app.post('/api/forgot', account.forgot);
 app.post('/api/reset', jwt, account.reset);
-app.get('/api/settings', jwt({ secret }), account.settings);
+app.get('/api/settings', jwt, account.settings);
 app.post('/api/content', jwt, upload.single('media'), content.create);
 
 const redirect = {
