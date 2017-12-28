@@ -9,8 +9,6 @@ passport.use(new FacebookStrategy({
   callbackURL: '/auth/facebook/callback',
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  console.log('Authenticating...');
-  console.log(req)
-  console.log('Doneeeeee')
+  console.log(req.cookies)
   return done(null, 'Done');
 }));
