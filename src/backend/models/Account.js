@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = (db, Sequelize) => {
   var Account = db.define('Account', {
@@ -30,6 +30,11 @@ module.exports = (db, Sequelize) => {
       validate: {
         notEmpty: {args: true, msg: 'Please enter a password'}
       }
+    },
+    refreshToken: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      field: 'refresh_token'
     }
   }, {
     tableName: 'accounts',

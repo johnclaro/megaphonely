@@ -35,8 +35,9 @@ exports.login = async (req, res, next) => {
     if (!found) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
     const matched = found ? await bcrypt.compare(password, found.password) : null;
     if (!matched) return res.status(401).json({ email: INVALID_ERROR_MESSAGE });
-    const token = matched ? await jwtSign({ id: found.id }, SECRET, {expiresIn: '1h'}) : null;
-    return res.json({ token });
+    const accessToken = matched ? await jwtSign({ id: found.id }, SECRET, {expiresIn: '15m'}) : null;
+    const refreshToken = found.refreshToken;
+    return res.json({ accessToken, refreshToken });
   } catch (err) {
     next(err);
   }
@@ -86,6 +87,18 @@ exports.reset = async (data, req, res, next) => {
     const hash = await bcrypt.hash(password, parseInt(SALT_ROUNDS));
     const updated = await Account.update({ password: hash }, { where: { email }});
     return res.json({});
+  } catch (err) {
+    next(err);
+  };
+};
+
+exports.refresh = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+    const found = await Account.findOne({ where: { refreshToken }});
+    if (!found) return res.status(401).json({message: 'Refresh token has been revoked'});
+    const accessToken = await jwtSign({ id: found.id }, SECRET, {expiresIn: '15m'});
+    return res.json({ accessToken })
   } catch (err) {
     next(err);
   };
