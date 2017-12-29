@@ -21,8 +21,10 @@ export default class LoginForm extends React.Component {
         ) => {
           login(values)
           .then(authenticated => {
+            const { accessToken, refreshToken } = authenticated.data;
             const cookies = new Cookies();
-            cookies.set('jwt', authenticated.data.token, { path: '/' });
+            cookies.set('mpat', accessToken, { path: '/' });
+            localStorage.setItem('mprt', refreshToken);
             redirect('/dashboard')
           })
           .catch(err => setErrors(err.response.data));
