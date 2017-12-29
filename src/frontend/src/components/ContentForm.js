@@ -19,7 +19,7 @@ class ContentForm extends Component {
       minDate: 'today', enableTime: true, time_24hr: true, minuteIncrement: 1,
       dateFormat: 'd/m/Y H:i',
     };
-    this.state = { flatpickrOptions, modal: true };
+    this.state = { flatpickrOptions, modal: false };
     this.toggle = this.toggle.bind(this);
   };
 

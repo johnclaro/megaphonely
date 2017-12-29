@@ -26,6 +26,8 @@ export default class ConnectNetworkModal extends Component {
           <ModalBody>
             <ListGroup>
               <ListGroupItem tag='a' href='http://megaphone.dev:3001/auth/facebook'>Connect Facebook</ListGroupItem>
+              <ListGroupItem tag='a' href='http://megaphone.dev:3001/auth/twitter'>Connect Twitter</ListGroupItem>
+              <ListGroupItem tag='a' href='http://megaphone.dev:3001/auth/linkedin'>Connect LinkedIn</ListGroupItem>
             </ListGroup>
           </ModalBody>
         </Modal>
