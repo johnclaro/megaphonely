@@ -33,6 +33,7 @@ app.get('/health', health.index);
 app.post('/signup', account.signup);
 app.post('/login', account.login);
 app.post('/forgot', account.forgot);
+app.post('/refresh', account.refresh);
 app.post('/reset', jwt, account.reset);
 app.get('/settings', jwt, account.settings);
 app.post('/content', jwt, upload.single('media'), content.create);
