@@ -1,0 +1,11 @@
+def save_profile(backend, user, response, *args, **kwargs):
+    print ('Backend')
+    print (backend)
+    print ('User')
+    print (user)
+    print ('Response')
+    print (response)
+    print ('Args')
+    print (args)
+    print ('Kwargs')
+    print (kwargs)
