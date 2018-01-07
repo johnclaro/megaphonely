@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_jwt.views import obtain_jwt_token
 
 from .profiles.views import UserViewSet, GroupViewSet
 
@@ -11,5 +12,6 @@ router.register(r'groups', GroupViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', obtain_jwt_token),
 ]
