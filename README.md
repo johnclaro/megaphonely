@@ -1,17 +1,8 @@
-# megaphone-website
+# einstein
 
-Website platform
+Backend for megaphone
 
 # Usage
 ```
-docker-compose up
+python3 manage.py runserver
 ```
-
-# Makefile
-```
-make release
-```
-
-# Infrastructure
-- Add Custom TCP rule for Port 6379 to Anywhere on SG for ElasticCache
-- Attach policy **AmazonEC2ContainerRegistryReadOnly** to **aws-elasticbeanstalk-ec2-role**
