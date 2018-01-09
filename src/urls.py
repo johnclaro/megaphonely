@@ -12,6 +12,7 @@ router.register(r'groups', GroupViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^auth/', include('djoser.urls')),
+    url(r'^auth/', include('djoser.urls.jwt')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
