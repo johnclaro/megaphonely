@@ -1,13 +1,17 @@
 from datetime import timedelta
 from os.path import dirname, abspath, join
 from os import environ
+from distutils.util import strtobool
 
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 BASE_DIR = dirname(dirname(abspath(__file__)))
 
+# Django
+DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = environ['SECRET_KEY']
+ALLOWED_HOSTS = ['megaphone.dev']
 
 # Social Auth
 LOGIN_URL = 'login'
@@ -17,17 +21,11 @@ SOCIAL_AUTH_TWITTER_KEY = environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = environ['TWITTER_CONSUMER_SECRET']
 
 # Internationalization
-# https://docs.djangoproject.com/en/2.0/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['megaphone.dev']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'djoser',
     'social_django',
 ]
 
@@ -75,8 +74,6 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -86,8 +83,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -105,8 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
@@ -116,26 +109,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ),
 }
 
 JWT_AUTH = {
-    'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
-
-    'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
-
-    'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
-
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-
-    'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
-
+    'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
+    'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
+    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
     'JWT_PUBLIC_KEY': None,
@@ -147,10 +129,8 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
-
     'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
-
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
 }
@@ -168,7 +148,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.auth_allowed',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'src.profiles.pipelines.save_profile',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
