@@ -1,4 +1,4 @@
-<a href='https://github.com/megaphonesm/einstein'><img src='http://avatars.design/wp-content/uploads/2016/09/einstein_cover_illustration_avatar.jpg' align='right' width='140' height='160' /></a>
+<a href='https://github.com/megaphonesm/einstein'><img src='https://cdn.dribbble.com/users/35310/screenshots/3073557/albert-einstein_1x.png' align='right' width='140' height='160' /></a>
 
 # Einstein
 
