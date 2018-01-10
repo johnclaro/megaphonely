@@ -23,6 +23,16 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
+          name: install deployment dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements-awsebcli.txt
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
+      - run:
           name: run tests
           command: |
             . venv/bin/activate
