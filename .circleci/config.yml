@@ -32,6 +32,10 @@ jobs:
             . venv/bin/activate
             pip install -r requirements-awsebcli.txt
             eb deploy
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
       - store_artifacts:
           path: test-reports
           destination: test-reports
