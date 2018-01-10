@@ -16,7 +16,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -vvv -r requirements.txt
+            pip install -r requirements.txt
       - save_cache:
           paths:
             - ./venv
@@ -26,6 +26,12 @@ jobs:
           command: |
             . venv/bin/activate
             python manage.py test
+      - run:
+          name: deploy app
+          command: |
+          . venv/bin/activate
+          pip install -r requirements-awsebcli.txt
+          eb deploy
       - store_artifacts:
           path: test-reports
           destination: test-reports
