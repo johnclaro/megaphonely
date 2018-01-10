@@ -28,10 +28,10 @@ jobs:
             . venv/bin/activate
             python manage.py test
       - run:
-          name: install
+          name: deploy application
           command: |
             . venv/bin/activate
-            eb deploy
+            eb deploy --profile default
       - store_artifacts:
           path: test-reports
           destination: test-reports
