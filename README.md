@@ -1,4 +1,4 @@
-<a href='https://authlib.org/'><img src='https://authlib.org/logo.png' align='right' width='140' /></a>
+<a href='https://github.com/megaphonesm/einstein'><img src='http://avatars.design/wp-content/uploads/2016/09/einstein_cover_illustration_avatar.jpg' align='right' width='140' height='160' /></a>
 
 # Einstein
 
