@@ -1,13 +1,15 @@
 version: 2
+defaults: &defaults
+  environment:
+    SECRET_KEY: test
+    DEBUG: True
+    TWITTER_CONSUMER_KEY: test
+    TWITTER_CONSUMER_SECRET: test
 jobs:
   build:
+    <<: *defaults
     docker:
       - image: circleci/python:3.6.1
-        environment:
-          SECRET_KEY=test
-          DEBUG=True
-          TWITTER_CONSUMER_KEY=test
-          TWITTER_CONSUMER_SECRET=test
     working_directory: ~/repo
     steps:
       - checkout
