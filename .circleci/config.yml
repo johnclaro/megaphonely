@@ -36,12 +36,16 @@ jobs:
           - v1-dependencies-
       - run:
           name: install deployment dependencies
-          command: sudo pip install -r requirements-awsebcli.txt
+          command: |
+            sudo pip install -r requirements-awsebcli.txt
       - save_cache:
+          paths:
+            - ./venv
           key: v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
       - run:
           name: deploy application
-          command: eb deploy --profile default
+          command: |
+            eb deploy --profile default
       - store_artifacts:
           path: test-reports
           destination: test-reports
