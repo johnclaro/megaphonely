@@ -37,7 +37,9 @@ jobs:
       - run:
           name: install deployment dependencies
           command: |
-            sudo pip install -r requirements-awsebcli.txt
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements-awsebcli.txt
       - save_cache:
           paths:
             - ./venv
@@ -45,6 +47,8 @@ jobs:
       - run:
           name: deploy application
           command: |
+            . venv/bin/activate
+            cat ~/.aws/credentials
             eb deploy --profile default
       - store_artifacts:
           path: test-reports
