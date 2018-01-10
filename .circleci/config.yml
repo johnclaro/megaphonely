@@ -48,7 +48,7 @@ jobs:
           name: deploy application
           command: |
             . venv/bin/activate
-            eb deploy --profile default
+            eb deploy
       - store_artifacts:
           path: test-reports
           destination: test-reports
