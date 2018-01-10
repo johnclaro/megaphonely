@@ -48,7 +48,6 @@ jobs:
           name: deploy application
           command: |
             . venv/bin/activate
-            cat ~/.aws/credentials
             eb deploy --profile default
       - store_artifacts:
           path: test-reports
