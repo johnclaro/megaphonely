@@ -11,7 +11,7 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 # Django
 DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = environ['SECRET_KEY']
-ALLOWED_HOSTS = ['megaphone.dev']
+ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
 
 # Social Auth
 LOGIN_URL = 'login'
