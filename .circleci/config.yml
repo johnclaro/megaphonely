@@ -17,6 +17,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            pip install -r requirements-awsebcli.txt
       - save_cache:
           paths:
             - ./venv
@@ -27,15 +28,10 @@ jobs:
             . venv/bin/activate
             python manage.py test
       - run:
-          name: deploy app
+          name: install
           command: |
             . venv/bin/activate
-            pip install -r requirements-awsebcli.txt
             eb deploy
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
       - store_artifacts:
           path: test-reports
           destination: test-reports
