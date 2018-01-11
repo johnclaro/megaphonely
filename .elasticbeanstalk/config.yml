@@ -1,5 +1,5 @@
 branch-defaults:
-  mvp:
+  master:
     environment: einstein-prd
     group_suffix: null
 global:
