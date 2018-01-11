@@ -11,7 +11,8 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 # Django
 DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = environ['SECRET_KEY']
-ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
+ALLOWED_HOSTS = ['megaphone.dev', 'localhost',
+                 'einstein-prd.eu-west-1.elasticbeanstalk.com']
 if not DEBUG:
     SECURE_HSTS_SECONDS = 1
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
