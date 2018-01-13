@@ -34,24 +34,11 @@ jobs:
           command: |
             . venv/bin/activate
             python manage.py test
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
-          - v1-dependencies-
-      - run:
-          name: install deployment dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements-awsebcli.txt
-      - save_cache:
-          paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements-awsebcli.txt" }}
       - run:
           name: deploy application
           command: |
             . venv/bin/activate
+            python manage.py collectstatic
             eb deploy --debug
       - store_artifacts:
           path: test-reports
