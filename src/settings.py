@@ -12,7 +12,7 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = environ['SECRET_KEY']
 STATIC_URL = '/static/'
-STATICFILES_LOCATION = ''
+STATICFILES_LOCATION = 'static'
 STATICFILES_STORAGE = 'src.storage.StaticStorage'
 if DEBUG:
     ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
