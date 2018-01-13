@@ -15,7 +15,7 @@ jobs:
           AWS_S3_REGION_NAME: test
           AWS_ACCESS_KEY_ID: test
           AWS_SECRET_ACCESS_KEY: test
-          AWS_S3_CUSTOM_DOMAIN: test
+          AWS_S3_CUSTOM_DOMAIN: megaphone.social
     working_directory: ~/repo
     steps:
       - checkout
