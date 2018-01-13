@@ -11,6 +11,9 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 # Django
 DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = environ['SECRET_KEY']
+STATIC_URL = '/static/'
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'src.storage.StaticStorage'
 if DEBUG:
     ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
 else:
@@ -39,6 +42,13 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# S3
+AWS_STORAGE_BUCKET_NAME = 'megaphone.social'
+AWS_S3_REGION_NAME = environ['AWS_S3_REGION_NAME']
+AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']
+AWS_S3_CUSTOM_DOMAIN = environ['AWS_S3_CUSTOM_DOMAIN']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +59,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'social_django',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -106,8 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-STATIC_URL = '/static/'
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -158,3 +167,8 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+    'CacheControl': 'max-age=94608000',
+}
