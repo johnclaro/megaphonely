@@ -40,7 +40,6 @@ jobs:
           name: deploy application
           command: |
             . venv/bin/activate
-            python manage.py collectstatic --noinput
             eb deploy
       - store_artifacts:
           path: test-reports
