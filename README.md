@@ -3,3 +3,8 @@
 # Einstein [![CircleCI](https://circleci.com/gh/megaphonesm/einstein/tree/master.svg?style=shield&circle-token=08d741d0a59a7704053acdfd6be5fdb6591784c5)](https://circleci.com/gh/megaphonesm/einstein/tree/master)
 
 REST services for Megaphone
+
+# Usage
+```bash
+python manage.py runserver
+```
