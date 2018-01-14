@@ -99,8 +99,12 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': environ['RDS_DATABASE'],
+        'USER': environ['RDS_USERNAME'],
+        'PASSWORD': environ['RDS_PASSWORD'],
+        'HOST': environ['RDS_HOST'],
+        'PORT': 5432
     }
 }
 
