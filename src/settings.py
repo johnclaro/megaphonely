@@ -34,7 +34,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['einstein.megaphone.social']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
