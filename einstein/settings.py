@@ -14,7 +14,9 @@ DEBUG = bool(strtobool(environ['DEBUG']))
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'src.storage.StaticStorage'
+STATICFILES_STORAGE = 'einstein.storage.StaticStorage'
+ROOT_URLCONF = 'einstein.urls'
+WSGI_APPLICATION = 'einstein.wsgi.application'
 if DEBUG:
     ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
     DATABASES = {
@@ -78,6 +80,7 @@ INSTALLED_APPS = [
     'djoser',
     'social_django',
     'storages',
+    'contents.apps.ContentsConfig'
 ]
 
 MIDDLEWARE = [
@@ -90,8 +93,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
-
-ROOT_URLCONF = 'src.urls'
 
 TEMPLATES = [
     {
@@ -110,9 +111,6 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'src.wsgi.application'
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

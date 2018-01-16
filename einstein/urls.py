@@ -1,9 +1,13 @@
 from django.conf.urls import url, include
 from django.contrib import admin
+
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
+from contents.views import ContentViewSet
+
 router = DefaultRouter()
+router.register(r'contents', ContentViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
