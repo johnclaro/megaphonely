@@ -1,9 +1,9 @@
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from .models import ContentModel
+from .models import Content
 
 
 class ContentSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = ContentModel
+        model = Content
         fields = ('message', )
