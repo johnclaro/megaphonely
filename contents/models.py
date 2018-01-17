@@ -1,5 +1,8 @@
-from django.db.models import (Model, TextField)
+from django.db import models
 
 
-class Content(Model):
-    message = TextField()
+class Content(models.Model):
+    message = models.TextField()
+    publisher = models.ForeignKey(
+        'auth.User', related_name='contents', on_delete=models.CASCADE
+    )

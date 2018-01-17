@@ -4,10 +4,13 @@ from django.contrib import admin
 from rest_framework import documentation
 from rest_framework.routers import DefaultRouter
 
-from contents.views import ContentViewSet
+from contents.views import UserViewSet, ContentViewSet
 
 router = DefaultRouter()
+router.register(r'users', UserViewSet)
 router.register(r'contents', ContentViewSet)
+
+admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
