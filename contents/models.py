@@ -1,5 +1,5 @@
 from django.db.models import (Model, TextField)
 
 
-class Content(Model):
+class ContentModel(Model):
     message = TextField()

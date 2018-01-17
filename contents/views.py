@@ -1,10 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Content
+from .models import ContentModel
 from .serializers import ContentSerializer
 
 
 class ContentViewSet(ModelViewSet):
     """API endpoint to get contents"""
-    queryset = Content.objects.all()
+    queryset = ContentModel.objects.all()
     serializer_class = ContentSerializer
