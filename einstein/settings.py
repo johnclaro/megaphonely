@@ -51,9 +51,8 @@ else:
 # Social Auth
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'http://megaphone.dev:3000'
-SOCIAL_AUTH_TWITTER_KEY = environ['TWITTER_CONSUMER_KEY']
-SOCIAL_AUTH_TWITTER_SECRET = environ['TWITTER_CONSUMER_SECRET']
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_ADAPTER = 'einstein.adapter.SocialAccountAdapter'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
