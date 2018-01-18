@@ -5,7 +5,6 @@
 
 REST services for Megaphone
 
-# Usage
-```bash
-python manage.py runserver
-```
+# Code Style
+- [Python](http://docs.python-guide.org/en/latest/writing/style/)
+- [Django](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/)
