@@ -3,10 +3,11 @@ from os.path import dirname, abspath, join
 from os import environ
 from distutils.util import strtobool
 
-from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
 
+from django.core.management.utils import get_random_secret_key
+
+load_dotenv(find_dotenv())
 BASE_DIR = dirname(dirname(abspath(__file__)))
 
 # Django
