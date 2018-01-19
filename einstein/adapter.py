@@ -3,8 +3,8 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
-    def pre_social_login(self, request, sociallogin):
-        if sociallogin.is_existing or request.user.is_anonymous:
+    def pre_social_login(self, request, social_account):
+        if social_account.is_existing or request.user.is_anonymous:
             return
         else:
-            sociallogin.connect(request, request.user)
+            social_account.connect(request, request.user)
