@@ -4,7 +4,8 @@ from django.contrib import admin
 from rest_framework import documentation
 from rest_framework.routers import DefaultRouter
 
-from contents.views import UserViewSet, ContentViewSet, SocialAccountViewSet
+from accounts.views import UserViewSet, SocialAccountViewSet
+from contents.views import ContentViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)

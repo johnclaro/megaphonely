@@ -87,7 +87,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.twitter',
-    'contents.apps.ContentsConfig'
+    'accounts.apps.AccountsConfig',
+    'contents.apps.ContentsConfig',
 ]
 
 MIDDLEWARE = [
