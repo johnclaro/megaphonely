@@ -4,11 +4,12 @@ from django.contrib import admin
 from rest_framework import documentation
 from rest_framework.routers import DefaultRouter
 
-from contents.views import UserViewSet, ContentViewSet
+from contents.views import UserViewSet, ContentViewSet, SocialAccountViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'contents', ContentViewSet)
+router.register(r'social_accounts', SocialAccountViewSet)
 
 admin.autodiscover()
 
