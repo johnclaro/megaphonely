@@ -3,6 +3,8 @@ from allauth.socialaccount.models import SocialAccount
 
 from django.contrib.auth.models import User
 
+from .models import Profile
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     contents = serializers.HyperlinkedRelatedField(
@@ -17,4 +19,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class SocialAccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SocialAccount
+        fields = '__all__'
+
+
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Profile
         fields = '__all__'
