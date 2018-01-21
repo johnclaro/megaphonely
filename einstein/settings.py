@@ -53,7 +53,7 @@ else:
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/'
-SOCIALACCOUNT_ADAPTER = 'einstein.adapter.SocialAccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'accounts.adapter.SocialAccountAdapter'
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
