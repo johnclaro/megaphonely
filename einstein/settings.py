@@ -69,9 +69,6 @@ AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']
 AWS_S3_CUSTOM_DOMAIN = environ['AWS_S3_CUSTOM_DOMAIN']
 
-# Allauth
-SITE_ID = 1
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -83,10 +80,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'storages',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.twitter',
     'accounts.apps.AccountsConfig',
     'contents.apps.ContentsConfig',
 ]
@@ -167,7 +160,6 @@ JWT_AUTH = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 AWS_S3_OBJECT_PARAMETERS = {

@@ -19,6 +19,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^docs/', documentation.include_docs_urls(title='Einstein')),
-    url(r'^accounts/', include('allauth.urls')),
     url(r'^drf/', include('rest_framework.urls', namespace='rest_framework')),
 ]
