@@ -6,7 +6,7 @@ class Profile(models.Model):
 
 
 class SocialManager(models.Manager):
-    def create_social_account(self, social_id, provider, user):
+    def create_social(self, social_id, provider, user):
         social_account, created = self.get_or_create(
             social_id=social_id, provider=provider
         )
