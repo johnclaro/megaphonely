@@ -20,7 +20,7 @@ class SocialAccountManager(models.Manager):
 class SocialAccount(models.Model):
     social_id = models.BigIntegerField(primary_key=True)
     provider = models.CharField(max_length=30)
-    users = models.ManyToManyField('auth.User')
+    users = models.ManyToManyField('auth.User', blank=True)
     objects = SocialAccountManager()
 
     class Meta:
