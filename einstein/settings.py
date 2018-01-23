@@ -50,10 +50,12 @@ else:
     }
 
 # Social Auth
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_URL = '/'
+LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_ADAPTER = 'accounts.adapter.SocialAccountAdapter'
+SOCIAL_AUTH_TWITTER_KEY = environ['TWITTER_CONSUMER_KEY']
+SOCIAL_AUTH_TWITTER_SECRET = environ['TWITTER_CONSUMER_SECRET']
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -80,6 +82,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'storages',
+    'social_django',
     'accounts.apps.AccountsConfig',
     'contents.apps.ContentsConfig',
 ]
@@ -105,6 +108,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -160,9 +165,18 @@ JWT_AUTH = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.twitter.TwitterOAuth',
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
     'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
     'CacheControl': 'max-age=94608000',
 }
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'accounts.pipelines.create_social_account',
+)
