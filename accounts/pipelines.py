@@ -12,4 +12,4 @@ def create_social(**kwargs):
 
     social_id = response['id']
     provider = 'twitter'
-    Social.objects.create_social_account(social_id, provider, user)
+    Social.objects.create_social(social_id, provider, user)
