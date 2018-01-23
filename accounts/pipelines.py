@@ -1,9 +1,9 @@
 from django.db import IntegrityError
 
-from .models import SocialAccount
+from .models import Social
 
 
-def create_social_account(**kwargs):
+def create_social(**kwargs):
     user = kwargs['user']
     response = kwargs['response']
 
@@ -12,4 +12,4 @@ def create_social_account(**kwargs):
 
     social_id = response['id']
     provider = 'twitter'
-    SocialAccount.objects.create_social_account(social_id, provider, user)
+    Social.objects.create_social_account(social_id, provider, user)

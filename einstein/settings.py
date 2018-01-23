@@ -53,7 +53,6 @@ else:
 LOGIN_URL = '/'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
-SOCIALACCOUNT_ADAPTER = 'accounts.adapter.SocialAccountAdapter'
 SOCIAL_AUTH_TWITTER_KEY = environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = environ['TWITTER_CONSUMER_SECRET']
 
@@ -178,5 +177,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'accounts.pipelines.create_social_account',
+    'accounts.pipelines.create_social',
 )

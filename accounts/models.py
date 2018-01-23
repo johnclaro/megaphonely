@@ -5,7 +5,7 @@ class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
 
 
-class SocialAccountManager(models.Manager):
+class SocialManager(models.Manager):
     def create_social_account(self, social_id, provider, user):
         social_account, created = self.get_or_create(
             social_id=social_id, provider=provider
@@ -17,11 +17,11 @@ class SocialAccountManager(models.Manager):
         return social_account
 
 
-class SocialAccount(models.Model):
+class Social(models.Model):
     social_id = models.BigIntegerField(primary_key=True)
     provider = models.CharField(max_length=30)
     users = models.ManyToManyField('auth.User', blank=True)
-    objects = SocialAccountManager()
+    objects = SocialManager()
 
     class Meta:
         unique_together = ('social_id', 'provider')
