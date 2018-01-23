@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import SocialAccount
+from .models import Social
 
-admin.site.register(SocialAccount)
+admin.site.register(Social)
