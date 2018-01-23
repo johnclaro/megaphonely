@@ -1,21 +1,15 @@
-import json
-
-from django.db.utils import IntegrityError
+from django.db import IntegrityError
 
 from .models import SocialAccount
 
 
-def create_social_account(*args, **kwargs):
+def create_social_account(**kwargs):
     user = kwargs['user']
-    if not user:
-        raise ValueError('User cannot be null!')
+    response = kwargs['response']
 
-    try:
-        response = kwargs['response']
-        social_account_id = response['id']
-        provider = 'twitter'
-        SocialAccount.objects.create_social_account(
-            social_account_id=social_account_id, provider=provider, users=[user]
-        )
-    except IntegrityError as duplicate:
-        raise duplicate
+    if not user:
+        raise ValueError('You must login first')
+
+    social_id = response['id']
+    provider = 'twitter'
+    SocialAccount.objects.create_social_account(social_id, provider, user)
