@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, IntegrityError
 
 
 class Profile(models.Model):
@@ -6,11 +6,18 @@ class Profile(models.Model):
 
 
 class SocialManager(models.Manager):
-    def create_social(self, social_id, provider, user):
+    def create_social(self, social_id, provider, screen_name, display_name,
+                      profile_picture_url, access_token_key,
+                      access_token_secret, user):
         social_account, created = self.get_or_create(
-            social_id=social_id, provider=provider
+            social_id=social_id,
+            provider=provider,
+            screen_name=screen_name,
+            display_name=display_name,
+            profile_picture_url=profile_picture_url,
+            access_token_key=access_token_key,
+            access_token_secret=access_token_secret
         )
-
         if not created:
             social_account.users.add(user)
 
@@ -18,9 +25,21 @@ class SocialManager(models.Manager):
 
 
 class Social(models.Model):
-    social_id = models.BigIntegerField(primary_key=True)
-    provider = models.CharField(max_length=30)
+    TWITTER = 'twitter'
+    PROVIDER_CHOICES = (
+        (TWITTER, 'Twitter'),
+    )
+    social_id = models.BigIntegerField()
+    provider = models.CharField(max_length=30, choices=PROVIDER_CHOICES,
+                                blank=False, null=False)
+    screen_name = models.CharField(max_length=100)
+    display_name = models.CharField(max_length=100)
+    profile_picture_url = models.URLField()
+    access_token_key = models.TextField(max_length=1000)
+    access_token_secret = models.TextField()
+
     users = models.ManyToManyField('auth.User', blank=True)
+
     objects = SocialManager()
 
     class Meta:
