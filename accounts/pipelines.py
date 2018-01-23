@@ -4,6 +4,7 @@ from .models import Social
 
 
 def create_social(**kwargs):
+    print(kwargs.keys())
     user = kwargs['user']
     response = kwargs['response']
 
