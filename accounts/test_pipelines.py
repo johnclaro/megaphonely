@@ -13,7 +13,7 @@ TWITTER = {
         "oauth_token": "901476753272655872-kJ82EuZD9h1fdtORaL5IOxEnPQPHxJw",
         "oauth_token_secret": "LIqmsCjFcGAbfUwSHqUELPWxPrtTJExR5lkS3JALovFWX",
         "screen_name": "JohnClaro3",
-        "profile_id": "901476753272655872",
+        "user_id": "901476753272655872",
         "x_auth_expires": "0"
     },
     "contributors_enabled": False,
@@ -77,7 +77,7 @@ TWITTER = {
             "hashtags": [],
             "symbols": [],
             "urls": [],
-            "profile_mentions": []
+            "user_mentions": []
         },
         "favorite_count": 0,
         "favorited": False,
@@ -87,8 +87,8 @@ TWITTER = {
         "in_reply_to_screen_name": None,
         "in_reply_to_status_id": None,
         "in_reply_to_status_id_str": None,
-        "in_reply_to_profile_id": None,
-        "in_reply_to_profile_id_str": None,
+        "in_reply_to_user_id": None,
+        "in_reply_to_user_id_str": None,
         "is_quote_status": False,
         "lang": "en",
         "place": None,
