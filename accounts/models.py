@@ -1,8 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
-from collections import namedtuple
-
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
