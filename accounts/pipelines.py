@@ -9,7 +9,7 @@ def create_social(**kwargs):
     if not user:
         raise ValueError('You must login first')
 
-    return Social.objects.create_social(
+    return Social.objects.upsert(
         social_id=response['id'],
         provider=backend.name,
         screen_name=response['screen_name'],
