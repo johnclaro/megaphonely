@@ -115,8 +115,9 @@ class Pipelines(TestCase):
         print('Setting up...')
 
     @parameterized.expand([
-        ['twitter', user, twitter.TwitterOAuth, TWITTER]
+        ['twitter', user, twitter.TwitterOAuth, TWITTER],
+        ['facebook', user, facebook.FacebookOAuth2, FACEBOOK]
     ])
     def test_create_social(self, name, user, backend, response):
         social = create_social(user=user, backend=backend, response=response)
-        self.assertEqual(social.social_id, TWITTER['id'])
+        self.assertEqual(social.social_id, response['id'])
