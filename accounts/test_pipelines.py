@@ -4,6 +4,7 @@ from nose_parameterized import parameterized
 from django.test import TestCase
 from django.contrib.auth.models import User
 
+from .models import Social
 from .pipelines import create_social
 
 
@@ -12,7 +13,7 @@ TWITTER = {
         "oauth_token": "901476753272655872-kJ82EuZD9h1fdtORaL5IOxEnPQPHxJw",
         "oauth_token_secret": "LIqmsCjFcGAbfUwSHqUELPWxPrtTJExR5lkS3JALovFWX",
         "screen_name": "JohnClaro3",
-        "user_id": "901476753272655872",
+        "profile_id": "901476753272655872",
         "x_auth_expires": "0"
     },
     "contributors_enabled": False,
@@ -76,7 +77,7 @@ TWITTER = {
             "hashtags": [],
             "symbols": [],
             "urls": [],
-            "user_mentions": []
+            "profile_mentions": []
         },
         "favorite_count": 0,
         "favorited": False,
@@ -86,8 +87,8 @@ TWITTER = {
         "in_reply_to_screen_name": None,
         "in_reply_to_status_id": None,
         "in_reply_to_status_id_str": None,
-        "in_reply_to_user_id": None,
-        "in_reply_to_user_id_str": None,
+        "in_reply_to_profile_id": None,
+        "in_reply_to_profile_id_str": None,
         "is_quote_status": False,
         "lang": "en",
         "place": None,
@@ -109,15 +110,30 @@ FACEBOOK = {}
 
 
 class Pipelines(TestCase):
-    user = User(id=1)
 
     def setUp(self):
-        print('Setting up...')
+        self.johndoe = User.objects.create_user(
+            username='johndoe', email='johndoe@gmail.com', password='j0hnd03'
+        )
+        self.foobar = User.objects.create_user(
+            username='foobar', email='foobar@gmail.com', password='f00b4r'
+        )
 
     @parameterized.expand([
-        ['twitter', user, twitter.TwitterOAuth, TWITTER],
-        ['facebook', user, facebook.FacebookOAuth2, FACEBOOK]
+        ['twitter', twitter.TwitterOAuth, TWITTER]
     ])
-    def test_create_social(self, name, user, backend, response):
-        social = create_social(user=user, backend=backend, response=response)
+    def test_create_social_one_users(self, name, backend, response):
+        social = create_social(
+            user=self.johndoe, backend=backend, response=response
+        )
         self.assertEqual(social.social_id, response['id'])
+
+    @parameterized.expand([
+        ['twitter', twitter.TwitterOAuth, TWITTER]
+    ])
+    def test_create_social_multiple_users(self, name, backend, response):
+        for user in [self.johndoe, self.foobar]:
+            create_social(user=user, backend=backend, response=response)
+
+        social = Social.objects.get(id=1)
+        self.assertGreater(social.users.count(), 1)

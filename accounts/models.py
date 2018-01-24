@@ -6,10 +6,10 @@ class Profile(models.Model):
 
 
 class SocialManager(models.Manager):
-    def create_social(self, social_id, provider, screen_name, display_name,
+    def upsert(self, social_id, provider, screen_name, display_name,
                       profile_picture_url, access_token_key,
                       access_token_secret, user):
-        social_account, created = self.get_or_create(
+        social, created = self.get_or_create(
             social_id=social_id,
             provider=provider,
             screen_name=screen_name,
@@ -18,11 +18,9 @@ class SocialManager(models.Manager):
             access_token_key=access_token_key,
             access_token_secret=access_token_secret
         )
-        print('Created?:', created)
-        if not created:
-            social_account.users.add(user)
+        social.users.add(user)
 
-        return social_account
+        return social
 
 
 class Social(models.Model):
