@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.exceptions import ObjectDoesNotExist
+
+from collections import namedtuple
 
 
 class Profile(models.Model):
@@ -6,20 +9,31 @@ class Profile(models.Model):
 
 
 class SocialManager(models.Manager):
+
     def upsert(self, social_id, provider, screen_name, display_name,
                profile_picture_url, access_token_key, access_token_secret,
                user):
-        social, created = self.get_or_create(
-            social_id=social_id,
-            provider=provider,
-            screen_name=screen_name,
-            display_name=display_name,
-            profile_picture_url=profile_picture_url,
-            access_token_key=access_token_key,
-            access_token_secret=access_token_secret
-        )
+        try:
+            social = self.get(social_id=social_id, provider=provider)
+            social.social_id = social_id
+            social.provider = provider
+            social.screen_name = screen_name
+            social.display_name = display_name
+            social.profile_picture_url = profile_picture_url
+            social.access_token_key = access_token_key
+            social.access_token_secret = access_token_secret
+            social.save()
+        except ObjectDoesNotExist:
+            social = self.create(
+                social_id=social_id,
+                provider=provider,
+                screen_name=screen_name,
+                display_name=display_name,
+                profile_picture_url=profile_picture_url,
+                access_token_key=access_token_key,
+                access_token_secret=access_token_secret
+            )
         social.users.add(user)
-
         return social
 
 
