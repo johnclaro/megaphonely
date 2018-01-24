@@ -136,4 +136,14 @@ class Pipelines(TestCase):
             create_social(user=user, backend=backend, response=response)
 
         social = Social.objects.get(id=1)
-        self.assertGreater(social.users.count(), 1)
+        self.assertEqual(social.users.count(), 2)
+
+    @parameterized.expand([
+        ['twitter', twitter.TwitterOAuth, TWITTER]
+    ])
+    def test_create_social_update(self, name, backend, response):
+        create_social(user=self.johndoe, backend=backend, response=response)
+        response['name'] = 'Khal Drogo'
+        create_social(user=self.johndoe, backend=backend, response=response)
+        social = Social.objects.get(id=1)
+        self.assertEqual(social.display_name, response['name'])
