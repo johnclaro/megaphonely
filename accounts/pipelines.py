@@ -1,5 +1,3 @@
-from django.db import IntegrityError
-
 from .models import Social
 
 
@@ -11,7 +9,7 @@ def create_social(**kwargs):
     if not user:
         raise ValueError('You must login first')
 
-    Social.objects.create_social(
+    return Social.objects.create_social(
         social_id=response['id'],
         provider=backend.name,
         screen_name=response['screen_name'],

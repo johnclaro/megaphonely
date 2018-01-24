@@ -18,6 +18,7 @@ class SocialManager(models.Manager):
             access_token_key=access_token_key,
             access_token_secret=access_token_secret
         )
+        print('Created?:', created)
         if not created:
             social_account.users.add(user)
 
@@ -30,8 +31,7 @@ class Social(models.Model):
         (TWITTER, 'Twitter'),
     )
     social_id = models.BigIntegerField()
-    provider = models.CharField(max_length=30, choices=PROVIDER_CHOICES,
-                                blank=False, null=False)
+    provider = models.CharField(max_length=30, choices=PROVIDER_CHOICES)
     screen_name = models.CharField(max_length=100)
     display_name = models.CharField(max_length=100)
     profile_picture_url = models.URLField()
@@ -46,6 +46,6 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider')
 
     def __str__(self):
-        return '{provider}: {social_id}'.format(
-            provider=self.provider, social_id=self.social_id
+        return '{provider}: {screen_name}'.format(
+            provider=self.provider, screen_name=self.screen_name
         )
