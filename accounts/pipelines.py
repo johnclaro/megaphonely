@@ -1,11 +1,7 @@
 from .models import Social
 
 
-def create_social(**kwargs):
-    user = kwargs['user']
-    response = kwargs['response']
-    backend = kwargs['backend']
-
+def create_social(user=None, response=None, backend=None, **kwargs):
     if not user:
         raise ValueError('You must login first')
 
