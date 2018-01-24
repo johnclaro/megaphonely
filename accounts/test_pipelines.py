@@ -123,9 +123,9 @@ class Pipelines(TestCase):
         ['twitter', twitter.TwitterOAuth, TWITTER]
     ])
     def test_create_social_one_users(self, name, backend, response):
-        social = create_social(
-            user=self.johndoe, backend=backend, response=response
-        )
+        create_social(user=self.johndoe, backend=backend, response=response)
+
+        social = Social.objects.get(id=1)
         self.assertEqual(social.social_id, response['id'])
 
     @parameterized.expand([
