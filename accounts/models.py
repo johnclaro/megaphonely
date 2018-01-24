@@ -7,8 +7,8 @@ class Profile(models.Model):
 
 class SocialManager(models.Manager):
     def upsert(self, social_id, provider, screen_name, display_name,
-                      profile_picture_url, access_token_key,
-                      access_token_secret, user):
+               profile_picture_url, access_token_key, access_token_secret,
+               user):
         social, created = self.get_or_create(
             social_id=social_id,
             provider=provider,
