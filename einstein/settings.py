@@ -9,7 +9,7 @@ load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = os.environ['DEBUG']
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 STATICFILES_LOCATION = 'static'
