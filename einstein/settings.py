@@ -19,7 +19,7 @@ STATICFILES_STORAGE = 'einstein.storage.StaticStorage'
 ROOT_URLCONF = 'einstein.urls'
 WSGI_APPLICATION = 'einstein.wsgi.application'
 if DEBUG:
-    ALLOWED_HOSTS = ['megaphone.dev', 'localhost']
+    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -37,7 +37,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['einstein.megaphone.social']
+    ALLOWED_HOSTS = ['einstein.megaphonely.com']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -64,7 +64,7 @@ USE_L10N = True
 USE_TZ = True
 
 # S3
-AWS_STORAGE_BUCKET_NAME = 'megaphone.social'
+AWS_STORAGE_BUCKET_NAME = 'megaphonely.social'
 AWS_S3_REGION_NAME = environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']
