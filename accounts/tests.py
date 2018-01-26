@@ -84,7 +84,7 @@ TWITTER = {
         "place": None,
         "retweet_count": 0,
         "retweeted": False,
-        "source": "<a href=\"https://www.megaphone.social\" rel=\"nofollow\">Megaphone Social</a>",
+        "source": "<a href=\"https://www.megaphonely.com\" rel=\"nofollow\">Megaphonely</a>",
         "text": "hold up",
         "truncated": False
     },
