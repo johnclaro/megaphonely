@@ -62,7 +62,7 @@ USE_L10N = True
 USE_TZ = True
 
 # S3
-AWS_STORAGE_BUCKET_NAME = 'megaphonely.com'
+AWS_STORAGE_BUCKET_NAME = 'einstein.megaphonely.com'
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
