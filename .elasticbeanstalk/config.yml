@@ -2,6 +2,8 @@ branch-defaults:
   master:
     environment: einstein-prd
     group_suffix: null
+  megaphonely:
+    environment: einstein-prd
 global:
   application_name: einstein
   branch: null

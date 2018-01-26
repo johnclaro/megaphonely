@@ -1,17 +1,15 @@
-from datetime import timedelta
-from os.path import dirname, abspath, join
-from os import environ
-from distutils.util import strtobool
+import os
+import datetime
 
 from dotenv import load_dotenv, find_dotenv
 
 from django.core.management.utils import get_random_secret_key
 
 load_dotenv(find_dotenv())
-BASE_DIR = dirname(dirname(abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
-DEBUG = bool(strtobool(environ['DEBUG']))
+DEBUG = os.getenv('DEBUG', False)
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 STATICFILES_LOCATION = 'static'
@@ -23,7 +21,7 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': join(BASE_DIR, 'db.sqlite3'),
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 else:
@@ -41,10 +39,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': environ['RDS_DATABASE'],
-            'USER': environ['RDS_USERNAME'],
-            'PASSWORD': environ['RDS_PASSWORD'],
-            'HOST': environ['RDS_HOST'],
+            'NAME': os.environ['RDS_DATABASE'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOST'],
             'PORT': 5432
         }
     }
@@ -53,8 +51,8 @@ else:
 LOGIN_URL = '/'
 LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
-SOCIAL_AUTH_TWITTER_KEY = environ['TWITTER_CONSUMER_KEY']
-SOCIAL_AUTH_TWITTER_SECRET = environ['TWITTER_CONSUMER_SECRET']
+SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
+SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -65,10 +63,10 @@ USE_TZ = True
 
 # S3
 AWS_STORAGE_BUCKET_NAME = 'megaphonely.com'
-AWS_S3_REGION_NAME = environ['AWS_S3_REGION_NAME']
-AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']
-AWS_S3_CUSTOM_DOMAIN = environ['AWS_S3_CUSTOM_DOMAIN']
+AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -152,11 +150,11 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
     'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
 }
