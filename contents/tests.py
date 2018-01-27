@@ -18,8 +18,8 @@ class Tasks(TestCase):
         ['video', video]
     ])
     def test_publish_content_to_twitter(self, name, media):
-        access_token_key = '901476753272655872-JljfulA4wX6KBvLLCwtpcNdXPzZAXjQ'
-        access_token_secret = 'AYnPcwdpGiqdDiXJNmOHv9DbcEqLF3tPtK7nhgj7Iyjf2'
+        access_token_key = '901476753272655872-D2BwU3Z7vKJzv023g3gpBcdAfMBE1Ez'
+        access_token_secret = 'oRnzSQ1eHMQBKot6R6QZdApn3wk6ZdarPo8FaKK0bWyzN'
         message = datetime.datetime.now().strftime('%Y-%m-%d-%s')
         result = publish_content_to_twitter(access_token_key,
                                             access_token_secret,
