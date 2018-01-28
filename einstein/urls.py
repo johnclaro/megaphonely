@@ -18,9 +18,9 @@ router.register(r'facebooks', FacebookViewSet)
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include(router.urls)),
-    url(r'^docs/', documentation.include_docs_urls(title='Einstein')),
-    url(r'^drf/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^oauth/', include('social_django.urls', namespace='social'))
+    url(r'^api/admin/', admin.site.urls),
+    url(r'^api/', include(router.urls)),
+    url(r'^api/docs/', documentation.include_docs_urls(title='Einstein')),
+    url(r'^api/drf/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/oauth/', include('social_django.urls', namespace='social'))
 ]
