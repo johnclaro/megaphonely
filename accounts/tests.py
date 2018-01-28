@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from .models import Social
-from .pipelines import create_social
+from .pipelines import social_upsert
 
 
 class Pipelines(TestCase):
@@ -107,7 +107,18 @@ class Pipelines(TestCase):
         "verified": False
     }
 
-    FACEBOOK = {}
+    FACEBOOK = {
+        "access_token": "EAAY8CZCqoStABAAvtYZBD0td3SUSMm8U7G8GXJS1jHECz93kfFZAXOlfoWAB5Xc8bRK0zrGhiJbtA0NFUkjmKZA2oPxiKTKaHC3fSuI8P8BdfJWWpu4rjFCZCakCwuRMOVUs25Ujx9IMi3ASh4745r2bYJpxDwCkSR4REX2RrtgZDZD",
+        "expires": 5183663,
+        "granted_scopes": [
+            "email",
+            "publish_actions",
+            "public_profile"
+        ],
+        "id": "10211727299441506",
+        "name": "John Claro"
+    }
+
 
     def setUp(self):
         self.johndoe = User.objects.create_user(

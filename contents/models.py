@@ -1,7 +1,5 @@
 from django.db import models
 
-from accounts.models import Social
-
 
 class Content(models.Model):
     message = models.TextField()
@@ -9,4 +7,3 @@ class Content(models.Model):
     user = models.ForeignKey(
         'auth.User', related_name='contents', on_delete=models.CASCADE
     )
-    socials = models.ManyToManyField(Social)
