@@ -12,6 +12,8 @@ class Tasks(TestCase):
     MESSAGE = datetime.datetime.now().strftime('%Y-%m-%d-%s')
     IMAGE_URL = 'http://www.catster.com/wp-content/uploads/2017/06/small-kitten-meowing.jpg'
     VIDEO_URL = 'http://techslides.com/demos/sample-videos/small.mp4'
+    IMAGE_FILENAME = 'small-kitten-meowing.jpg'
+    VIDEO_FILENAME = 'small.mp4'
 
     @parameterized.expand([
         ['text', None],
@@ -28,15 +30,19 @@ class Tasks(TestCase):
         self.assertEqual(Status, type(result))
 
     @parameterized.expand([
-        ['text', None],
-        # ['image', IMAGE_URL],
-        # ['video', VIDEO_URL]
+        # ['text', None],
+        # ['image', IMAGE_FILENAME],
+        ['video', VIDEO_FILENAME]
     ])
     def test_publish_to_facebook(self, name, media):
+        data = {name: media}
+        try:
+            del data['text']
+        except KeyError:
+            pass
+
         access_token_key = 'EAAY8CZCqoStABAFN1RHBA0DBcBDX4NGXZB5l6EbjXGucQZC5ybSJkeRaGfiUuMcElrJj9Wx7e6MGNtPIZBwWZAtASPBZBYFHw2slxYApRl8zzyR57dQEDZBZCkc1ohUBDsTCwSgscJaXVNlxcsJzwQdLKYkbdTUS9kZBlHhq0cTpwXAZDZD'
-        id = '10211727299441506'
         result = tasks.publish_to_facebook(access_token_key,
-                                           id,
                                            self.MESSAGE,
-                                           media=media)
+                                           **data)
         self.assertEqual(dict, type(result))
