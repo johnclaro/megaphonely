@@ -6,11 +6,10 @@ from celery import shared_task
 from django.conf import settings
 
 
-def get_s3_file(s3_filename):
+def get_s3_file(key):
     bucket = settings.AWS_STORAGE_BUCKET_NAME
-    client = boto3.client('s3')
-    s3_object = client.get_object(Bucket=bucket, Key=s3_filename)
-    return s3_object['Body'].read()
+    body = boto3.resource('s3').Bucket(bucket).Object(key).get()['Body']
+    return body
 
 
 @shared_task
@@ -26,8 +25,16 @@ def publish_to_twitter(access_token_key, access_token_secret, message,
 
 
 @shared_task
-def publish_to_facebook(access_token_key, id, message, media=None):
-    api = GraphAPI(access_token_key)
-    path = 'me/feed'.format(id=id)
+def publish_to_facebook(access_token_key, message, image=None, video=None):
     data = {'message': message}
-    return api.post(path=path, **data)
+    api = GraphAPI(access_token_key)
+    if video:
+        api.url = 'https://graph-video.facebook.com'
+        data['path'] = 'me/videos'
+        data['source'] = get_s3_file(video)
+    elif image:
+        data['path'] = 'me/photos'
+        data['source'] = get_s3_file(image)
+    else:
+        data['path'] = 'me/feed'
+    return api.post(**data)
