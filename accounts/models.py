@@ -28,5 +28,5 @@ class Facebook(Social):
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-    twitter = models.OneToOneField(Twitter, on_delete=models.CASCADE)
-    facebook = models.OneToOneField(Facebook, on_delete=models.CASCADE)
+    twitters = models.ManyToManyField(Twitter, related_name='twitters')
+    facebooks = models.ManyToManyField(Facebook, related_name='facebooks')
