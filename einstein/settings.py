@@ -53,6 +53,9 @@ LOGOUT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -162,6 +165,7 @@ JWT_AUTH = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
@@ -174,5 +178,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'accounts.pipelines.create_social',
+    'accounts.pipelines.social_upsert',
 )
