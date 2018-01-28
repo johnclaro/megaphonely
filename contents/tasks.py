@@ -1,10 +1,11 @@
 import twitter
+from facepy import GraphAPI
 from celery import shared_task
 
 from django.conf import settings
 
 @shared_task
-def publish_content_to_twitter(access_token_key, access_token_secret, message,
+def publish_to_twitter(access_token_key, access_token_secret, message,
                                media=None):
     api = twitter.Api(
         consumer_key=settings.SOCIAL_AUTH_TWITTER_KEY,
@@ -13,3 +14,9 @@ def publish_content_to_twitter(access_token_key, access_token_secret, message,
         access_token_secret=access_token_secret,
     )
     return api.PostUpdate(message, media)
+
+
+@shared_task
+def publish_to_facebook(access_token_key, message, media=None):
+    api = GraphAPI(access_token_key)
+    api.post()
