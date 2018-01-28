@@ -5,14 +5,14 @@ def social_upsert(user=None, response=None, backend=None, **kwargs):
     if not user:
         raise ValueError('You must login first')
 
-    providers = {
+    backends = {
         'twitter': Twitter,
         'facebook': Facebook
     }
 
-    if backend.name in providers.keys():
-        providers[backend.name].objects.upsert(response)
-    else:
+    try:
+        backends[backend.name].objects.upsert(user, response)
+    except KeyError:
         raise NotImplementedError(
-            "{provider} is not implemented".format(provider=backend.name)
+            "{backend} is not implemented".format(backend=backend.name)
         )

@@ -10,6 +10,8 @@ class Social(models.Model):
     picture_url = models.URLField()
     access_token_key = models.TextField(max_length=1000)
 
+    users = models.ManyToManyField('auth.User')
+
     class Meta:
         abstract = True
 
@@ -28,5 +30,3 @@ class Facebook(Social):
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
-    twitters = models.ManyToManyField(Twitter, related_name='twitters')
-    facebooks = models.ManyToManyField(Facebook, related_name='facebooks')
