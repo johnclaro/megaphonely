@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 def upsert_model(model, data):
     try:
-        social = model.get(data['id'])
+        social = model.get(id=data['id'])
         for column, record in data.items():
             if social.__getattr__(column) == data[column]:
                 social.__setattr__(social, column, record)
