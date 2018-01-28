@@ -4,24 +4,26 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def upsert_model(model, data):
-    try:
-        social = model.get(id=data['id'])
-        for column, record in data.items():
-            if social.__getattr__(column) == data[column]:
-                social.__setattr__(social, column, record)
-        social.save()
-    except ObjectDoesNotExist:
-        social = model.create(**data)
-
-    return social
-
-
 class SocialManager(models.Manager):
 
-    def upsert(self, response):
+    def _create_or_update(self, user, data):
+        updated = False
+        try:
+            social = self.get(id=data['id'])
+            for column, record in data.items():
+                if social.__getattribute__(column) != data[column]:
+                    social.__setattr__(column, record)
+                    updated = True
+            if updated:
+                social.save()
+        except ObjectDoesNotExist:
+            social = self.create(**data)
+        social.users.add(user)
+        return social
+
+    def upsert(self, user, response):
         data = self._get_data(response)
-        model = upsert_model(self, data)
+        model = self._create_or_update(user, data)
         return model
 
 
