@@ -4,8 +4,8 @@ from parameterized import parameterized
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import Social
-from .pipelines import create_social
+from .models import Twitter, Facebook
+from .pipelines import social_upsert
 
 
 class Pipelines(TestCase):
@@ -107,7 +107,18 @@ class Pipelines(TestCase):
         "verified": False
     }
 
-    FACEBOOK = {}
+    FACEBOOK = {
+        "access_token": "EAAY8CZCqoStABAAvtYZBD0td3SUSMm8U7G8GXJS1jHECz93kfFZAXOlfoWAB5Xc8bRK0zrGhiJbtA0NFUkjmKZA2oPxiKTKaHC3fSuI8P8BdfJWWpu4rjFCZCakCwuRMOVUs25Ujx9IMi3ASh4745r2bYJpxDwCkSR4REX2RrtgZDZD",
+        "expires": 5183663,
+        "granted_scopes": [
+            "email",
+            "publish_actions",
+            "public_profile"
+        ],
+        "id": "10211727299441506",
+        "name": "John Claro"
+    }
+
 
     def setUp(self):
         self.johndoe = User.objects.create_user(
@@ -118,30 +129,30 @@ class Pipelines(TestCase):
         )
 
     @parameterized.expand([
-        ['twitter', twitter.TwitterOAuth, TWITTER]
+        ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_create_social_one_users(self, name, backend, response):
-        create_social(user=self.johndoe, backend=backend, response=response)
+    def test_social_upsert_one_users(self, name, backend, response, model):
+        social_upsert(user=self.johndoe, backend=backend, response=response)
 
-        social = Social.objects.get(id=1)
-        self.assertEqual(social.social_id, response['id'])
+        social = model.objects.get(id=response['id'])
+        self.assertEqual(social.id, response['id'])
 
     @parameterized.expand([
-        ['twitter', twitter.TwitterOAuth, TWITTER]
+        ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_create_social_multiple_users(self, name, backend, response):
+    def test_social_upsert_multiple_users(self, name, backend, response, model):
         for user in [self.johndoe, self.foobar]:
-            create_social(user=user, backend=backend, response=response)
+            social_upsert(user=user, backend=backend, response=response)
 
-        social = Social.objects.get(id=1)
+        social = model.objects.get(id=response['id'])
         self.assertEqual(social.users.count(), 2)
 
     @parameterized.expand([
-        ['twitter', twitter.TwitterOAuth, TWITTER]
+        ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_create_social_update(self, name, backend, response):
-        create_social(user=self.johndoe, backend=backend, response=response)
+    def test_social_upsert_update(self, name, backend, response, model):
+        social_upsert(user=self.johndoe, backend=backend, response=response)
         response['name'] = 'Khal Drogo'
-        create_social(user=self.johndoe, backend=backend, response=response)
-        social = Social.objects.get(id=1)
-        self.assertEqual(social.display_name, response['name'])
+        social_upsert(user=self.johndoe, backend=backend, response=response)
+        social = model.objects.get(id=response['id'])
+        self.assertEqual(social.fullname, response['name'])

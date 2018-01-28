@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from django.contrib.auth.models import User
 
-from .models import Profile, Social
+from .models import Profile, Twitter, Facebook
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -15,13 +15,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'contents', 'username', 'password',)
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class TwitterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Profile
+        model = Twitter
         fields = '__all__'
 
 
-class SocialSerializer(serializers.HyperlinkedModelSerializer):
+class FacebookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Social
+        model = Facebook
+        fields = '__all__'
+
+
+class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Profile
         fields = '__all__'
