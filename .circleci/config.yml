@@ -7,17 +7,6 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.6.1
-        environment:
-          SECRET_KEY: test
-          DEBUG: True
-          TWITTER_CONSUMER_KEY: eZczgiH9OBvQC9EvsPoFFvPzk
-          TWITTER_CONSUMER_SECRET: 2K5PLNJ1lqiT3RYDAhhQlXvxkDYV3k2rRIhz8yAREQLSjC7wD2
-          AWS_S3_REGION_NAME: test
-          AWS_S3_CUSTOM_DOMAIN: test
-          RDS_USERNAME: test
-          RDS_PASSWORD: test
-          RDS_DATABASE: test
-          RDS_HOST: test
     working_directory: ~/repo
     steps:
       - checkout
