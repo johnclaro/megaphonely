@@ -2,8 +2,9 @@ from rest_framework import viewsets
 
 from django.contrib.auth.models import User
 
-from .models import Profile, Social
-from .serializers import UserSerializer, ProfileSerializer, SocialSerializer
+from .models import Profile, Twitter, Facebook
+from .serializers import (UserSerializer, ProfileSerializer, TwitterSerializer,
+                          FacebookSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,6 +17,11 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
 
-class SocialViewSet(viewsets.ModelViewSet):
-    queryset = Social.objects.all()
-    serializer_class = SocialSerializer
+class TwitterViewSet(viewsets.ModelViewSet):
+    queryset = Twitter.objects.all()
+    serializer_class = TwitterSerializer
+
+
+class FacebookViewSet(viewsets.ModelViewSet):
+    queryset = Facebook.objects.all()
+    serializer_class = FacebookSerializer
