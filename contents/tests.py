@@ -15,23 +15,23 @@ class Tasks(TestCase):
     IMAGE_FILENAME = 'small-kitten-meowing.jpg'
     VIDEO_FILENAME = 'small.mp4'
 
-    @parameterized.expand([
-        ['text', None],
-        ['image', IMAGE_URL],
-        ['video', VIDEO_URL]
-    ])
-    def test_publish_to_twitter(self, name, media):
-        access_token_key = '901476753272655872-D2BwU3Z7vKJzv023g3gpBcdAfMBE1Ez'
-        access_token_secret = 'oRnzSQ1eHMQBKot6R6QZdApn3wk6ZdarPo8FaKK0bWyzN'
-        result = tasks.publish_to_twitter(access_token_key,
-                                          access_token_secret,
-                                          self.MESSAGE,
-                                          media=media)
-        self.assertEqual(Status, type(result))
+    # @parameterized.expand([
+    #     ['text', None],
+    #     ['image', IMAGE_URL],
+    #     ['video', VIDEO_URL]
+    # ])
+    # def test_publish_to_twitter(self, name, media):
+    #     access_token_key = '901476753272655872-D2BwU3Z7vKJzv023g3gpBcdAfMBE1Ez'
+    #     access_token_secret = 'oRnzSQ1eHMQBKot6R6QZdApn3wk6ZdarPo8FaKK0bWyzN'
+    #     result = tasks.publish_to_twitter(access_token_key,
+    #                                       access_token_secret,
+    #                                       self.MESSAGE,
+    #                                       media=media)
+    #     self.assertEqual(Status, type(result))
 
     @parameterized.expand([
         # ['text', None],
-        # ['image', IMAGE_FILENAME],
+        # ['image', IMAGE_URL],
         ['video', VIDEO_FILENAME]
     ])
     def test_publish_to_facebook(self, name, media):

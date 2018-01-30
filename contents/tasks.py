@@ -2,14 +2,15 @@ import boto3
 import twitter
 from facepy import GraphAPI
 from celery import shared_task
+from botocore.response import StreamingBody
 
 from django.conf import settings
 
 
-def get_s3_file(key):
+def get_s3_file_streaming_body(key: str) -> StreamingBody:
     bucket = settings.AWS_STORAGE_BUCKET_NAME
-    body = boto3.resource('s3').Bucket(bucket).Object(key).get()['Body']
-    return body
+    streaming_body = boto3.resource('s3').Object(bucket, key).get()['Body']
+    return streaming_body
 
 
 @shared_task
@@ -26,15 +27,18 @@ def publish_to_twitter(access_token_key, access_token_secret, message,
 
 @shared_task
 def publish_to_facebook(access_token_key, message, image=None, video=None):
+    # https://developers.facebook.com/docs/graph-api/common-scenarios/
     data = {'message': message}
     api = GraphAPI(access_token_key)
     if video:
         api.url = 'https://graph-video.facebook.com'
         data['path'] = 'me/videos'
-        data['source'] = get_s3_file(video)
+        data['file_url'] = video
     elif image:
         data['path'] = 'me/photos'
-        data['source'] = get_s3_file(image)
+        data['source'] = get_s3_file_streaming_body(image)
     else:
         data['path'] = 'me/feed'
-    return api.post(**data)
+
+    response = api.post(**data)
+    return response
