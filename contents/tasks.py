@@ -1,3 +1,5 @@
+import os
+
 import boto3
 import twitter
 from facepy import GraphAPI
@@ -33,12 +35,21 @@ def publish_to_facebook(access_token_key, message, image=None, video=None):
     if video:
         api.url = 'https://graph-video.facebook.com'
         data['path'] = 'me/videos'
-        data['file_url'] = video
+
+        # TODO: Use get_s3_file_streaming_body instead
+        bucket = settings.AWS_STORAGE_BUCKET_NAME
+        boto3.resource('s3').Object(bucket, video).download_file(video)
+        with open(video, 'rb') as read_file:
+            data['source'] = read_file
+            response = api.post(**data)
+        os.remove(video)
+
     elif image:
         data['path'] = 'me/photos'
         data['source'] = get_s3_file_streaming_body(image)
+        response = api.post(**data)
     else:
         data['path'] = 'me/feed'
+        response = api.post(**data)
 
-    response = api.post(**data)
     return response
