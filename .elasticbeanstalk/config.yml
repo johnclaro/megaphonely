@@ -1,11 +1,9 @@
 branch-defaults:
   master:
-    environment: einstein-prd
+    environment: megaphonely-prd
     group_suffix: null
-  megaphonely:
-    environment: einstein-prd
 global:
-  application_name: einstein
+  application_name: megaphonely
   branch: null
   default_ec2_keyname: null
   default_platform: Python 3.6

@@ -13,9 +13,9 @@ DEBUG = os.environ['DEBUG']
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'einstein.storage.StaticStorage'
-ROOT_URLCONF = 'einstein.urls'
-WSGI_APPLICATION = 'einstein.wsgi.application'
+STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
+ROOT_URLCONF = 'megaphonely.urls'
+WSGI_APPLICATION = 'megaphonely.wsgi.application'
 if DEBUG:
     ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
     DATABASES = {
@@ -35,7 +35,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['einstein.megaphonely.com']
+    ALLOWED_HOSTS = ['www.megaphonely.com']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -65,7 +65,7 @@ USE_L10N = True
 USE_TZ = True
 
 # S3
-AWS_STORAGE_BUCKET_NAME = 'einstein.megaphonely.com'
+AWS_STORAGE_BUCKET_NAME = 'megaphonely.com'
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -82,8 +82,8 @@ INSTALLED_APPS = [
     'djoser',
     'storages',
     'social_django',
-    'accounts.apps.AccountsConfig',
-    'contents.apps.ContentsConfig',
+    'megaphonely.accounts.apps.AccountsConfig',
+    'megaphonely.contents.apps.ContentsConfig',
 ]
 
 MIDDLEWARE = [
@@ -178,5 +178,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'accounts.pipelines.social_upsert',
+    'megaphonely.accounts.pipelines.social_upsert',
 )
