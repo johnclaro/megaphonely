@@ -1,6 +1,6 @@
 from django.db import models
 
-from accounts import managers
+from megaphonely.accounts import managers
 
 
 class Social(models.Model):
