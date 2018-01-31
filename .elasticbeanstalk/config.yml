@@ -2,6 +2,8 @@ branch-defaults:
   master:
     environment: megaphonely
     group_suffix: null
+  megaphonely:
+    environment: megaphonely
 global:
   application_name: megaphonely
   branch: null
