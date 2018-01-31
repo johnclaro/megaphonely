@@ -4,8 +4,8 @@ from django.contrib import admin
 from rest_framework import documentation
 from rest_framework.routers import DefaultRouter
 
-from accounts.views import (UserViewSet, ProfileViewSet, TwitterViewSet,
-                            FacebookViewSet)
+from megaphonely.accounts.views import (UserViewSet, ProfileViewSet, TwitterViewSet,
+                                        FacebookViewSet)
 from contents.views import ContentViewSet
 
 router = DefaultRouter()
