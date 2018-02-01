@@ -11,8 +11,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = os.environ['DEBUG']
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'accounts.MyUser'
@@ -54,6 +52,11 @@ else:
             'PORT': 5432
         }
     }
+    # Used by storage.StaticStorage
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
+    AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Social Auth
 LOGIN_URL = '/'
@@ -76,10 +79,6 @@ USE_TZ = True
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-
-# Used by storage.StaticStorage
-AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
-AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Allauth
 SITE_ID = 1
