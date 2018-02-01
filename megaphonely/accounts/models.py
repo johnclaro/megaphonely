@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from megaphonely.accounts import managers
 
 
-class User(AbstractUser):
+class MyUser(AbstractUser):
     pass
 
 
