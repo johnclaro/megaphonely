@@ -9,3 +9,9 @@ REST services for Megaphonely
 - [Python](http://docs.python-guide.org/en/latest/writing/style/)
 - [Django](https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/)
 - [Trey Hunner Style Guide](https://github.com/TruthfulTechnology/style-guide/blob/master/python.rst)
+
+# To create another Django app
+```bash
+# Create an empty directory called dashboard in megaphonely/ first
+python manage.py startapp dashboard megaphonely/dashboard
+```
