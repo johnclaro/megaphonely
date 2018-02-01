@@ -98,7 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'megaphonely.accounts.apps.AccountsConfig',
-    'megaphonely.contents.apps.ContentsConfig',
+    'megaphonely.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
     'allauth',
