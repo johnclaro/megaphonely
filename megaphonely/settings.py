@@ -1,5 +1,4 @@
 import os
-import datetime
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -17,6 +16,14 @@ STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'accounts.MyUser'
+
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+
 if DEBUG:
     ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
     DATABASES = {
@@ -65,15 +72,22 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# S3
-AWS_STORAGE_BUCKET_NAME = 'megaphonely.com'
+# AWS
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+
+# Used by storage.StaticStorage
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
 AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Allauth
 SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
