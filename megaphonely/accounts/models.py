@@ -1,6 +1,12 @@
 from django.db import models
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
 from megaphonely.accounts import managers
+
+
+class User(AbstractUser):
+    pass
 
 
 class Social(models.Model):
@@ -10,7 +16,7 @@ class Social(models.Model):
     picture_url = models.URLField()
     access_token_key = models.TextField(max_length=1000)
 
-    users = models.ManyToManyField('auth.User')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     class Meta:
         abstract = True
@@ -29,4 +35,5 @@ class Facebook(Social):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)

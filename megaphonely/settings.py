@@ -16,6 +16,7 @@ STATICFILES_LOCATION = 'static'
 STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
+AUTH_USER_MODEL = 'accounts.User'
 if DEBUG:
     ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
     DATABASES = {
