@@ -1,10 +1,10 @@
-from social_core.backends import twitter, facebook
+from social_core.backends import twitter
 from parameterized import parameterized
 
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-from .models import Twitter, Facebook
+from .models import Twitter
 from .pipelines import upsert
 
 
