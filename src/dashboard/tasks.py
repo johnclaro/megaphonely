@@ -45,7 +45,9 @@ def publish_to_twitter(access_token_key, access_token_secret, message,
         data['media'] = open(video, 'rb')
         os.remove(video)
     elif image:
-        data['media'] = get_s3_file_presigned_url(image)
+        download_s3_file(image)
+        data['media'] = open(image, 'rb')
+        os.remove(image)
     response = api.PostUpdate(message, **data)
     return response
 
@@ -59,10 +61,14 @@ def publish_to_facebook(access_token_key, message, image=None, video=None):
     if video:
         api.url = 'https://graph-video.facebook.com'
         data['path'] = 'me/videos'
-        data['file_url'] = get_s3_file_presigned_url(video)
+        download_s3_file(video)
+        data['source'] = open(video, 'rb')
+        os.remove(video)
     elif image:
         data['path'] = 'me/photos'
-        data['source'] = get_s3_file_streaming_body(image)
+        download_s3_file(image)
+        data['source'] = open(image, 'rb')
+        os.remove(image)
     else:
         data['path'] = 'me/feed'
 
