@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class SocialManager(models.Manager):
 
-    def _create_or_update(self, user, data):
+    def _create_or_update(self, account, data):
         updated = False
         try:
             social = self.get(id=data['id'])
@@ -18,12 +18,12 @@ class SocialManager(models.Manager):
                 social.save()
         except ObjectDoesNotExist:
             social = self.create(**data)
-        social.users.add(user)
+        social.accounts.add(account)
         return social
 
-    def upsert(self, user, response):
+    def upsert(self, account, response):
         data = self._get_data(response)
-        model = self._create_or_update(user, data)
+        model = self._create_or_update(account, data)
         return model
 
 
