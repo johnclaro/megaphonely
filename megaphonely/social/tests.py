@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 
 from .models import Twitter, Facebook
-from .pipelines import social_upsert
+from .pipelines import upsert
 
 
 class Pipelines(TestCase):
@@ -131,8 +131,8 @@ class Pipelines(TestCase):
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_social_upsert_one_users(self, name, backend, response, model):
-        social_upsert(user=self.johndoe, backend=backend, response=response)
+    def test_upsert_one_users(self, name, backend, response, model):
+        upsert(user=self.johndoe, backend=backend, response=response)
 
         social = model.objects.get(id=response['id'])
         self.assertEqual(social.id, response['id'])
@@ -140,9 +140,9 @@ class Pipelines(TestCase):
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_social_upsert_multiple_users(self, name, backend, response, model):
+    def test_upsert_multiple_users(self, name, backend, response, model):
         for user in [self.johndoe, self.foobar]:
-            social_upsert(user=user, backend=backend, response=response)
+            upsert(user=user, backend=backend, response=response)
 
         social = model.objects.get(id=response['id'])
         self.assertEqual(social.users.count(), 2)
@@ -150,9 +150,9 @@ class Pipelines(TestCase):
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_social_upsert_update(self, name, backend, response, model):
-        social_upsert(user=self.johndoe, backend=backend, response=response)
+    def test_upsert_update(self, name, backend, response, model):
+        upsert(user=self.johndoe, backend=backend, response=response)
         response['name'] = 'Khal Drogo'
-        social_upsert(user=self.johndoe, backend=backend, response=response)
+        upsert(user=self.johndoe, backend=backend, response=response)
         social = model.objects.get(id=response['id'])
         self.assertEqual(social.fullname, response['name'])

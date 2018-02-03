@@ -1,12 +1,7 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
 
-from megaphonely.accounts import managers
-
-
-class MyUser(AbstractUser):
-    pass
+from megaphonely.social import managers
 
 
 class Social(models.Model):
@@ -16,7 +11,7 @@ class Social(models.Model):
     picture_url = models.URLField()
     access_token_key = models.TextField(max_length=1000)
 
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL)
+    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     class Meta:
         abstract = True

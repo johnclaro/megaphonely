@@ -13,7 +13,7 @@ SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
-AUTH_USER_MODEL = 'accounts.MyUser'
+AUTH_USER_MODEL = 'auth.User'
 
 # Email
 EMAIL_USE_TLS = True
@@ -95,7 +95,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'megaphonely.accounts.apps.AccountsConfig',
+    'megaphonely.social.apps.SocialConfig',
     'megaphonely.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
@@ -164,5 +164,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'megaphonely.accounts.pipelines.social_upsert',
+    'megaphonely.social.pipelines.upsert',
 )
