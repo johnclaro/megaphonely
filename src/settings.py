@@ -1,5 +1,4 @@
 import os
-import datetime
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -12,10 +11,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = os.environ['DEBUG']
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'einstein.storage.StaticStorage'
-ROOT_URLCONF = 'einstein.urls'
-WSGI_APPLICATION = 'einstein.wsgi.application'
+ROOT_URLCONF = 'src.urls'
+WSGI_APPLICATION = 'src.wsgi.application'
+AUTH_USER_MODEL = 'auth.User'
+
+# Email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_PORT = 587
+
 if DEBUG:
     ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
     DATABASES = {
@@ -35,7 +41,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['einstein.megaphonely.com']
+    ALLOWED_HOSTS = ['www.megaphonely.com']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -46,6 +52,11 @@ else:
             'PORT': 5432
         }
     }
+    # Used by storage.StaticStorage
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'src.storage.StaticStorage'
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
+    AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Social Auth
 LOGIN_URL = '/'
@@ -64,27 +75,34 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# S3
-AWS_STORAGE_BUCKET_NAME = 'einstein.megaphonely.com'
+# AWS
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
-INSTALLED_APPS = [
+# Allauth
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'djoser',
+    'django.contrib.sites',
+    'src.social.apps.SocialConfig',
+    'src.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
-    'accounts.apps.AccountsConfig',
-    'contents.apps.ContentsConfig',
-]
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -99,7 +117,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'src/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,41 +147,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-}
-
-JWT_AUTH = {
-    'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
-    'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
-    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_GET_USER_SECRET_KEY': None,
-    'JWT_PUBLIC_KEY': None,
-    'JWT_PRIVATE_KEY': None,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
-    'JWT_ALLOW_REFRESH': False,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_AUTH_COOKIE': None,
-}
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
 )
@@ -178,5 +164,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'accounts.pipelines.social_upsert',
+    'src.social.pipelines.upsert',
 )
