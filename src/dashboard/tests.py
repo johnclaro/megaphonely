@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from django.test import TestCase
 
-from megaphonely.contents import tasks
+from src.dashboard import tasks
 
 MESSAGE = datetime.datetime.now().strftime('%Y-%m-%d-%s')
 IMAGE = 'small.jpg'
