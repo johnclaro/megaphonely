@@ -131,7 +131,7 @@ class Pipelines(TestCase):
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_upsert_one_users(self, name, backend, response, model):
+    def test_upsert_one_accounts(self, name, backend, response, model):
         upsert(user=self.johndoe, backend=backend, response=response)
 
         social = model.objects.get(id=response['id'])
@@ -140,12 +140,12 @@ class Pipelines(TestCase):
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
     ])
-    def test_upsert_multiple_users(self, name, backend, response, model):
+    def test_upsert_multiple_accounts(self, name, backend, response, model):
         for user in [self.johndoe, self.foobar]:
             upsert(user=user, backend=backend, response=response)
 
         social = model.objects.get(id=response['id'])
-        self.assertEqual(social.users.count(), 2)
+        self.assertEqual(social.accounts.count(), 2)
 
     @parameterized.expand([
         ['twitter', twitter.TwitterOAuth, TWITTER, Twitter]
