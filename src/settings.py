@@ -11,8 +11,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = os.environ['DEBUG']
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
-ROOT_URLCONF = 'megaphonely.urls'
-WSGI_APPLICATION = 'megaphonely.wsgi.application'
+ROOT_URLCONF = 'src.urls'
+WSGI_APPLICATION = 'src.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 
 # Email
@@ -54,7 +54,7 @@ else:
     }
     # Used by storage.StaticStorage
     STATICFILES_LOCATION = 'static'
-    STATICFILES_STORAGE = 'megaphonely.storage.StaticStorage'
+    STATICFILES_STORAGE = 'src.storage.StaticStorage'
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
     AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
@@ -95,8 +95,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'megaphonely.social.apps.SocialConfig',
-    'megaphonely.dashboard.apps.DashboardConfig',
+    'src.social.apps.SocialConfig',
+    'src.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
     'allauth',
@@ -117,7 +117,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'megaphonely/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'src/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -164,5 +164,5 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'megaphonely.social.pipelines.upsert',
+    'src.social.pipelines.upsert',
 )

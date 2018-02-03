@@ -12,6 +12,6 @@ REST services for Megaphonely
 
 # To create another Django app
 ```bash
-# Create an empty directory called dashboard in megaphonely/ first
-python manage.py startapp dashboard megaphonely/dashboard
+mkdir src/dashboard
+python manage.py startapp dashboard src/dashboard
 ```

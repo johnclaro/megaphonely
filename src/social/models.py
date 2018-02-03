@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from megaphonely.social import managers
+from src.social import managers
 
 
 class Social(models.Model):
