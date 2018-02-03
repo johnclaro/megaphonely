@@ -55,8 +55,6 @@ else:
     # Used by storage.StaticStorage
     STATICFILES_LOCATION = 'static'
     STATICFILES_STORAGE = 'src.storage.StaticStorage'
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
-    AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Social Auth
 LOGIN_URL = '/'
@@ -79,6 +77,8 @@ USE_TZ = True
 AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_S3_CUSTOM_DOMAIN']
+AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Allauth
 SITE_ID = 1
