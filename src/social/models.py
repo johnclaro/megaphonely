@@ -30,5 +30,5 @@ class Facebook(Social):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
