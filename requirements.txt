@@ -1,7 +1,10 @@
+amqp==2.2.2
 awsebcli==3.12.1
+billiard==3.5.0.3
 blessed==1.14.2
 boto3==1.5.14
 botocore==1.8.28
+celery==4.1.0
 cement==2.8.2
 certifi==2018.1.18
 chardet==3.0.4
@@ -9,6 +12,7 @@ click==6.7
 colorama==0.3.7
 defusedxml==0.5.0
 Django==2.0.1
+django-allauth==0.34.0
 django-storages==1.6.5
 docker-py==1.7.2
 dockerpty==0.4.1
@@ -18,6 +22,7 @@ facepy==1.0.9
 future==0.16.0
 idna==2.6
 jmespath==0.9.3
+kombu==4.1.0
 oauthlib==2.0.6
 parameterized==0.6.1
 pathspec==0.5.0
@@ -39,6 +44,7 @@ social-auth-core==1.6.0
 tabulate==0.7.5
 termcolor==1.1.0
 urllib3==1.22
+vine==1.1.4
 wcwidth==0.1.7
 websocket-client==0.46.0
 yarg==0.1.9
