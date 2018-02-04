@@ -52,9 +52,11 @@ else:
             'PORT': 5432
         }
     }
-    # Used by storage.StaticStorage
+    # Used by storage
     STATICFILES_LOCATION = 'static'
-    STATICFILES_STORAGE = 'src.storage.StaticStorage'
+    STATICFILES_STORAGE = 'src.storage.Static'
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILES_STORAGE = 'src.storage.Media'
 
 # Social Auth
 LOGIN_URL = '/'

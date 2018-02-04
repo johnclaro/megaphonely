@@ -22,13 +22,13 @@ class Social(models.Model):
 
 class Twitter(Social):
     access_token_secret = models.TextField()
-    objects = managers.TwitterManager()
+    objects = managers.Twitter()
 
 
 class Facebook(Social):
-    objects = managers.FacebookManager()
+    objects = managers.Facebook()
 
 
 class Profile(models.Model):
     account = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+                                   on_delete=models.CASCADE)
