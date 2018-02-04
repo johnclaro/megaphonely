@@ -102,6 +102,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'src.socials.apps.SocialsConfig',
     'src.contents.apps.ContentsConfig',
+    'debug_toolbar',
     'storages',
     'social_django',
     'allauth',
@@ -117,6 +118,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 TEMPLATES = [
