@@ -15,3 +15,7 @@ Django apps
 
     mkdir src/dashboard
     python manage.py startapp dashboard src/dashboard
+
+Beanstalk
+~~~~~~~~~
+Ensure HTTPs is required for production
