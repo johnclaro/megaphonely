@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from django.test import TestCase
 
-from src.dashboard import tasks
+from src.contents import tasks
 
 MESSAGE = datetime.datetime.now().strftime('%Y-%m-%d-%s')
 IMAGE = 'small.jpg'
