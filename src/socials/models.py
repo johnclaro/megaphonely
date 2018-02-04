@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from src.social import managers
+from src.socials import managers
 
 
 class Social(models.Model):
