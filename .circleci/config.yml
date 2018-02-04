@@ -34,6 +34,3 @@ jobs:
           command: |
             . venv/bin/activate
             eb deploy
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
