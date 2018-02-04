@@ -24,7 +24,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
 if DEBUG:
-    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
+    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost', '127.0.0.1']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -60,8 +60,8 @@ else:
     DEFAULT_FILES_STORAGE = 'src.storage.Media'
 
 # Social Auth
-LOGIN_URL = '/'
-LOGOUT_URL = '/'
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
 LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
@@ -89,6 +89,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -98,6 +100,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'debug_toolbar',
     'src.socials.apps.SocialsConfig',
     'src.contents.apps.ContentsConfig',
     'storages',
@@ -115,6 +118,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 TEMPLATES = [
@@ -168,4 +172,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
     'src.social.pipelines.upsert',
+)
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+    'megaphonely.dev',
 )
