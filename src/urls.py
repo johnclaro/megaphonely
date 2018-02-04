@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from django.contrib import admin
-from django.conf.urls import include
+from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.conf import settings
 
@@ -26,5 +26,5 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        path(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
