@@ -24,7 +24,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
 if DEBUG:
-    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost']
+    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost', '127.0.0.1']
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -100,9 +100,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'debug_toolbar',
     'src.socials.apps.SocialsConfig',
     'src.contents.apps.ContentsConfig',
-    'debug_toolbar',
     'storages',
     'social_django',
     'allauth',
@@ -172,4 +172,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
     'src.social.pipelines.upsert',
+)
+
+INTERNAL_IPS = (
+    '127.0.0.1',
+    'megaphonely.dev',
 )
