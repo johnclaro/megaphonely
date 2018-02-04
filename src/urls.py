@@ -2,6 +2,7 @@ from django.urls import path, re_path
 from django.contrib import admin
 from django.conf.urls import include
 from django.views.generic import TemplateView
+from django.conf import settings
 
 from src.contents import views as content_views
 
@@ -21,3 +22,9 @@ urlpatterns = [
     path('contents/<int:pk>/update', content_views.ContentUpdate.as_view(), name='content-update'),
     path('contents/<int:pk>/delete/', content_views.ContentDelete.as_view(), name='content-delete')
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
