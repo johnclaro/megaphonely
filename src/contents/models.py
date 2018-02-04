@@ -6,5 +6,5 @@ class Content(models.Model):
     message = models.TextField()
 
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             related_name='contents',
-                             on_delete=models.CASCADE)
+                                related_name='contents',
+                                on_delete=models.CASCADE)
