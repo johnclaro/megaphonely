@@ -60,8 +60,8 @@ else:
     DEFAULT_FILES_STORAGE = 'src.storage.Media'
 
 # Social Auth
-LOGIN_URL = '/'
-LOGOUT_URL = '/'
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
 LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
