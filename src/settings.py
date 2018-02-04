@@ -1,4 +1,5 @@
 import os
+from distutils.util import strtobool
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -8,7 +9,7 @@ load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
-DEBUG = os.environ['DEBUG']
+DEBUG = bool(strtobool(os.environ['DEBUG']))
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
 ROOT_URLCONF = 'src.urls'
@@ -53,8 +54,8 @@ else:
         }
     }
     # Used by storage
-    STATICFILES_LOCATION = 'static'
     STATICFILES_STORAGE = 'src.storage.Static'
+    STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILES_STORAGE = 'src.storage.Media'
 
