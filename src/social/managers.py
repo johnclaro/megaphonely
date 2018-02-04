@@ -4,7 +4,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 
-class SocialManager(models.Manager):
+class Social(models.Manager):
 
     def _create_or_update(self, account, data):
         updated = False
@@ -27,7 +27,7 @@ class SocialManager(models.Manager):
         return model
 
 
-class TwitterManager(SocialManager):
+class Twitter(Social):
 
     def _get_data(self, data):
         return {
@@ -40,7 +40,7 @@ class TwitterManager(SocialManager):
         }
 
 
-class FacebookManager(SocialManager):
+class Facebook(Social):
 
     def _get_data(self, data):
         access_token_key = data['access_token']
