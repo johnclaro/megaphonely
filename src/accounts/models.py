@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from src.accounts.managers import SocialManager, CompanyManager
+from src.accounts.managers import SocialManager, CompanyManager, EmployeeManager
 
 
 class Profile(models.Model):
@@ -30,6 +30,8 @@ class Employee(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     date_joined = models.DateField()
     active = models.BooleanField(default=True)
+
+    objects = EmployeeManager()
 
     def __str__(self):
         return f"{self.account} - {self.company}"
