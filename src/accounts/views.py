@@ -1,8 +1,11 @@
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+import logging
+
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Company, Employee
 
@@ -40,9 +43,11 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
     success_url = reverse_lazy('dashboard')
 
     def render_to_response(self, context, **response_kwargs):
-        response = super(CompanyDetail, self).render_to_response(context, **response_kwargs)
+        response = redirect('dashboard')
         active_company_id = context['company'].id
-        print(f"Setting active company id: {active_company_id}")
+        logging.debug('Setting active company id: {active_company_id}'.format(
+            active_company_id=active_company_id
+        ))
         response.set_cookie('active_company_id', active_company_id)
         return response
 

@@ -26,7 +26,6 @@ def dashboard_index(request):
     active_company_id = int(request.COOKIES.get('active_company_id', 0))
     logger.debug('Got active company id:', active_company_id)
     if not active_company_id:
-        print('No active company found, telling user to choose one')
         logger.warning('No active company found, telling user to choose one')
         return redirect('company-list')
 
