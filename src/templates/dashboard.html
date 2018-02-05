@@ -1,4 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <p>Hello {{user}} !</p>
 
-<a href="{% url 'content-list' %}">Contents</a>
-<a href="{% url 'social-list' %}">Socials</a>
+Socials
+{% for social in socials %}
+    <li>
+        <a href="%{url social-detail social.id %}">{{social}}</a>
+    </li>
+{% endfor %}
+
+{% endblock %}

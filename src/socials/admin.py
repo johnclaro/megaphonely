@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import Twitter, Facebook
+from .models import Social
 
-admin.site.register(Twitter)
-admin.site.register(Facebook)
+admin.site.register(Social)
