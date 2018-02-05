@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<h1>Company List</h1>
-
-<a href="{% url 'company-add' %}">Add company</a>
+{% for company in companies %}
+    <h1>{{company}}</h1>
+{% endfor %}
 
 {% endblock %}

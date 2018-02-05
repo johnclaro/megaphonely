@@ -8,6 +8,10 @@ class CompanyManager(models.Manager):
     pass
 
 
+class EmployeeManager(models.Manager):
+    pass
+
+
 class SocialManager(models.Manager):
 
     def _get_twitter_data(self, data):

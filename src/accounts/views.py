@@ -42,3 +42,4 @@ class CompanyList(LoginRequiredMixin, ListView):
     template_name = 'companies/list.html'
     model = Company
     success_url = reverse_lazy('dashboard')
+    context_object_name = 'companies'

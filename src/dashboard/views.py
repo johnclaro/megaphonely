@@ -3,7 +3,7 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
-from src.accounts.models import Company, Social
+from src.accounts.models import Company, Social, Employee
 from src.contents.models import Content
 
 
@@ -11,14 +11,21 @@ from src.contents.models import Content
 def dashboard_index(request):
     companies = Company.objects.filter(accounts=request.user.id)
     if companies:
-        # TODO: User should choose between active companies
-        for c in companies:
-            print(c)
-        company = companies[0]
-        socials = Social.objects.filter(company=company)
-        contents = Content.objects.filter(company=company)
-        template = loader.get_template('dashboard.html')
-        context = {'company': company, 'socials': socials, 'contents': contents}
-        return HttpResponse(template.render(context, request))
+        employee = Employee.objects.get(company__in=companies,
+                                        account=request.user,
+                                        active=True)
+        if employee:
+            active_company = employee.company
+            socials = Social.objects.filter(company=active_company)
+            contents = Content.objects.filter(company=active_company)
+            template = loader.get_template('dashboard.html')
+            context = {
+                'company': active_company,
+                'socials': socials,
+                'contents': contents
+            }
+            return HttpResponse(template.render(context, request))
+        else:
+            return redirect('company-list')
     else:
         return redirect('company-add')
