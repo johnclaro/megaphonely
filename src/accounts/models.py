@@ -29,7 +29,6 @@ class Employee(models.Model):
                                 on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     date_joined = models.DateField()
-    active = models.BooleanField(default=True)
 
     objects = EmployeeManager()
 
