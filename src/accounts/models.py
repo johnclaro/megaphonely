@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from src.accounts.managers import SocialManager
+from src.accounts.managers import SocialManager, CompanyManager
 
 
 class Profile(models.Model):
@@ -10,8 +10,29 @@ class Profile(models.Model):
 
 
 class Company(models.Model):
+    name = models.CharField(max_length=100)
+
+    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                      through='Employee')
+
+    objects = CompanyManager()
+
+    class Meta:
+        verbose_name_plural = 'companies'
+
+    def __str__(self):
+        return self.name
+
+
+class Employee(models.Model):
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    date_joined = models.DateField()
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.account} - {self.company}"
 
 
 class Social(models.Model):
@@ -23,7 +44,7 @@ class Social(models.Model):
     access_token_key = models.TextField(max_length=1000)
     access_token_secret = models.TextField(blank=True)
 
-    companies = models.ManyToManyField(Company)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     objects = SocialManager()
 

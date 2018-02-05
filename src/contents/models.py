@@ -10,8 +10,7 @@ class Content(models.Model):
     message = models.TextField()
     schedule_at = models.DateTimeField()
 
-    account = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    company = models.ForeignKey('accounts.Company', on_delete=models.CASCADE)
 
     objects = ContentManager()
 
