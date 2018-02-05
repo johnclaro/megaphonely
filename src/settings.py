@@ -101,7 +101,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'debug_toolbar',
-    'src.socials.apps.SocialsConfig',
+    'src.accounts.apps.AccountsConfig',
     'src.contents.apps.ContentsConfig',
     'storages',
     'social_django',
@@ -171,7 +171,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'src.socials.pipelines.upsert',
+    'src.accounts.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)

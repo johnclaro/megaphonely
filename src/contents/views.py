@@ -10,27 +10,35 @@ from .models import Content
 class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
-    fields = '__all__'
+    fields = ('message', 'schedule_at')
+    success_url = reverse_lazy('dashboard')
+
+    def form_valid(self, form):
+        form.instance.account = self.request.user
+        response = super(ContentCreate, self).form_valid(form)
+        return response
 
 
 class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
-    fields = '__all__'
+    fields = ('message', 'schedule_at')
+    success_url = reverse_lazy('dashboard')
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
-    success_url = reverse_lazy('content-list')
+    success_url = reverse_lazy('dashboard')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
     template_name = 'contents/detail.html'
     model = Content
+    success_url = reverse_lazy('dashboard')
 
 
 class ContentList(LoginRequiredMixin, ListView):
     template_name = 'contents/list.html'
     model = Content
-
+    success_url = reverse_lazy('dashboard')

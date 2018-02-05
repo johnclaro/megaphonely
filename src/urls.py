@@ -21,7 +21,7 @@ urlpatterns = [
     path(r'dashboard/', dashboard_index, name='dashboard'),
 
     # Socials
-    path(r'socials/', TemplateView.as_view(template_name='socials/index.html'), name='social-list'),
+    path(r'socials/', TemplateView.as_view(template_name='socials/list.html'), name='social-list'),
 
     # Contents
     path(r'contents/', ContentList.as_view(), name='content-list'),
