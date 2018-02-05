@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<b>Company</b>
-<p>Hello {{user}}</p>
+<b>Company</b> <a href="{% url 'company-detail' company.id %}">{{company}}</a>
 <br/>
 
 <b>Contents</b>

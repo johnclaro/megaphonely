@@ -4,6 +4,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from facepy import GraphAPI
 
 
+class CompanyManager(models.Manager):
+    pass
+
+
 class SocialManager(models.Manager):
 
     def _get_twitter_data(self, data):
