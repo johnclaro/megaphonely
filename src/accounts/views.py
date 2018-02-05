@@ -51,11 +51,13 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
         response.set_cookie('active_company_id', active_company_id)
         return response
 
+
 class CompanyList(LoginRequiredMixin, ListView):
     template_name = 'companies/list.html'
     model = Company
     success_url = reverse_lazy('dashboard')
-    context_object_name = 'companies'
+    context_object_name = 'employees'
 
     def get_queryset(self):
-        return Employee.objects.filter(account=self.request.user)
+        queryset = Employee.objects.filter(account=self.request.user)
+        return queryset

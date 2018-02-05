@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 
 
 class ContentManager(models.Manager):
@@ -9,6 +8,8 @@ class ContentManager(models.Manager):
 class Content(models.Model):
     message = models.TextField()
     schedule_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     company = models.ForeignKey('accounts.Company', on_delete=models.CASCADE)
 

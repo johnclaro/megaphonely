@@ -1,8 +1,9 @@
-from django.urls import path, re_path
+from django.conf import settings
 from django.contrib import admin
+from django.urls import path, re_path
 from django.conf.urls import include, url
 from django.views.generic import TemplateView
-from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
 
 from src.accounts.views import (CompanyList, CompanyDetail,
                                 CompanyCreate, CompanyUpdate, CompanyDelete)
@@ -12,6 +13,8 @@ from src.dashboard.views import dashboard_index
 
 
 admin.autodiscover()
+
+redirect_to_dashboard = user_passes_test(lambda u: u.is_anonymous(), '/dashboard')
 
 urlpatterns = [
     re_path(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
