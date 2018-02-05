@@ -24,7 +24,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
 if DEBUG:
-    ALLOWED_HOSTS = ['megaphonely.dev', 'localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ('megaphonely.dev',)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -42,7 +42,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ['www.megaphonely.com']
+    ALLOWED_HOSTS = ('www.megaphonely.com', 'megaphonely.com',)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -67,7 +67,7 @@ SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ('public_profile', 'email', 'publish_actions')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -110,7 +110,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
 )
 
-MIDDLEWARE = [
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,27 +119,27 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-]
+)
 
-TEMPLATES = [
+TEMPLATES = (
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'src/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [
+            'context_processors': (
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
-            ],
+            ),
         },
     },
-]
+)
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = (
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -152,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-]
+)
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -174,7 +174,4 @@ SOCIAL_AUTH_PIPELINE = (
     'src.social.pipelines.upsert',
 )
 
-INTERNAL_IPS = (
-    '127.0.0.1',
-    'megaphonely.dev',
-)
+INTERNAL_IPS = ('127.0.0.1',)
