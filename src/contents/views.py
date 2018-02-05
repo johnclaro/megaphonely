@@ -8,24 +8,29 @@ from .models import Content
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
+    template_name = 'contents/add.html'
     model = Content
     fields = '__all__'
 
 
 class ContentUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'contents/edit.html'
     model = Content
     fields = '__all__'
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
+    template_name = 'contents/delete.html'
     model = Content
-    success_url = reverse_lazy('Content-list')
+    success_url = reverse_lazy('content-list')
 
 
-class ContentDetailView(LoginRequiredMixin, DetailView):
+class ContentDetail(LoginRequiredMixin, DetailView):
+    template_name = 'contents/detail.html'
     model = Content
 
 
-class ContentListView(LoginRequiredMixin, ListView):
+class ContentList(LoginRequiredMixin, ListView):
+    template_name = 'contents/list.html'
     model = Content
 
