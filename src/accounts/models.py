@@ -11,6 +11,8 @@ class Profile(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     accounts = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                       through='Employee')
@@ -28,7 +30,8 @@ class Employee(models.Model):
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    date_joined = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = EmployeeManager()
 
@@ -44,6 +47,8 @@ class Social(models.Model):
     picture_url = models.URLField(blank=True)
     access_token_key = models.TextField(max_length=1000)
     access_token_secret = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
