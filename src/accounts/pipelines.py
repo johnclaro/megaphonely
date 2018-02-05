@@ -1,8 +1,17 @@
-from src.accounts.models import Social
+from src.accounts.models import Social, Employee
 
 
-def upsert(user=None, response=None, backend=None, **kwargs):
+def upsert(user=None, response=None, backend=None, request=None, **kwargs):
     if not user:
         raise ValueError('You must login first')
 
-    Social.objects.upsert(user, backend.name, response)
+    active_company_id = int(request.COOKIES.get('active_company_id', 0))
+    if not active_company_id:
+        raise ValueError('You must select a company first')
+
+    try:
+        employee = Employee.objects.get(id=active_company_id,
+                                        account=user.id)
+        Social.objects.upsert(employee.company, backend.name, response)
+    except Employee.DoesNotExist:
+        raise ValueError('Company no longer exists')
