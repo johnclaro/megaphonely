@@ -42,7 +42,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ('www.megaphonely.com',)
+    ALLOWED_HOSTS = ('www.megaphonely.com', 'megaphonely.com',)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
