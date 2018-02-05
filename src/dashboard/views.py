@@ -14,10 +14,13 @@ logger = logging.getLogger(__name__)
 @login_required
 def dashboard_index(request):
     companies = Company.objects.filter(accounts=request.user).count()
-    print('Got companies:', companies)
-    logger.debug('Got companies:', companies)
+    logger.debug(
+        'Got {companies} companies for {user}'.format(
+            companies=companies, user=request.user
+        )
+    )
     if not companies:
-        logger.warning('No companies found, telling user to create one')
+        logger.warning('No companies found, redirecting user to create one')
         return redirect('company-add')
 
     active_company_id = int(request.COOKIES.get('active_company_id', 0))
