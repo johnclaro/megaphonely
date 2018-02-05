@@ -6,15 +6,21 @@ from django.conf import settings
 
 from src.contents.views import (ContentList,  ContentDetail,
                                 ContentCreate, ContentUpdate, ContentDelete)
+from src.dashboard.views import dashboard_index
 
 
 admin.autodiscover()
 
 urlpatterns = [
-    re_path(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
+    re_path(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     re_path(r'^accounts/', include('allauth.urls')),
     path(r'admin/', admin.site.urls),
-    path(r'oauth/', include('social_django.urls', namespace='social')),
+    path(r'social/', include('social_django.urls', namespace='social')),
+
+    # Dashboard
+    path(r'dashboard/', dashboard_index, name='dashboard'),
+
+    # Socials
     path(r'socials/', TemplateView.as_view(template_name='socials/index.html'), name='social-list'),
 
     # Contents

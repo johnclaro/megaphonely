@@ -17,7 +17,7 @@ WSGI_APPLICATION = 'src.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/accounts/login'
 LOGOUT_URL = '/accounts/logout'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard'
 
 # Email
 EMAIL_USE_TLS = True
@@ -171,7 +171,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'src.social.pipelines.upsert',
+    'src.socials.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)

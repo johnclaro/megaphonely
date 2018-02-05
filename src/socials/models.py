@@ -1,34 +1,81 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
-from src.socials import managers
+from facepy import GraphAPI
+
+
+class SocialManager(models.Manager):
+
+    def _get_twitter_data(self, data):
+        return {
+            'social_id': data['id'],
+            'provider': 'twitter',
+            'username': data['screen_name'],
+            'fullname': data['name'],
+            'picture_url': data['profile_image_url_https'],
+            'access_token_key': data['access_token']['oauth_token'],
+            'access_token_secret': data['access_token']['oauth_token_secret'],
+        }
+
+    def _get_facebook_data(self, data):
+        access_token_key = data['access_token']
+        graph = GraphAPI(access_token_key)
+        response = graph.get('me?fields=picture.width(640)')
+        picture_url = response['picture']['data']['url']
+        return {
+            'social_id': data['id'],
+            'provider': 'facebook',
+            'username': data['id'],
+            'fullname': data['name'],
+            'picture_url': picture_url,
+            'access_token_key': access_token_key,
+        }
+
+    def _get_data(self, provider, data):
+        if provider == 'twitter':
+            data = self._get_twitter_data(data)
+        elif provider == 'facebook':
+            data = self._get_facebook_data(data)
+
+        return data
+
+    def _create_or_update(self, account, provider, data):
+        updated = False
+        try:
+            social = self.get(social_id=data['social_id'], provider=provider)
+            for column, record in data.items():
+                if social.__getattribute__(column) != data[column]:
+                    social.__setattr__(column, record)
+                    updated = True
+            if updated:
+                social.save()
+        except ObjectDoesNotExist:
+            social = self.create(**data)
+        social.accounts.add(account)
+        return social
+
+    def upsert(self, account, provider, response):
+        data = self._get_data(provider, response)
+        model = self._create_or_update(account, provider, data)
+        return model
 
 
 class Social(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    social_id = models.BigIntegerField()
+    provider = models.CharField(max_length=30)
     username = models.CharField(max_length=100)
-    fullname = models.CharField(max_length=100)
-    picture_url = models.URLField()
+    fullname = models.CharField(max_length=100, blank=True)
+    picture_url = models.URLField(blank=True)
     access_token_key = models.TextField(max_length=1000)
+    access_token_secret = models.TextField(blank=True)
 
     accounts = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
+    objects = SocialManager()
+
     class Meta:
-        abstract = True
+        unique_together = ('social_id', 'provider',)
 
     def __str__(self):
         return self.username
-
-
-class Twitter(Social):
-    access_token_secret = models.TextField()
-    objects = managers.Twitter()
-
-
-class Facebook(Social):
-    objects = managers.Facebook()
-
-
-class Profile(models.Model):
-    account = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                   on_delete=models.CASCADE)

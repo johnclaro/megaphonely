@@ -1,13 +1,8 @@
-from .models import Twitter, Facebook
+from .models import Social
 
 
 def upsert(user=None, response=None, backend=None, **kwargs):
     if not user:
         raise ValueError('You must login first')
 
-    backends = {'twitter': Twitter, 'facebook': Facebook}
-
-    try:
-        backends[backend.name].objects.upsert(user, response)
-    except KeyError:
-        raise NotImplementedError(f"{backend.name} is not implemented")
+    Social.objects.upsert(user, backend.name, response)
