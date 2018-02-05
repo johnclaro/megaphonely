@@ -1,4 +1,4 @@
-from .models import Social
+from src.accounts.models import Social
 
 
 def upsert(user=None, response=None, backend=None, **kwargs):

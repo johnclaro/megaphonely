@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
 from facepy import GraphAPI
@@ -59,23 +58,3 @@ class SocialManager(models.Manager):
         data = self._get_data(provider, response)
         model = self._create_or_update(account, provider, data)
         return model
-
-
-class Social(models.Model):
-    social_id = models.BigIntegerField()
-    provider = models.CharField(max_length=30)
-    username = models.CharField(max_length=100)
-    fullname = models.CharField(max_length=100, blank=True)
-    picture_url = models.URLField(blank=True)
-    access_token_key = models.TextField(max_length=1000)
-    access_token_secret = models.TextField(blank=True)
-
-    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL)
-
-    objects = SocialManager()
-
-    class Meta:
-        unique_together = ('social_id', 'provider',)
-
-    def __str__(self):
-        return self.username
