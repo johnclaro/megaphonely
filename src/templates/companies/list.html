@@ -3,7 +3,9 @@
 {% block content %}
 
 {% for company in companies %}
-    <h1>{{company}}</h1>
+    <h1>
+        <a href="{% url 'company-detail' company.id %}">{{company}}</a>
+    </h1>
 {% endfor %}
 
 {% endblock %}
