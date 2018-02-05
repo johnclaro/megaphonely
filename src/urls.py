@@ -27,16 +27,16 @@ urlpatterns = [
 
     # Contents
     path(r'contents/', ContentList.as_view(), name='content-list'),
-    path(r'contents/add/', ContentCreate.as_view(), name='content-add'),
+    path(r'contents/create/', ContentCreate.as_view(), name='content-add'),
     path(r'contents/<int:pk>/', ContentDetail.as_view(), name='content-detail'),
-    path(r'contents/<int:pk>/update', ContentUpdate.as_view(), name='content-update'),
+    path(r'contents/<int:pk>/edit', ContentUpdate.as_view(), name='content-update'),
     path(r'contents/<int:pk>/delete/', ContentDelete.as_view(), name='content-delete'),
 
     # Companies
     path(r'companies/', CompanyList.as_view(), name='company-list'),
-    path(r'companies/add/', CompanyCreate.as_view(), name='company-add'),
+    path(r'companies/create/', CompanyCreate.as_view(), name='company-add'),
     path(r'companies/<int:pk>/', CompanyDetail.as_view(), name='company-detail'),
-    path(r'companies/<int:pk>/update', CompanyUpdate.as_view(), name='company-update'),
+    path(r'companies/<int:pk>/edit', CompanyUpdate.as_view(), name='company-update'),
     path(r'companies/<int:pk>/delete/', CompanyDelete.as_view(), name='company-delete')
 ]
 
