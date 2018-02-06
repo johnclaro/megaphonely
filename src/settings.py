@@ -12,6 +12,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = bool(strtobool(os.environ['DEBUG']))
 SECRET_KEY = get_random_secret_key()
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 ROOT_URLCONF = 'src.urls'
 WSGI_APPLICATION = 'src.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
@@ -103,6 +104,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'src.accounts.apps.AccountsConfig',
     'src.contents.apps.ContentsConfig',
+    'src.megaphonely.apps.MegaphonelyConfig',
     'storages',
     'social_django',
     'allauth',
