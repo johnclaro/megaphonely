@@ -18,8 +18,8 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         response = super(CompanyCreate, self).form_valid(form)
-        employee = Employee(company=form.instance,
-                            account=self.request.user)
+        employee = Employee(company__id=form.instance.id,
+                            account__id=self.request.user.id)
         employee.save()
         return response
 
@@ -59,9 +59,7 @@ class CompanyList(LoginRequiredMixin, ListView):
     context_object_name = 'companies'
 
     def get_queryset(self):
-        employees = Employee.objects.filter(account=self.request.user)
-        companies = (
-            employee.company
-            for employee in employees
-        )
+        employees = Employee.objects.filter(account__id=self.request.user.id)
+        companies = (employee.company
+                     for employee in employees)
         return companies

@@ -11,7 +11,9 @@ class Content(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    company = models.ForeignKey('accounts.Company', on_delete=models.CASCADE)
+    company = models.ForeignKey('accounts.Company',
+                                on_delete=models.CASCADE,
+                                blank=True)
 
     objects = ContentManager()
 
