@@ -18,8 +18,8 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         response = super(CompanyCreate, self).form_valid(form)
-        employee = Employee(company__id=form.instance.id,
-                            account__id=self.request.user.id)
+        employee = Employee(company=form.instance,
+                            account=self.request.user)
         employee.save()
         return response
 

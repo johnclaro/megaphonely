@@ -47,4 +47,3 @@ def dashboard_index(request):
         response = redirect('company-list')
         response.set_cookie('active_company_id', 0)
         return response
-
