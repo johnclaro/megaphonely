@@ -1,4 +1,22 @@
-<p>Hello {{user}} !</p>
+{% extends 'base.html' %}
 
-<a href="{% url 'content-list' %}">Contents</a>
-<a href="{% url 'social-list' %}">Socials</a>
+{% block content %}
+<b>Company</b> <a href="{% url 'company-update' company.id %}">{{company}}</a>
+<br/>
+
+<b>Contents</b>
+{% for content in contents %}
+    <li>
+        <a href="{% url 'content-detail' content.id %}">{{content}}</a>
+    </li>
+{% endfor %}
+<a href="{% url 'content-add' %}">Add more content</a>
+<br/>
+
+<b>Socials</b>
+{% for social in socials %}
+    <li>{{social.provider}} {{social}}</li>
+{% endfor %}
+<a href="{% url 'social-list' %}">Connect more </a>
+
+{% endblock %}
