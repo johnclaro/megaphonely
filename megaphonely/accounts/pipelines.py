@@ -1,4 +1,4 @@
-from src.accounts.models import Social, Employee
+from megaphonely.accounts.models import Social, Employee
 
 
 def upsert(user=None, response=None, backend=None, request=None, **kwargs):

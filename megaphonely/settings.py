@@ -16,8 +16,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join('staticfiles')
-ROOT_URLCONF = 'src.urls'
-WSGI_APPLICATION = 'src.wsgi.application'
+ROOT_URLCONF = 'megaphonely.urls'
+WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/accounts/login'
 LOGOUT_URL = '/accounts/logout'
@@ -61,10 +61,10 @@ else:
         }
     }
     # Used by storage
-    STATICFILES_STORAGE = 'src.storage.Static'
+    STATICFILES_STORAGE = 'megaphonely.storage.Static'
     STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
-    DEFAULT_FILES_STORAGE = 'src.storage.Media'
+    DEFAULT_FILES_STORAGE = 'megaphonely.storage.Media'
 
 # Social Auth
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
@@ -105,9 +105,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'debug_toolbar',
-    'src.accounts.apps.AccountsConfig',
-    'src.contents.apps.ContentsConfig',
-    'src.megaphonely.apps.MegaphonelyConfig',
+    'megaphonely.accounts.apps.AccountsConfig',
+    'megaphonely.contents.apps.ContentsConfig',
     'storages',
     'social_django',
     'allauth',
@@ -129,7 +128,7 @@ MIDDLEWARE = (
 TEMPLATES = (
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'src/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'megaphonely/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': (
@@ -176,7 +175,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'src.accounts.pipelines.upsert',
+    'megaphonely.accounts.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
