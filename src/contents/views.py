@@ -10,7 +10,7 @@ from .models import Content
 class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
-    fields = ('message', 'schedule_at')
+    fields = ('message',)
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
@@ -22,7 +22,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
-    fields = ('message', 'schedule_at')
+    fields = ('message',)
     success_url = reverse_lazy('dashboard')
 
 
