@@ -56,8 +56,12 @@ class CompanyList(LoginRequiredMixin, ListView):
     template_name = 'companies/list.html'
     model = Company
     success_url = reverse_lazy('dashboard')
-    context_object_name = 'employees'
+    context_object_name = 'companies'
 
     def get_queryset(self):
-        queryset = Employee.objects.filter(account=self.request.user)
-        return queryset
+        employees = Employee.objects.filter(account=self.request.user)
+        companies = (
+            employee.company
+            for employee in employees
+        )
+        return companies

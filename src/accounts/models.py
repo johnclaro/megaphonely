@@ -50,7 +50,7 @@ class Social(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ManyToManyField(Company)
 
     objects = SocialManager()
 
