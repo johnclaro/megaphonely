@@ -5,11 +5,11 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import user_passes_test
 
-from src.accounts.views import (CompanyList, CompanyDetail,
-                                CompanyCreate, CompanyUpdate, CompanyDelete)
-from src.contents.views import (ContentList,  ContentDetail,
-                                ContentCreate, ContentUpdate, ContentDelete)
-from src.dashboard.views import dashboard_index
+from megaphonely.accounts.views import (CompanyList, CompanyDetail,
+                                        CompanyCreate, CompanyUpdate, CompanyDelete)
+from megaphonely.contents.views import (ContentList, ContentDetail,
+                                        ContentCreate, ContentUpdate, ContentDelete)
+from megaphonely.dashboard.views import dashboard_index
 
 
 admin.autodiscover()

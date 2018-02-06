@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-from src.accounts.managers import SocialManager, CompanyManager, EmployeeManager
+from megaphonely.accounts.managers import SocialManager, CompanyManager, EmployeeManager
 
 
 class Profile(models.Model):

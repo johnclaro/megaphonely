@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-from src.contents.models import Content
-from src.accounts.models import Company, Social, Employee
+from megaphonely.contents.models import Content
+from megaphonely.accounts.models import Company, Social, Employee
 
 logger = logging.getLogger(__name__)
 
