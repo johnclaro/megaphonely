@@ -2,9 +2,9 @@
 
 {% block content %}
 
-{% for employee in employees %}
+{% for company in companies %}
     <li>
-        <a href="{% url 'company-detail' employee.company.id %}">{{employee.company}}</a>
+        <a href="{% url 'company-detail' company.id %}">{{company}}</a>
     </li>
 {% endfor %}
 

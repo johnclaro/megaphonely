@@ -10,8 +10,8 @@ def upsert(user=None, response=None, backend=None, request=None, **kwargs):
         raise ValueError('You must select a company first')
 
     try:
-        employee = Employee.objects.get(id=active_company_id,
-                                        account=user.id)
+        employee = Employee.objects.get(company__id=active_company_id,
+                                        account__id=user.id)
         Social.objects.upsert(employee.company, backend.name, response)
     except Employee.DoesNotExist:
         raise ValueError('Company no longer exists')
