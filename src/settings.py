@@ -15,6 +15,9 @@ STATIC_URL = '/static/'
 ROOT_URLCONF = 'src.urls'
 WSGI_APPLICATION = 'src.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
+LOGIN_URL = '/accounts/login'
+LOGOUT_URL = '/accounts/logout'
+LOGIN_REDIRECT_URL = '/dashboard'
 
 # Email
 EMAIL_USE_TLS = True
@@ -60,14 +63,11 @@ else:
     DEFAULT_FILES_STORAGE = 'src.storage.Media'
 
 # Social Auth
-LOGIN_URL = '/accounts/login'
-LOGOUT_URL = '/accounts/logout'
-LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
-SOCIAL_AUTH_FACEBOOK_SCOPE = ('public_profile', 'email', 'publish_actions')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ('public_profile', 'email', 'publish_actions',)
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -101,7 +101,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'debug_toolbar',
-    'src.socials.apps.SocialsConfig',
+    'src.accounts.apps.AccountsConfig',
     'src.contents.apps.ContentsConfig',
     'storages',
     'social_django',
@@ -171,7 +171,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'src.social.pipelines.upsert',
+    'src.accounts.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+import logging
+import sys
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
