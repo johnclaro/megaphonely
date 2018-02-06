@@ -1,10 +1,11 @@
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import DetailView
+from django.urls import reverse_lazy, reverse
 from django.views.generic.list import ListView
-from django.urls import reverse_lazy
+from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Content
+from megaphonely.accounts.models import Employee
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
@@ -14,7 +15,11 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
-        form.instance.account = self.request.user
+        request = self.request
+        company_id = int(request.COOKIES.get('active_company_id', 0))
+        employee = Employee.objects.is_employed(company_id, request.user.id)
+        form.instance.company = employee.company
+
         response = super(ContentCreate, self).form_valid(form)
         return response
 

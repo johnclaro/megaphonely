@@ -2,6 +2,8 @@
 
 {% block content %}
 
-<h1>Social List</h1>
+<a href="{% url 'social:begin' 'twitter' %}">Twitter</a>
+<a href="{% url 'social:begin' 'facebook' %}">Facebook</a>
+<a href="{% url 'social:begin' 'linkedin' %}">LinkedIn</a>
 
 {% endblock %}

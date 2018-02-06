@@ -4,12 +4,28 @@ from django.core.exceptions import ObjectDoesNotExist
 from facepy import GraphAPI
 
 
+class EmployeeQuerySet(models.QuerySet):
+    def is_employed(self, company_id, account_id):
+        try:
+            return self.get(company__id=company_id, account__id=account_id)
+        except ObjectDoesNotExist:
+            raise ValueError('Company no longer exists')
+
+
+class ProfileManager(models.Manager):
+    pass
+
+
 class CompanyManager(models.Manager):
     pass
 
 
 class EmployeeManager(models.Manager):
-    pass
+    def get_queryset(self):
+        return EmployeeQuerySet(self.model, using=self._db)
+
+    def is_employed(self, company_id, account_id):
+        return self.get_queryset().is_employed(company_id, account_id)
 
 
 class SocialManager(models.Manager):
