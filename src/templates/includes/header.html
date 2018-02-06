@@ -1,9 +1,23 @@
-<a href="/"><h1>Megaphonely</h1></a>
-
-{% if user.is_authenticated %}
-    <a href="{% url 'dashboard' %}">Dashboard</a>
-    <a href="{% url 'account_logout' %}">Logout</a>
-{% else %}
-    <a href="{% url 'account_login' %}">Login</a>
-    <a href="{% url 'account_signup' %}">Signup</a>
-{% endif %}
+{% load static %}
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+        <img src="{% static 'img/megaphone.png' %}" alt="Megaphonely">
+    </a>
+    <ul class="nav justify-content-end">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
