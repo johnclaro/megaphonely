@@ -59,7 +59,5 @@ class CompanyList(LoginRequiredMixin, ListView):
     context_object_name = 'companies'
 
     def get_queryset(self):
-        employees = Employee.objects.filter(account__id=self.request.user.id)
-        companies = (employee.company
-                     for employee in employees)
+        companies = Company.objects.filter(accounts__in=[self.request.user])
         return companies
