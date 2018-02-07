@@ -5,7 +5,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import Content
+from .models import Content, Social
 
 
 def index(request):
@@ -14,8 +14,11 @@ def index(request):
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
     else:
+        socials = Social.objects.filter(accounts__in=[user])
+        contents = Content.objects.filter(account=user)
+        context = {'socials': socials, 'contents': contents}
         template = loader.get_template('dashboard.html')
-        response = HttpResponse(template.render({}, request))
+        response = HttpResponse(template.render(context, request))
     return response
 
 

@@ -2,6 +2,15 @@
 
 {% block content %}
 
-<h1>Dashboard</h1>
+<h1>Contents</h1>
+{% for content in contents %}
+    {{content}}
+{% endfor %}
+
+<h1>Socials</h1>
+{% for social in socials %}
+    {{social}}
+{% endfor %}
+
 
 {% endblock %}
