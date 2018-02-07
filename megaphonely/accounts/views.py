@@ -38,6 +38,8 @@ class CompanyDelete(LoginRequiredMixin, DeleteView):
 class CompanyDetail(LoginRequiredMixin, DetailView):
     template_name = 'companies/detail.html'
     model = Company
+    slug_url_kwarg = 'slug'
+    slug_field = 'slug'
 
     def render_to_response(self, context, **response_kwargs):
         response = super(CompanyDetail, self).render_to_response(
@@ -72,7 +74,7 @@ class CompanyList(LoginRequiredMixin, ListView):
             active_company_id = int(self.request.COOKIES.get('active_company_id', 0))
             company_exists = Company.objects.filter(id=active_company_id).exists()
             if active_company_id and company_exists:
-                response = redirect('company_detail', pk=active_company_id)
+                response = redirect('company_detail', owner=self.request.user.username, slug='golden-state-warriors')
             else:
                 response = super(CompanyList, self).render_to_response(
                     context, **response_kwargs
