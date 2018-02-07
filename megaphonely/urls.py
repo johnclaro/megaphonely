@@ -5,7 +5,8 @@ from django.conf.urls import include, url
 from django.views.generic import TemplateView
 
 from megaphonely.accounts.views import (CompanyList, CompanyDetail,
-                                        CompanyCreate, CompanyUpdate, CompanyDelete)
+                                        CompanyCreate, CompanyUpdate,
+                                        CompanyDelete, CompanyChoose)
 from megaphonely.contents.views import (ContentList, ContentDetail,
                                         ContentCreate, ContentUpdate, ContentDelete)
 
@@ -32,6 +33,7 @@ urlpatterns = [
     # Companies
     path(r'companies/', CompanyList.as_view(), name='company_list'),
     path(r'companies/create/', CompanyCreate.as_view(), name='company_add'),
+    path(r'companies/choose/', CompanyChoose.as_view(), name='company_choose'),
     path(r'companies/<int:pk>/', CompanyDetail.as_view(), name='company_detail'),
     path(r'companies/<int:pk>/edit', CompanyUpdate.as_view(), name='company_update'),
     path(r'companies/<int:pk>/delete/', CompanyDelete.as_view(), name='company_delete')
