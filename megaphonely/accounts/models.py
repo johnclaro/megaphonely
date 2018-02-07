@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from megaphonely.accounts.managers import (ProfileManager, CompanyManager,
                                            SocialManager, EmployeeManager)
 
+from megaphonely.utils import get_unique_slug
+
 
 class Profile(models.Model):
     account = models.OneToOneField(
@@ -29,6 +31,7 @@ class Profile(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,6 +49,14 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = get_unique_slug(self, 'name', 'slug')
+        super().save()
+
+    def get_absolute_url(self):
+        return f"{self.owner.username}/{self.slug}"
 
 
 class Employee(models.Model):
