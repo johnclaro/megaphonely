@@ -8,7 +8,6 @@ from megaphonely.accounts.views import (CompanyList, CompanyDetail,
                                         CompanyCreate, CompanyUpdate, CompanyDelete)
 from megaphonely.contents.views import (ContentList, ContentDetail,
                                         ContentCreate, ContentUpdate, ContentDelete)
-from megaphonely.dashboard.views import dashboard_index
 
 
 admin.autodiscover()
@@ -22,10 +21,6 @@ urlpatterns = [
     # Socials
     path(r'social/', include('social_django.urls', namespace='social')),
     path(r'connect/', TemplateView.as_view(template_name='socials/list.html'), name='social-connect'),
-
-    # Dashboard
-    path(r'dashboard/', dashboard_index, name='dashboard'),
-
 
     # Contents
     path(r'contents/', ContentList.as_view(), name='content-list'),
