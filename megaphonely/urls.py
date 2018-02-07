@@ -13,7 +13,7 @@ urlpatterns = [
     re_path(r'^accounts/', include('allauth.urls')),
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^social/', include('social_django.urls', namespace='social')),
-    re_path(r'^connect/$', TemplateView.as_view(template_name='socials/list.html'), name='social-connect'),
+    re_path(r'^connect/$', TemplateView.as_view(template_name='socials/list.html'), name='social_list'),
 ]
 
 if settings.DEBUG:

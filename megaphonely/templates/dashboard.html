@@ -4,11 +4,13 @@
 
 {% load static %}
 <div class="row">
-    <div class="col-lg-4" style="padding: 10px;">
+    <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-body text-secondary text-center">
-                <h5 class="card-title">Socials</h5>
-                <hr/>
+                <div onclick="location.href='{% url 'social_list' %}';" style="cursor: pointer;">
+                    <h5 class="card-title">Social</h5>
+                    <hr/>
+                </div>
                 <p class="card-text">
                     {% for social in socials %}
                         <span class="fa fa-{{social.provider}}"></span> {{social}}
@@ -17,11 +19,13 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4" style="padding: 10px;">
+    <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-body text-secondary text-center">
-                <h5 class="card-title">Contents</h5>
-                <hr/>
+                <div onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">
+                    <h5 class="card-title" onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">Contents</h5>
+                    <hr/>
+                </div>
                 <p class="card-text">
                     {% for content in contents %}
                         <img src="{% static 'img/anonymous.png' %}" style="margin-bottom: 5px;" class="rounded-circle" height="20" width="20"/>
