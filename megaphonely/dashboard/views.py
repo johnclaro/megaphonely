@@ -1,10 +1,22 @@
-from django.urls import reverse_lazy, reverse
+from django.template import loader
+from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Content
+
+
+def index(request):
+    user = request.user
+    if not user.is_authenticated:
+        template = loader.get_template('home.html')
+        response = HttpResponse(template.render({}, request))
+    else:
+        template = loader.get_template('dashboard.html')
+        response = HttpResponse(template.render({}, request))
+    return response
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
