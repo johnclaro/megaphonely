@@ -5,7 +5,7 @@ from parameterized import parameterized
 
 from django.test import TestCase
 
-from megaphonely.contents import tasks
+from .tasks import publish_to_facebook, publish_to_twitter
 
 MESSAGE = datetime.datetime.now().strftime('%Y-%m-%d-%s')
 IMAGE = 'small.jpg'
@@ -28,10 +28,8 @@ class TwitterTasks(TestCase):
 
         access_token_key = '901476753272655872-D2BwU3Z7vKJzv023g3gpBcdAfMBE1Ez'
         access_token_secret = 'oRnzSQ1eHMQBKot6R6QZdApn3wk6ZdarPo8FaKK0bWyzN'
-        result = tasks.publish_to_twitter(access_token_key,
-                                          access_token_secret,
-                                          MESSAGE,
-                                          **data)
+        result = publish_to_twitter(access_token_key, access_token_secret,
+                                    MESSAGE, **data)
         self.assertEqual(Status, type(result))
 
 
@@ -50,5 +48,5 @@ class FacebookTasks(TestCase):
             pass
 
         access_token_key = 'EAAY8CZCqoStABAFN1RHBA0DBcBDX4NGXZB5l6EbjXGucQZC5ybSJkeRaGfiUuMcElrJj9Wx7e6MGNtPIZBwWZAtASPBZBYFHw2slxYApRl8zzyR57dQEDZBZCkc1ohUBDsTCwSgscJaXVNlxcsJzwQdLKYkbdTUS9kZBlHhq0cTpwXAZDZD'
-        result = tasks.publish_to_facebook(access_token_key, MESSAGE, **data)
+        result = publish_to_facebook(access_token_key, MESSAGE, **data)
         self.assertEqual(dict, type(result))
