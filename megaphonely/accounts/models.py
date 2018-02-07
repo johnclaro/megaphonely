@@ -1,13 +1,9 @@
 from django.db import models
-from django.urls import reverse
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-from megaphonely.accounts.managers import (ProfileManager, CompanyManager,
-                                           SocialManager, EmployeeManager)
-
-from megaphonely.utils import get_unique_slug
+from megaphonely.accounts.managers import ProfileManager, SocialManager
 
 
 class Profile(models.Model):
@@ -30,53 +26,6 @@ class Profile(models.Model):
         instance.profile.save()
 
 
-class Company(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
-    employees = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, through='Employee', related_name='employees'
-    )
-
-    objects = CompanyManager()
-
-    class Meta:
-        verbose_name_plural = 'companies'
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = get_unique_slug(self, 'name', 'slug')
-        super().save()
-
-    def get_absolute_url(self):
-        return reverse(
-            'company_detail',
-            kwargs={'owner': self.owner.username, 'slug': self.slug}
-        )
-
-
-class Employee(models.Model):
-    account = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    objects = EmployeeManager()
-
-    def __str__(self):
-        return f"{self.account} - {self.company}"
-
-
 class Social(models.Model):
     social_id = models.BigIntegerField()
     provider = models.CharField(max_length=30)
@@ -88,7 +37,7 @@ class Social(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    company = models.ManyToManyField(Company, blank=True)
+    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
 
     objects = SocialManager()
 

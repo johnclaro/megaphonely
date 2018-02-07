@@ -5,21 +5,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Content
-from megaphonely.accounts.models import Employee
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     fields = ('message',)
-    success_url = reverse_lazy('company_list')
 
     def form_valid(self, form):
-        request = self.request
-        company_id = int(request.COOKIES.get('active_company_id', 0))
-        employee = Employee.objects.is_employed(company_id, request.user.id)
-        form.instance.company = employee.company
-
+        content = form.instance
+        user = self.request.user
+        content.account = user
         response = super(ContentCreate, self).form_valid(form)
         return response
 
@@ -28,22 +24,18 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     fields = ('message',)
-    success_url = reverse_lazy('company_list')
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
-    success_url = reverse_lazy('company_list')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
     template_name = 'contents/detail.html'
     model = Content
-    success_url = reverse_lazy('company_list')
 
 
 class ContentList(LoginRequiredMixin, ListView):
     template_name = 'contents/list.html'
     model = Content
-    success_url = reverse_lazy('company_list')

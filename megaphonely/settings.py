@@ -21,7 +21,7 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/accounts/login'
 LOGOUT_URL = '/accounts/logout'
-LOGIN_REDIRECT_URL = '/companies'
+LOGIN_REDIRECT_URL = '/dashboard'
 
 # Email
 EMAIL_USE_TLS = True

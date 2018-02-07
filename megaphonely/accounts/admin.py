@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import Social, Company, Profile, Employee
+from .models import Social, Profile
 
 admin.site.register(Social)
-admin.site.register(Company)
 admin.site.register(Profile)
-admin.site.register(Employee)
