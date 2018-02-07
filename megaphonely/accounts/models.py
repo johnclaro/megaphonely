@@ -8,8 +8,9 @@ from megaphonely.accounts.managers import (ProfileManager, CompanyManager,
 
 
 class Profile(models.Model):
-    account = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                   on_delete=models.CASCADE)
+    account = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
 
     objects = ProfileManager()
 
@@ -31,8 +32,12 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                      through='Employee')
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    employees = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, through='Employee', related_name='employees'
+    )
 
     objects = CompanyManager()
 
@@ -44,8 +49,9 @@ class Company(models.Model):
 
 
 class Employee(models.Model):
-    account = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    account = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -61,7 +61,7 @@ class CompanyList(LoginRequiredMixin, ListView):
         return active_company_id and exists
 
     def get_queryset(self):
-        companies = Company.objects.filter(accounts__in=[self.request.user])
+        companies = Company.objects.filter(employees__in=[self.request.user])
         return companies
 
     def render_to_response(self, context, **response_kwargs):
@@ -88,7 +88,7 @@ class CompanyChoose(LoginRequiredMixin, ListView):
     context_object_name = 'companies'
 
     def get_queryset(self):
-        companies = Company.objects.filter(accounts__in=[self.request.user])
+        companies = Company.objects.filter(employees__in=[self.request.user])
         return companies
 
     def render_to_response(self, context, **response_kwargs):
