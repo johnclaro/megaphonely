@@ -14,7 +14,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
     template_name = 'companies/add.html'
     model = Company
     fields = ('name', )
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
     def form_valid(self, form):
         response = super(CompanyCreate, self).form_valid(form)
@@ -28,22 +28,22 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'companies/edit.html'
     model = Company
     fields = ('name', )
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
 
 class CompanyDelete(LoginRequiredMixin, DeleteView):
     template_name = 'companies/delete.html'
     model = Company
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
 
 class CompanyDetail(LoginRequiredMixin, DetailView):
     template_name = 'companies/detail.html'
     model = Company
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
     def render_to_response(self, context, **response_kwargs):
-        response = redirect('dashboard')
+        response = redirect('companies-list')
         active_company_id = context['company'].id
         logging.debug('Setting active company id: {active_company_id}'.format(
             active_company_id=active_company_id
@@ -55,7 +55,7 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
 class CompanyList(LoginRequiredMixin, ListView):
     template_name = 'companies/list.html'
     model = Company
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
     context_object_name = 'companies'
 
     def get_queryset(self):
