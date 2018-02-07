@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -56,7 +57,7 @@ class Company(models.Model):
         super().save()
 
     def get_absolute_url(self):
-        return f"{self.owner.username}/{self.slug}"
+        return reverse('company_detail', kwargs={'slug': self.slug})
 
 
 class Employee(models.Model):

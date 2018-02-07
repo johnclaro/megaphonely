@@ -34,7 +34,7 @@ urlpatterns = [
     path(r'companies/', CompanyList.as_view(), name='company_list'),
     path(r'companies/create/', CompanyCreate.as_view(), name='company_add'),
     path(r'companies/choose/', CompanyChoose.as_view(), name='company_choose'),
-    path(r'companies/<int:pk>/', CompanyDetail.as_view(), name='company_detail'),
+    re_path(r'^companies/(?P<slug>[-\w]+)/$', CompanyDetail.as_view(), name='company_detail'),
     path(r'companies/<int:pk>/edit', CompanyUpdate.as_view(), name='company_update'),
     path(r'companies/<int:pk>/delete/', CompanyDelete.as_view(), name='company_delete')
 ]
