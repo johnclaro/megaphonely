@@ -43,7 +43,9 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
     success_url = reverse_lazy('company_list')
 
     def render_to_response(self, context, **response_kwargs):
-        response = redirect('company_list')
+        response = super(CompanyDetail, self).render_to_response(
+            context, **response_kwargs
+        )
         active_company_id = context['company'].id
         logging.debug('Setting active company id: {active_company_id}'.format(
             active_company_id=active_company_id
@@ -58,6 +60,33 @@ class CompanyList(LoginRequiredMixin, ListView):
     success_url = reverse_lazy('company_list')
     context_object_name = 'companies'
 
+    def render_to_response(self, context, **response_kwargs):
+        try:
+            active_company_id = int(self.request.COOKIES['active_company_id'])
+            Company.objects.filter(id=active_company_id).exists()
+            response = redirect('company_detail', pk=active_company_id)
+        except (KeyError, Company.DoesNotExist):
+            response = redirect('company_choose')
+
+        return response
+
+
+class CompanyChoose(LoginRequiredMixin, ListView):
+    template_name = 'companies/list.html'
+    model = Company
+    context_object_name = 'companies'
+
     def get_queryset(self):
         companies = Company.objects.filter(accounts__in=[self.request.user])
         return companies
+
+    def render_to_response(self, context, **response_kwargs):
+        companies = context['companies'].count()
+        if companies == 0:
+            response = redirect('company_add')
+        else:
+            response = super(CompanyChoose, self).render_to_response(
+                context, **response_kwargs
+            )
+
+        return response
