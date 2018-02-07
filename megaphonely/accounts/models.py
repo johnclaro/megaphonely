@@ -57,7 +57,10 @@ class Company(models.Model):
         super().save()
 
     def get_absolute_url(self):
-        return reverse('company_detail', kwargs={'slug': self.slug})
+        return reverse(
+            'company_detail',
+            kwargs={'owner': self.owner.username, 'slug': self.slug}
+        )
 
 
 class Employee(models.Model):

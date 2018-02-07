@@ -38,8 +38,6 @@ class CompanyDelete(LoginRequiredMixin, DeleteView):
 class CompanyDetail(LoginRequiredMixin, DetailView):
     template_name = 'companies/detail.html'
     model = Company
-    slug_url_kwarg = 'slug'
-    slug_field = 'slug'
 
     def render_to_response(self, context, **response_kwargs):
         response = super(CompanyDetail, self).render_to_response(
@@ -52,32 +50,34 @@ class CompanyDetail(LoginRequiredMixin, DetailView):
         response.set_cookie('active_company_id', active_company_id)
         return response
 
+
 class CompanyList(LoginRequiredMixin, ListView):
     template_name = 'companies/list.html'
     model = Company
     context_object_name = 'companies'
-
-    def valid_company(self, cookie):
-        active_company_id = int(self.request.COOKIES.get('active_company_id', 0))
-        exists = Company.objects.filter(id=active_company_id).exists()
-        return active_company_id and exists
 
     def get_queryset(self):
         companies = Company.objects.filter(employees__in=[self.request.user])
         return companies
 
     def render_to_response(self, context, **response_kwargs):
+        cookies = self.request.COOKIES
         companies = context['companies'].count()
         if companies == 0:
             response = redirect('company_add')
         else:
-            active_company_id = int(self.request.COOKIES.get('active_company_id', 0))
-            company_exists = Company.objects.filter(id=active_company_id).exists()
-            if active_company_id and company_exists:
-                response = redirect('company_detail', owner=self.request.user.username, slug='golden-state-warriors')
-            else:
+            try:
+                active_company_id = int(cookies['active_company_id'])
+                company = Company.objects.get(id=active_company_id)
+                response = redirect(
+                    'company_detail',
+                    owner=self.request.user.username,
+                    slug=company.slug
+                )
+            except (KeyError, Company.DoesNotExist):
                 response = super(CompanyList, self).render_to_response(
-                    context, **response_kwargs
+                    context,
+                    **response_kwargs
                 )
                 response.set_cookie('active_company_id', 0)
 
@@ -99,7 +99,8 @@ class CompanyChoose(LoginRequiredMixin, ListView):
             response = redirect('company_add')
         else:
             response = super(CompanyChoose, self).render_to_response(
-                context, **response_kwargs
+                context,
+                **response_kwargs
             )
             response.set_cookie('active_company_id', 0)
 
