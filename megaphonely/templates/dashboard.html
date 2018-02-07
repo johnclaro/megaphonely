@@ -2,15 +2,35 @@
 
 {% block content %}
 
-<h1>Contents</h1>
-{% for content in contents %}
-    {{content}}
-{% endfor %}
-
-<h1>Socials</h1>
-{% for social in socials %}
-    {{social}}
-{% endfor %}
-
+{% load static %}
+<div class="row">
+    <div class="col-lg-4" style="padding: 10px;">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <h5 class="card-title">Socials</h5>
+                <hr/>
+                <p class="card-text">
+                    {% for social in socials %}
+                        <span class="fa fa-{{social.provider}}"></span> {{social}}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4" style="padding: 10px;">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <h5 class="card-title">Contents</h5>
+                <hr/>
+                <p class="card-text">
+                    {% for content in contents %}
+                        <img src="{% static 'img/anonymous.png' %}" style="margin-bottom: 5px;" class="rounded-circle" height="20" width="20"/>
+                        {{content}}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
