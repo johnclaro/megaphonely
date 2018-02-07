@@ -12,7 +12,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     fields = ('message',)
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
     def form_valid(self, form):
         request = self.request
@@ -28,22 +28,22 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     fields = ('message',)
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
     template_name = 'contents/detail.html'
     model = Content
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
 
 
 class ContentList(LoginRequiredMixin, ListView):
     template_name = 'contents/list.html'
     model = Content
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('companies-list')
