@@ -1,4 +1,6 @@
 import os
+import sys
+import logging
 from distutils.util import strtobool
 
 from dotenv import load_dotenv, find_dotenv
@@ -21,7 +23,7 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/accounts/login'
 LOGOUT_URL = '/accounts/logout'
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = '/'
 
 # Email
 EMAIL_USE_TLS = True
@@ -105,7 +107,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'debug_toolbar',
     'megaphonely.accounts.apps.AccountsConfig',
-    'megaphonely.contents.apps.ContentsConfig',
+    'megaphonely.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
     'allauth',
@@ -174,11 +176,9 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'megaphonely.accounts.pipelines.upsert',
+    'megaphonely.dashboard.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
 
-import logging
-import sys
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
