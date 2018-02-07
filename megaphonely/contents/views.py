@@ -34,16 +34,16 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
-    success_url = reverse_lazy('companies-list')
+    success_url = reverse_lazy('company_list')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
     template_name = 'contents/detail.html'
     model = Content
-    success_url = reverse_lazy('companies-list')
+    success_url = reverse_lazy('company_list')
 
 
 class ContentList(LoginRequiredMixin, ListView):
     template_name = 'contents/list.html'
     model = Content
-    success_url = reverse_lazy('companies-list')
+    success_url = reverse_lazy('company_list')
