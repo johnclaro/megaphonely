@@ -12,8 +12,10 @@ class ContentForm(forms.ModelForm):
         model = Content
         fields = ['message', 'schedule_at', 'multimedia']
         exclude = ['account']
-        widgets = {'schedule_at': forms.DateInput(
-            attrs={'type': 'date', 'class': 'datepicker'}
+        widgets = {'schedule_at': forms.SplitDateTimeWidget(
+            date_attrs={'type': 'date'},
+            time_attrs={'type': 'time'},
+            time_format='HH:mm'
         )}
 
     def __init__(self, *args, **kwargs):
@@ -21,4 +23,3 @@ class ContentForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('schedule', 'Schedule'))
-        self.helper.add_input(Submit('schedule_now', 'Schedule Now'))
