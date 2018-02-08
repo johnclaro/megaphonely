@@ -2,8 +2,18 @@
 
 {% block content %}
 
-<h1>Content List</h1>
-
-<a href="{% url 'dashboard:content_add' %}">Add content</a>
+<div class="col-lg-12 card-section">
+    <div class="card border-secondary">
+        <div class="card-body text-secondary text-center">
+            <h5 class="card-title">
+                Contents
+            </h5>
+            <hr/>
+            {% for content in contents %}
+                <p class="card-text">{{content}}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}
