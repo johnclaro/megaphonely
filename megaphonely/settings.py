@@ -192,4 +192,4 @@ SOCIAL_AUTH_PIPELINE = (
 
 INTERNAL_IPS = ('127.0.0.1',)
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
