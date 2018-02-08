@@ -13,6 +13,9 @@
                 <p class="card-text">{{content}}</p>
             {% endfor %}
         </div>
+        <div class="card-footer card-footer-linkedin text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
+            Add more
+        </div>
     </div>
 </div>
 

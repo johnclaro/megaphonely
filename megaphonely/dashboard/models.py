@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 
@@ -19,6 +20,9 @@ class Content(models.Model):
 
     def __str__(self):
         return self.message
+
+    def get_absolute_url(self):
+        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
 
 
 class Social(models.Model):

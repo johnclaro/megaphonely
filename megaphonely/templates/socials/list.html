@@ -40,10 +40,8 @@
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-body text-secondary text-center">
-                <div onclick="location.href='{% url 'dashboard:social_list' %}';" style="cursor: pointer;">
-                    <h5 class="card-title"><i class="fab fa-linkedin"></i></h5>
-                    <hr/>
-                </div>
+                <h5 class="card-title"><i class="fab fa-linkedin"></i></h5>
+                <hr/>
                 {% for linkedin in linkedins %}
                     <p class="card-text">
                         <img src="{{linkedin.picture_url}}" height="20" class="rounded-circle"/>
