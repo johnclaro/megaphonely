@@ -8,6 +8,7 @@ from .managers import ContentManager, SocialManager
 
 class Content(models.Model):
     message = models.TextField()
+    multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule_at = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -44,7 +45,4 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        if self.provider in ('facebook', 'linkedin'):
-            return self.fullname
-        else:
-            return self.username
+        return self.username
