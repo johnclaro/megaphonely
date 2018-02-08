@@ -22,7 +22,7 @@ class Content(models.Model):
 
 
 class Social(models.Model):
-    social_id = models.BigIntegerField()
+    social_id = models.CharField(max_length=250)
     provider = models.CharField(max_length=30)
     username = models.CharField(max_length=100)
     fullname = models.CharField(max_length=100, blank=True)
@@ -40,4 +40,7 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        return self.username
+        if self.provider in ('facebook', 'linkedin'):
+            return self.fullname
+        else:
+            return self.username
