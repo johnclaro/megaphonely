@@ -9,7 +9,7 @@ from .managers import ContentManager, SocialManager
 class Content(models.Model):
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    schedule_at = models.DateTimeField(default=timezone.now)
+    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
