@@ -14,7 +14,6 @@ urlpatterns = [
     re_path(r'^profiles/', include('megaphonely.accounts.urls', namespace='accounts')),
     re_path(r'^accounts/', include('allauth.urls')),
     re_path(r'^social/', include('social_django.urls', namespace='social')),
-    re_path(r'^connect/$', TemplateView.as_view(template_name='socials/list.html'), name='social_list'),
 ]
 
 if settings.DEBUG:

@@ -10,6 +10,10 @@ class ContentManager(models.Manager):
 
 class SocialManager(models.Manager):
 
+    def _get_linkedin_data(self, data):
+        print(data)
+        return {}
+
     def _get_twitter_data(self, data):
         return {
             'social_id': data['id'],
@@ -40,6 +44,8 @@ class SocialManager(models.Manager):
             data = self._get_twitter_data(data)
         elif provider == 'facebook':
             data = self._get_facebook_data(data)
+        elif provider == 'linkedin':
+            data = self._get_linkedin_data(data)
 
         return data
 

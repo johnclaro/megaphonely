@@ -54,3 +54,23 @@ class ContentDetail(LoginRequiredMixin, DetailView):
 class ContentList(LoginRequiredMixin, ListView):
     template_name = 'contents/list.html'
     model = Content
+
+
+class SocialList(LoginRequiredMixin, ListView):
+    template_name = 'socials/list.html'
+    model = Social
+    context_object_name = 'socials'
+
+    def get_queryset(self):
+        user = self.request.user
+        socials = Social.objects.filter(accounts__in=[user])
+        return socials
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SocialList, self).get_context_data(*args, **kwargs)
+        socials = context['socials']
+        providers = ('twitter', 'facebook', 'linkedin')
+        for provider in providers:
+            plural = f"{provider}s"
+            context[plural] = socials.filter(provider=provider)
+        return context
