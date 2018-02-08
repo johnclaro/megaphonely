@@ -16,7 +16,7 @@ def index(request):
     else:
         socials = Social.objects.filter(accounts__in=[user])
         contents = Content.objects.filter(account=user)
-        context = {'socials': socials, 'contents': contents}
+        context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
     return response
