@@ -2,6 +2,29 @@
     color: #1DA1F2;
 }
 
+.fa-facebook {
+    color: #3B5998;
+}
+
+.fa-linkedin {
+    color: #007BB5;
+}
+
+.card-footer-twitter {
+    background-color: #1DA1F2 !important;
+    color: white;
+}
+
+.card-footer-facebook {
+    background-color: #3B5998! important;
+    color: white;
+}
+
+.card-footer-linkedin {
+    background-color: #007BB5! important;
+    color: white;
+}
+
 .card-section {
     padding: 10px;
 }
