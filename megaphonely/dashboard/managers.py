@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from facepy import GraphAPI
+from linkedin import linkedin
 
 
 class ContentManager(models.Manager):
@@ -11,13 +12,13 @@ class ContentManager(models.Manager):
 class SocialManager(models.Manager):
 
     def _get_linkedin_data(self, data):
-        import json
-        print(json.dumps(data, indent=4, sort_keys=True))
+        social_id = data['id']
+        picture_url = f"http://api.linkedin.com/v1/people/{social_id}/picture-url"
         return {
-            'social_id': data['id'],
+            'social_id': social_id,
             'provider': 'linkedin',
-            'username': data['id'],
-            'picture_url': '',
+            'username': social_id,
+            'picture_url': picture_url,
             'fullname': f"{data['firstName']} {data['lastName']}",
             'access_token_key': data['access_token']
         }
