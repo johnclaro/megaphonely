@@ -3,11 +3,9 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
-<h1>Content form</h1>
 
-<form method="POST" action="">{% csrf_token %}
-    {{form|crispy}}
-    <input type="submit" class="btn btn-default" value="Create">
-</form>
+<div class="card-body">
+    {% crispy form %}
+</div>
 
 {% endblock %}
