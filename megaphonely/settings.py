@@ -103,6 +103,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
+# CRISPY FORMS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
