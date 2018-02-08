@@ -33,7 +33,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
 if DEBUG:
-    ALLOWED_HOSTS = ('megaphonely.dev',)
+    ALLOWED_HOSTS = ('megaphonely.localhost',)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
