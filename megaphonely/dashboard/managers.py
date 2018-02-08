@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 
 from facepy import GraphAPI
+from linkedin import linkedin
 
 
 class ContentManager(models.Manager):
@@ -9,6 +10,20 @@ class ContentManager(models.Manager):
 
 
 class SocialManager(models.Manager):
+
+    def _get_linkedin_data(self, data):
+        access_token_key = data['access_token']
+        application = linkedin.LinkedInApplication(token=access_token_key)
+        social_id = data['id']
+        picture_url = application.get_picture_urls()['values'][0]
+        return {
+            'social_id': social_id,
+            'provider': 'linkedin',
+            'username': social_id,
+            'picture_url': picture_url,
+            'fullname': f"{data['firstName']} {data['lastName']}",
+            'access_token_key': access_token_key
+        }
 
     def _get_twitter_data(self, data):
         return {
@@ -40,6 +55,8 @@ class SocialManager(models.Manager):
             data = self._get_twitter_data(data)
         elif provider == 'facebook':
             data = self._get_facebook_data(data)
+        elif provider == 'linkedin':
+            data = self._get_linkedin_data(data)
 
         return data
 

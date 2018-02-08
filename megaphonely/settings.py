@@ -33,7 +33,7 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 
 if DEBUG:
-    ALLOWED_HOSTS = ('megaphonely.dev',)
+    ALLOWED_HOSTS = ('megaphonely.localhost',)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -73,7 +73,13 @@ SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
-SOCIAL_AUTH_FACEBOOK_SCOPE = ('public_profile', 'email', 'publish_actions',)
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ['LINKEDIN_CLIENT_ID']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
+    ('id', 'id'), ('firstName', 'first_name'), ('lastName', 'last_name')
+]
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -97,6 +103,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
+# CRISPY FORMS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -113,6 +122,7 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 )
 
 MIDDLEWARE = (
@@ -164,6 +174,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.linkedin.LinkedinOAuth2',
 )
 
 AWS_S3_OBJECT_PARAMETERS = {

@@ -2,8 +2,58 @@
 
 {% block content %}
 
-<a href="{% url 'social:begin' 'twitter' %}">Twitter</a>
-<a href="{% url 'social:begin' 'facebook' %}">Facebook</a>
-<a href="{% url 'social:begin' 'linkedin' %}">LinkedIn</a>
+<div class="row">
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <h5 class="card-title"><i class="fab fa-twitter"></i></h5>
+                <hr/>
+                {% for twitter in twitters %}
+                    <p class="card-text">
+                        <img src="{{twitter.picture_url}}" height="20" class="rounded-circle"/>
+                        {{twitter}}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="card-footer card-footer-twitter text-center" onclick="location.href='{% url 'social:begin' backend='twitter' %}';" style="cursor: pointer;">
+                Connect
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <h5 class="card-title"><i class="fab fa-facebook"></i></h5>
+                <hr/>
+                {% for facebook in facebooks %}
+                    <p class="card-text">
+                        <img src="{{facebook.picture_url}}" height="20" class="rounded-circle"/>
+                        {{facebook}}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="card-footer card-footer-facebook text-center" onclick="location.href='{% url 'social:begin' backend='facebook' %}';" style="cursor: pointer;">
+                Connect
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <h5 class="card-title"><i class="fab fa-linkedin"></i></h5>
+                <hr/>
+                {% for linkedin in linkedins %}
+                    <p class="card-text">
+                        <img src="{{linkedin.picture_url}}" height="20" class="rounded-circle"/>
+                        {{linkedin}}
+                    </p>
+                {% endfor %}
+            </div>
+            <div class="card-footer card-footer-linkedin text-center" onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';" style="cursor: pointer;">
+                Connect
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

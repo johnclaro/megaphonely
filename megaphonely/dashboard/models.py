@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 
@@ -7,7 +8,8 @@ from .managers import ContentManager, SocialManager
 
 class Content(models.Model):
     message = models.TextField()
-    schedule_at = models.DateTimeField(default=timezone.now)
+    multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
+    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,9 +22,12 @@ class Content(models.Model):
     def __str__(self):
         return self.message
 
+    def get_absolute_url(self):
+        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
+
 
 class Social(models.Model):
-    social_id = models.BigIntegerField()
+    social_id = models.CharField(max_length=250)
     provider = models.CharField(max_length=30)
     username = models.CharField(max_length=100)
     fullname = models.CharField(max_length=100, blank=True)
