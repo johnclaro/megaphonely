@@ -11,8 +11,16 @@ class ContentManager(models.Manager):
 class SocialManager(models.Manager):
 
     def _get_linkedin_data(self, data):
-        print(data)
-        return {}
+        import json
+        print(json.dumps(data, indent=4, sort_keys=True))
+        return {
+            'social_id': data['id'],
+            'provider': 'linkedin',
+            'username': data['id'],
+            'picture_url': '',
+            'fullname': f"{data['firstName']} {data['lastName']}",
+            'access_token_key': data['access_token']
+        }
 
     def _get_twitter_data(self, data):
         return {
