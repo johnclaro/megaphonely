@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<div class="row">
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary text-center">
+                <div onclick="location.href='{% url 'social_list' %}';" style="cursor: pointer;">
+                    <h5 class="card-title">Social</h5>
+                    <hr/>
+                </div>
+                <p class="card-text">
+                    {% for social in socials %}
+                        <i class="fab fa-twitter"></i> {{social}}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary">
+                <div onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">
+                    <h5 class="card-title text-center" onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">Contents</h5>
+                    <hr/>
+                </div>
+                <p class="card-text">
+                    {% for content in contents %}
+                        <a href="{% url 'dashboard:content_detail' pk=content.id %}">
+                            <img src="{% static 'img/anonymous.png' %}" style="margin-bottom: 5px;" class="rounded-circle" height="20" width="20"/>
+                            {{content}}
+                        </a>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card border-secondary">
+            <div class="card-body text-secondary" onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';" style="cursor: pointer;">
+                <h5 class="card-title text-center">Settings</h5>
+                <hr/>
+                <p class="card-text text-center">
+                    You are on a <b>Free Plan</b>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
