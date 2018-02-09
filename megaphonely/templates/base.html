@@ -43,9 +43,12 @@
                     showClear: true,
                     showClose: false
                 },
-                minDate: moment()
+                minDate: moment(),
+                format: moment().format('YYYY-MM-DD HH:mm')
         });
-        $('#schedule_at_datetimepicker').datetimepicker();
+        $('#id_schedule_at').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
     </script>
 </body>
 </html>
