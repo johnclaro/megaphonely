@@ -45,7 +45,7 @@
                 },
                 minDate: moment()
         });
-        const date = moment($('#id_schedule_at').val(), 'YYYY-MM-DD HH:mm a').toDate();
+        const date = moment($('#id_schedule_at').val(), 'YYYY-MM-DD HH:mm').toDate();
         $('#id_schedule_at').datetimepicker({
             format: 'YYYY-MM-DD HH:mm', date: date
         });
