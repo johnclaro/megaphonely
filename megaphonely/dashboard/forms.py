@@ -18,9 +18,9 @@ class ContentForm(forms.ModelForm):
             'schedule_at': forms.TextInput(
                 attrs={
                     'class': 'datetimepicker-input',
-                    'id': 'schedule_at_datetimepicker',
-                    'data-target': '#schedule_at_datetimepicker',
+                    'data-target': '#id_schedule_at',
                     'data-toggle': 'datetimepicker',
+                    'data-date-format': 'YYYY-MM-DD HH:mm'
                 }
             )
         }
