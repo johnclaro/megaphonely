@@ -47,7 +47,7 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
     context_object_name = 'content'
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('dashboard:content_list')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
