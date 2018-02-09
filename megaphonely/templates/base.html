@@ -43,11 +43,11 @@
                     showClear: true,
                     showClose: false
                 },
-                minDate: moment(),
-                format: moment().format('YYYY-MM-DD HH:mm')
+                minDate: moment()
         });
+        const date = moment($('#id_schedule_at').val(), 'YYYY-MM-DD HH:mm a').toDate();
         $('#id_schedule_at').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm'
+            format: 'YYYY-MM-DD HH:mm', date: date
         });
     </script>
 </body>
