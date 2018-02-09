@@ -39,7 +39,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
-    fields = ('message',)
+    form_class = ContentForm
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):

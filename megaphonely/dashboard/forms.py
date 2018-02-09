@@ -16,11 +16,8 @@ class ContentForm(forms.ModelForm):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Fieldset(
-                'Details',
-                'message',
-                'multimedia',
-            ),
+            'message',
+            'multimedia',
             ButtonHolder(
                 Submit('submit', 'Submit', css_class='button white')
             )

@@ -15,7 +15,7 @@
                 {% if contents %}
                     {% for content in contents %}
                         <p class="card-text">
-                            <a href="{% url 'dashboard:content_detail' pk=content.id %}">
+                            <a href="{% url 'dashboard:content_update' pk=content.id %}">
                                 <img src="{% static 'img/anonymous.png' %}" style="margin-bottom: 5px;" class="rounded-circle" height="20" width="20"/>
                                 {{content}}
                             </a>
