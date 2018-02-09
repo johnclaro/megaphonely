@@ -104,7 +104,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 # CRISPY FORMS
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -192,4 +192,4 @@ SOCIAL_AUTH_PIPELINE = (
 
 INTERNAL_IPS = ('127.0.0.1',)
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)

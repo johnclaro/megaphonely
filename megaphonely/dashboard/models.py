@@ -1,29 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
-from django.utils import timezone
 
 from .managers import ContentManager, SocialManager
-
-
-class Content(models.Model):
-    message = models.TextField()
-    multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    account = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
-
-    objects = ContentManager()
-
-    def __str__(self):
-        return self.message
-
-    def get_absolute_url(self):
-        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
 
 
 class Social(models.Model):
@@ -46,3 +25,21 @@ class Social(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Content(models.Model):
+    message = models.TextField()
+    multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    account = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+
+    objects = ContentManager()
+
+    def __str__(self):
+        return self.message
+
+    def get_absolute_url(self):
+        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
