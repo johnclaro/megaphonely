@@ -31,9 +31,6 @@ class Social(models.Model):
 class Content(models.Model):
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    is_schedule_now = models.BooleanField(default=False)
-    is_auto_schedule = models.BooleanField(default=False)
-    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
