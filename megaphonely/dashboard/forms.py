@@ -6,16 +6,11 @@ from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
 from .models import Content
 
 
-
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
         fields = '__all__'
         exclude = ['account']
-        labels = {
-            'is_schedule_now': 'Now',
-            'is_schedule_auto': 'Auto'
-        }
 
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
