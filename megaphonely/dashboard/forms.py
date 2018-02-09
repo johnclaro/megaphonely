@@ -14,6 +14,16 @@ class ContentForm(forms.ModelForm):
         labels = {
             'is_schedule_now': 'Schedule now',
         }
+        widgets = {
+            'schedule_at': forms.TextInput(
+                attrs={
+                    'class': 'datetimepicker-input',
+                    'id': 'schedule_at_datetimepicker',
+                    'data-target': '#schedule_at_datetimepicker',
+                    'data-toggle': 'datetimepicker',
+                }
+            )
+        }
 
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
