@@ -1,25 +1,25 @@
 from django import forms
 
-from crispy_forms.layout import Submit
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
 
 from .models import Content
 
 
 class ContentForm(forms.ModelForm):
-
     class Meta:
         model = Content
-        fields = ['message', 'schedule_at', 'multimedia']
+        fields = '__all__'
         exclude = ['account']
-        widgets = {'schedule_at': forms.SplitDateTimeWidget(
-            date_attrs={'type': 'date'},
-            time_attrs={'type': 'time'},
-            time_format='HH:mm'
-        )}
 
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'message',
+            'multimedia',
+            ButtonHolder(
+                Submit('submit', 'Submit', css_class='button white')
+            )
+        )
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('schedule', 'Schedule'))

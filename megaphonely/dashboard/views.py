@@ -1,3 +1,4 @@
+from django.urls import reverse, reverse_lazy
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.list import ListView
@@ -39,12 +40,14 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
-    fields = ('message',)
+    form_class = ContentForm
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
+    context_object_name = 'content'
+    success_url = reverse_lazy('dashboard:index')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
