@@ -6,13 +6,13 @@
     <div class="card border-secondary">
         <div class="card-body text-secondary">
             <h5 class="card-title text-center">
-                Deleting {{ content }}
+                Deleting content
             </h5>
             <hr/>
             <div class="card-body text-secondary text-center">
                 <form action="" method="post">{% csrf_token %}
-                    <p>Are you sure you want to delete "{{ content }}"?</p>
-                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                    <p>Are you sure you want to delete <strong>{{ content }}</strong>?</p>
+                    <input type="submit" value="Delete" class="btn btn-danger btn-block"/>
                 </form>
             </div>
         </div>
