@@ -13,8 +13,11 @@
                 {% if contents %}
                     {% for content in contents %}
                         <p class="card-text">
+                            <span class="pull-left" style="padding-right: 10px;">
+                                <img src="{% static 'img/anonymous.png' %}" height="20" class="rounded-circle"/>
+                            </span>
                             <a href="{% url 'dashboard:content_update' pk=content.id %}">
-                                {{content}}
+                                <div class="truncate-text">{{content}}</div>
                             </a>
                         </p>
                     {% endfor %}
