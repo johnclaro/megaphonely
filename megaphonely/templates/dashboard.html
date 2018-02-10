@@ -8,41 +8,58 @@
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-body text-secondary">
-                <div onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">
-                    <h5 class="card-title text-center" onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">Contents</h5>
-                    <hr/>
-                </div>
+                <h5 class="card-title text-center">Contents</h5>
+                <hr/>
                 {% if contents %}
                     {% for content in contents %}
                         <p class="card-text">
+                            <span class="pull-left" style="padding-right: 10px;">
+                                <img src="{% static 'img/anonymous.png' %}" height="20" class="rounded-circle"/>
+                            </span>
                             <a href="{% url 'dashboard:content_update' pk=content.id %}">
-                                <img src="{% static 'img/anonymous.png' %}" style="margin-bottom: 5px;" class="rounded-circle" height="20" width="20"/>
-                                {{content}}
+                                <div class="truncate-text">{{content}}</div>
                             </a>
                         </p>
                     {% endfor %}
                 {% else %}
-                    You currently have no contents scheduled to be posted, click <a href="{% url 'dashboard:content_add' %}">here</a> to add more
+                    You currently have no contents scheduled to be posted
                 {% endif %}
+            </div>
+            <div class="card-footer card-footer-megaphonely text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
+                Create
             </div>
         </div>
     </div>
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-body text-secondary">
-                <div onclick="location.href='{% url 'dashboard:social_list' %}';" style="cursor: pointer;">
-                    <h5 class="card-title text-center">Socials</h5>
-                    <hr/>
-                </div>
+                <h5 class="card-title text-center">Socials</h5>
+                <hr/>
                 {% if socials %}
                     {% for social in socials %}
                         <p class="card-text">
-                            <i class="fab fa-{{social.provider}}"></i> {{social}}
+                            <span class="pull-left" style="padding-right: 5px;">
+                                <i class="fab fa-{{social.provider}}" style="padding-top: 3px;"></i>
+                                <img src="{{social.picture_url}}" height="20" class="rounded-circle"/>
+                            </span>
+                            <a href="https://www.{{social.provider}}.com/{{social.username}}">
+                                <p class="truncate-text">{{social}}</p>
+                            </a>
                         </p>
                     {% endfor %}
                 {% else %}
-                    You currently have no socials connected, click <a href="{% url 'dashboard:social_list' %}">here</a> to add more
+                    You currently have not connected any social networks.
+                    You'll need to connect atleast one before you can post contents
                 {% endif %}
+            </div>
+            <div class="card-footer card-footer-twitter text-center" onclick="location.href='{% url 'social:begin' backend='twitter' %}';" style="cursor: pointer;">
+                Connect Twitter
+            </div>
+            <div class="card-footer card-footer-facebook text-center" onclick="location.href='{% url 'social:begin' backend='facebook' %}';" style="cursor: pointer;">
+                Connect Facebook
+            </div>
+            <div class="card-footer card-footer-linkedin text-center" onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';" style="cursor: pointer;">
+                Connect LinkedIn
             </div>
         </div>
     </div>

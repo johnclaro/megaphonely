@@ -38,17 +38,34 @@
                     clear: 'fas fa-trash',
                     close: 'fas fa-times'
                 },
-                buttons: {
-                    showToday: false,
-                    showClear: true,
-                    showClose: false
-                },
-                minDate: moment(),
-                format: moment().format('YYYY-MM-DD HH:mm')
+                minDate: moment()
         });
+        const date = moment($('#id_schedule_at').val(), 'YYYY-MM-DD HH:mm').toDate();
         $('#id_schedule_at').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm'
+            format: 'YYYY-MM-DD HH:mm',
+            date: date
         });
+
+        const scheduleNowChecked = $('#id_schedule_1').is(':checked');
+        const scheduleCustomChecked = $('#id_schedule_2').is(':checked');
+
+        if (scheduleNowChecked) {
+            $('#div_id_schedule_at').hide();
+        } else if (scheduleCustomChecked) {
+            $('#div_id_schedule_at').show();
+        };
+
+        $(document).ready(function() {
+            $('input[type=radio][name=schedule]').change(function() {
+                if (this.value == 'now') {
+                    $('#div_id_schedule_at').hide();
+                }
+                else if (this.value == 'custom') {
+                    $('#div_id_schedule_at').show();
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
