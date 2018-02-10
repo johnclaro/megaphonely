@@ -28,7 +28,6 @@
     <script type="text/javascript" defer>
         const today = moment();
         const dateFormat = 'YYYY-MM-DD HH:mm';
-        const scheduleNow = $('#id_schedule_1');
         const scheduleCustom = $('#id_schedule_2');
         const scheduleAt = $('#id_schedule_at');
         const scheduleAtDiv = $('#div_id_schedule_at');
@@ -48,7 +47,7 @@
               minDate: today
         });
 
-        // Construct schedule at datetimepicker
+        // Construct schedule at via datetimepicker
         const datePopulated = scheduleAt.val();
         initialDate = datePopulated ? moment(datePopulated, dateFormat).toDate() : today;
         scheduleAt.datetimepicker({
@@ -56,11 +55,11 @@
             date: initialDate
         });
 
-        // Check initial schedule value and render schedule at accordingly
+        // Render schedule at if schedule custom is initially checked otherwise hide
         const isScheduleCustomChecked = scheduleCustom.is(':checked');
         isScheduleCustomChecked ? scheduleAtDiv.show() : scheduleAtDiv.hide();
 
-        // Show schedule at if now is selected otherwise hide
+        // Render schedule at if schedule custom changes to checked otherwise hide
         $('input[type=radio][name=schedule]').change(function() {
             this.value == 'custom' ? scheduleAtDiv.show() : scheduleAtDiv.hide();
         });
