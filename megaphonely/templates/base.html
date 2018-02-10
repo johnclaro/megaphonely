@@ -49,6 +49,18 @@
         $('#id_schedule_at').datetimepicker({
             format: 'YYYY-MM-DD HH:mm', date: date
         });
+
+        $(document).ready(function() {
+            $('input[type=radio][name=schedule]').change(function() {
+                if (this.value == 'c') {
+                    $('#div_id_schedule_at').show();
+                }
+                else if (this.value == 'n') {
+                    $('#div_id_schedule_at').hide();
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
