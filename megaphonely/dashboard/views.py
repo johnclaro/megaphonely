@@ -44,6 +44,12 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     form_class = ContentForm
     success_url = reverse_lazy('dashboard:index')
 
+    def get_queryset(self):
+        user = self.request.user
+        queryset = super(ContentUpdate, self).get_queryset()
+        queryset = queryset.filter(account=user)
+        return queryset
+
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
@@ -79,10 +85,5 @@ class SocialList(LoginRequiredMixin, ListView):
         return socials
 
     def get_context_data(self, *args, **kwargs):
-        context = super(SocialList, self).get_context_data(*args, **kwargs)
-        socials = context['socials']
-        providers = ('twitter', 'facebook', 'linkedin')
-        for provider in providers:
-            plural = f"{provider}s"
-            context[plural] = socials.filter(provider=provider)
-        return context
+        context_data = super(SocialList, self).get_context_data(*args, **kwargs)
+        return context_data
