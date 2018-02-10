@@ -15,6 +15,9 @@
                 {% crispy form %}
             </div>
         </div>
+        <div class="card-footer">
+            <a class="btn btn-block btn-danger" href="{% url 'dashboard:content_delete' pk=content.id %}">Delete</a>
+        </div>
     </div>
 </div>
 

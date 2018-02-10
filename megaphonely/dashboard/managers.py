@@ -12,6 +12,7 @@ class ContentManager(models.Manager):
 class SocialManager(models.Manager):
 
     def _get_linkedin_data(self, data):
+        username = data['publicProfileUrl'].rsplit('/', 1)[-1]
         access_token_key = data['access_token']
         application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
@@ -19,7 +20,7 @@ class SocialManager(models.Manager):
         return {
             'social_id': social_id,
             'provider': 'linkedin',
-            'username': social_id,
+            'username': f"in/{username}",
             'picture_url': picture_url,
             'fullname': f"{data['firstName']} {data['lastName']}",
             'access_token_key': access_token_key

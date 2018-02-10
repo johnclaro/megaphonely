@@ -25,15 +25,21 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        return self.username
+        return self.fullname
 
 
 class Content(models.Model):
+    NOW = 'now'
+    CUSTOM = 'custom'
+    SCHEDULE_CHOICES = (
+        (NOW, 'Now'),
+        (CUSTOM, 'Custom')
+    )
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    is_schedule_now = models.BooleanField(default=True)
-    is_schedule_at = models.BooleanField(default=False)
-    schedule_at = models.DateTimeField(blank=True)
+    schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
+                                blank=False, default='now')
+    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -41,9 +47,6 @@ class Content(models.Model):
                                 on_delete=models.CASCADE)
 
     objects = ContentManager()
-
-    class Meta:
-        unique_together = ('id', 'is_schedule_now', 'is_schedule_at',)
 
     def __str__(self):
         return self.message

@@ -1,4 +1,4 @@
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.list import ListView
@@ -17,7 +17,7 @@ def index(request):
         response = HttpResponse(template.render({}, request))
     else:
         socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
-        contents = Content.objects.filter(account=user)
+        contents = Content.objects.filter(account=user, schedule='custom')
         context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
@@ -28,6 +28,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:index')
 
     def form_valid(self, form):
         content = form.instance
@@ -41,13 +42,14 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:index')
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
     context_object_name = 'content'
-    success_url = reverse_lazy('dashboard:content_list')
+    success_url = reverse_lazy('dashboard:index')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):

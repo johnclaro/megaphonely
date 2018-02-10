@@ -1,7 +1,8 @@
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
+from crispy_forms.layout import Submit, Layout, ButtonHolder
+from crispy_forms.bootstrap import InlineRadios
 
 from .models import Content
 
@@ -11,16 +12,12 @@ class ContentForm(forms.ModelForm):
         model = Content
         fields = '__all__'
         exclude = ['account']
-        labels = {
-            'is_schedule_now': 'Schedule now',
-        }
         widgets = {
             'schedule_at': forms.TextInput(
                 attrs={
                     'class': 'datetimepicker-input',
                     'data-target': '#id_schedule_at',
-                    'data-toggle': 'datetimepicker',
-                    'data-date-format': 'YYYY-MM-DD HH:mm'
+                    'data-toggle': 'datetimepicker'
                 }
             )
         }
@@ -31,7 +28,7 @@ class ContentForm(forms.ModelForm):
         self.helper.layout = Layout(
             'message',
             'multimedia',
-            'is_schedule_now',
+            InlineRadios('schedule'),
             'schedule_at',
             ButtonHolder(
                 Submit('submit', 'Submit', css_class='btn btn-primary btn-block')
