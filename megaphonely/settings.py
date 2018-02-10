@@ -77,8 +77,9 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ['LINKEDIN_CLIENT_ID']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
-    ('id', 'id'), ('firstName', 'first_name'), ('lastName', 'last_name')
+    ('publicProfileUrl', 'public_profile_url'),
 ]
 
 # Internationalization
