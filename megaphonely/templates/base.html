@@ -54,20 +54,21 @@
             initialDate = moment(datePopulated, dateFormat).toDate();
         };
 
-        $('#id_schedule_at').datetimepicker({
+        scheduleAt.datetimepicker({
             format: dateFormat,
             date: initialDate
         });
 
+        // Check initial schedule value and render schedule at accordingly
         const isScheduleNowChecked = scheduleNow.is(':checked');
         const isScheduleCustomChecked = scheduleCustom.is(':checked');
-
         if (isScheduleNowChecked) {
             scheduleAtDiv.hide();
         } else if (isScheduleCustomChecked) {
             scheduleAtDiv.show();
         };
 
+        // Hide schedule at if now is selected otherwise show
         $('input[type=radio][name=schedule]').change(function() {
             if (this.value == 'now') {
                 scheduleAtDiv.hide();
