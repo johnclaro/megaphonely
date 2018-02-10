@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
 
 from .managers import ContentManager, SocialManager
 
@@ -36,9 +37,9 @@ class Content(models.Model):
     )
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    schedule = models.CharField(max_length=1, choices=SCHEDULE_CHOICES,
+    schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
                                 blank=False, default='now')
-    schedule_at = models.DateTimeField(blank=True)
+    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
