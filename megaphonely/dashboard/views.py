@@ -28,6 +28,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:content_list')
 
     def form_valid(self, form):
         content = form.instance
@@ -41,6 +42,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:content_list')
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
