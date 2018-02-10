@@ -25,7 +25,7 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        return self.username
+        return self.fullname
 
 
 class Content(models.Model):
