@@ -5,13 +5,11 @@
 {% load static %}
 
 <div class="row">
-    <div class="col-lg-4 card-section">
+    <div class="col-lg-4 card-section" onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">
         <div class="card border-secondary">
             <div class="card-body text-secondary">
-                <div onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">
-                    <h5 class="card-title text-center" onclick="location.href='{% url 'dashboard:content_list' %}';" style="cursor: pointer;">Contents</h5>
-                    <hr/>
-                </div>
+                <h5 class="card-title text-center">Contents</h5>
+                <hr/>
                 {% if contents %}
                     {% for content in contents %}
                         <p class="card-text">
@@ -26,13 +24,11 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 card-section">
+    <div class="col-lg-4 card-section" onclick="location.href='{% url 'dashboard:social_list' %}';" style="cursor: pointer;">
         <div class="card border-secondary">
             <div class="card-body text-secondary">
-                <div onclick="location.href='{% url 'dashboard:social_list' %}';" style="cursor: pointer;">
-                    <h5 class="card-title text-center">Socials</h5>
-                    <hr/>
-                </div>
+                <h5 class="card-title text-center">Socials</h5>
+                <hr/>
                 {% if socials %}
                     {% for social in socials %}
                         <p class="card-text">
