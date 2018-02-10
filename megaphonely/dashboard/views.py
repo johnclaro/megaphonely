@@ -17,7 +17,7 @@ def index(request):
         response = HttpResponse(template.render({}, request))
     else:
         socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
-        contents = Content.objects.filter(account=user)
+        contents = Content.objects.filter(account=user, schedule='custom')
         context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
