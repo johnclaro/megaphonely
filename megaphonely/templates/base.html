@@ -26,46 +26,55 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript">
+        const today = moment();
+        const dateFormat = 'YYYY-MM-DD HH:mm';
+        const scheduleNow = $('#id_schedule_1');
+        const scheduleCustom = $('#id_schedule_2');
+        const scheduleAt = $('#id_schedule_at');
+        const scheduleAtDiv = $('#div_id_schedule_at');
+
         $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-                icons: {
-                    time: 'fas fa-clock',
-                    date: 'fas fa-calendar',
-                    up: 'fas fa-arrow-up',
-                    down: 'fas fa-arrow-down',
-                    previous: 'fas fa-chevron-left',
-                    next: 'fas fa-chevron-right',
-                    today: 'fas fa-calendar-check-o',
-                    clear: 'fas fa-trash',
-                    close: 'fas fa-times'
-                },
-                minDate: moment()
-        });
-        const date = moment($('#id_schedule_at').val(), 'YYYY-MM-DD HH:mm').toDate();
-        $('#id_schedule_at').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
-            date: date
+          icons: {
+              time: 'fas fa-clock',
+              date: 'fas fa-calendar',
+              up: 'fas fa-arrow-up',
+              down: 'fas fa-arrow-down',
+              previous: 'fas fa-chevron-left',
+              next: 'fas fa-chevron-right',
+              today: 'fas fa-calendar-check-o',
+              clear: 'fas fa-trash',
+              close: 'fas fa-times'
+          },
+          minDate: today
         });
 
-        const scheduleNowChecked = $('#id_schedule_1').is(':checked');
-        const scheduleCustomChecked = $('#id_schedule_2').is(':checked');
-
-        if (scheduleNowChecked) {
-            $('#div_id_schedule_at').hide();
-        } else if (scheduleCustomChecked) {
-            $('#div_id_schedule_at').show();
+        let initialDate = today;
+        const datePopulated = scheduleAt.val();
+        if (datePopulated) {
+            initialDate = moment(datePopulated, dateFormat).toDate();
         };
 
-        $(document).ready(function() {
-            $('input[type=radio][name=schedule]').change(function() {
-                if (this.value == 'now') {
-                    $('#div_id_schedule_at').hide();
-                }
-                else if (this.value == 'custom') {
-                    $('#div_id_schedule_at').show();
-                }
-            });
+        $('#id_schedule_at').datetimepicker({
+            format: dateFormat,
+            date: initialDate
         });
 
+        const isScheduleNowChecked = scheduleNow.is(':checked');
+        const isScheduleCustomChecked = scheduleCustom.is(':checked');
+
+        if (isScheduleNowChecked) {
+            scheduleAtDiv.hide();
+        } else if (isScheduleCustomChecked) {
+            scheduleAtDiv.show();
+        };
+
+        $('input[type=radio][name=schedule]').change(function() {
+            if (this.value == 'now') {
+                scheduleAtDiv.hide();
+            } else if (this.value == 'custom') {
+                scheduleAtDiv.show();
+            };
+        });
     </script>
 </body>
 </html>
