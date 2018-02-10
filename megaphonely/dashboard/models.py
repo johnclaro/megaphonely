@@ -29,8 +29,8 @@ class Social(models.Model):
 
 
 class Content(models.Model):
-    NOW = 'n'
-    CUSTOM = 'c'
+    NOW = 'now'
+    CUSTOM = 'custom'
     SCHEDULE_CHOICES = (
         (NOW, 'Now'),
         (CUSTOM, 'Custom')
@@ -38,7 +38,7 @@ class Content(models.Model):
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule = models.CharField(max_length=1, choices=SCHEDULE_CHOICES,
-                                blank=False, default='n')
+                                blank=False, default='now')
     schedule_at = models.DateTimeField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

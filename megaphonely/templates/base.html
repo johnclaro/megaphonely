@@ -62,10 +62,10 @@
 
         $(document).ready(function() {
             $('input[type=radio][name=schedule]').change(function() {
-                if (this.value == 'n') {
+                if (this.value == 'now') {
                     $('#div_id_schedule_at').hide();
                 }
-                else if (this.value == 'c') {
+                else if (this.value == 'custom') {
                     $('#div_id_schedule_at').show();
                 }
             });
