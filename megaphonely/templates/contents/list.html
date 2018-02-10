@@ -12,17 +12,17 @@
             <hr/>
             {% for content in contents %}
                 <p class="card-text">
+                    <span class="pull-left" style="padding-right: 10px;">
+                        <img src="{% static 'img/anonymous.png' %}" height="20" class="rounded-circle"/>
+                    </span>
                     <a href="{% url 'dashboard:content_update' pk=content.id %}">
                         <div class="truncate-text">{{content}}</div>
                     </a>
-                    <span class="pull-right">
-                        <a href="{% url 'dashboard:content_delete' pk=content.id %}">Delete</a>
-                    </span>
                 </p>
             {% endfor %}
         </div>
         <div class="card-footer card-footer-linkedin text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
-            Add more
+            Create
         </div>
     </div>
 </div>
