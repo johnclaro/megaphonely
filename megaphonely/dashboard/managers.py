@@ -20,18 +20,21 @@ class SocialManager(models.Manager):
         return {
             'social_id': social_id,
             'provider': 'linkedin',
-            'username': f"in/{username}",
+            'username': username,
+            'url': f'https://www.linkedin.com/in/{username}',
             'picture_url': picture_url,
             'fullname': f"{data['firstName']} {data['lastName']}",
             'access_token_key': access_token_key
         }
 
     def _get_twitter_data(self, data):
+        username = data['screen_name']
         return {
             'social_id': data['id'],
             'provider': 'twitter',
-            'username': data['screen_name'],
+            'username': username,
             'fullname': data['name'],
+            'url': f'https://www.twitter.com/{username}',
             'picture_url': data['profile_image_url_https'],
             'access_token_key': data['access_token']['oauth_token'],
             'access_token_secret': data['access_token']['oauth_token_secret'],
@@ -42,11 +45,13 @@ class SocialManager(models.Manager):
         graph = GraphAPI(access_token_key)
         response = graph.get('me?fields=picture.width(640)')
         picture_url = response['picture']['data']['url']
+        username = data['id']
         return {
-            'social_id': data['id'],
+            'social_id': username,
             'provider': 'facebook',
-            'username': data['id'],
+            'username': username,
             'fullname': data['name'],
+            'url': f'https://www.facebook.com/{username}',
             'picture_url': picture_url,
             'access_token_key': access_token_key,
         }

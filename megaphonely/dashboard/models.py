@@ -11,6 +11,7 @@ class Social(models.Model):
     provider = models.CharField(max_length=30)
     username = models.CharField(max_length=100)
     fullname = models.CharField(max_length=100, blank=True)
+    url = models.URLField()
     picture_url = models.URLField(blank=True)
     access_token_key = models.TextField(max_length=1000)
     access_token_secret = models.TextField(blank=True)

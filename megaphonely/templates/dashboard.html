@@ -42,7 +42,7 @@
                                 <i class="fab fa-{{social.provider}}" style="padding-top: 3px;"></i>
                                 <img src="{{social.picture_url}}" height="20" class="rounded-circle"/>
                             </span>
-                            <a href="https://www.{{social.provider}}.com/{{social.username}}">
+                            <a href="{% url 'dashboard:social_detail' pk=social.id %}">
                                 <p class="truncate-text">{{social}}</p>
                             </a>
                         </p>
