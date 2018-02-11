@@ -25,40 +25,48 @@
                     You currently have no contents scheduled to be posted
                 {% endif %}
             </div>
-            <div class="card-footer card-footer-megaphonely text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
+            <div class="card-footer megaphonely-bg text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
                 Create
             </div>
         </div>
     </div>
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
+            <div class="card-header">
+                <h5 class="text-center">Socials</h5>
+            </div>
             <div class="card-body text-secondary">
-                <h5 class="card-title text-center">Socials</h5>
-                <hr/>
                 {% if socials %}
+                    <div class="col-12">
                     {% for social in socials %}
-                        <p class="card-text">
-                            <span class="pull-left" style="padding-right: 5px;">
-                                <i class="fab fa-{{social.provider}}" style="padding-top: 3px;"></i>
-                                <img src="{{social.picture_url}}" height="20" class="rounded-circle"/>
-                            </span>
-                            <a href="{% url 'dashboard:social_detail' pk=social.id %}">
-                                <p class="truncate-text">{{social}}</p>
-                            </a>
-                        </p>
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="float-none fab fa-{{social.provider}}"></i>
+                                <img class="float-none rounded-circle" src="{{social.picture_url}}" height="20"/>
+                            </div>
+                            <div class="col-6 truncate-text">
+                                <a href="{{social.url}}">{{social}}</a>
+                            </div>
+                            <div class="col-2">
+                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                    <i class="fas fa-times" style="color: darkgray"></i>
+                                </a>
+                            </div>
+                        </div>
                     {% endfor %}
+                    </div>
                 {% else %}
                     You currently have not connected any social networks.
                     You'll need to connect atleast one before you can post contents
                 {% endif %}
             </div>
-            <div class="card-footer card-footer-twitter text-center" onclick="location.href='{% url 'social:begin' backend='twitter' %}';" style="cursor: pointer;">
+            <div class="card-footer twitter-bg text-center" onclick="location.href='{% url 'social:begin' backend='twitter' %}';" style="cursor: pointer;">
                 Connect Twitter
             </div>
-            <div class="card-footer card-footer-facebook text-center" onclick="location.href='{% url 'social:begin' backend='facebook' %}';" style="cursor: pointer;">
+            <div class="card-footer facebook-bg text-center" onclick="location.href='{% url 'social:begin' backend='facebook' %}';" style="cursor: pointer;">
                 Connect Facebook
             </div>
-            <div class="card-footer card-footer-linkedin text-center" onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';" style="cursor: pointer;">
+            <div class="card-footer linkedin-bg text-center" onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';" style="cursor: pointer;">
                 Connect LinkedIn
             </div>
         </div>
