@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-lg-12 card-section">
+    <div class="card border-secondary">
+        <div class="card-body text-secondary">
+            <h5 class="card-title text-center">
+                {{social}}
+            </h5>
+            <hr/>
+            <div class="card-body text-secondary">
+                <a href="{{social.url}}">URL</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-block btn-danger" href="{% url 'dashboard:social_disconnect' pk=social.id %}">Disconnect</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
