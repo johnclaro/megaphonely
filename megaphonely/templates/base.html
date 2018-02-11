@@ -25,36 +25,6 @@
     <script type="text/javascript" src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script type="text/javascript">
-        const dateFormat = 'YYYY-MM-DD HH:mm';
-        const today = moment().format(dateFormat);
-        const scheduleCustom = $('#id_schedule_2');
-        const scheduleAt = $('#id_schedule_at');
-        const scheduleAtDiv = $('#div_id_schedule_at');
-
-        let initialDate = today;
-        const datePopulated = scheduleAt.val();
-        if (datePopulated) {
-            initialDate = moment(datePopulated, dateFormat).toDate();
-        }
-        scheduleAt.datetimepicker({
-            icons: {
-                time: 'fas fa-clock',
-            },
-            format: dateFormat,
-            minDate: today,
-            date: initialDate
-        });
-
-        // Show scheduleAtDiv if custom is initially checked otherwise hide
-        const isScheduleCustomChecked = scheduleCustom.is(':checked');
-        isScheduleCustomChecked ? scheduleAtDiv.show() : scheduleAtDiv.hide();
-
-        // Show scheduleAtDiv if custom changes to checked otherwise hide
-        $('input[type=radio][name=schedule]').change(function() {
-            isCustomValue = this.value == 'custom'
-            isCustomValue ? scheduleAtDiv.show() : scheduleAtDiv.hide();
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'js/scheduleAt.js' %}"></script>
 </body>
 </html>
