@@ -25,43 +25,35 @@
     <script type="text/javascript" src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script type="text/javascript" defer>
-        const today = moment();
+    <script type="text/javascript">
         const dateFormat = 'YYYY-MM-DD HH:mm';
+        const today = moment().format(dateFormat);
         const scheduleCustom = $('#id_schedule_2');
         const scheduleAt = $('#id_schedule_at');
         const scheduleAtDiv = $('#div_id_schedule_at');
 
-        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-              icons: {
-                  time: 'fas fa-clock',
-                  date: 'fas fa-calendar',
-                  up: 'fas fa-arrow-up',
-                  down: 'fas fa-arrow-down',
-                  previous: 'fas fa-chevron-left',
-                  next: 'fas fa-chevron-right',
-                  today: 'fas fa-calendar-check-o',
-                  clear: 'fas fa-trash',
-                  close: 'fas fa-times'
-              },
-              minDate: today
-        });
-
-        // Construct schedule at via datetimepicker
+        let initialDate = today;
         const datePopulated = scheduleAt.val();
-        initialDate = datePopulated ? moment(datePopulated, dateFormat).toDate() : today;
+        if (datePopulated) {
+            initialDate = moment(datePopulated, dateFormat).toDate();
+        }
         scheduleAt.datetimepicker({
+            icons: {
+                time: 'fas fa-clock',
+            },
             format: dateFormat,
+            minDate: today,
             date: initialDate
         });
 
-        // Render schedule at if schedule custom is initially checked otherwise hide
+        // Show scheduleAtDiv if custom is initially checked otherwise hide
         const isScheduleCustomChecked = scheduleCustom.is(':checked');
         isScheduleCustomChecked ? scheduleAtDiv.show() : scheduleAtDiv.hide();
 
-        // Render schedule at if schedule custom changes to checked otherwise hide
+        // Show scheduleAtDiv if custom changes to checked otherwise hide
         $('input[type=radio][name=schedule]').change(function() {
-            this.value == 'custom' ? scheduleAtDiv.show() : scheduleAtDiv.hide();
+            isCustomValue = this.value == 'custom'
+            isCustomValue ? scheduleAtDiv.show() : scheduleAtDiv.hide();
         });
     </script>
 </body>
