@@ -1,8 +1,9 @@
-from django.urls import reverse_lazy
 from django.template import loader
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -24,11 +25,17 @@ def index(request):
     return response
 
 
+def social_disconnect(request, pk):
+    user = request.user
+    social = get_object_or_404(Social, accounts__in=[user], pk=pk)
+    social.accounts.remove(user)
+    return redirect('dashboard:index')
+
+
 class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
-    success_url = reverse_lazy('dashboard:index')
 
     def form_valid(self, form):
         content = form.instance
@@ -42,13 +49,12 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
-    success_url = reverse_lazy('dashboard:index')
 
     def get_queryset(self):
         user = self.request.user
         queryset = super(ContentUpdate, self).get_queryset()
-        queryset = queryset.filter(account=user)
-        return queryset
+        content = queryset.filter(account=user)
+        return content
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
@@ -72,18 +78,3 @@ class ContentList(LoginRequiredMixin, ListView):
         user = self.request.user
         contents = Content.objects.filter(account=user)
         return contents
-
-
-class SocialList(LoginRequiredMixin, ListView):
-    template_name = 'socials/list.html'
-    model = Social
-    context_object_name = 'socials'
-
-    def get_queryset(self):
-        user = self.request.user
-        socials = Social.objects.filter(accounts__in=[user])
-        return socials
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(SocialList, self).get_context_data(*args, **kwargs)
-        return context_data

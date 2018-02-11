@@ -6,7 +6,7 @@
 Social media management tool
 
 # General Information
-- Website: https://megaphonely.com
+- Website: https://www.megaphonely.com
 - Source code: https://github.com/jkrclaro/megaphonely
 - Issue tracker: https://trello.com/b/4I2l0bPi/megaphonely
 - Documentation: 

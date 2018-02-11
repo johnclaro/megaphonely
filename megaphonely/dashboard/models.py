@@ -11,6 +11,7 @@ class Social(models.Model):
     provider = models.CharField(max_length=30)
     username = models.CharField(max_length=100)
     fullname = models.CharField(max_length=100, blank=True)
+    url = models.URLField()
     picture_url = models.URLField(blank=True)
     access_token_key = models.TextField(max_length=1000)
     access_token_secret = models.TextField(blank=True)
@@ -25,20 +26,20 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        return self.fullname
+        return f"{self.provider}-{self.username}"
+
+    def get_screen_name(self):
+        return self.username if self.provider != 'facebook' else self.fullname
 
 
 class Content(models.Model):
     NOW = 'now'
     CUSTOM = 'custom'
-    SCHEDULE_CHOICES = (
-        (NOW, 'Now'),
-        (CUSTOM, 'Custom')
-    )
+    SCHEDULE_CHOICES = ((NOW, 'Now'), (CUSTOM, 'Custom'),)
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
-                                blank=False, default='now')
+                                default='now')
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
