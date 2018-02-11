@@ -11,11 +11,14 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="col-3">
-                            <a class="float-left" href="{% url 'dashboard:content_add' %}">
+                            <a class="float-left"
+                               href="{% url 'dashboard:content_add' %}">
                                 Create
                             </a>
                         </div>
-                        <div class="col-6 text-center"><b>Contents</b></div>
+                        <div class="col-6 text-center">
+                            <b>Contents</b>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,10 +28,14 @@
                         {% for content in contents %}
                             <div class="row">
                                 <div class="col-2">
-                                    <img src="{% static 'img/anonymous.png' %}" width="20" class="rounded-circle"/>
+                                    <img src="{% static 'img/anonymous.png' %}"
+                                         width="20"
+                                         class="rounded-circle"/>
                                 </div>
                                 <div class="col-10 {{social.provider}}-bg truncate-text">
-                                    <a href="{% url 'dashboard:content_update' pk=content.id %}">{{content}}</a>
+                                    <a href="{% url 'dashboard:content_update' pk=content.id %}">
+                                        {{content}}
+                                    </a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -56,14 +63,20 @@
                     {% for social in socials %}
                         <div class="row">
                             <div class="col-3">
-                                <i class="fab fa-{{social.provider}}" style="width: 14px;"></i>
-                                <img class="rounded-circle" src="{{social.picture_url}}" height="15"/>
+                                <i class="fab fa-{{social.provider}}"
+                                   style="width: 14px;"></i>
+                                <img class="rounded-circle"
+                                     src="{{social.picture_url}}"
+                                     height="15"/>
                             </div>
                             <div class="col-7 truncate-text">
-                                <a href="{{social.url}}">{{social.get_screen_name}}</a>
+                                <a href="{{social.url}}">
+                                    {{social.get_screen_name}}
+                                </a>
                             </div>
                             <div class="col-2">
-                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                <a class="float-right"
+                                   href="{% url 'dashboard:social_disconnect' pk=social.id %}">
                                     <i class="fas fa-times"></i>
                                 </a>
                             </div>
@@ -75,13 +88,19 @@
                     You'll need to connect atleast one before you can post contents
                 {% endif %}
             </div>
-            <div class="card-footer twitter-bg text-center" onclick="location.href='{% url 'social:begin' backend='twitter' %}';" style="cursor: pointer;">
+            <div class="card-footer twitter-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='twitter' %}';"
+                 style="cursor: pointer;">
                 Connect Twitter
             </div>
-            <div class="card-footer facebook-bg text-center" onclick="location.href='{% url 'social:begin' backend='facebook' %}';" style="cursor: pointer;">
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook' %}';"
+                 style="cursor: pointer;">
                 Connect Facebook
             </div>
-            <div class="card-footer linkedin-bg text-center" onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';" style="cursor: pointer;">
+            <div class="card-footer linkedin-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';"
+                 style="cursor: pointer;">
                 Connect LinkedIn
             </div>
         </div>
