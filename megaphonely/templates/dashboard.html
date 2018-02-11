@@ -8,7 +8,16 @@
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-header">
-                <h5 class="text-center">Contents</h5>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3">
+                            <a class="float-left" href="{% url 'dashboard:content_add' %}">
+                                Create
+                            </a>
+                        </div>
+                        <div class="col-6 text-center"><b>Contents</b></div>
+                    </div>
+                </div>
             </div>
             <div class="card-body text-secondary">
                 <div class="col-12">
@@ -28,15 +37,18 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="card-footer megaphonely-bg text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
-                Create
-            </div>
         </div>
     </div>
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
             <div class="card-header">
-                <h5 class="text-center">Socials</h5>
+                <div class="col-12">
+                    <div class="row text-center">
+                        <div class="col-3"></div>
+                        <div class="col-6"><b>Socials</b></div>
+                        <div class="col-3"></div>
+                    </div>
+                </div>
             </div>
             <div class="card-body text-secondary">
                 {% if socials %}
@@ -52,7 +64,7 @@
                             </div>
                             <div class="col-2">
                                 <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
-                                    <i class="fas fa-times" style="color: red"></i>
+                                    <i class="fas fa-times"></i>
                                 </a>
                             </div>
                         </div>
@@ -75,11 +87,17 @@
         </div>
     </div>
     <div class="col-lg-4 card-section">
-        <div class="card border-secondary">
+        <div class="card border-secondary" onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';" style="cursor: pointer;">
             <div class="card-header">
-                <h5 class="text-center">Settings</h5>
+                <div class="col-12">
+                    <div class="row text-center">
+                        <div class="col-3"></div>
+                        <div class="col-6"><b>Settings</b></div>
+                        <div class="col-3"></div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body text-secondary" onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';" style="cursor: pointer;">
+            <div class="card-body text-secondary">
                 <p class="card-text text-center">
                     You are on a <b>Free Plan</b>
                 </p>
