@@ -7,23 +7,26 @@
 <div class="row">
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
+            <div class="card-header">
+                <h5 class="text-center">Contents</h5>
+            </div>
             <div class="card-body text-secondary">
-                <h5 class="card-title text-center">Contents</h5>
-                <hr/>
-                {% if contents %}
-                    {% for content in contents %}
-                        <p class="card-text">
-                            <span class="pull-left" style="padding-right: 10px;">
-                                <img src="{% static 'img/anonymous.png' %}" height="20" class="rounded-circle"/>
-                            </span>
-                            <a href="{% url 'dashboard:content_update' pk=content.id %}">
-                                <div class="truncate-text">{{content}}</div>
-                            </a>
-                        </p>
-                    {% endfor %}
-                {% else %}
-                    You currently have no contents scheduled to be posted
-                {% endif %}
+                <div class="col-12">
+                    {% if contents %}
+                        {% for content in contents %}
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="{% static 'img/anonymous.png' %}" width="20" class="rounded-circle"/>
+                                </div>
+                                <div class="col-10 {{social.provider}}-bg truncate-text">
+                                    <a href="{% url 'dashboard:content_update' pk=content.id %}">{{content}}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        You currently have no contents scheduled to be posted
+                    {% endif %}
+                </div>
             </div>
             <div class="card-footer megaphonely-bg text-center" onclick="location.href='{% url 'dashboard:content_add' %}';" style="cursor: pointer;">
                 Create
@@ -73,9 +76,10 @@
     </div>
     <div class="col-lg-4 card-section">
         <div class="card border-secondary">
+            <div class="card-header">
+                <h5 class="text-center">Settings</h5>
+            </div>
             <div class="card-body text-secondary" onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';" style="cursor: pointer;">
-                <h5 class="card-title text-center">Settings</h5>
-                <hr/>
                 <p class="card-text text-center">
                     You are on a <b>Free Plan</b>
                 </p>
