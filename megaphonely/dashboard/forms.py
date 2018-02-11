@@ -14,11 +14,9 @@ class ContentForm(forms.ModelForm):
         exclude = ['account']
         widgets = {
             'schedule_at': forms.TextInput(
-                attrs={
-                    'class': 'datetimepicker-input',
-                    'data-target': '#id_schedule_at',
-                    'data-toggle': 'datetimepicker'
-                }
+                attrs={'class': 'datetimepicker-input',
+                       'data-target': '#id_schedule_at',
+                       'data-toggle': 'datetimepicker'}
             )
         }
 
@@ -31,7 +29,8 @@ class ContentForm(forms.ModelForm):
             InlineRadios('schedule'),
             'schedule_at',
             ButtonHolder(
-                Submit('submit', 'Submit', css_class='btn btn-primary btn-block')
+                Submit('submit', 'Submit',
+                       css_class='btn btn-primary btn-block')
             )
         )
         self.helper.form_method = 'post'

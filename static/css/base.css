@@ -10,22 +10,22 @@
     color: #007BB5;
 }
 
-.card-footer-twitter {
+.twitter-bg {
     background-color: #1DA1F2 !important;
     color: white;
 }
 
-.card-footer-facebook {
+.facebook-bg {
     background-color: #3B5998! important;
     color: white;
 }
 
-.card-footer-linkedin {
+.linkedin-bg {
     background-color: #007BB5! important;
     color: white;
 }
 
-.card-footer-megaphonely {
+.megaphonely-bg {
     background-color: #006dcc! important;
     color: white;
 }

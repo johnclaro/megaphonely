@@ -7,9 +7,8 @@ from megaphonely.accounts.managers import ProfileManager
 
 
 class Profile(models.Model):
-    account = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
 
     objects = ProfileManager()
 
