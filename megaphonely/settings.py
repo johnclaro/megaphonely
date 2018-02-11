@@ -179,7 +179,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=31536000',
+    'CacheControl': 'max-age=0',
 }
 
 SOCIAL_AUTH_PIPELINE = (
