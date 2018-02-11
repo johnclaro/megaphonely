@@ -106,7 +106,9 @@
         </div>
     </div>
     <div class="col-lg-4 card-section">
-        <div class="card border-secondary" onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';" style="cursor: pointer;">
+        <div class="card border-secondary"
+             onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';"
+             style="cursor: pointer;">
             <div class="card-header">
                 <div class="col-12">
                     <div class="row text-center">
