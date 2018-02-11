@@ -31,14 +31,11 @@ class Social(models.Model):
 class Content(models.Model):
     NOW = 'now'
     CUSTOM = 'custom'
-    SCHEDULE_CHOICES = (
-        (NOW, 'Now'),
-        (CUSTOM, 'Custom')
-    )
+    SCHEDULE_CHOICES = ((NOW, 'Now'), (CUSTOM, 'Custom'),)
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
-                                blank=False, default='now')
+                                default='now')
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

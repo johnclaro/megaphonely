@@ -83,7 +83,3 @@ class SocialList(LoginRequiredMixin, ListView):
         user = self.request.user
         socials = Social.objects.filter(accounts__in=[user])
         return socials
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super(SocialList, self).get_context_data(*args, **kwargs)
-        return context_data
