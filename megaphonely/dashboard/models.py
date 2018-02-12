@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 
+from .choices import SCHEDULE_CHOICES
 from .managers import ContentManager, SocialManager
 
 
@@ -33,9 +34,6 @@ class Social(models.Model):
 
 
 class Content(models.Model):
-    NOW = 'now'
-    CUSTOM = 'custom'
-    SCHEDULE_CHOICES = ((NOW, 'Now'), (CUSTOM, 'Custom'),)
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
@@ -46,6 +44,7 @@ class Content(models.Model):
 
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
+    socials = models.ManyToManyField(Social)
 
     objects = ContentManager()
 
