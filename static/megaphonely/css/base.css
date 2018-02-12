@@ -40,10 +40,6 @@
     text-overflow: ellipsis;
 }
 
-textarea {
-    height: 86px; /* Allows upto three sentences to be seen and not scrollable*/
-}
-
 .asteriskField {
     color: red;
 }
