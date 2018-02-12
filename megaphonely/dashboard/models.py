@@ -4,7 +4,8 @@ from django.conf import settings
 from django.utils import timezone
 
 from .choices import SCHEDULE_CHOICES
-from .managers import ContentManager, SocialManager
+from .managers import (ContentManager, SocialManager, SocialLinkManager,
+                       ContentSocialManager)
 
 
 class Social(models.Model):
@@ -19,7 +20,9 @@ class Social(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    accounts = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    social_links = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, through='SocialLink'
+    )
 
     objects = SocialManager()
 
@@ -34,18 +37,34 @@ class Social(models.Model):
         return self.username if self.provider != 'facebook' else self.fullname
 
 
+class SocialLink(models.Model):
+    social = models.ForeignKey(Social, on_delete=models.CASCADE)
+    account = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = SocialLinkManager()
+
+    def __str__(self):
+        return f"{self.social}-{self.account}"
+
+
 class Content(models.Model):
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
-                                default='now')
+    schedule = models.CharField(
+        max_length=10, choices=SCHEDULE_CHOICES, default='now'
+    )
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
-    socials = models.ManyToManyField(Social)
+    content_socials = models.ManyToManyField(
+        Social, blank=True, through='ContentSocial'
+    )
 
     objects = ContentManager()
 
@@ -54,3 +73,15 @@ class Content(models.Model):
 
     def get_absolute_url(self):
         return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
+
+
+class ContentSocial(models.Model):
+    content = models.ForeignKey(Content, on_delete=models.CASCADE)
+    social = models.ForeignKey(Social, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = ContentSocialManager()
+
+    def __str__(self):
+        return f"{self.content}-{self.social}"

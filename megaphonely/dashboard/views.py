@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import ContentForm
-from .models import Content, Social
+from .models import Content, Social, SocialLink
 
 
 def index(request):
@@ -17,7 +17,7 @@ def index(request):
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
     else:
-        socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
+        socials = Social.objects.filter(social_links=user).order_by('-updated_at')
         contents = Content.objects.filter(account=user, schedule='custom')
         context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
@@ -27,8 +27,8 @@ def index(request):
 
 def social_disconnect(request, pk):
     user = request.user
-    social = get_object_or_404(Social, accounts__in=[user], pk=pk)
-    social.accounts.remove(user)
+    social_link = get_object_or_404(SocialLink, social=pk, account=user)
+    social_link.delete()
     return redirect('dashboard:index')
 
 

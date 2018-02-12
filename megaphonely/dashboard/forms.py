@@ -10,26 +10,38 @@ from .models import Content
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
-        fields = ['message', 'multimedia', 'schedule', 'schedule_at', 'socials']
+        fields = ['message', 'multimedia', 'schedule', 'schedule_at',
+                  'content_socials']
         widgets = {
-            'socials': forms.SelectMultiple(
-                attrs={'class': 'socials-multiple', 'multiple': 'multiple',
-                       'name': 'socials[]'}
+            'content_socials': forms.SelectMultiple(
+                attrs={
+                    'class': 'socials-multiple',
+                    'multiple': 'multiple',
+                    'name': 'socials[]'
+                }
             ),
             'schedule_at': forms.TextInput(
-                attrs={'class': 'datetimepicker-input',
-                       'data-target': '#id_schedule_at',
-                       'data-toggle': 'datetimepicker'}
+                attrs={
+                    'class': 'datetimepicker-input',
+                    'data-target': '#id_schedule_at',
+                    'data-toggle': 'datetimepicker'
+                }
             )
         }
 
-    def __init__(self, *args, **kwargs):
-        super(ContentForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, account=None, **kwargs):
+        print('Account:', account)
+        super(ContentForm, self).__init__(account, *args, **kwargs)
+        print(args)
+        print('--')
+        print(kwargs)
+        print('--')
+        print(self)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'message',
             'multimedia',
-            'socials',
+            'content_socials',
             InlineRadios('schedule'),
             'schedule_at',
             ButtonHolder(
