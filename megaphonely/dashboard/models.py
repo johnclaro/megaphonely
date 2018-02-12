@@ -27,7 +27,8 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        return f"{self.provider}-{self.username}"
+        name = self.fullname if self.provider == 'facebook' else self.username
+        return f"{self.provider}-{name}"
 
     def get_screen_name(self):
         return self.username if self.provider != 'facebook' else self.fullname
