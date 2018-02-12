@@ -12,6 +12,7 @@ $(function() {
 
     $('.socials-multiple').select2({
       placeholder: 'Choose social(s)',
-      templateResult: formatState
+      templateResult: formatState,
+      width: '100%'
     });
 });
