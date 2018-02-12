@@ -10,9 +10,12 @@ from .models import Content
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
-        fields = '__all__'
-        exclude = ['account']
+        fields = ['message', 'multimedia', 'schedule', 'schedule_at', 'socials']
         widgets = {
+            'socials': forms.SelectMultiple(
+                attrs={'class': 'socials-multiple', 'multiple': 'multiple',
+                       'name': 'socials[]'}
+            ),
             'schedule_at': forms.TextInput(
                 attrs={'class': 'datetimepicker-input',
                        'data-target': '#id_schedule_at',
@@ -26,6 +29,7 @@ class ContentForm(forms.ModelForm):
         self.helper.layout = Layout(
             'message',
             'multimedia',
+            'socials',
             InlineRadios('schedule'),
             'schedule_at',
             ButtonHolder(
