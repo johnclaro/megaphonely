@@ -37,6 +37,12 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     model = Content
     form_class = ContentForm
 
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(ContentCreate, self).get_form_kwargs()
+        form_kwargs.update({'account': user})
+        return form_kwargs
+
     def form_valid(self, form):
         content = form.instance
         user = self.request.user
