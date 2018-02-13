@@ -66,7 +66,7 @@ class SocialManager(models.Manager):
 
         return data
 
-    def _create_or_update(self, account, provider, data):
+    def _create_or_update(self, provider, data):
         updated = False
         try:
             social = self.get(social_id=data['social_id'], provider=provider)
@@ -79,10 +79,9 @@ class SocialManager(models.Manager):
         except ObjectDoesNotExist:
             social = self.create(**data)
 
-        social.accounts.add(account)
         return social
 
-    def upsert(self, account, provider, response):
+    def upsert(self, provider, response):
         data = self._get_data(provider, response)
-        model = self._create_or_update(account, provider, data)
+        model = self._create_or_update(provider, data)
         return model

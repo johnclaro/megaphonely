@@ -27,7 +27,7 @@ def index(request):
 
 def social_disconnect(request, pk):
     user = request.user
-    social = get_object_or_404(Social, accounts__in=[user], pk=pk)
+    social = get_object_or_404(Social, pk=pk, accounts__in=[user])
     social.accounts.remove(user)
     return redirect('dashboard:index')
 
@@ -36,6 +36,12 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(ContentCreate, self).get_form_kwargs()
+        form_kwargs['account'] = user
+        return form_kwargs
 
     def form_valid(self, form):
         content = form.instance
@@ -49,6 +55,12 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(ContentUpdate, self).get_form_kwargs()
+        form_kwargs['account'] = user
+        return form_kwargs
 
     def get_queryset(self):
         user = self.request.user
