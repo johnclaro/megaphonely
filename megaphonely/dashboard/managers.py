@@ -85,11 +85,3 @@ class SocialManager(models.Manager):
         data = self._get_data(provider, response)
         model = self._create_or_update(provider, data)
         return model
-
-
-class SocialLinkManager(models.Manager):
-    pass
-
-
-class ContentSocialManager(models.Manager):
-    pass

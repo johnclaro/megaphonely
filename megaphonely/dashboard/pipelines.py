@@ -1,4 +1,4 @@
-from .models import Social, SocialLink
+from .models import Social
 
 
 def upsert(user=None, response=None, backend=None, **kwargs):
@@ -7,5 +7,4 @@ def upsert(user=None, response=None, backend=None, **kwargs):
 
     name = 'linkedin' if 'linkedin-oauth2' == backend.name else backend.name
     social = Social.objects.upsert(name, response)
-    social_link = SocialLink(account=user, social=social)
-    social_link.save()
+    social.accounts.add(user)
