@@ -29,12 +29,10 @@
                     {% if contents %}
                         {% for content in contents %}
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-12 {{social.provider}}-bg truncate-text">
                                     <img src="{% static 'megaphonely/img/anonymous.png' %}"
                                          width="20"
                                          class="rounded-circle"/>
-                                </div>
-                                <div class="col-10 {{social.provider}}-bg truncate-text">
                                     <a href="{% url 'dashboard:content_update' pk=content.id %}">
                                         {{content}}
                                     </a>
@@ -70,14 +68,9 @@
                     <div class="col-12">
                     {% for social in socials %}
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-10">
                                 <i class="fab fa-{{social.provider}}"
                                    style="width: 14px; padding-top: 3px;"></i>
-                                <img class="rounded-circle"
-                                     src="{{social.picture_url}}"
-                                     height="15"/>
-                            </div>
-                            <div class="col-7">
                                 <a href="{{social.url}}">
                                     {{social.get_screen_name}}
                                 </a>
@@ -100,15 +93,15 @@
                  style="cursor: pointer;">
                 Connect Twitter
             </div>
-            <div class="card-footer facebook-bg text-center"
-                 onclick="location.href='{% url 'social:begin' backend='facebook' %}';"
-                 style="cursor: pointer;">
-                Connect Facebook
-            </div>
             <div class="card-footer linkedin-bg text-center"
                  onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2' %}';"
                  style="cursor: pointer;">
                 Connect LinkedIn
+            </div>
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook' %}';"
+                 style="cursor: pointer;">
+                Connect Facebook
             </div>
         </div>
     </div>
