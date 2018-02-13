@@ -62,9 +62,7 @@ class Content(models.Model):
 
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
-    content_socials = models.ManyToManyField(
-        Social, blank=True, through='ContentSocial'
-    )
+    content_socials = models.ManyToManyField(Social, through='ContentSocial')
 
     objects = ContentManager()
 
