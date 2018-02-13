@@ -27,8 +27,8 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider',)
 
     def __str__(self):
-        name = self.fullname if self.provider == 'facebook' else self.username
-        return f"{self.provider}-{name}"
+        screen_name = self.get_screen_name()
+        return f"{self.provider}-{screen_name}"
 
     def get_screen_name(self):
         return self.username if self.provider != 'facebook' else self.fullname
@@ -37,14 +37,16 @@ class Social(models.Model):
 class Content(models.Model):
     message = models.TextField()
     multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
-    schedule = models.CharField(max_length=10, choices=SCHEDULE_CHOICES,
-                                default='now')
+    schedule = models.CharField(
+        max_length=10, choices=SCHEDULE_CHOICES, default='now'
+    )
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    account = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    account = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     socials = models.ManyToManyField(Social)
 
     objects = ContentManager()

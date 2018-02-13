@@ -1,3 +1,12 @@
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.navbar {
+  box-shadow: 1px 1px 2px 1px #dddbdb;
+  background-color: white;
+}
+
 .fa-twitter {
     color: #1DA1F2;
 }
@@ -42,4 +51,9 @@
 
 .asteriskField {
     color: red;
+}
+
+.card {
+    color: gray;
+    box-shadow: 0px 0px 10px lightgray;
 }

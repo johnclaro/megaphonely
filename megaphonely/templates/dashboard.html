@@ -6,15 +6,17 @@
 
 <div class="row">
     <div class="col-lg-4 card-section">
-        <div class="card border-secondary">
+        <div class="card">
             <div class="card-header">
                 <div class="col-12">
                     <div class="row">
                         <div class="col-3">
-                            <a class="float-left"
-                               href="{% url 'dashboard:content_add' %}">
-                                Create
-                            </a>
+                            {% if socials %}
+                                <a class="float-left"
+                                   href="{% url 'dashboard:content_add' %}">
+                                    Create
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="col-6 text-center">
                             <b>Contents</b>
@@ -39,15 +41,21 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    {% elif not socials %}
+                        You currently have no contents scheduled to be posted.
+                        <strong>
+                            You'll need to connect at least one social account
+                            before you can start posting.
+                        </strong>
                     {% else %}
-                        You currently have no contents scheduled to be posted
+                        You currently have no contents scheduled to be posted.
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4 card-section">
-        <div class="card border-secondary">
+        <div class="card">
             <div class="card-header">
                 <div class="col-12">
                     <div class="row text-center">
@@ -69,7 +77,7 @@
                                      src="{{social.picture_url}}"
                                      height="15"/>
                             </div>
-                            <div class="col-7 truncate-text">
+                            <div class="col-7">
                                 <a href="{{social.url}}">
                                     {{social.get_screen_name}}
                                 </a>
@@ -85,7 +93,6 @@
                     </div>
                 {% else %}
                     You currently have not connected any social networks.
-                    You'll need to connect atleast one before you can post contents
                 {% endif %}
             </div>
             <div class="card-footer twitter-bg text-center"
@@ -106,7 +113,7 @@
         </div>
     </div>
     <div class="col-lg-4 card-section">
-        <div class="card border-secondary"
+        <div class="card"
              onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';"
              style="cursor: pointer;">
             <div class="card-header">
