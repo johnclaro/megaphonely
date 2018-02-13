@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, ButtonHolder
 from crispy_forms.bootstrap import InlineRadios
 
-from .models import Content
+from .models import Content, Social
 
 
 class ContentForm(forms.ModelForm):
@@ -29,14 +29,11 @@ class ContentForm(forms.ModelForm):
             )
         }
 
-    def __init__(self, *args, account=None, **kwargs):
-        print('Account:', account)
-        super(ContentForm, self).__init__(account, *args, **kwargs)
-        print(args)
-        print('--')
-        print(kwargs)
-        print('--')
-        print(self)
+    def __init__(self, *args, **kwargs):
+        account = kwargs.pop('account')
+        super(ContentForm, self).__init__(*args, **kwargs)
+        social_links = Social.objects.filter(social_links=account)
+        self.fields['content_socials'].queryset = social_links
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'message',
