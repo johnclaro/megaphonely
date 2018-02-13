@@ -11,10 +11,12 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="col-3">
-                            <a class="float-left"
-                               href="{% url 'dashboard:content_add' %}">
-                                Create
-                            </a>
+                            {% if socials %}
+                                <a class="float-left"
+                                   href="{% url 'dashboard:content_add' %}">
+                                    Create
+                                </a>
+                            {% endif %}
                         </div>
                         <div class="col-6 text-center">
                             <b>Contents</b>
@@ -39,8 +41,14 @@
                                 </div>
                             </div>
                         {% endfor %}
+                    {% elif not socials %}
+                        You currently have no contents scheduled to be posted.
+                        <strong>
+                            You'll need to connect at least one social account
+                            before you can start posting.
+                        </strong>
                     {% else %}
-                        You currently have no contents scheduled to be posted
+                        You currently have no contents scheduled to be posted.
                     {% endif %}
                 </div>
             </div>
@@ -85,7 +93,6 @@
                     </div>
                 {% else %}
                     You currently have not connected any social networks.
-                    You'll need to connect atleast one before you can post contents
                 {% endif %}
             </div>
             <div class="card-footer twitter-bg text-center"
