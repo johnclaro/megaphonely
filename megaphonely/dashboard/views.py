@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import ContentForm
-from .models import Content, Social, SocialLink
+from .models import Content, Social
 
 
 def index(request):
@@ -17,7 +17,7 @@ def index(request):
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
     else:
-        socials = Social.objects.filter(social_links=user).order_by('-updated_at')
+        socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
         contents = Content.objects.filter(account=user, schedule='custom')
         context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
@@ -27,8 +27,8 @@ def index(request):
 
 def social_disconnect(request, pk):
     user = request.user
-    social_link = get_object_or_404(SocialLink, social=pk, account=user)
-    social_link.delete()
+    social = get_object_or_404(Social, pk=pk, accounts__in=[user])
+    social.accounts.remove(user)
     return redirect('dashboard:index')
 
 
@@ -40,7 +40,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         user = self.request.user
         form_kwargs = super(ContentCreate, self).get_form_kwargs()
-        form_kwargs.update({'account': user})
+        form_kwargs['account'] = user
         return form_kwargs
 
     def form_valid(self, form):
@@ -55,6 +55,12 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(ContentUpdate, self).get_form_kwargs()
+        form_kwargs['account'] = user
+        return form_kwargs
 
     def get_queryset(self):
         user = self.request.user

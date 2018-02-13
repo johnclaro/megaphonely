@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from .models import Social, Content, SocialLink, ContentSocial
+from .models import Social, Content
 
 admin.site.register(Social)
 admin.site.register(Content)
-admin.site.register(SocialLink)
-admin.site.register(ContentSocial)

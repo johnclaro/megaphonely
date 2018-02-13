@@ -11,9 +11,9 @@ class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
         fields = ['message', 'multimedia', 'schedule', 'schedule_at',
-                  'content_socials']
+                  'socials']
         widgets = {
-            'content_socials': forms.SelectMultiple(
+            'socials': forms.SelectMultiple(
                 attrs={
                     'class': 'socials-multiple',
                     'multiple': 'multiple',
@@ -32,13 +32,13 @@ class ContentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
         super(ContentForm, self).__init__(*args, **kwargs)
-        social_links = Social.objects.filter(social_links=account)
-        self.fields['content_socials'].queryset = social_links
+        socials = Social.objects.filter(accounts__in=[account])
+        self.fields['socials'].queryset = socials
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'message',
             'multimedia',
-            'content_socials',
+            'socials',
             InlineRadios('schedule'),
             'schedule_at',
             ButtonHolder(

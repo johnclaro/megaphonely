@@ -43,3 +43,7 @@
 .asteriskField {
     color: red;
 }
+
+.card {
+    box-shadow: 0px 0px 10px rgba(27, 40, 56, 0.25);
+}
