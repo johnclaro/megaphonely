@@ -4,39 +4,52 @@
 
 {% load static %}
 
-<div class="col-lg-12" style="padding: 20px;">
-    <div class="row">
+<div class="col-lg-12">
+    <div class="row" style="padding: 20px;">
         <div class="col-lg-6">
-            <div class="card">
-                <img class="fit-width" src="{% static 'megaphonely/img/test.png' %}" width="500" height="600"/>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <h2>What is Megaphonely?</h2>
+            <h2 class="heading-font">What is Megaphonely?</h2>
             <div class="description-caption">
                 <p>
                     Megaphonely is a social media management tool designed to
                     help you manage your social media accounts.
                 </p>
-
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">Login</a>
+            <a class="btn btn-primary btn-block" href="{% url 'account_signup' %}">Sign Up</a>
+        </div>
+    </div>
+    <div class="row" style="padding: 20px;">
+        <img class="col-lg-6 img-responsive card" src="https://i.pinimg.com/736x/9d/e2/b5/9de2b538fa5c40e5e384f50fdc43a383--funny-shit-funny-pics.jpg"/>
+        <div class="col-lg-6">
+            <h2 class="heading-font">Why should I use Megaphonely?</h2>
+            <div class="description-caption">
                 <p>
                     Here's what you can do on Megaphonely:
                 </p>
                 <ul>
-                    <li>Schedule text, image or videos to Twitter, Facebook or LinkedIn</li>
+                    <li>
+                        Schedule text, image or videos to Twitter, Facebook or
+                        LinkedIn
+                    </li>
                 </ul>
+                <p>
+                    Still interested? Click <a href="/plans">here</a> to see our plans
+                </p>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding: 20px;">
         <div class="col-lg-6">
-            <h2>How do I use Megaphonely?</h2>
-        </div>
-        <div class="col-lg-6">
-            <div class="card">
-                <img class="fit-width" src="{% static 'megaphonely/img/test2.png' %}" width="500" height="600"/>
+            <h2 class="heading-font">How do I use Megaphonely?</h2>
+            <div class="description-caption">
+                <p>
+                    You go here then here blah blah blah
+                </p>
             </div>
         </div>
+        <img class="col-lg-6 img-responsive card" src="https://vignette.wikia.nocookie.net/animal-jam-clans-1/images/a/a6/20-Funny-Shocked-Cat-Memes-4.jpg/revision/latest?cb=20160225210205"/>
     </div>
 </div>
 {% endblock %}
