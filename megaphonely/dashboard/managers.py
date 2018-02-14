@@ -41,8 +41,11 @@ class SocialManager(models.Manager):
         }
 
     def _get_facebook_data(self, data):
+        import json
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
+        me_accounts = graph.get('me/accounts')['data']
+        print(json.dumps(me_accounts, indent=4, sort_keys=True))
         response = graph.get('me?fields=picture.width(640)')
         picture_url = response['picture']['data']['url']
         username = data['id']

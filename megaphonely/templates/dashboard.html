@@ -78,17 +78,18 @@
             <div class="card-header">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-3"></div>
-                        <div class="col-6 text-center">
-                            <b>Contents</b>
-                        </div>
                         <div class="col-3">
                             {% if socials %}
-                                <a class="float-right"
+                                <a class="float-left"
                                    href="{% url 'dashboard:content_add' %}">
                                     Create
                                 </a>
                             {% endif %}
+                        </div>
+                        <div class="col-6 text-center">
+                            <b>Contents</b>
+                        </div>
+                        <div class="col-3">
                         </div>
                     </div>
                 </div>
@@ -106,6 +107,19 @@
                             <div class="col-sm-11"
                                  onclick="location.href='{% url 'dashboard:content_update' pk=content.id %}'"
                                  style="cursor: pointer;">
+
+                                <div class="col-12">
+                                    Schedule at: {{content.schedule_at}}
+                                </div>
+                                <div class="col-12">
+                                     {% for social in content.socials.all %}
+                                        <a href="{{social.url}}"
+                                           class="badge">
+                                            <i class="fab fa-{{social.provider}}"></i>
+                                            {{social.get_screen_name}}
+                                        </a>
+                                     {% endfor %}
+                                </div>
                                 <div class="col-12">
                                     {{content}}
                                 </div>
