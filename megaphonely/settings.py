@@ -18,6 +18,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 STATIC_ROOT = os.path.join('staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
@@ -74,11 +75,34 @@ SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
+SOCIAL_AUTH_FACEBOOK_PAGE_KEY = os.environ['FACEBOOK_APP_ID']
+SOCIAL_AUTH_FACEBOOK_PAGE_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_PAGE_SCOPE = [
+    'public_profile', 'email', 'publish_actions', 'manage_pages',
+    'publish_pages'
+]
+SOCIAL_AUTH_FACEBOOK_GROUP_KEY = os.environ['FACEBOOK_APP_ID']
+SOCIAL_AUTH_FACEBOOK_GROUP_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_GROUP_SCOPE = [
+    'public_profile', 'email', 'publish_actions', 'manage_pages',
+    'publish_pages', 'user_managed_groups'
+]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ['LINKEDIN_CLIENT_ID']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = [
+    'r_basicprofile', 'r_emailaddress', 'w_share'
+]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
+    ('publicProfileUrl', 'public_profile_url'),
+]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_KEY = os.environ['LINKEDIN_CLIENT_ID']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SCOPE = [
+    'r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'
+]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_FIELD_SELECTORS = ['public-profile-url']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
     ('publicProfileUrl', 'public_profile_url'),
 ]
 
@@ -176,6 +200,9 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
+    'megaphonely.dashboard.backends.FacebookOAuth2Page',
+    'megaphonely.dashboard.backends.FacebookOAuth2Group',
+    'megaphonely.dashboard.backends.LinkedinOAuth2Company'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
