@@ -5,7 +5,7 @@
 {% load static %}
 
 <div class="row">
-    <div class="col-lg-4 card-section">
+    <div class="col-lg-6 card-section">
         <div class="card">
             <div class="card-header">
                 <div class="col-12">
@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4 card-section">
+    <div class="col-lg-6 card-section">
         <div class="card">
             <div class="card-header">
                 <div class="col-12">
@@ -117,26 +117,6 @@
                  onclick="location.href='{% url 'social:begin' backend='facebook-group' %}';"
                  style="cursor: pointer;">
                 Connect Facebook Group
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 card-section">
-        <div class="card"
-             onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';"
-             style="cursor: pointer;">
-            <div class="card-header">
-                <div class="col-12">
-                    <div class="row text-center">
-                        <div class="col-3"></div>
-                        <div class="col-6"><b>Settings</b></div>
-                        <div class="col-3"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body text-secondary">
-                <p class="card-text text-center">
-                    You are on a <b>Free Plan</b>
-                </p>
             </div>
         </div>
     </div>
