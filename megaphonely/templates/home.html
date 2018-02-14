@@ -16,12 +16,19 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">Login</a>
-            <a class="btn btn-primary btn-block" href="{% url 'account_signup' %}">Sign Up</a>
+            <a class="btn btn-primary btn-block"
+               href="{% url 'account_login' %}">
+                Login
+            </a>
+            <a class="btn btn-primary btn-block"
+               href="{% url 'account_signup' %}">
+                Sign Up
+            </a>
         </div>
     </div>
     <div class="row" style="padding: 20px;">
-        <img class="col-lg-8 img-responsive" src="{% static 'megaphonely/img/landing-page-2.png' %}"/>
+        <img class="col-lg-8 img-responsive"
+             src="{% static 'megaphonely/img/landing-page-2.png' %}"/>
         <div class="col-lg-4">
             <h2 class="heading-font">Why use Megaphonely?</h2>
             <div class="description-caption">
@@ -35,7 +42,10 @@
                     </li>
                 </ul>
                 <p>
-                    <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">Click here to see our plans</a>
+                    <a class="btn btn-primary btn-block"
+                       href="{% url 'account_login' %}">
+                        Click here to see our plans
+                    </a>
                 </p>
             </div>
         </div>
@@ -55,7 +65,8 @@
                 </ul>
             </div>
         </div>
-        <img class="col-lg-8 img-responsive" src="{% static 'megaphonely/img/landing-page-2.png' %}"/>
+        <img class="col-lg-8 img-responsive"
+             src="{% static 'megaphonely/img/landing-page-2.png' %}"/>
     </div>
 </div>
 {% endblock %}
