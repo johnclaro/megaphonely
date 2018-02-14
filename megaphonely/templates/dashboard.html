@@ -33,6 +33,8 @@
                                     <img src="{% static 'megaphonely/img/anonymous.png' %}"
                                          width="20"
                                          class="rounded-circle"/>
+
+                                    <img src="{{ content.multimedia.url }}"/>
                                     <a href="{% url 'dashboard:content_update' pk=content.id %}">
                                         {{content}}
                                     </a>
