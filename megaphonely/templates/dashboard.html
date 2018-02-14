@@ -98,10 +98,25 @@
                  style="cursor: pointer;">
                 Connect LinkedIn
             </div>
+            <div class="card-footer linkedin-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2-company' %}';"
+                 style="cursor: pointer;">
+                Connect LinkedIn Company
+            </div>
             <div class="card-footer facebook-bg text-center"
                  onclick="location.href='{% url 'social:begin' backend='facebook' %}';"
                  style="cursor: pointer;">
                 Connect Facebook
+            </div>
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook-page' %}';"
+                 style="cursor: pointer;">
+                Connect Facebook Page
+            </div>
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook-group' %}';"
+                 style="cursor: pointer;">
+                Connect Facebook Group
             </div>
         </div>
     </div>
