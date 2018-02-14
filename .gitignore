@@ -115,3 +115,5 @@ venv.bak/
 .idea
 
 uploads/
+
+.DS_Store
