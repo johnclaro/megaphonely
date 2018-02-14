@@ -4,7 +4,7 @@
 
 {% load static %}
 
-<div class="row">
+<div class="row" style="margin-top: 25px; margin-bottom: 25px;">
     <div class="col-lg-4 card-section">
         <div class="card">
             <div class="card-header">
@@ -101,7 +101,7 @@
                                 <img class="rounded-circle"
                                      height="50"
                                      width="50"
-                                     src="{% static 'megaphonely/img/anonymous.png' %}"/>
+                                     src="{% static 'megaphonely/img/megaphonely2048x2048.png' %}"/>
                             </div>
                             <div class="col-sm-11"
                                  onclick="location.href='{% url 'dashboard:content_update' pk=content.id %}'"
@@ -112,13 +112,14 @@
                                 {% if content.is_image %}
                                     <div class="col-12">
                                         <img class="img-thumbnail img-fluid"
-                                             width="40" height="40"
+                                             width="250" height="40"
                                              src="{% static content.multimedia.url %}"/>
                                     </div>
                                 {% elif content.is_video %}
                                     <div class="col-12">
                                         <video class="img-thumbnail"
-                                               width="400"
+                                               width="250"
+                                               preload="metadata"
                                                src="{% static content.multimedia.url %}"
                                                controls></video>
                                     </div>
