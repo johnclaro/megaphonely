@@ -11,6 +11,16 @@ from .forms import ContentForm
 from .models import Content, Social
 
 
+def endswith_valid_image_extension(url):
+    valid_image_extensions = ('.jpg', '.png')
+    valid = False
+    for valid_image_extension in valid_image_extensions:
+        if url.endswith(valid_image_extension):
+            valid = True
+            break
+    return valid
+
+
 def index(request):
     user = request.user
     if not user.is_authenticated:
@@ -19,6 +29,15 @@ def index(request):
     else:
         socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
         contents = Content.objects.filter(account=user, schedule='custom')
+        for content in contents:
+            try:
+                if endswith_valid_image_extension(content.multimedia.url):
+                    content.is_image = True
+                elif content.multimedia.url.endswith('.mp4'):
+                    content.is_video = True
+            except ValueError:
+                pass
+
         context = {'socials': socials, 'contents': contents, 'user': user}
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))

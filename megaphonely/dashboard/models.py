@@ -36,7 +36,7 @@ class Social(models.Model):
 
 class Content(models.Model):
     message = models.TextField()
-    multimedia = models.ImageField(upload_to='uploads', blank=True, null=True)
+    multimedia = models.FileField(upload_to='uploads', blank=True, null=True)
     schedule = models.CharField(
         max_length=10, choices=SCHEDULE_CHOICES, default='now'
     )
