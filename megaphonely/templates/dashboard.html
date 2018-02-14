@@ -9,53 +9,6 @@
         <div class="card">
             <div class="card-header">
                 <div class="col-12">
-                    <div class="row">
-                        <div class="col-3">
-                            {% if socials %}
-                                <a class="float-left"
-                                   href="{% url 'dashboard:content_add' %}">
-                                    Create
-                                </a>
-                            {% endif %}
-                        </div>
-                        <div class="col-6 text-center">
-                            <b>Contents</b>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body text-secondary">
-                <div class="col-12">
-                    {% if contents %}
-                        {% for content in contents %}
-                            <div class="row">
-                                <div class="col-12 {{social.provider}}-bg truncate-text">
-                                    <img src="{% static 'megaphonely/img/anonymous.png' %}"
-                                         width="20"
-                                         class="rounded-circle"/>
-                                    <a href="{% url 'dashboard:content_update' pk=content.id %}">
-                                        {{content}}
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% elif not socials %}
-                        You currently have no contents scheduled to be posted.
-                        <strong>
-                            You'll need to connect at least one social account
-                            before you can start posting.
-                        </strong>
-                    {% else %}
-                        You currently have no contents scheduled to be posted.
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header">
-                <div class="col-12">
                     <div class="row text-center">
                         <div class="col-3"></div>
                         <div class="col-6"><b>Socials</b></div>
@@ -98,30 +51,91 @@
                  style="cursor: pointer;">
                 Connect LinkedIn
             </div>
+            <div class="card-footer linkedin-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='linkedin-oauth2-company' %}';"
+                 style="cursor: pointer;">
+                Connect LinkedIn Company
+            </div>
             <div class="card-footer facebook-bg text-center"
                  onclick="location.href='{% url 'social:begin' backend='facebook' %}';"
                  style="cursor: pointer;">
                 Connect Facebook
             </div>
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook-page' %}';"
+                 style="cursor: pointer;">
+                Connect Facebook Page
+            </div>
+            <div class="card-footer facebook-bg text-center"
+                 onclick="location.href='{% url 'social:begin' backend='facebook-group' %}';"
+                 style="cursor: pointer;">
+                Connect Facebook Group
+            </div>
         </div>
     </div>
-    <div class="col-lg-4 card-section">
-        <div class="card"
-             onclick="location.href='{% url 'accounts:profile_update' pk=user.id %}';"
-             style="cursor: pointer;">
+    <div class="col-lg-8 card-section">
+        <div class="card">
             <div class="card-header">
                 <div class="col-12">
-                    <div class="row text-center">
+                    <div class="row">
                         <div class="col-3"></div>
-                        <div class="col-6"><b>Settings</b></div>
-                        <div class="col-3"></div>
+                        <div class="col-6 text-center">
+                            <b>Contents</b>
+                        </div>
+                        <div class="col-3">
+                            {% if socials %}
+                                <a class="float-right"
+                                   href="{% url 'dashboard:content_add' %}">
+                                    Create
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card-body text-secondary">
-                <p class="card-text text-center">
-                    You are on a <b>Free Plan</b>
-                </p>
+                {% if contents %}
+                    {% for content in contents %}
+                        <div class="row">
+                            <div class="col-sm-1 text-center">
+                                <img class="rounded-circle"
+                                     height="50"
+                                     width="50"
+                                     src="{% static 'megaphonely/img/anonymous.png' %}"/>
+                            </div>
+                            <div class="col-sm-11"
+                                 onclick="location.href='{% url 'dashboard:content_update' pk=content.id %}'"
+                                 style="cursor: pointer;">
+                                <div class="col-12">
+                                    {{content}}
+                                </div>
+                                {% if content.is_image %}
+                                    <div class="col-12">
+                                        <img class="img-thumbnail img-fluid"
+                                             width="40" height="40"
+                                             src="{% static content.multimedia.url %}"/>
+                                    </div>
+                                {% elif content.is_video %}
+                                    <div class="col-12">
+                                        <video class="img-thumbnail"
+                                               width="400"
+                                               src="{% static content.multimedia.url %}"
+                                               controls></video>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr/>
+                    {% endfor %}
+                {% elif not socials %}
+                    You currently have no contents scheduled to be posted.
+                    <strong>
+                        You'll need to connect at least one social account
+                        before you can start posting.
+                    </strong>
+                {% else %}
+                    You currently have no contents scheduled to be posted.
+                {% endif %}
             </div>
         </div>
     </div>
