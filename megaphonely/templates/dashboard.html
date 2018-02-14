@@ -78,16 +78,17 @@
             <div class="card-header">
                 <div class="col-12">
                     <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6 text-center">
+                            <b>Contents</b>
+                        </div>
                         <div class="col-3">
                             {% if socials %}
-                                <a class="float-left"
+                                <a class="float-right"
                                    href="{% url 'dashboard:content_add' %}">
                                     Create
                                 </a>
                             {% endif %}
-                        </div>
-                        <div class="col-6 text-center">
-                            <b>Contents</b>
                         </div>
                     </div>
                 </div>
@@ -108,10 +109,18 @@
                                 <div class="col-12">
                                     {{content}}
                                 </div>
-                                {% if content.multimedia %}
+                                {% if content.is_image %}
                                     <div class="col-12">
                                         <img class="img-thumbnail img-fluid"
+                                             width="40" height="40"
                                              src="{% static content.multimedia.url %}"/>
+                                    </div>
+                                {% elif content.is_video %}
+                                    <div class="col-12">
+                                        <video class="img-thumbnail"
+                                               width="400"
+                                               src="{% static content.multimedia.url %}"
+                                               controls></video>
                                     </div>
                                 {% endif %}
                             </div>
