@@ -6,6 +6,10 @@
     font-family: 'Lato', sans-serif;
 }
 
+textarea {
+    height: 100px;
+}
+
 .navbar {
   box-shadow: 1px 1px 2px 1px #dddbdb;
   background-color: white;
