@@ -55,6 +55,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:index')
 
     def get_form_kwargs(self):
         user = self.request.user
@@ -74,6 +75,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
+    success_url = reverse_lazy('dashboard:index')
 
     def get_form_kwargs(self):
         user = self.request.user
