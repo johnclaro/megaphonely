@@ -138,13 +138,13 @@
                                     </div>
                                 {% endif %}
                                 <div class="col-12">
-                                    <a class="float-left"
-                                       href="{% url 'dashboard:content_update' pk=content.id %}">
-                                        Edit
+                                    <a class="float-right" href="{% url 'dashboard:content_delete' pk=content.id %}">
+                                        Delete
                                     </a>
                                     <a class="float-right"
-                                       href="{% url 'dashboard:content_delete' pk=content.id %}">
-                                        Delete
+                                       href="{% url 'dashboard:content_update' pk=content.id %}"
+                                       style="padding-right: 10px">
+                                        Edit
                                     </a>
                                 </div>
                             </div>
