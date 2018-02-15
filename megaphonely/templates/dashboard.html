@@ -100,13 +100,7 @@
                             </div>
                             <div class="col-sm-11">
                                 <div class="col-12">
-                                    <strong style="color: gray">{{user.username}}</strong>
-                                </div>
-                                <div class="col-12">
-                                    <span>
-                                        <i class="far fa-calendar-alt"></i>
-                                        {{content.schedule_at}}
-                                    </span>
+                                    <strong style="color: gray">Golden State Warriors</strong>
                                 </div>
                                 <div class="col-12">
                                      {% for social in content.socials.all %}
@@ -125,7 +119,8 @@
                                 {% if content.is_image %}
                                     <div class="col-12">
                                         <img class="img-thumbnail img-fluid"
-                                             width="250" height="40"
+                                             width="250"
+                                             height="40"
                                              src="{% static content.multimedia.url %}"/>
                                     </div>
                                 {% elif content.is_video %}
@@ -134,18 +129,26 @@
                                                width="250"
                                                preload="metadata"
                                                src="{% static content.multimedia.url %}"
-                                               controls></video>
+                                               controls>
+                                        </video>
                                     </div>
                                 {% endif %}
-                                <div class="col-12">
-                                    <a class="float-right" href="{% url 'dashboard:content_delete' pk=content.id %}">
-                                        Delete
-                                    </a>
-                                    <a class="float-right"
-                                       href="{% url 'dashboard:content_update' pk=content.id %}"
-                                       style="padding-right: 10px">
-                                        Edit
-                                    </a>
+                                <div class="col-12"
+                                     style="padding-top: 10px;">
+
+                                    <span>
+                                        <i class="far fa-calendar-alt"></i>
+                                        <strong>{{content.schedule_at}}</strong>
+                                    </span>
+                                    <div class="float-right">
+                                        <a href="{% url 'dashboard:content_update' pk=content.id %}"
+                                           style="padding-right: 10px">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'dashboard:content_delete' pk=content.id %}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
