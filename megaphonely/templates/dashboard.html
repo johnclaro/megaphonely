@@ -4,7 +4,8 @@
 
 {% load static %}
 
-<div class="row" style="margin-top: 25px; margin-bottom: 25px;">
+<div class="row">
+
     <div class="col-lg-4 card-section">
         <div class="card">
             <div class="card-header">
@@ -100,7 +101,15 @@
                             </div>
                             <div class="col-sm-11">
                                 <div class="col-12">
-                                    <strong style="color: gray">Golden State Warriors</strong>
+                                    <strong style="color: gray">{{user.username}}</strong>
+                                </div>
+                                <div class="col-12">
+                                    <span>
+                                        <i class="far fa-calendar-alt"></i>
+                                        <span>
+                                            {{content.schedule_at}}
+                                        </span>
+                                    </span>
                                 </div>
                                 <div class="col-12">
                                      {% for social in content.socials.all %}
@@ -135,18 +144,13 @@
                                 {% endif %}
                                 <div class="col-12"
                                      style="padding-top: 10px;">
-
-                                    <span>
-                                        <i class="far fa-calendar-alt"></i>
-                                        <strong>{{content.schedule_at}}</strong>
-                                    </span>
                                     <div class="float-right">
                                         <a href="{% url 'dashboard:content_update' pk=content.id %}"
                                            style="padding-right: 10px">
-                                            <i class="fa fa-edit"></i>
+                                            Edit
                                         </a>
                                         <a href="{% url 'dashboard:content_delete' pk=content.id %}">
-                                            <i class="fa fa-trash"></i>
+                                            Delete
                                         </a>
                                     </div>
                                 </div>
