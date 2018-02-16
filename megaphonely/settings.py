@@ -128,8 +128,16 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-# CRISPY FORMS
+# Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# Celery
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_SEND_EVENTS = False
 
 INSTALLED_APPS = (
     'django.contrib.admin',

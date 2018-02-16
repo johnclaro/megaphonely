@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import ContentForm
 from .models import Content, Social
+from .tasks import publish_to_twitter
 
 
 def endswith_valid_image_extension(url):
@@ -67,7 +68,19 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content = form.instance
         user = self.request.user
         content.account = user
+
         response = super(ContentCreate, self).form_valid(form)
+
+        for social in content.socials.all():
+            if social.provider == 'twitter':
+                payload = (
+                    social.access_token_key,
+                    social.access_token_secret,
+                    content.message
+                )
+                countdown = 1
+                publish_to_twitter.apply_async(payload, countdown=countdown)
+                print(f'Publishing {content.message} in {countdown} seconds!')
         return response
 
 
