@@ -126,8 +126,7 @@
                                     </div>
                                 {% elif content.is_video %}
                                     <div class="col-12">
-                                        <video class="img-thumbnail" width="250" src="{% static content.multimedia.url %}" controls>
-                                        </video>
+                                        <video width="250" src="{% static content.multimedia.url %}" controls></video>
                                     </div>
                                 {% endif %}
                                 <div class="col-12" style="padding-top: 10px;">
