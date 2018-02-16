@@ -29,6 +29,13 @@ def download_s3_file(key: str) -> None:
     s3_object.download_file(key)
 
 
+def get_s3_multimedia_content(payload: dict, key: str, s3_key: str) -> dict:
+    download_s3_file(s3_key)
+    payload[key] = open(s3_key, 'rb')
+    os.remove(s3_key)
+    return payload
+
+
 @shared_task
 def publish_to_twitter(access_token_key, access_token_secret, message,
                        image=None, video=None):
@@ -40,14 +47,9 @@ def publish_to_twitter(access_token_key, access_token_secret, message,
     )
     data = {}
     if video:
-        # TODO: Would prefer to just supply an S3 pre signed url
-        download_s3_file(video)
-        data['media'] = open(video, 'rb')
-        os.remove(video)
+        data = get_s3_multimedia_content(data, 'media', video)
     elif image:
-        download_s3_file(image)
-        data['media'] = open(image, 'rb')
-        os.remove(image)
+        data = get_s3_multimedia_content(data, 'media', image)
     response = api.PostUpdate(message, **data)
     return response
 
@@ -61,14 +63,10 @@ def publish_to_facebook(access_token_key, message, image=None, video=None):
     if video:
         api.url = 'https://graph-video.facebook.com'
         data['path'] = 'me/videos'
-        download_s3_file(video)
-        data['source'] = open(video, 'rb')
-        os.remove(video)
+        data = get_s3_multimedia_content(data, 'source', video)
     elif image:
         data['path'] = 'me/photos'
-        download_s3_file(image)
-        data['source'] = open(image, 'rb')
-        os.remove(image)
+        data = get_s3_multimedia_content(data, 'source', image)
     else:
         data['path'] = 'me/feed'
 
