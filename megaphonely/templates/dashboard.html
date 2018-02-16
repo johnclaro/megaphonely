@@ -5,40 +5,13 @@
 {% load static %}
 
 <div class="row">
-
     <div class="col-lg-4 card-section">
         <div class="card">
             <div class="card-header">
                 <div class="col-12">
-                    <div class="row text-center">
-                        <div class="col-3">
-                            <div class="btn-group">
-                              <button class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Connect
-                              </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='twitter' %}">
-                                        <i class="fab fa-twitter"></i> Connect Twitter
-                                    </a>
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook' %}">
-                                        <i class="fab fa-facebook"></i> Connect Facebook
-                                    </a>
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-page' %}">
-                                        <i class="fab fa-facebook"></i> Connect Facebook Page
-                                    </a>
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-company' %}">
-                                        <i class="fab fa-facebook"></i> Connect Facebook Group
-                                    </a>
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
-                                        <i class="fab fa-linkedin"></i> Connect LinkedIn
-                                    </a>
-                                    <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
-                                        <i class="fab fa-linkedin"></i> Connect LinkedIn Company
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6"><b>Socials</b></div>
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6 text-center"><b>Socials</b></div>
                         <div class="col-3"></div>
                     </div>
                 </div>
@@ -49,24 +22,49 @@
                     {% for social in socials %}
                         <div class="row">
                             <div class="col-10">
-                                <i class="fab fa-{{social.provider}}"
-                                   style="width: 14px; padding-top: 3px;"></i>
+                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
                                 <a href="{{social.url}}">
                                     {{social.get_screen_name}}
                                 </a>
                             </div>
                             <div class="col-2">
-                                <a class="float-right"
-                                   href="{% url 'dashboard:social_disconnect' pk=social.id %}">
-                                    <i class="fas fa-minus-circle" style="color: red"></i>
+                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                    <span class="fas fa-minus-circle" style="color: red"></span>
                                 </a>
                             </div>
                         </div>
                     {% endfor %}
                     </div>
                 {% else %}
-                    You currently have not connected any social networks.
+                    You currently have not connected any social accounts.
+                    <strong>
+                        You'll need to connect at least one social account
+                        before you can start creating contents.
+                    </strong>
                 {% endif %}
+            </div>
+            <div class="card-footer btn btn-block dropdown-toggle megaphonely-bg" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Connect a social account
+            </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'social:begin' backend='twitter' %}">
+                    <i class="fab fa-twitter"></i> Connect Twitter profile
+                </a>
+                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook' %}">
+                    <i class="fab fa-facebook"></i> Connect Facebook profile
+                </a>
+                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-page' %}">
+                    <i class="fab fa-facebook"></i> Connect Facebook pages
+                </a>
+                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-company' %}">
+                    <i class="fab fa-facebook"></i> Connect Facebook groups
+                </a>
+                <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
+                    <i class="fab fa-linkedin"></i> Connect LinkedIn
+                </a>
+                <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
+                    <i class="fab fa-linkedin"></i> Connect LinkedIn companies
+                </a>
             </div>
         </div>
     </div>
@@ -77,8 +75,7 @@
                     <div class="row">
                         <div class="col-3">
                             {% if socials %}
-                                <a class="float-left"
-                                   href="{% url 'dashboard:content_add' %}">
+                                <a class="float-left" href="{% url 'dashboard:content_add' %}">
                                     Create
                                 </a>
                             {% endif %}
@@ -96,10 +93,7 @@
                     {% for content in contents %}
                         <div class="row">
                             <div class="col-sm-1 text-center">
-                                <img class="rounded-circle"
-                                     height="50"
-                                     width="50"
-                                     src="{% static 'megaphonely/img/megaphonely2048x2048.png' %}"/>
+                                <img class="rounded-circle" height="50" width="50" src="{% static 'megaphonely/img/megaphonely2048x2048.png' %}"/>
                             </div>
                             <div class="col-sm-11">
                                 <div class="col-12">
@@ -115,8 +109,7 @@
                                 </div>
                                 <div class="col-12">
                                      {% for social in content.socials.all %}
-                                        <a href="{{social.url}}"
-                                           class="badge">
+                                        <a href="{{social.url}}" class="badge">
                                             <i class="fab fa-{{social.provider}}"></i>
                                             <span>
                                                 {{social.get_screen_name}}
@@ -129,26 +122,17 @@
                                 </div>
                                 {% if content.is_image %}
                                     <div class="col-12">
-                                        <img class="img-thumbnail img-fluid"
-                                             width="250"
-                                             height="40"
-                                             src="{% static content.multimedia.url %}"/>
+                                        <img class="img-thumbnail img-fluid" width="250" height="40" src="{% static content.multimedia.url %}"/>
                                     </div>
                                 {% elif content.is_video %}
                                     <div class="col-12">
-                                        <video class="img-thumbnail"
-                                               width="250"
-                                               preload="metadata"
-                                               src="{% static content.multimedia.url %}"
-                                               controls>
+                                        <video class="img-thumbnail" width="250" src="{% static content.multimedia.url %}" controls>
                                         </video>
                                     </div>
                                 {% endif %}
-                                <div class="col-12"
-                                     style="padding-top: 10px;">
+                                <div class="col-12" style="padding-top: 10px;">
                                     <div class="float-right">
-                                        <a href="{% url 'dashboard:content_update' pk=content.id %}"
-                                           style="padding-right: 10px">
+                                        <a href="{% url 'dashboard:content_update' pk=content.id %}" style="padding-right: 10px">
                                             Edit
                                         </a>
                                         <a href="{% url 'dashboard:content_delete' pk=content.id %}">
@@ -160,12 +144,6 @@
                         </div>
                         <hr/>
                     {% endfor %}
-                {% elif not socials %}
-                    You currently have no contents scheduled to be posted.
-                    <strong>
-                        You'll need to connect at least one social account
-                        before you can start posting.
-                    </strong>
                 {% else %}
                     You currently have no contents scheduled to be posted.
                 {% endif %}
