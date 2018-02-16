@@ -9,7 +9,6 @@ admin.autodiscover()
 
 
 urlpatterns = [
-    re_path(r'^__6TJny9S332qv92p57585kZdM9srNA66N2s26M39U4M2232B8Uz/', admin.site.urls),
     re_path(r'^', include('megaphonely.dashboard.urls', namespace='dashboard')),
     path('privacy', TemplateView.as_view(template_name='legal/privacy.html')),
     path('terms', TemplateView.as_view(template_name='legal/terms.html')),
@@ -21,5 +20,11 @@ urlpatterns = [
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
+        re_path(r'^admin/', admin.site.urls),
         re_path(r'^__debug__/', include(debug_toolbar.urls)),
+
     ] + urlpatterns
+else:
+    urlpatterns += [
+        re_path(r'^__6TJny9S332qv92p57585kZdM9srNA66N2s26M39U4M2232B8Uz/', admin.site.urls),
+    ]
