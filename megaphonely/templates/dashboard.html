@@ -11,7 +11,33 @@
             <div class="card-header">
                 <div class="col-12">
                     <div class="row text-center">
-                        <div class="col-3"></div>
+                        <div class="col-3">
+                            <div class="btn-group">
+                              <button class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Connect
+                              </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='twitter' %}">
+                                        <i class="fab fa-twitter"></i> Connect Twitter
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook' %}">
+                                        <i class="fab fa-facebook"></i> Connect Facebook
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-page' %}">
+                                        <i class="fab fa-facebook"></i> Connect Facebook Page
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-company' %}">
+                                        <i class="fab fa-facebook"></i> Connect Facebook Group
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
+                                        <i class="fab fa-linkedin"></i> Connect LinkedIn
+                                    </a>
+                                    <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
+                                        <i class="fab fa-linkedin"></i> Connect LinkedIn Company
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-6"><b>Socials</b></div>
                         <div class="col-3"></div>
                     </div>
@@ -42,30 +68,6 @@
                     You currently have not connected any social networks.
                 {% endif %}
             </div>
-            <a class="card-footer twitter-bg text-center"
-                 href="{% url 'social:begin' backend='twitter' %}">
-                Connect Twitter Profile
-            </a>
-            <a class="card-footer facebook-bg text-center"
-                 href="{% url 'social:begin' backend='facebook' %}">
-                Connect Facebook Profile
-            </a>
-            <a class="card-footer facebook-bg text-center"
-                 href="{% url 'social:begin' backend='facebook-page' %}">
-                Connect Facebook Page
-            </a>
-            <a class="card-footer facebook-bg text-center"
-                 href="{% url 'social:begin' backend='facebook-group' %}">
-                Connect Facebook Group
-            </a>
-            <a class="card-footer linkedin-bg text-center"
-                 href="{% url 'social:begin' backend='linkedin-oauth2' %}">
-                Connect LinkedIn Profile
-            </a>
-            <a class="card-footer linkedin-bg text-center"
-                 href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
-                Connect LinkedIn Company
-            </a>
         </div>
     </div>
     <div class="col-lg-8 card-section">
