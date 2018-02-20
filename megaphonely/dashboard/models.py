@@ -40,6 +40,7 @@ class Content(models.Model):
     schedule = models.CharField(
         max_length=10, choices=SCHEDULE_CHOICES, default='now'
     )
+    is_published = models.BooleanField(default=False)
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
