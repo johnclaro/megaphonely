@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  web:
+    env_file:
+      - .env
+    build: .
+    command: ./scripts/run_web.sh
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"  # we forward this port because it's useful for debugging
+      - "15672:15672"  # here, we can access rabbitmq management plugin
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./scripts/run_celery.sh
+    volumes:
+      - .:/app
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
