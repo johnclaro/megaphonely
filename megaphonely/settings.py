@@ -5,19 +5,17 @@ from distutils.util import strtobool
 
 from dotenv import load_dotenv, find_dotenv
 
-from django.core.management.utils import get_random_secret_key
-
 load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
 DEBUG = bool(strtobool(os.environ['DEBUG']))
-SECRET_KEY = get_random_secret_key()
+SECRET_KEY = os.environ['SECRET_KEY']
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-STATIC_ROOT = os.path.join('staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
@@ -52,7 +50,7 @@ else:
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
     SECURE_HSTS_PRELOAD = True
-    ALLOWED_HOSTS = ('www.megaphonely.com', 'megaphonely.com',)
+    ALLOWED_HOSTS = ('www.megaphonely.com', 'megaphonely.com', 'beta.megaphonely.com')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
