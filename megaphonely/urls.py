@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.contrib import admin
+from django.conf.urls import include
 from django.urls import re_path, path
-from django.conf.urls import include, url
 from django.views.generic import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 admin.autodiscover()
@@ -19,11 +20,11 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
+    urlpatterns += [
         re_path(r'^admin/', admin.site.urls),
         re_path(r'^__debug__/', include(debug_toolbar.urls)),
-
-    ] + urlpatterns
+    ]
+    urlpatterns += staticfiles_urlpatterns()
 else:
     urlpatterns += [
         re_path(r'^__6TJny9S332qv92p57585kZdM9srNA66N2s26M39U4M2232B8Uz/', admin.site.urls),
