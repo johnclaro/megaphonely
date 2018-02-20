@@ -1,12 +1,12 @@
 branch-defaults:
   master:
-    environment: megaphonely
+    environment: null
     group_suffix: null
 global:
   application_name: megaphonely
   branch: null
   default_ec2_keyname: null
-  default_platform: Docker 1.12.6
+  default_platform: Python 3.6
   default_region: eu-west-1
   include_git_submodules: true
   instance_profile: null
