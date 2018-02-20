@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     build: .
-    command: ./run_web.sh
+    command: ./scripts/run_web.sh
     volumes:
       - .:/app
     ports:
