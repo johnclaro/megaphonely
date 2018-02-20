@@ -115,6 +115,7 @@ venv.bak/
 .idea
 
 uploads/
+staticfiles/
 
 .DS_Store
 # Elastic Beanstalk Files
