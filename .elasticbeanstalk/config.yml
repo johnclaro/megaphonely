@@ -1,6 +1,6 @@
 branch-defaults:
   megaphonely:
-    environment: null
+    environment: megaphonely2-dev
     group_suffix: null
 global:
   application_name: megaphonely2
