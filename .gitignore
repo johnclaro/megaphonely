@@ -113,6 +113,7 @@ venv.bak/
 *.sqlite3
 
 .idea
+*.pid
 
 uploads/
 staticfiles/

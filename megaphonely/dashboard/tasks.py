@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 import os
+import logging
 
 import boto3
 import twitter
@@ -8,6 +9,9 @@ from celery import shared_task
 from botocore.response import StreamingBody
 
 from django.conf import settings
+from django.utils import timezone
+
+from .models import Content
 
 
 def get_s3_file_streaming_body(key: str) -> StreamingBody:
@@ -73,3 +77,30 @@ def publish_to_facebook(access_token_key, message, image=None, video=None):
 
     response = api.post(**data)
     return response
+
+
+@shared_task
+def loader():
+    logging.info('Looking for scheduled contents...')
+    contents = Content.objects.filter(schedule='custom',
+                                      schedule_at__lte=timezone.now(),
+                                      is_published=False)
+
+    for content in contents:
+        logging.info(f"Found {content.id}")
+        content.is_published = True
+        content.save()
+        for social in content.socials.all():
+            if social.provider == 'twitter':
+                payload = (
+                    social.access_token_key,
+                    social.access_token_secret,
+                    content.message
+                )
+                publish_to_twitter.delay(*payload)
+            elif social.provider == 'facebook':
+                payload = (
+                    social.access_token_key,
+                    content.message
+                )
+                publish_to_facebook.delay(*payload)
