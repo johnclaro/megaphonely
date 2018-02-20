@@ -5,14 +5,12 @@ from distutils.util import strtobool
 
 from dotenv import load_dotenv, find_dotenv
 
-from django.core.management.utils import get_random_secret_key
-
 load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
 DEBUG = bool(strtobool(os.environ['DEBUG']))
-SECRET_KEY = get_random_secret_key()
+SECRET_KEY = os.environ['SECRET_KEY']
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
