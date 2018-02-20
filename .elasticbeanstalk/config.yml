@@ -1,5 +1,5 @@
 branch-defaults:
-  megaphonely:
+  master:
     environment: megaphonely2-dev
     group_suffix: null
 global:
