@@ -1,0 +1,13 @@
+region: eu-west-1
+
+function_name: loader
+handler: service.handler
+description: Pulls scheduled contents and triggers them to be published
+runtime: python3.6
+role: service-role/megaphonely
+
+aws_access_key_id:
+aws_secret_access_key:
+
+build:
+  source_directories: lib,psycopg2,lib/psycopg2

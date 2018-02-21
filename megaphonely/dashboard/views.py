@@ -69,18 +69,6 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = self.request.user
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
-
-        for social in content.socials.all():
-            if social.provider == 'twitter':
-                payload = (
-                    social.access_token_key,
-                    social.access_token_secret,
-                    content.message
-                )
-                countdown = 1
-                publish_to_twitter.delay(*payload)
-                print(f'Publishing {content.message} in {countdown} seconds!')
-
         return response
 
 
