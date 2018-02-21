@@ -6,7 +6,6 @@ blessed==1.14.2
 boto==2.48.0
 boto3==1.4.4
 botocore==1.5.62
-celery==4.1.0
 cement==2.8.2
 certifi==2018.1.18
 chardet==3.0.4
