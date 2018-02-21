@@ -27,10 +27,10 @@ def get_scheduled_contents(cursor):
     Schedule = namedtuple('Schedule', ['message', 'multimedia', 'provider',
                                        'access_token_key',
                                        'access_token_secret'])
-    schedules = []
-    for d in data:
-        schedule = Schedule(*d)
-        schedules.append(schedule)
+    schedules = (
+        Schedule(*d)
+        for d in data
+    )
     return schedules
 
 
@@ -51,8 +51,6 @@ def handler(event, context):
         for schedule in schedules:
             payload = {
                 "s3_bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
-                "consumer_key": os.environ["TWITTER_CONSUMER_KEY"],
-                "consumer_secret": os.environ["TWITTER_CONSUMER_SECRET"],
                 "access_token_key": schedule.access_token_key,
                 "access_token_secret": schedule.access_token_secret,
                 "message": schedule.message
