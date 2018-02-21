@@ -6,8 +6,6 @@ services:
       - .env
     build: .
     command: ./scripts/run_web.sh
-    volumes:
-      - .:/app
     ports:
       - "8000:8000"
 
@@ -26,8 +24,6 @@ services:
       context: .
       dockerfile: Dockerfile
     command: ./scripts/run_celery.sh
-    volumes:
-      - .:/app
     links:
       - rabbit
     depends_on:
