@@ -9,7 +9,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import ContentForm
 from .models import Content, Social
-from .tasks import publish_to_twitter
 
 
 def endswith_valid_image_extension(url):
