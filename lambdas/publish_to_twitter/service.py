@@ -19,8 +19,6 @@ def get_s3_multimedia_content(payload: dict, key: str, s3_key: str,
 
 def handler(event, context):
     s3_bucket_name = event['s3_bucket_name']
-    consumer_key = event['consumer_key']
-    consumer_secret = event['consumer_secret']
     access_token_key = event['access_token_key']
     access_token_secret = event['access_token_secret']
     message = event['message']
@@ -28,8 +26,8 @@ def handler(event, context):
     image = ''
 
     api = twitter.Api(
-        consumer_key=consumer_key,
-        consumer_secret=consumer_secret,
+        consumer_key=os.environ['TWITTER_CONSUMER_KEY'],
+        consumer_secret=os.environ['TWITTER_CONSUMER_SECRET'],
         access_token_key=access_token_key,
         access_token_secret=access_token_secret,
     )
