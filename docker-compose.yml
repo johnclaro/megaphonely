@@ -5,6 +5,7 @@ services:
     env_file:
       - .env
     build: .
+    image: megaphonely/web
     command: ./scripts/run_web.sh
     ports:
       - "8000:8000"
@@ -20,10 +21,11 @@ services:
       - "15672:15672"  # here, we can access rabbitmq management plugin
 
   worker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: ./scripts/run_celery.sh
+    env_file:
+      - .env
+    build: .
+    image: megaphonely/worker
+    command: ./scripts/run_worker.sh
     links:
       - rabbit
     depends_on:
