@@ -5,9 +5,8 @@ WORKDIR /app
 COPY manage.py .
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-COPY megaphonely/ .
-COPY scripts/ .
+COPY scripts/ scripts/
+COPY static/ static/
+COPY megaphonely/ megaphonely/
 
 EXPOSE 8000
-
-CMD ["run_web.sh"]
