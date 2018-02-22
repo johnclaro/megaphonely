@@ -28,7 +28,7 @@ def index(request):
         response = HttpResponse(template.render({}, request))
     else:
         socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
-        contents = Content.objects.filter(account=user, schedule='custom').order_by('schedule_at')
+        contents = Content.objects.filter(account=user, schedule='custom', is_published=False).order_by('schedule_at')
         for content in contents:
             try:
                 if endswith_valid_image_extension(content.multimedia.url):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import json
-import logging
 import datetime
 from collections import namedtuple
 
@@ -12,7 +11,7 @@ import psycopg2
 def get_scheduled_contents(cursor):
     today = datetime.datetime.now()
     cursor.execute(f"""
-        SELECT content.message, content.multimedia, social.provider, 
+        SELECT content.id, content.message, content.multimedia, social.provider, 
                social.access_token_key, social.access_token_secret
         FROM dashboard_content as content
             JOIN dashboard_content_socials chosen_social 
@@ -24,14 +23,45 @@ def get_scheduled_contents(cursor):
             AND content.is_published = False
     """)
     data = cursor.fetchall()
-    Schedule = namedtuple('Schedule', ['message', 'multimedia', 'provider',
-                                       'access_token_key',
+    Schedule = namedtuple('Schedule', ['id', 'message', 'multimedia',
+                                       'provider', 'access_token_key',
                                        'access_token_secret'])
     schedules = (
         Schedule(*d)
         for d in data
     )
     return schedules
+
+
+def trigger_lambda_publishers(schedules):
+    client = boto3.client('lambda', region_name='eu-west-1')
+    content_ids = []
+    for schedule in schedules:
+        if schedule.id not in content_ids:
+            content_ids.append(schedule.id)
+
+        payload = {
+            "s3_bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+            "access_token_key": schedule.access_token_key,
+            "access_token_secret": schedule.access_token_secret,
+            "message": schedule.message
+        }
+        client.invoke(
+            FunctionName=f"publish_to_{schedule.provider}",
+            Payload=bytes(json.dumps(payload), encoding='utf8')
+        )
+
+    return content_ids
+
+
+def update_contents_to_is_published(connection, cursor, content_ids):
+    for content_id in content_ids:
+        cursor.execute(f"""
+            UPDATE dashboard_content
+            SET is_published = True
+            WHERE dashboard_content.id = {content_id}
+        """)
+        connection.commit()
 
 
 def handler(event, context):
@@ -45,20 +75,9 @@ def handler(event, context):
     )
     cursor = connection.cursor()
     try:
-        client = boto3.client('lambda', region_name='eu-west-1')
         schedules = get_scheduled_contents(cursor)
-        logging.info(f"Got {len(schedules)} contents scheduled")
-        for schedule in schedules:
-            payload = {
-                "s3_bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
-                "access_token_key": schedule.access_token_key,
-                "access_token_secret": schedule.access_token_secret,
-                "message": schedule.message
-            }
-            client.invoke(
-                FunctionName=f"publish_to_{schedule.provider}",
-                Payload=bytes(json.dumps(payload), encoding='utf8')
-            )
+        content_ids = trigger_lambda_publishers(schedules)
+        update_contents_to_is_published(connection, cursor, content_ids)
     finally:
         cursor.close()
         connection.close()
