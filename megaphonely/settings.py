@@ -39,6 +39,9 @@ if DEBUG:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    STRIPE_TEST_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+    STRIPE_TEST_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+    STRIPE_LIVE_MODE = False
 else:
     SECURE_HSTS_SECONDS = 1
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -66,6 +69,10 @@ else:
     STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILES_STORAGE = 'megaphonely.storage.Media'
+
+    STRIPE_LIVE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+    STRIPE_LIVE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+    STRIPE_LIVE_MODE = True
 
 # Social Auth
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
@@ -126,7 +133,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-# CRISPY FORMS
+# Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 INSTALLED_APPS = (
@@ -146,6 +153,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'djstripe',
 )
 
 MIDDLEWARE = (
