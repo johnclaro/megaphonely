@@ -16,7 +16,11 @@ class SocialManager(models.Manager):
         access_token_key = data['access_token']
         application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
-        picture_url = application.get_picture_urls()['values'][0]
+        try:
+            picture_url = application.get_picture_urls()['values'][0]
+        except KeyError:
+            picture_url = ''
+
         return {
             'social_id': social_id,
             'provider': 'linkedin',
