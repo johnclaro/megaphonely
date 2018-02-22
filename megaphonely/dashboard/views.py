@@ -48,6 +48,9 @@ def social_disconnect(request, pk):
     user = request.user
     social = get_object_or_404(Social, pk=pk, accounts__in=[user])
     social.accounts.remove(user)
+    contents = Content.objects.filter(socials__in=[social])
+    for content in contents:
+        content.socials.remove(social)
     return redirect('dashboard:index')
 
 
