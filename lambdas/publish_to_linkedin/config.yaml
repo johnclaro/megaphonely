@@ -1,0 +1,13 @@
+region: eu-west-1
+
+function_name: publish_to_linkedin
+handler: service.handler
+description: Publishes content to LinkedIn
+runtime: python3.6
+role: service-role/megaphonely
+
+aws_access_key_id:
+aws_secret_access_key:
+
+build:
+  source_directories: lib
