@@ -10,10 +10,12 @@ chardet==3.0.4
 click==6.7
 colorama==0.3.7
 defusedxml==0.5.0
+dj-stripe==1.0.0.post1
 Django==2.0.1
 django-allauth==0.34.0
 django-crispy-forms==1.7.0
 django-debug-toolbar==1.9.1
+django-polymorphic==2.0.2
 django-storages==1.6.5
 docker-py==1.7.2
 dockerpty==0.4.1
@@ -23,6 +25,7 @@ facepy==1.0.9
 future==0.16.0
 idna==2.6
 jmespath==0.9.3
+jsonfield==2.0.2
 kombu==4.1.0
 oauthlib==2.0.6
 parameterized==0.6.1
@@ -32,8 +35,9 @@ pipreqs==0.4.9
 psycopg2==2.7.3.2
 PyJWT==1.5.3
 python-dateutil==2.6.1
+python-doc-inherit==0.3.0
 python-dotenv==0.7.1
-python-twitter==3.3
+python-twitter==3.4
 python3-linkedin==1.0.2
 python3-openid==3.1.0
 pytz==2017.3
@@ -46,8 +50,10 @@ six==1.11.0
 social-auth-app-django==2.1.0
 social-auth-core==1.5.0
 sqlparse==0.2.4
+stripe==1.78.0
 tabulate==0.7.5
 termcolor==1.1.0
+tqdm==4.19.5
 urllib3==1.22
 vine==1.1.4
 wcwidth==0.1.7
