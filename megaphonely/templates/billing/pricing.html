@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="card-deck text-center">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-3 card-section">
+        <div class="card">
+            <div class="card-body text-secondary">
+                <h4 class="card-title">Personal</h4>
+                <div class="col-lg-12" style="font-size: 12px;">
+                    <b>Unlimited</b> scheduling
+                </div>
+                <div class="col-lg-12" style="font-size: 12px;">
+                    <b>10</b> social accounts
+                </div>
+
+                <br/>
+                <h1>
+                    <span style="font-size: 24px;">€</span>
+                    <span style="color: black"><b>19</b></span>
+                    <span style="font-size: 12px">/ monthly</span>
+                </h1>
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">Start free trial</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 card-section">
+        <div class="card">
+            <div class="card-body text-secondary">
+                <h4 class="card-title">Small Team</h4>
+                <div class="col-lg-12" style="font-size: 12px;">
+                    <b>Unlimited</b> scheduling
+                </div>
+                <div class="col-lg-12" style="font-size: 12px;">
+                    <b>20</b> social accounts
+                </div>
+
+
+                <br/>
+                <h1>
+                    <span style="font-size: 24px;">€</span>
+                    <span style="color: black"><b>99</b></span>
+                    <span style="font-size: 12px">/ monthly</span>
+                </h1>
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">Start free trial</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 text-center">
+    <h4>Will we be charged when our trial is up?</h4>
+    <p>
+        No. We don't ask for your credit card up front, so you'll only be
+        charged when you decide. If you want to continue after your trial,
+        we'll ask for payment details. If not — cancel with a click, no
+        questions asked.
+    </p>
+
+    <h4>What if we need more than 7 days?</h4>
+    <p>
+        We'll give you time. Just let us know and we'll happily extend your trial.
+    </p>
+</div>
+{% endblock %}
