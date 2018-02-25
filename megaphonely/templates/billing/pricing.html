@@ -23,7 +23,9 @@
                     <span style="color: black"><b>19</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-primary">Start free trial</a>
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                    {% if not user.is_authenticated %} Start free trial {% else %} Choose plan {% endif %}
+                </a>
             </div>
         </div>
     </div>
@@ -42,10 +44,12 @@
                 <br/>
                 <h1>
                     <span style="font-size: 24px;">€</span>
-                    <span style="color: black"><b>99</b></span>
+                    <span style="color: black"><b>49</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-primary">Start free trial</a>
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                    {% if not user.is_authenticated %} Start free trial {% else %} Choose plan {% endif %}
+                </a>
             </div>
         </div>
     </div>

@@ -5,69 +5,65 @@
 {% load static %}
 
 <div class="row">
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-3"></div>
-                        <div class="col-6 text-center"><b>Socials</b></div>
-                        <div class="col-3"></div>
+    <div class="col-lg-4">
+        <div class="col-lg-12 card-section">
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-12 text-center">
+                        Welcome back, <b>{{user.username}}</b>!
                     </div>
                 </div>
+                <div class="card-body text-secondary">
+
+                </div>
             </div>
-            <div class="card-body text-secondary">
-                {% if socials %}
+        </div>
+        <div class="col-lg-12 card-section">
+            <div class="card">
+                <div class="card-header">
                     <div class="col-12">
-                    {% for social in socials %}
                         <div class="row">
-                            <div class="col-10">
-                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
-                                <a href="{{social.url}}">
-                                    {{social.get_screen_name}}
+                            <div class="col-3">
+                                <a class="float-left" href="{% url 'dashboard:social_list' %}">
+                                    Connect
                                 </a>
                             </div>
-                            <div class="col-2">
-                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
-                                    <span class="fas fa-minus-circle" style="color: red"></span>
-                                </a>
-                            </div>
+                            <div class="col-6 text-center"><b>Socials</b></div>
+                            <div class="col-3"></div>
                         </div>
-                    {% endfor %}
                     </div>
-                {% else %}
-                    You currently have not connected any social accounts.
-                    <strong>
-                        You'll need to connect at least one social account
-                        before you can start creating contents.
-                    </strong>
-                {% endif %}
-            </div>
-            <div class="card-footer btn btn-block dropdown-toggle megaphonely-bg" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Connect a social account
-            </div>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="{% url 'social:begin' backend='twitter' %}">
-                    <i class="fab fa-twitter"></i> Connect Twitter profile
-                </a>
-                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook' %}">
-                    <i class="fab fa-facebook"></i> Connect Facebook profile
-                </a>
-                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-page' %}">
-                    <i class="fab fa-facebook"></i> Connect Facebook pages
-                </a>
-                <a class="dropdown-item" href="{% url 'social:begin' backend='facebook-group' %}">
-                    <i class="fab fa-facebook"></i> Connect Facebook groups
-                </a>
-                <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
-                    <i class="fab fa-linkedin"></i> Connect LinkedIn
-                </a>
-                <a class="dropdown-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
-                    <i class="fab fa-linkedin"></i> Connect LinkedIn companies
-                </a>
+                </div>
+                <div class="card-body text-secondary">
+                    {% if socials %}
+                        <div class="col-12">
+                        {% for social in socials %}
+                            <div class="row">
+                                <div class="col-10">
+                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                    <a href="{{social.url}}">
+                                        {{social.get_screen_name}}
+                                    </a>
+                                </div>
+                                <div class="col-2">
+                                    <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                        <span class="fas fa-minus-circle" style="color: red"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        You currently have not connected any social accounts.
+                        <strong>
+                            You'll need to connect at least one social account
+                            before you can start creating contents.
+                        </strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
+
     <div class="col-lg-8 card-section">
         <div class="card">
             <div class="card-header">
@@ -92,13 +88,7 @@
                 {% if contents %}
                     {% for content in contents %}
                         <div class="row">
-                            <div class="col-sm-1 text-center">
-                                <img class="rounded-circle" height="50" width="50" src="{% static 'megaphonely/img/megaphonely2048x2048.png' %}"/>
-                            </div>
-                            <div class="col-sm-11">
-                                <div class="col-12">
-                                    <strong style="color: gray">{{user.username}}</strong>
-                                </div>
+                            <div class="col-lg-12">
                                 <div class="col-12">
                                     <span>
                                         <i class="far fa-calendar-alt"></i>

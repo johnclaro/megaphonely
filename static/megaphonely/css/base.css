@@ -73,3 +73,7 @@ textarea {
     color: gray;
     box-shadow: 0 2px 4px -2px lightgray;
 }
+
+.active {
+    font-weight: 700;
+}
