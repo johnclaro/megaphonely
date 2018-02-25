@@ -1,51 +1,30 @@
-<div class="text-center" style="background: rgb(246, 249, 252) none repeat scroll 0% 0%; padding: 25px;">
+{% load static %}
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
-        <div class="col-6 col-lg-3">
-            <p>Megaphonely</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Plans</a>
-                </li>
+        <div class="col-12 col-md">
+            <img class="mb-2" src="{% static 'megaphonely/img/megaphonely2048x2048.png' %}" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">
+            A John Claro production
+            <br/>
+            Megaphonely &copy; 2018
+            </small>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="/pricing">Pricing</a></li>
+                <li><a class="text-muted" href="/terms">Terms</a></li>
+                <li><a class="text-muted" href="/privacy">Privacy</a></li>
             </ul>
         </div>
-        <div class="col-6 col-lg-3">
-            <p>Company</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-6 col-lg-3">
-            <p>Support</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="privacy">Privacy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="terms">Terms</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-6 col-lg-3">
-            <p>Connect</p>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.twitter.com/megaphonely">Twitter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.facebook.com/Megaphonely-723749727830922">Facebook</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.instagram.com/megaphonely">Instagram</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.linkedin.com/company/11450675">LinkedIn</a>
-                </li>
+        <div class="col-6 col-md">
+            <h5>Socials</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="https://www.facebook.com/Megaphonely-723749727830922">Facebook</a></li>
+                <li><a class="text-muted" href="https://www.instagram.com/megaphonely">Instagram</a></li>
+                <li><a class="text-muted" href="https://www.twitter.com/megaphonely">Twitter</a></li>
+                <li><a class="text-muted" href="https://www.linkedin.com/company/11450675">LinkedIn</a></li>
             </ul>
         </div>
     </div>
-</div>
+</footer>
