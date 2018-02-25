@@ -34,6 +34,9 @@
                     <a class="nav-link {% if request.resolver_match.view_name == 'dashboard:content_list' %}active{% endif %}" href="{% url 'dashboard:content_list' %}">Contents</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">Settings</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                 </li>
 
