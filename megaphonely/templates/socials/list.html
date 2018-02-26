@@ -1,26 +1,61 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<div class="col-lg-12 card-section">
-    <div class="card">
-        <div class="card-header">
-            <div class="col-12">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <b>Socials</b>
-                    </div>
+<div class="col-lg-12 text-center" style="padding: 10px;">
+    <h3>Connect your social accounts to your account.</h3>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header twitter-bg">
+                <div class="col-12 text-center">
+                    <span>Twitter</span>
                 </div>
             </div>
-        </div>
-        <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% for social in socials %}
-                    {{ social }}
-                {% endfor %}
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='twitter' %}">Connect Profile</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header facebook-bg">
+                <div class="col-12 text-center">
+                    <span>Facebook</span>
+                </div>
+            </div>
+            <div class="card-body text-secondary">
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook' %}">Connect Profile</a>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-page' %}">Connect Pages</a>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-group' %}">Connect Groups</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header linkedin-bg">
+                <div class="col-12 text-center">
+                    <span>LinkedIn</span>
+                </div>
+            </div>
+            <div class="card-body text-secondary">
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Connect Profile</a>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Connect Companies</a>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
