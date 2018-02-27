@@ -15,7 +15,9 @@
             </div>
             <div class="card-body text-secondary">
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='twitter' %}">Connect Profile</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='twitter' %}">
+                        <i class="fab fa-twitter"></i> Connect profile
+                    </a>
                 </ul>
             </div>
         </div>
@@ -29,13 +31,19 @@
             </div>
             <div class="card-body text-secondary">
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook' %}">Connect Profile</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook' %}">
+                        <i class="fab fa-facebook"></i> Connect profile
+                    </a>
                 </ul>
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-page' %}">Connect Pages</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-page' %}">
+                        <i class="fas fa-flag" style="color: orange"></i> Connect pages
+                    </a>
                 </ul>
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-group' %}">Connect Groups</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-group' %}">
+                        <i class="fas fa-users" style="color: #3B5998"></i> Connect groups
+                    </a>
                 </ul>
             </div>
         </div>
@@ -49,10 +57,14 @@
             </div>
             <div class="card-body text-secondary">
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Connect Profile</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
+                        <i class="fab fa-linkedin"></i> Connect profile
+                    </a>
                 </ul>
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Connect Companies</a>
+                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
+                        <i class="fas fa-building" style="color: #007BB5"></i></i> Connect companies
+                    </a>
                 </ul>
             </div>
         </div>

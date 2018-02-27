@@ -13,6 +13,7 @@ urlpatterns = [
     re_path(r'^', include('megaphonely.dashboard.urls', namespace='dashboard')),
     path('privacy', TemplateView.as_view(template_name='legal/privacy.html')),
     path('terms', TemplateView.as_view(template_name='legal/terms.html')),
+    path('billing', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
     path('pricing', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
     re_path(r'^profiles/', include('megaphonely.accounts.urls', namespace='accounts')),
     re_path(r'^accounts/', include('allauth.urls')),

@@ -18,7 +18,7 @@ class SocialManager(models.Manager):
         social_id = data['id']
         try:
             picture_url = application.get_picture_urls()['values'][0]
-        except KeyError:
+        except (KeyError, TypeError):
             picture_url = ''
 
         return {

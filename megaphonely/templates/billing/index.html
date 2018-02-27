@@ -10,15 +10,16 @@
             <div class="col-12">
                 <div class="row text-center">
                     <div class="col-12">
-                        <b>Editing profile</b>
+                        <b>Billing</b>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                Email: {{user.email}} <a href="{% url 'account_email' %}">Edit</a>
-                {% crispy form %}
+                Plan: <a href="{% url 'pricing' %}">Upgrade</a>
+                <br/>
+                Payment Method: Edit
             </div>
         </div>
     </div>
