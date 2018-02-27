@@ -65,11 +65,7 @@
                         {% endfor %}
                         </div>
                     {% else %}
-                        You currently have not connected any social accounts.
-                        <strong>
-                            You'll need to connect at least one social account
-                            before you can start creating contents.
-                        </strong>
+                        No social accounts connected.
                     {% endif %}
                 </div>
             </div>
@@ -88,7 +84,7 @@
                             {% endif %}
                         </div>
                         <div class="col-6 text-center">
-                            <b>Contents</b>
+                            <b>Scheduled contents</b>
                         </div>
                         <div class="col-3">
                         </div>
@@ -144,8 +140,14 @@
                         </div>
                         <hr/>
                     {% endfor %}
+                {% elif not socials %}
+                    You need atleast one social account connected.
+                    Click <a href="{% url 'dashboard:social_list' %}">here</a>
+                    to connect one.
                 {% else %}
-                    You currently have no contents scheduled to be posted.
+                    No contents scheduled.
+                    Click <a href="{% url 'dashboard:content_add' %}">here</a>
+                    to schedule or instantly publish a content.
                 {% endif %}
             </div>
         </div>
