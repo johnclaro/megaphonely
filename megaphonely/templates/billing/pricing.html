@@ -23,9 +23,26 @@
                     <span style="color: black"><b>19</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                    {% if not user.is_authenticated %} Start free trial {% else %} Choose plan {% endif %}
-                </a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'account_signup' %}"
+                       class="btn btn-lg btn-block btn-outline-primary">
+                        Start free trial
+                    </a>
+                {% else %}
+                    <form action="your-server-side-code" method="POST">
+                        <script
+                                src="https://checkout.stripe.com/checkout.js"
+                                class="stripe-button"
+                                data-key="pk_test_emfDahpx1672VHSGZebst34c"
+                                data-amount="1999"
+                                data-name="Megaphonely"
+                                data-description="Example charge"
+                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                data-locale="auto"
+                                data-currency="eur">
+                        </script>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -47,9 +64,27 @@
                     <span style="color: black"><b>49</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                    {% if not user.is_authenticated %} Start free trial {% else %} Choose plan {% endif %}
-                </a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'account_signup' %}"
+                       class="btn btn-lg btn-block btn-outline-primary">
+                        Start free trial
+                    </a>
+                {% else %}
+                    <form action="your-server-side-code" method="POST">
+                        <script
+                                src="https://checkout.stripe.com/checkout.js"
+                                class="stripe-button"
+                                data-email="{{user.email}}"
+                                data-key="pk_test_emfDahpx1672VHSGZebst34c"
+                                data-amount="2000"
+                                data-name="Megaphonely"
+                                data-description="Example charge"
+                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                data-locale="auto"
+                                data-currency="eur">
+                        </script>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -66,7 +101,8 @@
 
     <h4>What if we need more than 7 days?</h4>
     <p>
-        We'll give you time. Just let us know and we'll happily extend your trial.
+        We'll give you time. Just let us know and we'll happily extend your
+        trial.
     </p>
 </div>
 {% endblock %}
