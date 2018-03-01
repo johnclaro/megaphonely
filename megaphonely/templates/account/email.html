@@ -17,24 +17,38 @@
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% for emailaddress in user.emailaddress_set.all %}
-                    <div class="ctrlHolder">
-                        <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
-                        <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+                <form action="{% url 'account_email' %}" class="email_list" method="post">
+                    {% csrf_token %}
+                    {% for emailaddress in user.emailaddress_set.all %}
+                        <div class="ctrlHolder">
+                            <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+                            {% if not emailaddress.primary %}
+                                <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+                            {% endif %}
 
-                        {{ emailaddress.email }}
-                        {% if emailaddress.primary %}
-                            <span class="badge badge-success">Primary</span>
-                        {% endif %}
-                        {% if emailaddress.verified %}
-                            <span class="badge badge-secondary">Verified</span>
-                        {% else %}
-                            <span class="badge badge-secondary">Unverified</span>
-                        {% endif %}
-                  </label>
-                  </div>
-                {% endfor %}
-                <form method="post" action="{% url 'account_email' %}" class="add_email">
+                            {{ emailaddress.email }}
+                            {% if emailaddress.primary %}
+                                <span class="badge badge-success">Primary</span>
+                            {% endif %}
+                            {% if emailaddress.verified %}
+                                <span class="badge badge-primary">Verified</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Confirmation link sent. You cannot make this as your primary</span>
+                            {% endif %}
+                            </label>
+                        </div>
+                    {% endfor %}
+                    <div class="buttonHolder">
+                          <button class="btn btn-primary" type="submit" name="action_primary" >Make primary</button>
+                          <button class="btn btn-primary" type="submit" name="action_send" >Re-send confirmation</button>
+                          <button class="btn btn-primary" type="submit" name="action_remove" >Remove</button>
+                    </div>
+
+                    <hr/>
+                </form>
+
+                <form action="{% url 'account_email' %}" class="email_list" method="post">
+                    <h5>Add email</h5>
                     {% csrf_token %}
                     {{ form | crispy }}
                     <button class="btn btn-block btn-primary" name="action_add" type="submit">Add Email</button>
@@ -43,5 +57,19 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+(function() {
+  var message = "Do you really want to remove the selected e-mail address?";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
 
 {% endblock %}
