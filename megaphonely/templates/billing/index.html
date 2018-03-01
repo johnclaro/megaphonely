@@ -17,9 +17,18 @@
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                Plan: <a href="{% url 'pricing' %}">Upgrade</a>
-                <br/>
-                Payment Method: Edit
+                <form action="/charge" method="post" id="payment-form">
+                    <div class="form-row">
+                        <label for="card-element">
+                            Credit or debit card
+                        </label>
+                        <div id="card-element" class="form-control"></div>
+                        <div id="card-errors" role="alert"></div>
+                    </div>
+
+                    <br/>
+                    <button class="btn btn-outline-primary">Save payment method</button>
+                </form>
             </div>
         </div>
     </div>
