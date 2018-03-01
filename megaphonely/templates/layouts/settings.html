@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-12 text-center">
+                    <span>Personal settings</span>
+                </div>
+            </div>
+            <div class="card-body text-secondary">
+                <ul class="list-group list-group-flush">
+                    <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">
+                        <i class="far fa-user"></i> Profile
+                    </a>
+                    <a class="list-group-item {% if request.resolver_match.view_name == 'account_email' %}active{% endif %}" href="{% url 'account_email' %}">
+                        <i class="far fa-envelope"></i> Emails
+                    </a>
+                    <a class="list-group-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'billing' %}">
+                        <i class="far fa-credit-card"></i> Billing
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% block setting %}{% endblock %}
+</div>
+
+{% endblock %}
