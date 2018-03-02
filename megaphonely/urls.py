@@ -16,7 +16,7 @@ urlpatterns = [
     path('terms/', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
     path('billing/', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
     path('pricing/', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
-    path(r'social/', include('social_django.urls', namespace='social')),
+    re_path('^social/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

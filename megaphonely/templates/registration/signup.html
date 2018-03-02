@@ -14,25 +14,19 @@
                 <form method="post" action="{% url 'accounts:signup' %}">
                     {% csrf_token %}
 
-                    {% for field in form %}
-                    <div class="form-group">
-                        {% render_field field class="form-control" %}
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
+                    {% include 'includes/bs4_form.html' with form=form %}
+                    <div class="form-check form-group">
+                        <input type="checkbox" class="form-check-input" id="tos" required>
+                        <label class="form-check-label" for="tos" style="font-size: 14px;">
+                            I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
+                        </label>
                     </div>
-                    {% endfor %}
 
-                    By clicking sign up, you agree to our <a
-                        href="{% url 'terms' %}">terms</a>
-                    <div class="form-group no-margin">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            Sign up
-                        </button>
-                    </div>
-                    <div class="margin-top20 text-center">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Sign Up
+                    </button>
+                    <br/>
                         Already have an account? <a href="{% url 'accounts:login' %}">Login</a>
-                    </div>
                 </form>
             </div>
         </div>
