@@ -23,7 +23,7 @@ class SignupForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('username', 'email', 'password')
+        fields = ('email', 'username', 'password')
 
 
 class ProfileForm(forms.ModelForm):

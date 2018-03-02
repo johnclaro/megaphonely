@@ -17,7 +17,7 @@
                     <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">
                         <i class="far fa-user"></i> Profile
                     </a>
-                    <a class="list-group-item {% if request.resolver_match.view_name == 'account_email' %}active{% endif %}" href="{% url 'account_email' %}">
+                    <a class="list-group-item {% if request.resolver_match.view_name == 'dashboard:index' %}active{% endif %}" href="{% url 'dashboard:index' %}">
                         <i class="far fa-envelope"></i> Emails
                     </a>
                     <a class="list-group-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'billing' %}">
