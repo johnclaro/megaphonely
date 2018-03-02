@@ -9,6 +9,11 @@ from .forms import SignupForm, ProfileForm
 
 
 def signup(request):
+    user = request.user
+
+    if user.is_authenticated:
+        return redirect('dashboard:index')
+
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
