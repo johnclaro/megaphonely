@@ -12,10 +12,10 @@ admin.autodiscover()
 urlpatterns = [
     path('', include('megaphonely.dashboard.urls', namespace='dashboard')),
     path('', include('megaphonely.accounts.urls', namespace='accounts')),
-    path('privacy', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
-    path('terms', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
-    path('billing', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
-    path('pricing', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
+    path('privacy/', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
+    path('terms/', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
+    path('billing/', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
+    path('pricing/', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
     path(r'social/', include('social_django.urls', namespace='social')),
 ]
 
