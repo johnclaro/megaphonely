@@ -11,6 +11,7 @@ load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
+SITE_ID = 1
 DEBUG = bool(strtobool(os.environ['DEBUG']))
 SECRET_KEY = os.environ['SECRET_KEY']
 STATIC_URL = '/static/'
@@ -120,15 +121,6 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
-# Allauth
-SITE_ID = 1
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-
 # Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -151,9 +143,6 @@ INSTALLED_APPS = (
     'megaphonely.dashboard.apps.DashboardConfig',
     'storages',
     'social_django',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
     'crispy_forms',
 )
 
@@ -203,7 +192,6 @@ AUTH_PASSWORD_VALIDATORS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
