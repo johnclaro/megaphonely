@@ -10,12 +10,12 @@ chardet==3.0.4
 click==6.7
 colorama==0.3.7
 defusedxml==0.5.0
-dj-stripe==1.0.0.post1
 Django==2.0.1
 django-crispy-forms==1.7.0
 django-debug-toolbar==1.9.1
 django-polymorphic==2.0.2
 django-storages==1.6.5
+django-widgets-improved==1.5.0
 docker-py==1.7.2
 dockerpty==0.4.1
 docopt==0.6.2
