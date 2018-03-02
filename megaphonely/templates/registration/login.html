@@ -9,28 +9,14 @@
         <div class="card fat">
             <div class="card-body">
                 <h4 class="card-title">Login</h4>
-                {% if form.errors %}
-                    <p style="color: red;">Your username and password didn't match. Please try again.</p>
-                {% endif %}
-
                 <form method="post" action="{% url 'accounts:login' %}">
                     {% csrf_token %}
-
-                    {% for field in form %}
-                        <div class="form-group">
-                            {% render_field field class="form-control" %}
-                            {% for error in field.errors %}
-                                <p style="color: red">{{ error }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-
-
+                    {% include 'includes/bs4_form.html' with form=form %}
                     <button type="submit" class="btn btn-primary btn-block">
                         Login
                     </button>
                     <br/>
-                    <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
+                    <a href="{% url 'password_reset' %}">Forgot your password?</a>
                     <br/>
                     Don't have an account?  <a href="{% url 'accounts:signup' %}">Signup</a>
                 </form>

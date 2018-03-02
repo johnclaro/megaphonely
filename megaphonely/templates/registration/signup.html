@@ -13,7 +13,6 @@
 
                 <form method="post" action="{% url 'accounts:signup' %}">
                     {% csrf_token %}
-
                     {% include 'includes/bs4_form.html' with form=form %}
                     <div class="form-check form-group">
                         <input type="checkbox" class="form-check-input" id="tos" required>
@@ -21,7 +20,6 @@
                             I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
                         </label>
                     </div>
-
                     <button type="submit" class="btn btn-primary btn-block">
                         Sign Up
                     </button>
