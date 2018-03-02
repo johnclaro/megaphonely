@@ -1,9 +1,23 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
 
 from .models import Profile
-from .forms import ProfileForm
+from .forms import SignupForm, ProfileForm
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard:index')
+    else:
+        form = SignupForm()
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):

@@ -4,20 +4,24 @@ from django.conf.urls import include
 from django.urls import re_path, path
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+
+from megaphonely.accounts.forms import LoginForm
 
 
 admin.autodiscover()
 
 
 urlpatterns = [
-    re_path(r'^', include('megaphonely.dashboard.urls', namespace='dashboard')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('privacy', TemplateView.as_view(template_name='legal/privacy.html')),
-    path('terms', TemplateView.as_view(template_name='legal/terms.html')),
+    path('', include('megaphonely.dashboard.urls', namespace='dashboard')),
+    path('', include('django.contrib.auth.urls')),
+    path('login', auth_views.login, name='login', kwargs={"authentication_form": LoginForm}),
+    path('', include('megaphonely.accounts.urls', namespace='accounts')),
+    path('privacy', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
+    path('terms', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
     path('billing', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
     path('pricing', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
-    re_path(r'^profiles/', include('megaphonely.accounts.urls', namespace='accounts')),
-    re_path(r'^social/', include('social_django.urls', namespace='social')),
+    path(r'social/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

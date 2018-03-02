@@ -17,6 +17,12 @@
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'pricing' %}active{% endif %}" href="/pricing">Pricing</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.view_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.view_name == 'accounts:signup' %}active{% endif %}" href="{% url 'accounts:signup' %}">Signup</a>
+                </li>
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="/">Dashboard</a>
@@ -26,6 +32,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.view_name == 'logout' %}active{% endif %}" href="{% url 'logout' %}">Logout</a>
                 </li>
 
             {% endif %}
