@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">Sign up</h4>
+
+                <form method="post" action="{% url 'accounts:signup' %}">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="form-group">
+                        {% render_field field class="form-control" %}
+                        {% for error in field.errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+                    By clicking sign up, you agree to our <a
+                        href="{% url 'terms' %}">terms</a>
+                    <div class="form-group no-margin">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Sign up
+                        </button>
+                    </div>
+                    <div class="margin-top20 text-center">
+                        Already have an account? <a href="{% url 'login' %}">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

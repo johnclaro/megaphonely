@@ -1,9 +1,10 @@
-from django.urls import re_path
+from django.urls import re_path, path
 
-from .views import ProfileUpdate
+from . import views
 
 app_name = 'accounts'
 
 urlpatterns = [
-    re_path(r'^(?P<pk>\d+)/edit/$', ProfileUpdate.as_view(), name='profile_update'),
+    path('signup', views.signup, name='signup'),
+    re_path(r'^(?P<pk>\d+)/edit/$', views.ProfileUpdate.as_view(), name='profile_update'),
 ]

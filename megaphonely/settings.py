@@ -22,10 +22,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'accounts.MyUser'
 LOGIN_URL = '/accounts/login'
 LOGOUT_URL = '/accounts/logout'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Email
 EMAIL_USE_TLS = True
@@ -144,6 +145,7 @@ INSTALLED_APPS = (
     'storages',
     'social_django',
     'crispy_forms',
+    'widget_tweaks'
 )
 
 MIDDLEWARE = (
@@ -192,12 +194,12 @@ AUTH_PASSWORD_VALIDATORS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.linkedin.LinkedinOAuth2',
-    'megaphonely.dashboard.backends.FacebookOAuth2Page',
-    'megaphonely.dashboard.backends.FacebookOAuth2Group',
-    'megaphonely.dashboard.backends.LinkedinOAuth2Company'
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.linkedin.LinkedinOAuth2',
+    # 'megaphonely.dashboard.backends.FacebookOAuth2Page',
+    # 'megaphonely.dashboard.backends.FacebookOAuth2Group',
+    # 'megaphonely.dashboard.backends.LinkedinOAuth2Company'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
