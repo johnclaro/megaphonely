@@ -194,12 +194,12 @@ AUTH_PASSWORD_VALIDATORS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    # 'social_core.backends.twitter.TwitterOAuth',
-    # 'social_core.backends.facebook.FacebookOAuth2',
-    # 'social_core.backends.linkedin.LinkedinOAuth2',
-    # 'megaphonely.dashboard.backends.FacebookOAuth2Page',
-    # 'megaphonely.dashboard.backends.FacebookOAuth2Group',
-    # 'megaphonely.dashboard.backends.LinkedinOAuth2Company'
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'megaphonely.dashboard.backends.FacebookOAuth2Page',
+    'megaphonely.dashboard.backends.FacebookOAuth2Group',
+    'megaphonely.dashboard.backends.LinkedinOAuth2Company'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
