@@ -9,8 +9,11 @@ import stripe
 from .managers import ProfileManager
 
 
-class MyUser(AbstractUser):
+class User(AbstractUser):
     pass
+
+    class Meta(object):
+        unique_together = ('email',)
 
 
 class Profile(models.Model):
