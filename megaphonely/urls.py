@@ -11,6 +11,7 @@ admin.autodiscover()
 
 urlpatterns = [
     re_path(r'^', include('megaphonely.dashboard.urls', namespace='dashboard')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('privacy', TemplateView.as_view(template_name='legal/privacy.html')),
     path('terms', TemplateView.as_view(template_name='legal/terms.html')),
     path('billing', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
