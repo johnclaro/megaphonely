@@ -13,16 +13,7 @@
                     <p style="color: red;">Your username and password didn't match. Please try again.</p>
                 {% endif %}
 
-                {% if next %}
-                    {% if user.is_authenticated %}
-                        <p>Your account doesn't have access to this page. To proceed,
-                        please login with an account that has access.</p>
-                    {% else %}
-                        <p>Please login to see this page.</p>
-                    {% endif %}
-                {% endif %}
-
-                <form method="post" action="{% url 'login' %}">
+                <form method="post" action="{% url 'accounts:login' %}">
                     {% csrf_token %}
 
                     {% for field in form %}
@@ -41,7 +32,7 @@
                         </button>
                     </div>
                     <div class="margin-top20">
-                        <a href="{% url 'password_change' %}">Forgot your password?</a>
+                        <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
                     </div>
                     <div class="margin-top20 text-center">
                         Don't have an account?  <a href="{% url 'accounts:signup' %}">Create one</a>
