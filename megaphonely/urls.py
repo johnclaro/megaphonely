@@ -4,9 +4,6 @@ from django.conf.urls import include
 from django.urls import re_path, path
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.contrib.auth import views as auth_views
-
-from megaphonely.accounts.forms import LoginForm
 
 
 admin.autodiscover()
@@ -14,8 +11,6 @@ admin.autodiscover()
 
 urlpatterns = [
     path('', include('megaphonely.dashboard.urls', namespace='dashboard')),
-    path('', include('django.contrib.auth.urls')),
-    path('login', auth_views.login, name='login', kwargs={"authentication_form": LoginForm}),
     path('', include('megaphonely.accounts.urls', namespace='accounts')),
     path('privacy', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
     path('terms', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
