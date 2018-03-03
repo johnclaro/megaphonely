@@ -114,14 +114,3 @@ class ContentList(LoginRequiredMixin, ListView):
         user = self.request.user
         contents = Content.objects.filter(account=user)
         return contents
-
-
-class SocialList(LoginRequiredMixin, ListView):
-    template_name = 'socials/list.html'
-    model = Social
-    context_object_name = 'socials'
-
-    def get_queryset(self):
-        user = self.request.user
-        socials = Social.objects.filter(accounts__in=[user])
-        return socials
