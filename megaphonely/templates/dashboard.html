@@ -52,7 +52,6 @@
                     </div>
                 </div>
                 <div class="card-body text-secondary">
-                    <a href="{% url 'account_set_password' %}">Water</a>
                     {% if socials %}
                         <div class="col-12">
                         {% for social in socials %}
@@ -149,12 +148,10 @@
                     {% endfor %}
                 {% elif not socials %}
                     You need atleast one social account connected.
-                    Click <a href="{% url 'dashboard:social_list' %}">here</a>
-                    to connect one.
+                    <a href="{% url 'dashboard:social_list' %}">Connect a social account.</a>
                 {% else %}
                     No contents scheduled.
-                    Click <a href="{% url 'dashboard:content_add' %}">here</a>
-                    to schedule or instantly publish a content.
+                    <a href="{% url 'dashboard:content_add' %}">Schedule or instantly publish a content.</a>
                 {% endif %}
             </div>
         </div>
