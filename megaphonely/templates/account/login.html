@@ -10,17 +10,12 @@
         <div class="card fat">
             <div class="card-body">
                 <h4 class="card-title">Login</h4>
-                {% if redirect_field_value %}
-                    <div class="alert alert-danger" role="alert">
-                        You do not have access to visit this page. Please login first.
-                    </div>
-                {% endif %}
                 <form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    {{ form | crispy }}
+                    {% include 'includes/bs4_form.html' with form=form %}
 
                     {% if redirect_field_value %}
-                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
 
                     <button type="submit" class="btn btn-primary btn-block">
