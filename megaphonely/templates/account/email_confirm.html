@@ -1,31 +1,38 @@
-{% extends "account/base.html" %}
+{% extends 'base.html' %}
 
-{% load i18n %}
 {% load account %}
 
-{% block head_title %}{% trans "Confirm E-mail Address" %}{% endblock %}
-
-
 {% block content %}
-<h1>{% trans "Confirm E-mail Address" %}</h1>
 
-{% if confirmation %}
-
-{% user_display confirmation.email_address.user as user_display %}
-
-<p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
-{% load crispy_forms_tags %}
-<form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
-{% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
-</form>
-
-{% else %}
-
-{% url 'account_email' as email_url %}
-
-<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
-
-{% endif %}
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                {% if confirmation %}
+                    <h4 class="card-title">Confirm your email address</h4>
+                    {% user_display confirmation.email_address.user as user_display %}
+                        <p>
+                            {% with confirmation.email_address.email as email %}
+                                Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user <b>{{ user_display }}</b>.
+                            {% endwith %}
+                        </p>
+                    {% load crispy_forms_tags %}
+                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+                    </form>
+                {% else %}
+                    <h4 class="card-title">Unable to verify your email</h4>
+                    {% url 'account_email' as email_url %}
+                    <p>
+                        This email confirmation link expired or is invalid.
+                        You can <a href="{% url 'account_login' %}">login again</a> to gain a new verification link if your email is not yet verified
+                        or <a href="{% url 'contact_us' %}">contact us</a> if you are having further trouble.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
