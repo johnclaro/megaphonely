@@ -22,8 +22,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
-LOGIN_URL = '/accounts/login'
-LOGOUT_URL = '/accounts/logout'
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
 # Email
@@ -126,8 +125,10 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 # Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -155,6 +156,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+    'widget_tweaks',
 )
 
 MIDDLEWARE = (
