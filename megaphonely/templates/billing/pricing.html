@@ -9,7 +9,7 @@
     <div class="col-lg-3 card-section">
         <div class="card">
             <div class="card-body text-secondary">
-                <h4 class="card-title">Personal</h4>
+                <h4 class="card-title">Standard</h4>
                 <div class="col-lg-12" style="font-size: 12px;">
                     <b>Unlimited</b> scheduling
                 </div>
@@ -23,33 +23,16 @@
                     <span style="color: black"><b>19</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'account_signup' %}"
-                       class="btn btn-lg btn-block btn-outline-primary">
-                        Start free trial
-                    </a>
-                {% else %}
-                    <form action="your-server-side-code" method="POST">
-                        <script
-                                src="https://checkout.stripe.com/checkout.js"
-                                class="stripe-button"
-                                data-key="pk_test_emfDahpx1672VHSGZebst34c"
-                                data-amount="1999"
-                                data-name="Megaphonely"
-                                data-description="Example charge"
-                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                data-locale="auto"
-                                data-currency="eur">
-                        </script>
-                    </form>
-                {% endif %}
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                    Start free trial
+                </a>
             </div>
         </div>
     </div>
     <div class="col-lg-3 card-section">
         <div class="card">
             <div class="card-body text-secondary">
-                <h4 class="card-title">Small Team</h4>
+                <h4 class="card-title">Advanced</h4>
                 <div class="col-lg-12" style="font-size: 12px;">
                     <b>Unlimited</b> scheduling
                 </div>
@@ -64,27 +47,9 @@
                     <span style="color: black"><b>49</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'account_signup' %}"
-                       class="btn btn-lg btn-block btn-outline-primary">
-                        Start free trial
-                    </a>
-                {% else %}
-                    <form action="your-server-side-code" method="POST">
-                        <script
-                                src="https://checkout.stripe.com/checkout.js"
-                                class="stripe-button"
-                                data-email="{{user.email}}"
-                                data-key="pk_test_emfDahpx1672VHSGZebst34c"
-                                data-amount="2000"
-                                data-name="Megaphonely"
-                                data-description="Example charge"
-                                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                                data-locale="auto"
-                                data-currency="eur">
-                        </script>
-                    </form>
-                {% endif %}
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                    Start free trial
+                </a>
             </div>
         </div>
     </div>
