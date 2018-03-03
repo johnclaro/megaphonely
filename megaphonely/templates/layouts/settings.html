@@ -15,13 +15,16 @@
             <div class="card-body text-secondary">
                 <ul class="list-group list-group-flush">
                     <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">
-                        <i class="far fa-user"></i> Profile
+                        Profile
+                    </a>
+                    <a class="list-group-item {% if request.resolver_match.view_name == 'account_change_password' %}active{% endif %}" href="{% url 'account_change_password' %}">
+                        Account
                     </a>
                     <a class="list-group-item {% if request.resolver_match.view_name == 'account_email' %}active{% endif %}" href="{% url 'account_email' %}">
-                        <i class="far fa-envelope"></i> Emails
+                        Emails
                     </a>
                     <a class="list-group-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'billing' %}">
-                        <i class="far fa-credit-card"></i> Billing
+                        Billing
                     </a>
                 </ul>
             </div>
