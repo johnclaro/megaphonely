@@ -16,14 +16,12 @@
                     <div class="form-check form-group">
                         <input type="checkbox" class="form-check-input" id="tos" required>
                         <label class="form-check-label" for="tos" style="font-size: 14px;">
-                            I agree to the <a href="{% url 'dashboard:index' %}">Megaphonely Terms.</a>
+                            I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
                         </label>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Sign Up
-                    </button>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
                     <br/>
-                        Already have an account? <a href="{% url 'account_login' %}">Login</a>
+                    Already have an account? <a href="{% url 'account_login' %}">Login</a>
                 </form>
             </div>
         </div>
