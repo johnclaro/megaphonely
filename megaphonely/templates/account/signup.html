@@ -1,21 +1,31 @@
-{% extends "account/base.html" %}
+{% extends 'base.html' %}
 
-{% load i18n %}
-
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-{% load crispy_forms_tags %}
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form | crispy }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button class="btn btn-block btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">Create an account</h4>
+                <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <div class="form-check form-group">
+                        <input type="checkbox" class="form-check-input" id="tos" required>
+                        <label class="form-check-label" for="tos" style="font-size: 14px;">
+                            I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    <br/>
+                    Already have an account? <a href="{% url 'account_login' %}">Login</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
