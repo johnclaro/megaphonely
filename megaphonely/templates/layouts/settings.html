@@ -20,9 +20,6 @@
                     <a class="list-group-item {% if request.resolver_match.view_name == 'account_change_password' %}active{% endif %}" href="{% url 'account_change_password' %}">
                         Account
                     </a>
-                    <a class="list-group-item {% if request.resolver_match.view_name == 'account_email' %}active{% endif %}" href="{% url 'account_email' %}">
-                        Emails
-                    </a>
                     <a class="list-group-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'billing' %}">
                         Billing
                     </a>
