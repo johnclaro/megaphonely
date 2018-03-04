@@ -4,6 +4,36 @@
 
 {% load static %}
 
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="paymentModalLabel">Upgrading to</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="{% url 'accounts:payment' %}" method="post" id="payment-form">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Barack Obama">
+              </div>
+              <div class="form-row form-group">
+                <label for="card-element">
+                  Credit or debit card
+                </label>
+                <div id="card-element" class="form-control"></div>
+                <div id="card-errors" role="alert" style="color: red"></div>
+              </div>
+              <button class="btn btn-primary btn-block">Submit Payment</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="card-deck text-center">
     <div class="col-lg-3"></div>
     <div class="col-lg-3 card-section">
@@ -23,9 +53,13 @@
                     <span style="color: black"><b>19</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                    Start free trial
-                </a>
+                {% if not user.is_authenticated %}
+                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                      Start free trial
+                  </a>
+                {% else %}
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#paymentModal" data-plan="standard">Upgrade</button>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -47,9 +81,13 @@
                     <span style="color: black"><b>49</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                    Start free trial
-                </a>
+                {% if not user.is_authenticated %}
+                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                      Start free trial
+                  </a>
+                {% else %}
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#paymentModal" data-plan="advanced">Upgrade</button>
+                {% endif %}
             </div>
         </div>
     </div>

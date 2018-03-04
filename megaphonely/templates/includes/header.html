@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">
         <a href="{% url 'dashboard:index' %}" style="text-decoration: none !important; color: maroon; font-family: Poppins; font-weight: 700">Megaphonely</a>
     </h5>
@@ -12,7 +12,6 @@
             <a class="p-2 text-dark {% if request.resolver_match.view_name == 'account_signup' %}active{% endif %}" href="{% url 'account_signup' %}">Signup</a>
         {% else %}
             <a class="p-2 text-dark {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="/">Dashboard</a>
-            <a class="p-2 text-dark {% if request.resolver_match.view_name == 'dashboard:connect' %}active{% endif %}" href="{% url 'dashboard:connect' %}">Connect</a>
             <a class="p-2 text-dark {% if request.resolver_match.view_name == 'accounts:profile_update' or request.resolver_match.view_name == 'account_change_password' or request.resolver_match.view_name == 'account_email' or request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">Settings</a>
             <a class="p-2 text-dark " href="{% url 'account_logout' %}">Logout</a>
         {% endif %}
