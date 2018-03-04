@@ -10,6 +10,9 @@
         <div class="card fat">
             <div class="card-body">
                 <h4 class="card-title">Create an account</h4>
+                <div class="form-group">
+                    Comes with a <b>7-day free trial</b>
+                </div>
                 <form method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
                     {{ form | crispy }}
