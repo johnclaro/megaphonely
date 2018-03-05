@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="card-body text-secondary">
-            <form action="{% url 'accounts:payment' %}" method="post" id="payment-form">
+            <form action="{% url 'billing:payment' %}" method="post" id="payment-form">
                 {% csrf_token %}
                 <input type="hidden" name="plan" value="standard">
                 <div class="form-group">
