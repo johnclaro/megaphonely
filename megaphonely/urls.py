@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.conf.urls import include
-from django.urls import path
+from django.urls import re_path, path
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -17,6 +17,8 @@ urlpatterns = [
     path('privacy/', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
     path('terms/', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
     path('billing/', TemplateView.as_view(template_name='billing/index.html'), name='billing'),
+    path('standard/', TemplateView.as_view(template_name='billing/standard.html'), name='standard'),
+    path('advanced/', TemplateView.as_view(template_name='billing/advanced.html'), name='advanced'),
     path('pricing/', TemplateView.as_view(template_name='billing/pricing.html'), name='pricing'),
     path('social/', include('social_django.urls', namespace='social')),
 ]

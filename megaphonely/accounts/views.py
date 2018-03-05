@@ -13,12 +13,11 @@ def payment(request):
     user = request.user
     if request.method == 'POST':
         payload = request.POST
-
+        plan = payload['plan']
         stripe_token = payload['stripeToken']
         customer = stripe.Customer.retrieve(user.profile.stripe_id)
         response = customer.sources.create(source=stripe_token)
         print(response)
-
         return redirect('dashboard:index')
 
 
