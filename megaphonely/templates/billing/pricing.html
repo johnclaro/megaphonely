@@ -28,7 +28,7 @@
                       Start free trial
                   </a>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'standard' %}">Upgrade</a>
+                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Upgrade</a>
                 {% endif %}
             </div>
         </div>
@@ -55,7 +55,7 @@
                       Start free trial
                   </a>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'advanced' %}">Upgrade</a>
+                  <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Upgrade</a>
                 {% endif %}
             </div>
         </div>
