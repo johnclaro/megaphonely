@@ -12,9 +12,12 @@ from .choices import PLAN_CHOICES
 
 class Customer(Model):
     account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    customer_id = CharField(max_length=100, null=True)
+    customer_id = CharField(max_length=50, null=True)
     plan = CharField(max_length=20, choices=PLAN_CHOICES, default='free')
-    subscription_id = CharField(max_length=100, null=True, blank=True)
+    subscription_id = CharField(max_length=50, null=True, blank=True)
+    last_four = CharField(max_length=4, null=True, blank=True)
+    brand = CharField(max_length=20, null=True, blank=True)
+    next_payment_at = DateTimeField(blank=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
