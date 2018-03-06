@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
@@ -8,20 +10,37 @@ import stripe
 from .models import Customer
 
 
+def convert_unix_timestamp_to_human_readable_date(unix_timestamp):
+    date = datetime.fromtimestamp(unix_timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    return date
+
+
+def billing(request):
+    user = request.user
+    template = loader.get_template('billing/index.html')
+    context = {
+        'payment_histories': [{
+            'date': '1',
+            'items': 'apple'
+        }]
+    }
+    response = HttpResponse(template.render(context, request))
+    return response
+
+
 def plan(request):
     user = request.user
     plan = request.path.replace('/', '')
-    plan_price = settings.STRIPE_PLANS[plan]['price']
-    plan_priority = settings.STRIPE_PLANS[plan]['priority']
+    price = settings.STRIPE_PLANS[plan]['price']
+    priority = settings.STRIPE_PLANS[plan]['priority']
 
-    customer = stripe.Customer.retrieve(user.customer.customer_id)
-    if not customer['sources']['data']:
+    if not user.customer.subscription_id:
         template = loader.get_template('billing/plan.html')
-        context = {'plan': plan, 'price': plan_price, 'priority': plan_priority}
+        context = {'plan': plan, 'price': price, 'priority': priority}
         response = HttpResponse(template.render(context, request))
     else:
         template = loader.get_template('billing/upgrade.html')
-        context = {'plan': plan, 'price': plan_price}
+        context = {'plan': plan, 'price': price}
         response = HttpResponse(template.render(context, request))
 
     return response
@@ -35,13 +54,15 @@ def subscribe(request):
 
     customer = stripe.Customer.retrieve(user.customer.customer_id)
     stripe_token = payload['stripeToken']
-    customer.sources.create(source=stripe_token)
+    source = customer.sources.create(source=stripe_token)
 
     subscription = stripe.Subscription.create(
         customer=user.customer.customer_id, items=[{'plan': plan_id}]
     )
     customer = Customer.objects.get(account=user)
     customer.plan = plan
+    customer.brand = source['brand']
+    customer.last_four = source['last4']
     customer.subscription_id = subscription['id']
     customer.save()
 

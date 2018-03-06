@@ -30,7 +30,7 @@
                 {% elif user.customer.plan == 'standard' %}
                     <b>Current</b>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Upgrade</a>
+                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Upgrade  <i class="fas fa-arrow-right"></i></a>
                 {% endif %}
             </div>
         </div>
@@ -59,7 +59,7 @@
                 {% elif user.customer.plan == 'advanced' %}
                     <b>Current</b>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Upgrade</a>
+                  <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Upgrade <i class="fas fa-arrow-right"></i></a>
                 {% endif %}
             </div>
         </div>
