@@ -24,9 +24,11 @@
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
                 {% if not user.is_authenticated %}
-                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                      Start free trial
-                  </a>
+                    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                        Start free trial
+                    </a>
+                {% elif user.customer.plan == 'standard' %}
+                    <b>Current</b>
                 {% else %}
                   <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Upgrade</a>
                 {% endif %}
@@ -54,6 +56,8 @@
                   <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                       Start free trial
                   </a>
+                {% elif user.customer.plan == 'advanced' %}
+                    <b>Current</b>
                 {% else %}
                   <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Upgrade</a>
                 {% endif %}
