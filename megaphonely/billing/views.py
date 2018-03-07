@@ -31,25 +31,16 @@ def billing(request):
 def plan(request):
     user = request.user
     plan = request.path.replace('/', '')
+    price = settings.STRIPE_PLANS[plan]['price']
 
     if not user.customer.subscription_id:
         template = loader.get_template('billing/plan.html')
-        context = {'plan': plan}
+        context = {'plan': plan, 'price': price}
         response = HttpResponse(template.render(context, request))
     else:
         raise Http404
 
     return response
-
-
-def pricing(request):
-    user = request.user
-    template = loader.get_template('billing/pricing.html')
-    context = {'plan': plan}
-    response = HttpResponse(template.render(context, request))
-    return response
-
-
 
 
 def subscribe(request):

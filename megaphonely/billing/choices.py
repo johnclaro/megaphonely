@@ -1,10 +1,10 @@
 EXPIRED = 'expired'
-FREE = 'free'
+TRIALING = 'trialing'
 STANDARD = 'standard'
 ADVANCED = 'advanced'
 PLAN_CHOICES = (
     (EXPIRED, 'Expired'),
-    (FREE, 'Free'),
+    (TRIALING, 'Trialing'),
     (STANDARD, 'Standard'),
     (ADVANCED, 'Advanced'),
 )
