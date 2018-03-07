@@ -14,7 +14,7 @@ class Customer(Model):
     account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     customer_id = CharField(max_length=50, null=True)
     plan = CharField(max_length=20, choices=PLAN_CHOICES, default='free')
-    subscription_id = CharField(max_length=50, null=True, blank=True)
+    subscription_id = CharField(max_length=50, default='trialing')
     last_four = CharField(max_length=4, null=True, blank=True)
     brand = CharField(max_length=20, null=True, blank=True)
     next_payment_at = DateTimeField(blank=True, null=True)
@@ -29,16 +29,18 @@ class Customer(Model):
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_customer(sender, instance, created, **kwargs):
         if created:
+            plan = 'standard'
             customer = stripe.Customer.create(email=instance.email)
-            Customer.objects.create(
-                account=instance, customer_id=customer['id'], plan='standard'
-            )
-            stripe.Subscription.create(
+            subscription = stripe.Subscription.create(
                 customer=customer['id'],
                 items=[{
-                    'plan': settings.STRIPE_PLANS['standard']['id']
+                    'plan': settings.STRIPE_PLANS[plan]['id']
                 }],
                 trial_period_days=7
+            )
+            Customer.objects.create(
+                account=instance, customer_id=customer['id'], plan=plan,
+                subscription_id=subscription['id']
             )
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
