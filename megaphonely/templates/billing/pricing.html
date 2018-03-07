@@ -27,10 +27,18 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                         Start free trial
                     </a>
+                {% elif not user.customer.subscription_id %}
+                    <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'standard' %}
                     <b>Current</b>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Upgrade  <i class="fas fa-arrow-right"></i></a>
+                    <form action="{% url 'billing:upgrade' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="plan" value="standard">
+                        <button class="btn btn-danger btn-block">
+                            Downgrade
+                        </button>
+                    </form>
                 {% endif %}
             </div>
         </div>
@@ -56,10 +64,16 @@
                   <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                       Start free trial
                   </a>
+                {% elif not user.customer.subscription_id %}
+                    <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'advanced' %}
                     <b>Current</b>
                 {% else %}
-                  <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Upgrade <i class="fas fa-arrow-right"></i></a>
+                    <form action="{% url 'billing:upgrade' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="plan" value="advanced">
+                        <button class="btn btn-success btn-block">Upgrade</button>
+                    </form>
                 {% endif %}
             </div>
         </div>
@@ -77,8 +91,8 @@
 
     <h4>What if we need more than 7 days?</h4>
     <p>
-        We'll give you time. Just let us know and we'll happily extend your
-        trial.
+        We'll give you time. Just <a href="{% url 'contact_us' %}">contact us</a>
+        and we'll happily extend your trial.
     </p>
 </div>
 {% endblock %}

@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
+from django.http import Http404
 
 import stripe
 
@@ -16,7 +17,6 @@ def convert_unix_timestamp_to_human_readable_date(unix_timestamp):
 
 
 def billing(request):
-    user = request.user
     template = loader.get_template('billing/index.html')
     context = {
         'payment_histories': [{
@@ -31,19 +31,25 @@ def billing(request):
 def plan(request):
     user = request.user
     plan = request.path.replace('/', '')
-    price = settings.STRIPE_PLANS[plan]['price']
-    priority = settings.STRIPE_PLANS[plan]['priority']
 
     if not user.customer.subscription_id:
         template = loader.get_template('billing/plan.html')
-        context = {'plan': plan, 'price': price, 'priority': priority}
+        context = {'plan': plan}
         response = HttpResponse(template.render(context, request))
     else:
-        template = loader.get_template('billing/upgrade.html')
-        context = {'plan': plan, 'price': price}
-        response = HttpResponse(template.render(context, request))
+        raise Http404
 
     return response
+
+
+def pricing(request):
+    user = request.user
+    template = loader.get_template('billing/pricing.html')
+    context = {'plan': plan}
+    response = HttpResponse(template.render(context, request))
+    return response
+
+
 
 
 def subscribe(request):
