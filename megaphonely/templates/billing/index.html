@@ -17,7 +17,7 @@
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% if not user.trial %}
+                {% if user.trial %}
                     <h4>Check out the <a href="{% url 'billing:pricing' %}">pricing page</a> to see the benefits of each plan</h4>
                     <table class="table">
                         <tbody>
@@ -62,10 +62,10 @@
             <div class="card-body text-secondary">
                 <div class="card-body text-secondary">
                     {% if user.customer.subscription_id %}
-                    {% for payment_history in payment_histories %}
-                    {{payment_history.date}}
-                    {{payment_history.items}}
-                    {% endfor %}
+                        {% for payment_history in payment_histories %}
+                            {{payment_history.date}}
+                            {{payment_history.items}}
+                        {% endfor %}
                     {% endif %}
                 </div>
             </div>

@@ -33,7 +33,9 @@ class Customer(Model):
 
 class Trial(Model):
     account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    trial_ends_at = DateTimeField(default=get_trial_ends_at)
+    ends_at = DateTimeField(default=get_trial_ends_at)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     objects = TrialManager()
 
