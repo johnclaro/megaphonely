@@ -136,6 +136,18 @@ ACCOUNT_SESSION_REMEMBER = True
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Stripe
+STRIPE_PLANS = {
+    'standard': {
+        'id': 'standard-plan-1',
+        'price': '19',
+        'priority': 1
+    },
+    'advanced': {
+        'id': 'advanced-plan-1',
+        'price': '49',
+        'priority': 2
+    }
+}
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 stripe.api_key = STRIPE_SECRET_KEY
@@ -150,8 +162,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'debug_toolbar',
-    'megaphonely.accounts.apps.AccountsConfig',
-    'megaphonely.dashboard.apps.DashboardConfig',
+    'megaphonely.accounts',
+    'megaphonely.dashboard',
+    'megaphonely.billing',
     'storages',
     'social_django',
     'allauth',

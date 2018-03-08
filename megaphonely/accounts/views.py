@@ -1,25 +1,9 @@
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
-
-import stripe
 
 from .models import Profile
 from .forms import ProfileForm
-
-
-def payment(request):
-    user = request.user
-    if request.method == 'POST':
-        payload = request.POST
-
-        stripe_token = payload['stripeToken']
-        customer = stripe.Customer.retrieve(user.profile.stripe_id)
-        response = customer.sources.create(source=stripe_token)
-        print(response)
-
-        return redirect('dashboard:index')
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):

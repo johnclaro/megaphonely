@@ -4,34 +4,54 @@
 
 {% load static %}
 
-<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="paymentModalLabel">Upgrading to</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <form action="{% url 'accounts:payment' %}" method="post" id="payment-form">
-              {% csrf_token %}
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Barack Obama">
-              </div>
-              <div class="form-row form-group">
-                <label for="card-element">
-                  Credit or debit card
-                </label>
-                <div id="card-element" class="form-control"></div>
-                <div id="card-errors" role="alert" style="color: red"></div>
-              </div>
-              <button class="btn btn-primary btn-block">Submit Payment</button>
-          </form>
-      </div>
+<div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="standardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Downgrade to Standard</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Change plans now? You will be pro-rated for any remaining time on
+                your current plan.
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'billing:upgrade' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan" value="standard">
+                    <button class="btn btn-danger btn-block">Yes, downgrade my plan</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+
+<div class="modal fade" id="advancedModal" tabindex="-1" role="dialog" aria-labelledby="advancedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upgrade to Advanced</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Change plans now? You will be pro-rated for any remaining time on
+                your current plan.
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'billing:upgrade' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan" value="advanced">
+                    <button class="btn btn-success btn-block">Yes, upgrade my plan</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="card-deck text-center">
@@ -54,11 +74,17 @@
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
                 {% if not user.is_authenticated %}
-                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                      Start free trial
-                  </a>
-                {% else %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#paymentModal" data-plan="standard">Upgrade</button>
+                    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
+                        Start free trial
+                    </a>
+                {% elif user.trial %}
+                    <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
+                {% elif user.customer.plan == 'standard' %}
+                    <b>Current</b>
+                {% elif user.customer %}
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#standardModal">
+                        Downgrade
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -74,7 +100,6 @@
                     <b>20</b> social accounts
                 </div>
 
-
                 <br/>
                 <h1>
                     <span style="font-size: 24px;">€</span>
@@ -85,8 +110,14 @@
                   <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                       Start free trial
                   </a>
-                {% else %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#paymentModal" data-plan="advanced">Upgrade</button>
+                {% elif user.trial %}
+                    <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
+                {% elif user.customer.plan == 'advanced' %}
+                    <b>Current</b>
+                {% elif user.customer %}
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#advancedModal">
+                        Upgrade
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -104,8 +135,8 @@
 
     <h4>What if we need more than 7 days?</h4>
     <p>
-        We'll give you time. Just let us know and we'll happily extend your
-        trial.
+        We'll give you time. Just <a href="{% url 'contact_us' %}">contact us</a>
+        and we'll happily extend your trial.
     </p>
 </div>
 {% endblock %}
