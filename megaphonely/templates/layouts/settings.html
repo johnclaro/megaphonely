@@ -20,7 +20,7 @@
                     <a class="list-group-item {% if request.resolver_match.view_name == 'account_change_password' %}active{% endif %}" href="{% url 'account_change_password' %}">
                         Account
                     </a>
-                    <a class="list-group-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'billing' %}">
+                    <a class="list-group-item {% if request.resolver_match.view_name == 'billing:billing' %}active{% endif %}" href="{% url 'billing:billing' %}">
                         Billing
                     </a>
                 </ul>
