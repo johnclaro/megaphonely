@@ -8,7 +8,7 @@ from django.http import Http404
 
 import stripe
 
-from .models import Customer
+from .models import Customer, Trial
 
 
 def convert_unix_timestamp_to_human_readable_date(unix_timestamp):
@@ -29,16 +29,12 @@ def billing(request):
 
 
 def plan(request):
-    user = request.user
     plan = request.path.replace('/', '')
     price = settings.STRIPE_PLANS[plan]['price']
 
-    if not user.customer.subscription_id:
-        template = loader.get_template('billing/plan.html')
-        context = {'plan': plan, 'price': price}
-        response = HttpResponse(template.render(context, request))
-    else:
-        raise Http404
+    template = loader.get_template('billing/plan.html')
+    context = {'plan': plan, 'price': price}
+    response = HttpResponse(template.render(context, request))
 
     return response
 
@@ -49,7 +45,11 @@ def subscribe(request):
     plan = payload['plan']
     plan_id = settings.STRIPE_PLANS[plan]['id']
 
-    customer = stripe.Customer.retrieve(user.customer.customer_id)
+    customer = stripe.Customer.create(email=user.email)
+    Customer.objects.create(
+        account=user, customer_id=customer['id'], plan='trial'
+    )
+
     stripe_token = payload['stripeToken']
     source = customer.sources.create(source=stripe_token)
 
@@ -58,10 +58,13 @@ def subscribe(request):
     )
     customer = Customer.objects.get(account=user)
     customer.plan = plan
-    customer.brand = source['brand']
+    customer.card = source['brand']
     customer.last_four = source['last4']
     customer.subscription_id = subscription['id']
     customer.save()
+
+    trial = Trial.objects.get(account=user)
+    trial.delete()
 
     response = redirect('dashboard:index')
 
