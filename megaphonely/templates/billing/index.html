@@ -17,16 +17,12 @@
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% if not user.customer.subscription_id %}
+                {% if not user.trial %}
                     <h4>Check out the <a href="{% url 'billing:pricing' %}">pricing page</a> to see the benefits of each plan</h4>
                     <table class="table">
                         <tbody>
                         <tr>
-                            <th scope="row">Trialing</th>
-                            <th scope="row">Current plan</th>
-                        </tr>
-                        <tr>
-                            <td>Standard</th>
+                            <td>Standard</td>
                             <td><a class="btn btn-primary" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a></td>
                         </tr>
                         <tr>
@@ -51,29 +47,29 @@
         </div>
     </div>
 
-    {% if user.customer.subscription_id %}
-    <br/>
-    <div class="card">
-        <div class="card-header">
-            <div class="col-12">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <b>Payment history</b>
+    {% if not user.trial %}
+        <br/>
+        <div class="card">
+            <div class="card-header">
+                <div class="col-12">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <b>Payment history</b>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% if user.customer.subscription_id %}
-                {% for payment_history in payment_histories %}
-                {{payment_history.date}}
-                {{payment_history.items}}
-                {% endfor %}
-                {% endif %}
+                <div class="card-body text-secondary">
+                    {% if user.customer.subscription_id %}
+                    {% for payment_history in payment_histories %}
+                    {{payment_history.date}}
+                    {{payment_history.items}}
+                    {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
 </div>
 

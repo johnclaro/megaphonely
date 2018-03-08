@@ -4,6 +4,54 @@
 
 {% load static %}
 
+<div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="standardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Change plans now? You will be pro-rated for any remaining time on
+                your current plan.
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'billing:upgrade' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan" value="standard">
+                    <button class="btn btn-danger btn-block">Yes, downgrade my plan</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="advancedModal" tabindex="-1" role="dialog" aria-labelledby="advancedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Change plans now? You will be pro-rated for any remaining time on
+                your current plan.
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'billing:upgrade' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan" value="advanced">
+                    <button class="btn btn-success btn-block">Yes, upgrade my plan</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card-deck text-center">
     <div class="col-lg-3"></div>
     <div class="col-lg-3 card-section">
@@ -27,18 +75,14 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                         Start free trial
                     </a>
-                {% elif not user.customer.subscription_id %}
+                {% elif user.trial %}
                     <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'standard' %}
                     <b>Current</b>
-                {% else %}
-                    <form action="{% url 'billing:upgrade' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="plan" value="standard">
-                        <button class="btn btn-danger btn-block">
-                            Downgrade
-                        </button>
-                    </form>
+                {% elif user.customer %}
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#standardModal">
+                        Downgrade
+                    </button>
                 {% endif %}
             </div>
         </div>
@@ -64,16 +108,14 @@
                   <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
                       Start free trial
                   </a>
-                {% elif not user.customer.subscription_id %}
+                {% elif user.trial %}
                     <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'advanced' %}
                     <b>Current</b>
-                {% else %}
-                    <form action="{% url 'billing:upgrade' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="plan" value="advanced">
-                        <button class="btn btn-success btn-block">Upgrade</button>
-                    </form>
+                {% elif user.customer %}
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#advancedModal">
+                        Upgrade
+                    </button>
                 {% endif %}
             </div>
         </div>
