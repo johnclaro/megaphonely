@@ -71,6 +71,15 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = self.request.user
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
+
+        for social in content.socials.all():
+            if social.provider == 'facebook':
+                from facepy import GraphAPI
+                data = {'message': content.message}
+                api = GraphAPI(social.access_token_key)
+                data['path'] = 'me/feed'
+                api.post(**data)
+
         return response
 
 
