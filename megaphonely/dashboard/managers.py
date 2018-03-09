@@ -45,11 +45,8 @@ class SocialManager(models.Manager):
         }
 
     def _get_facebook_data(self, data):
-        import json
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
-        me_accounts = graph.get('me/accounts')['data']
-        print(json.dumps(me_accounts, indent=4, sort_keys=True))
         response = graph.get('me?fields=picture.width(640)')
         picture_url = response['picture']['data']['url']
         username = data['id']
@@ -63,11 +60,24 @@ class SocialManager(models.Manager):
             'access_token_key': access_token_key,
         }
 
+    def _get_facebook_page_or_group_data(self, data):
+        access_token_key = data['access_token']
+        graph = GraphAPI(access_token_key)
+        me_accounts = graph.get('me/accounts')['data']
+
+        page_or_group_data = (
+            self._get_facebook_data(me_account)
+            for me_account in me_accounts
+        )
+        return page_or_group_data
+
     def _get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
         elif provider == 'facebook':
             data = self._get_facebook_data(data)
+        elif provider in ['facebook-page', 'facebook-group']:
+            data = self._get_facebook_page_or_group_data(data)
         elif provider == 'linkedin':
             data = self._get_linkedin_data(data)
 
@@ -90,5 +100,9 @@ class SocialManager(models.Manager):
 
     def upsert(self, provider, response):
         data = self._get_data(provider, response)
-        model = self._create_or_update(provider, data)
+        if type(data) != dict:
+            for d in data:
+                model = self._create_or_update(d['provider'], d)
+        else:
+            model = self._create_or_update(provider, data)
         return model
