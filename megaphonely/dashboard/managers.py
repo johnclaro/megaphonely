@@ -44,10 +44,10 @@ class SocialManager(models.Manager):
             'access_token_secret': data['access_token']['oauth_token_secret'],
         }
 
-    def _get_facebook_data(self, data):
+    def _get_facebook_data(self, data, entity='me'):
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
-        response = graph.get('me?fields=picture.width(640)')
+        response = graph.get(f'{entity}?fields=picture.width(640)')
         picture_url = response['picture']['data']['url']
         username = data['id']
         return {
@@ -60,24 +60,40 @@ class SocialManager(models.Manager):
             'access_token_key': access_token_key,
         }
 
-    def _get_facebook_page_or_group_data(self, data):
+    def _get_facebook_page_data(self, data):
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
         me_accounts = graph.get('me/accounts')['data']
 
-        page_or_group_data = (
+        data = (
             self._get_facebook_data(me_account)
             for me_account in me_accounts
         )
-        return page_or_group_data
+        return data
+
+    def _get_facebook_group_data(self, data):
+        access_token_key = data['access_token']
+        graph = GraphAPI(access_token_key)
+        groups = graph.get('me/groups')['data']
+
+        group_datas = []
+        for group in groups:
+            group['access_token'] = access_token_key
+            group_data = self._get_facebook_data(group, entity=data['id'])
+            group_data['fullname'] = f"{group['name']} as ({data['name']})"
+            group_datas.append(group_data)
+
+        return group_datas
 
     def _get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
         elif provider == 'facebook':
             data = self._get_facebook_data(data)
-        elif provider in ['facebook-page', 'facebook-group']:
-            data = self._get_facebook_page_or_group_data(data)
+        elif provider == 'facebook-page':
+            data = self._get_facebook_page_data(data)
+        elif provider == 'facebook-group':
+            data = self._get_facebook_group_data(data)
         elif provider == 'linkedin':
             data = self._get_linkedin_data(data)
 
@@ -101,6 +117,7 @@ class SocialManager(models.Manager):
     def upsert(self, provider, response):
         data = self._get_data(provider, response)
         if type(data) != dict:
+            model = None
             for d in data:
                 model = self._create_or_update(d['provider'], d)
         else:
