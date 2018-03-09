@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 
-from .choices import SCHEDULE_CHOICES
+from .choices import SCHEDULE_CHOICES, CATEGORY_CHOICES
 from .managers import ContentManager, SocialManager
 
 
@@ -16,6 +16,9 @@ class Social(models.Model):
     picture_url = models.URLField(blank=True)
     access_token_key = models.TextField(max_length=1000)
     access_token_secret = models.TextField(blank=True)
+    category = models.CharField(
+        max_length=10, choices=CATEGORY_CHOICES, default='profile'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
