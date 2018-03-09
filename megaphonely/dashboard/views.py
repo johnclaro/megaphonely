@@ -77,7 +77,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
                 from facepy import GraphAPI
                 data = {'message': content.message}
                 api = GraphAPI(social.access_token_key)
-                data['path'] = 'me/feed'
+                data['path'] = 'me/feed' if social.category == 'profile' else f"{social.social_id}/feed"
                 api.post(**data)
 
         return response
