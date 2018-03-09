@@ -65,25 +65,28 @@ class SocialManager(models.Manager):
         graph = GraphAPI(access_token_key)
         me_accounts = graph.get('me/accounts')['data']
 
-        data = (
-            self._get_facebook_data(me_account)
-            for me_account in me_accounts
-        )
-        return data
+        pages = []
+        for me_account in me_accounts:
+            data = self._get_facebook_data(me_account)
+            data['category'] = 'page'
+            pages.append(data)
+
+        return pages
 
     def _get_facebook_group_data(self, data):
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
-        groups = graph.get('me/groups')['data']
+        groups_data = graph.get('me/groups')['data']
 
-        group_datas = []
-        for group in groups:
-            group['access_token'] = access_token_key
-            group_data = self._get_facebook_data(group, entity=data['id'])
-            group_data['fullname'] = f"{group['name']} as ({data['name']})"
-            group_datas.append(group_data)
+        groups = []
+        for group_data in groups_data:
+            group_data['access_token'] = access_token_key
+            group = self._get_facebook_data(group_data, entity=data['id'])
+            group['fullname'] = f"{group_data['name']} as ({data['name']})"
+            group['category'] = 'group'
+            groups.append(group)
 
-        return group_datas
+        return groups
 
     def _get_data(self, provider, data):
         if provider == 'twitter':
