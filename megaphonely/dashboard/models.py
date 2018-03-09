@@ -31,7 +31,7 @@ class Social(models.Model):
         return f"{self.provider}-{screen_name}"
 
     def get_screen_name(self):
-        return self.username if self.provider != 'facebook' else self.fullname
+        return self.username if 'facebook' not in self.provider else self.fullname
 
 
 class Content(models.Model):
