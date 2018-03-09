@@ -1,7 +1,7 @@
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, ButtonHolder
+from crispy_forms.layout import Submit, Layout, ButtonHolder, HTML
 from crispy_forms.bootstrap import InlineRadios
 
 from .models import Content, Social
@@ -41,9 +41,15 @@ class ContentForm(forms.ModelForm):
             'socials',
             InlineRadios('schedule'),
             'schedule_at',
-            ButtonHolder(
-                Submit('submit', 'Submit',
-                       css_class='btn btn-primary btn-block')
+            HTML(
+                """
+                <button type='submit' class='btn btn-primary btn-block'>
+                    <i id="twitter_content" class="fab fa-twitter-square" style="color: white; display: none;"></i>
+                    <i id="facebook_content" class="fab fa-facebook" style="color: white; display: none;"></i>
+                    <i id="linkedin_content" class="fab fa-linkedin" style="color: white; display: none;"></i>
+                   Share
+                </button>
+                """
             )
         )
         self.helper.form_method = 'post'
