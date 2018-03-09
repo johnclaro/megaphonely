@@ -77,14 +77,12 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
 SOCIAL_AUTH_FACEBOOK_PAGE_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_PAGE_SECRET = os.environ['FACEBOOK_APP_SECRET']
 SOCIAL_AUTH_FACEBOOK_PAGE_SCOPE = [
-    'public_profile', 'email', 'publish_actions', 'manage_pages',
-    'publish_pages'
+    'public_profile', 'email', 'manage_pages', 'publish_pages'
 ]
 SOCIAL_AUTH_FACEBOOK_GROUP_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_GROUP_SECRET = os.environ['FACEBOOK_APP_SECRET']
 SOCIAL_AUTH_FACEBOOK_GROUP_SCOPE = [
-    'public_profile', 'email', 'publish_actions', 'manage_pages',
-    'publish_pages', 'user_managed_groups'
+    'public_profile', 'email', 'publish_actions', 'user_managed_groups'
 ]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ['LINKEDIN_CLIENT_ID']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
