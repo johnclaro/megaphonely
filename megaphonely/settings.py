@@ -31,6 +31,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = f"Megaphonely <{EMAIL_HOST_USER}>"
 
 if DEBUG:
     ALLOWED_HOSTS = ('megaphonely.localhost',)
