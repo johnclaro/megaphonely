@@ -70,7 +70,6 @@ class SocialManager(models.Manager):
             data = self._get_facebook_data(me_account)
             data['category'] = 'page'
             pages.append(data)
-
         return pages
 
     def _get_facebook_group_data(self, data):
@@ -117,12 +116,13 @@ class SocialManager(models.Manager):
 
         return social
 
-    def upsert(self, provider, response):
+    def upsert(self, provider, response, account):
         data = self._get_data(provider, response)
         if type(data) != dict:
             model = None
             for d in data:
                 model = self._create_or_update(d['provider'], d)
+                model.accounts.add(account)
         else:
             model = self._create_or_update(provider, data)
-        return model
+            model.accounts.add(account)

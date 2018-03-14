@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-lg-12">
                         {% if user.trial %}
-                            <b>Plan:</b> Trial (Ends at {{user.trial.ends_at}})
+                            <b>Plan:</b> Trial ends at {{user.trial.ends_at}}
                         {% else %}
                             <b>Plan:</b> {{user.customer.plan}}
                         {% endif %}
