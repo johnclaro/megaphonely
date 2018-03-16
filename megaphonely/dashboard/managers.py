@@ -21,7 +21,7 @@ class SocialManager(models.Manager):
         except (KeyError, TypeError):
             picture_url = ''
 
-        return {
+        data = {
             'social_id': social_id,
             'provider': 'linkedin',
             'username': username,
@@ -31,9 +31,11 @@ class SocialManager(models.Manager):
             'access_token_key': access_token_key
         }
 
+        return data
+
     def _get_twitter_data(self, data):
         username = data['screen_name']
-        return {
+        data = {
             'social_id': data['id'],
             'provider': 'twitter',
             'username': username,
@@ -44,13 +46,15 @@ class SocialManager(models.Manager):
             'access_token_secret': data['access_token']['oauth_token_secret'],
         }
 
+        return data
+
     def _get_facebook_data(self, data, entity='me'):
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
         response = graph.get(f'{entity}?fields=picture.width(640)')
         picture_url = response['picture']['data']['url']
         username = data['id']
-        return {
+        data = {
             'social_id': username,
             'provider': 'facebook',
             'username': username,
@@ -59,6 +63,8 @@ class SocialManager(models.Manager):
             'picture_url': picture_url,
             'access_token_key': access_token_key,
         }
+
+        return data
 
     def _get_facebook_page_data(self, data):
         access_token_key = data['access_token']
@@ -70,6 +76,7 @@ class SocialManager(models.Manager):
             data = self._get_facebook_data(me_account)
             data['category'] = 'page'
             pages.append(data)
+
         return pages
 
     def _get_facebook_group_data(self, data):
