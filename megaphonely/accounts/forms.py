@@ -14,7 +14,6 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
         super(ProfileForm, self).__init__(*args, **kwargs)
-        profile = Profile.objects.get(account=account)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'picture',
