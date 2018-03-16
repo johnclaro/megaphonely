@@ -19,24 +19,14 @@ def get_s3_multimedia_content(payload: dict, key: str, s3_key: str,
 
 
 def handler(event, context):
-    s3_bucket_name = event['s3_bucket_name']
     access_token_key = event['access_token_key']
     message = event['message']
-    video = ''
-    image = ''
-
-    data = {'message': message}
+    username = event['username']
+    category = event['category']
     api = GraphAPI(access_token_key)
 
-    if video:
-        api.url = 'https://graph-video.facebook.com'
-        data['path'] = 'me/videos'
-        data = get_s3_multimedia_content(data, 'source', video, s3_bucket_name)
-    elif image:
-        data['path'] = 'me/photos'
-        data = get_s3_multimedia_content(data, 'source', image, s3_bucket_name)
-    else:
-        data['path'] = 'me/feed'
+    data = {'message': message}
+    data['path'] = 'me/feed' if category == 'profile' else f'{username}/feed'
 
     response = api.post(**data)
     return response
