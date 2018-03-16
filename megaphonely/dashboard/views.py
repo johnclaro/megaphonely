@@ -97,6 +97,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
                     FunctionName=f'publish_to_{social.provider}',
                     Payload=bytes(json.dumps(payload), encoding='utf8')
                 )
+
         return response
 
 

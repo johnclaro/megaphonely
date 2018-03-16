@@ -73,7 +73,6 @@ else:
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
 SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
 
-SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'auth_type': 'reauthenticate'}
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
@@ -134,7 +133,8 @@ ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_SESSION_REMEMBER = True
 
 # Crispy forms
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# bootstrap4 is not used because the 'error helper' does not show up
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Stripe
 STRIPE_PLANS = {
