@@ -89,6 +89,8 @@ class ContentCreate(LoginRequiredMixin, CreateView):
                     payload['category'] = social.category
                 elif social.provider == 'twitter':
                     payload['access_token_secret'] = social.access_token_secret
+                    payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
+                    payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
 
                 client = boto3.client('lambda', region_name='eu-west-1')
                 client.invoke(
