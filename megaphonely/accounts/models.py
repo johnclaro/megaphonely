@@ -11,7 +11,7 @@ from megaphonely.accounts.managers import ProfileManager
 
 class Profile(Model):
     account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    picture = FileField(upload_to='uploads', blank=True, null=True)
+    picture = FileField(upload_to='profiles', blank=True, null=True)
 
     objects = ProfileManager()
 

@@ -46,7 +46,7 @@ class Social(Model):
 
 class Content(Model):
     message = TextField()
-    multimedia = ImageField(upload_to='uploads', blank=True, null=True)
+    multimedia = ImageField(upload_to='contents', blank=True, null=True)
     schedule = CharField(max_length=10, choices=SCHEDULES, default='now')
     is_published = BooleanField(default=False)
     schedule_at = DateTimeField(default=timezone.now, blank=True)

@@ -9,7 +9,10 @@
             <div class="card">
                 <div class="card-header text-center">
                     <a href="{% url 'accounts:profile_update' pk=user.id %}" style="text-decoration: none;">
-                        <img src="{{user.profile.picture}}" height="40" width="40" style="border-radius: 50%"/>
+                        {% if user.profile.picture %}
+                            <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
+                        {% else %}
+                        {% endif %}
                         <br/>
                         <span style="font-weight: 700">{{user.username}}</span>
                     </a>
@@ -117,11 +120,11 @@
                                 </div>
                                 {% if content.is_image %}
                                     <div class="col-12">
-                                        <img class="img-fluid" width="200" height="40" src="{% static content.multimedia.url %}"/>
+                                        <img class="img-fluid" width="200" height="40" src="{{content.multimedia.url}}"/>
                                     </div>
                                 {% elif content.is_video %}
                                     <div class="col-12">
-                                        <video width="200" src="{% static content.multimedia.url %}" controls></video>
+                                        <video width="200" src="{{content.multimedia.url}}" controls></video>
                                     </div>
                                 {% endif %}
                                 <div class="col-12" style="padding-top: 10px;">

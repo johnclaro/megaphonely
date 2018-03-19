@@ -119,6 +119,7 @@ venv.bak/
 uploads/
 staticfiles/
 psycopg2/
+media/
 
 .DS_Store
 # Elastic Beanstalk Files
