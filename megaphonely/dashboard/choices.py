@@ -1,6 +1,6 @@
 NOW = 'now'
 CUSTOM = 'custom'
-SCHEDULE_CHOICES = (
+SCHEDULES = (
     (NOW, 'Now'),
     (CUSTOM, 'Custom'),
 )
@@ -9,7 +9,7 @@ PROFILE = 'profile'
 PAGE = 'page'
 GROUP = 'group'
 COMPANY = 'company'
-CATEGORY_CHOICES = (
+CATEGORIES = (
     (PROFILE, 'profile'),
     (PAGE, 'page'),
     (GROUP, 'group'),

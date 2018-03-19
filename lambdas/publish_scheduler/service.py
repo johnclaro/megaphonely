@@ -11,12 +11,13 @@ import psycopg2
 def get_scheduled_contents(cursor):
     today = datetime.datetime.now()
     cursor.execute(f"""
-        SELECT content.id, content.message, content.multimedia, social.provider, 
-               social.access_token_key, social.access_token_secret
+        SELECT content.id, content.message, content.multimedia,
+               social.provider, social.access_token_key,
+               social.access_token_secret
         FROM dashboard_content as content
-            JOIN dashboard_content_socials chosen_social 
+            JOIN dashboard_content_socials chosen_social
             ON content.id = chosen_social.content_id
-            JOIN dashboard_social social 
+            JOIN dashboard_social social
             ON chosen_social.social_id = social.id
         WHERE content.schedule_at <= '{today}'
             AND content.schedule = 'custom'

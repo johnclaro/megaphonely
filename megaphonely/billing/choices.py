@@ -1,6 +1,6 @@
 STANDARD = 'standard'
 ADVANCED = 'advanced'
-PLAN_CHOICES = (
+PLANS = (
     (STANDARD, 'Standard'),
     (ADVANCED, 'Advanced'),
 )
