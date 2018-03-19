@@ -1,7 +1,7 @@
 from django import forms
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, ButtonHolder, HTML
+from crispy_forms.layout import Layout, HTML
 from crispy_forms.bootstrap import InlineRadios
 
 from .models import Content, Social
@@ -10,8 +10,7 @@ from .models import Content, Social
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
-        fields = ['message', 'multimedia', 'schedule', 'schedule_at',
-                  'socials']
+        fields = ['message', 'multimedia', 'schedule', 'schedule_at', 'socials']
         widgets = {
             'socials': forms.SelectMultiple(
                 attrs={

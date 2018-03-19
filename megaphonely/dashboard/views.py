@@ -6,6 +6,10 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.conf import settings
+
+import boto3
+import json
 
 from .forms import ContentForm
 from .models import Content, Social
@@ -72,13 +76,27 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
 
-        for social in content.socials.all():
-            if social.provider == 'facebook':
-                from facepy import GraphAPI
-                data = {'message': content.message}
-                api = GraphAPI(social.access_token_key)
-                data['path'] = 'me/feed' if social.category == 'profile' else f"{social.social_id}/feed"
-                api.post(**data)
+        if content.schedule == 'now':
+            for social in content.socials.all():
+                payload = {
+                    'message': content.message,
+                    'access_token_key': social.access_token_key,
+                    's3_bucket_name': settings.AWS_STORAGE_BUCKET_NAME
+                }
+
+                if social.provider == 'facebook':
+                    payload['username'] = social.username
+                    payload['category'] = social.category
+                elif social.provider == 'twitter':
+                    payload['access_token_secret'] = social.access_token_secret
+                    payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
+                    payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
+
+                client = boto3.client('lambda', region_name='eu-west-1')
+                client.invoke(
+                    FunctionName=f'publish_to_{social.provider}',
+                    Payload=bytes(json.dumps(payload), encoding='utf8')
+                )
 
         return response
 

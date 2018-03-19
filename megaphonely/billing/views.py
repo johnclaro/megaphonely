@@ -64,7 +64,8 @@ def subscribe(request):
     customer.save()
 
     trial = Trial.objects.get(account=user)
-    trial.delete()
+    trial.active = False
+    trial.save()
 
     response = redirect('dashboard:index')
 
