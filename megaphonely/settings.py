@@ -18,8 +18,6 @@ STATICFILES_DIRS = (
 )
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
@@ -34,6 +32,14 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = f"Megaphonely <{EMAIL_HOST_USER}>"
 
+# AWS
+AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
+AWS_S3_MEDIA_DOMAIN = os.environ['AWS_S3_MEDIA_DOMAIN']
+
 if DEBUG:
     ALLOWED_HOSTS = ('megaphonely.localhost',)
     DATABASES = {
@@ -42,6 +48,8 @@ if DEBUG:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 else:
     SECURE_HSTS_SECONDS = 1
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -68,7 +76,8 @@ else:
     STATICFILES_STORAGE = 'megaphonely.storage.Static'
     STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
-    DEFAULT_FILES_STORAGE = 'megaphonely.storage.Media'
+    DEFAULT_FILE_STORAGE = 'megaphonely.storage.Media'
+    MEDIA_URL = f'https://s3-{AWS_S3_REGION_NAME}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{MEDIAFILES_LOCATION}/'
 
 # Social Auth
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
@@ -112,13 +121,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-# AWS
-AWS_S3_REGION_NAME = os.environ['AWS_S3_REGION_NAME']
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 
 # Allauth
 SITE_ID = 1
