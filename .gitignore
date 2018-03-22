@@ -120,6 +120,10 @@ uploads/
 staticfiles/
 psycopg2/
 media/
+profiles/
+contents/
+
+ngrok
 
 .DS_Store
 # Elastic Beanstalk Files
