@@ -12,6 +12,7 @@
                         {% if user.profile.picture %}
                             <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
                         {% else %}
+                            <img src="{% static 'megaphonely/img/anonymous.jpg' %}" height="40" width="40" style="border-radius: 50%"/>
                         {% endif %}
                         <br/>
                         <span style="font-weight: 700">{{user.username}}</span>

@@ -10,3 +10,4 @@ class Static(S3Boto3Storage):
 
 class Media(S3Boto3Storage):
     location = settings.MEDIAFILES_LOCATION
+    custom_domain = settings.AWS_S3_MEDIA_DOMAIN
