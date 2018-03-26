@@ -35,3 +35,4 @@ class SocialTestCase(TestCase):
         self.assertEqual(social.access_token_key, response['access_token'])
         self.assertEqual(social.access_token_secret, '')
         self.assertEqual(social.category, category)
+        self.assertEqual(social.account, user)

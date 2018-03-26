@@ -27,7 +27,7 @@ class Social(Model):
     objects = SocialManager()
 
     class Meta:
-        unique_together = ('social_id', 'provider',)
+        unique_together = ('social_id', 'provider', 'account')
 
     def __str__(self):
         screen_name = self.get_screen_name()
