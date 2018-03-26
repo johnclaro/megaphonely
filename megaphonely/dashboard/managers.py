@@ -108,28 +108,31 @@ class SocialManager(models.Manager):
 
         return data
 
-    def _create_or_update(self, provider, data):
+    def update(self, provider, data, user):
+        social = self.get(social_id=data['social_id'], provider=provider)
         updated = False
-        try:
-            social = self.get(social_id=data['social_id'], provider=provider)
-            for column, record in data.items():
-                if social.__getattribute__(column) != data[column]:
-                    social.__setattr__(column, record)
-                    updated = True
-            if updated:
-                social.save()
-        except ObjectDoesNotExist:
-            social = self.create(**data)
+        for column, record in data.items():
+            if social.__getattribute__(column) != data[column]:
+                social.__setattr__(column, record)
+                updated = True
+        if updated:
+            social.save()
+        social.account = user
 
         return social
 
-    def upsert(self, provider, response, account):
+    def _create_or_update(self, provider, data, user):
+        try:
+            social = self.update(provider, data, user)
+        except ObjectDoesNotExist:
+            social = self.create(**data, account=user)
+
+        return social
+
+    def upsert(self, provider, response, user):
         data = self._get_data(provider, response)
         if type(data) != dict:
-            model = None
             for d in data:
-                model = self._create_or_update(d['provider'], d)
-                model.accounts.add(account)
+                self._create_or_update(d['provider'], d, user)
         else:
-            model = self._create_or_update(provider, data)
-            model.accounts.add(account)
+            self._create_or_update(provider, data, user)

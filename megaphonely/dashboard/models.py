@@ -22,7 +22,7 @@ class Social(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
-    accounts = ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    account = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
 
     objects = SocialManager()
 
