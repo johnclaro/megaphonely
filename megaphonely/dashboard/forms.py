@@ -31,7 +31,7 @@ class ContentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
         super(ContentForm, self).__init__(*args, **kwargs)
-        socials = Social.objects.filter(accounts__in=[account])
+        socials = Social.objects.filter(account=account)
         self.fields['socials'].queryset = socials
         self.helper = FormHelper()
         self.helper.layout = Layout(
