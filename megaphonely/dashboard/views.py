@@ -31,8 +31,10 @@ def index(request):
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
     else:
-        socials = Social.objects.filter(accounts__in=[user]).order_by('-updated_at')
-        contents = Content.objects.filter(account=user, schedule='custom', is_published=False).order_by('schedule_at')
+        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        contents = Content.objects.filter(
+            account=user, schedule='custom', is_published=False
+        ).order_by('schedule_at')
         for content in contents:
             try:
                 if endswith_valid_image_extension(content.multimedia.url):
@@ -50,8 +52,8 @@ def index(request):
 
 def social_disconnect(request, pk):
     user = request.user
-    social = get_object_or_404(Social, pk=pk, accounts__in=[user])
-    social.accounts.remove(user)
+    social = get_object_or_404(Social, pk=pk, account=user)
+    social.delete()
     contents = Content.objects.filter(socials__in=[social])
     for content in contents:
         content.socials.remove(social)

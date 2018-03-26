@@ -22,12 +22,12 @@ class Social(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
-    accounts = ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
+    account = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
 
     objects = SocialManager()
 
     class Meta:
-        unique_together = ('social_id', 'provider',)
+        unique_together = ('social_id', 'provider', 'account')
 
     def __str__(self):
         screen_name = self.get_screen_name()
