@@ -109,7 +109,9 @@ class SocialManager(models.Manager):
         return data
 
     def update(self, provider, data, user):
-        social = self.get(social_id=data['social_id'], provider=provider)
+        social = self.get(
+            social_id=data['social_id'], provider=provider, account=user
+        )
         updated = False
         for column, record in data.items():
             if social.__getattribute__(column) != data[column]:
@@ -117,7 +119,6 @@ class SocialManager(models.Manager):
                 updated = True
         if updated:
             social.save()
-        social.account = user
 
         return social
 
