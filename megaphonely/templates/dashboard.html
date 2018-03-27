@@ -8,7 +8,7 @@
         <div class="col-lg-12 card-section">
             <div class="card">
                 <div class="card-header text-center">
-                    <a href="{% url 'accounts:profile_update' pk=user.id %}" style="text-decoration: none;">
+                    <a href="{% url 'accounts:profile_update' %}" style="text-decoration: none;">
                         {% if user.profile.picture %}
                             <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
                         {% else %}
