@@ -46,7 +46,7 @@ def subscribe(request):
     plan_id = settings.STRIPE_PLANS[plan]['id']
 
     customer = stripe.Customer.create(email=user.email)
-    Customer.objects.create(
+    Customer.objects.create( 
         account=user, customer_id=customer['id'], plan='trial'
     )
 
