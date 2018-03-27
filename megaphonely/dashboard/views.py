@@ -65,10 +65,13 @@ def index(request):
 def social_disconnect(request, pk):
     user = request.user
     social = get_object_or_404(Social, pk=pk, account=user)
-    social.delete()
     contents = Content.objects.filter(socials__in=[social])
     for content in contents:
-        content.socials.remove(social)
+        if content.socials.count() == 1:
+            content.delete()
+        else:
+            content.socials.remove(social)
+    social.delete()
     return redirect('dashboard:index')
 
 
