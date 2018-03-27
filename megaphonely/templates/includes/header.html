@@ -4,7 +4,7 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">
         <a href="{% url 'dashboard:index' %}" style="text-decoration: none !important; color: maroon; font-family: Poppins; font-weight: 700">Megaphonely</a>
     </h5>
-    {% if user.trial and user.is_authenticated %}
+    {% if user.trial.active and user.is_authenticated %}
         <br/>
         <a class="btn btn-sm btn-outline-primary" href="{% url 'billing:pricing' %}">Upgrade my plan</a>
         <br/>

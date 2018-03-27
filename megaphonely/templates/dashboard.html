@@ -10,7 +10,7 @@
                 <div class="card-header text-center">
                     <a href="{% url 'accounts:profile_update' %}" style="text-decoration: none;">
                         {% if user.profile.picture %}
-                            <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
+                            <img src="{{user.profile.picture.url}}" height="80" width="80" style="border-radius: 50%"/>
                         {% else %}
                             <img src="{% static 'megaphonely/img/anonymous.jpg' %}" height="40" width="40" style="border-radius: 50%"/>
                         {% endif %}
@@ -21,7 +21,7 @@
                         <b>Email:</b> {{user.email}}
                     </div>
                     <div class="col-lg-12">
-                        {% if user.trial %}
+                        {% if user.trial.active %}
                             <b>Plan:</b> Trial ends at {{user.trial.get_ends_at_date}}
                         {% else %}
                             <b>Plan:</b> {{user.customer.plan}}
