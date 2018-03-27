@@ -60,6 +60,29 @@ def social_disconnect(request, pk):
     return redirect('dashboard:index')
 
 
+def publish_now(content):
+    for social in content.socials.all():
+        payload = {
+            'message': content.message,
+            'access_token_key': social.access_token_key,
+            's3_bucket_name': settings.AWS_STORAGE_BUCKET_NAME
+        }
+
+        if social.provider == 'facebook':
+            payload['username'] = social.username
+            payload['category'] = social.category
+        elif social.provider == 'twitter':
+            payload['access_token_secret'] = social.access_token_secret
+            payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
+            payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
+
+        client = boto3.client('lambda', region_name='eu-west-1')
+        client.invoke(
+            FunctionName=f'publish_to_{social.provider}',
+            Payload=bytes(json.dumps(payload), encoding='utf8')
+        )
+
+
 class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
@@ -79,26 +102,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         response = super(ContentCreate, self).form_valid(form)
 
         if content.schedule == 'now':
-            for social in content.socials.all():
-                payload = {
-                    'message': content.message,
-                    'access_token_key': social.access_token_key,
-                    's3_bucket_name': settings.AWS_STORAGE_BUCKET_NAME
-                }
-
-                if social.provider == 'facebook':
-                    payload['username'] = social.username
-                    payload['category'] = social.category
-                elif social.provider == 'twitter':
-                    payload['access_token_secret'] = social.access_token_secret
-                    payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
-                    payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
-
-                client = boto3.client('lambda', region_name='eu-west-1')
-                client.invoke(
-                    FunctionName=f'publish_to_{social.provider}',
-                    Payload=bytes(json.dumps(payload), encoding='utf8')
-                )
+            publish_now(content)
 
         return response
 
@@ -120,6 +124,17 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         queryset = super(ContentUpdate, self).get_queryset()
         content = queryset.filter(account=user)
         return content
+
+    def form_valid(self, form):
+        content = form.instance
+        user = self.request.user
+        content.account = user
+        response = super(ContentUpdate, self).form_valid(form)
+
+        if content.schedule == 'now':
+            publish_now(content)
+
+        return response
 
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
