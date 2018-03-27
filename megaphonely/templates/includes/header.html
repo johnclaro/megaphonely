@@ -4,7 +4,7 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">
         <a href="{% url 'dashboard:index' %}" style="text-decoration: none !important; color: maroon; font-family: Poppins; font-weight: 700">Megaphonely</a>
     </h5>
-    {% if user.trial and user.is_authenticated %}
+    {% if user.trial.active and user.is_authenticated %}
         <br/>
         <a class="btn btn-sm btn-outline-primary" href="{% url 'billing:pricing' %}">Upgrade my plan</a>
         <br/>
@@ -17,7 +17,7 @@
             <a class="p-2 text-dark {% if request.resolver_match.view_name == 'account_signup' %}active{% endif %}" href="{% url 'account_signup' %}">Signup</a>
         {% else %}
             <a class="p-2 text-dark {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="/">Dashboard</a>
-            <a class="p-2 text-dark {% if request.resolver_match.view_name == 'accounts:profile_update' or request.resolver_match.view_name == 'account_change_password' or request.resolver_match.view_name == 'account_email' or request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">Settings</a>
+            <a class="p-2 text-dark {% if request.resolver_match.view_name == 'accounts:profile_update' or request.resolver_match.view_name == 'account_change_password' or request.resolver_match.view_name == 'account_email' or request.resolver_match.url_name == 'billing' %}active{% endif %}" href="{% url 'accounts:profile_update' %}">Settings</a>
             <a class="p-2 text-dark " href="{% url 'account_logout' %}">Logout</a>
         {% endif %}
     </nav>

@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
-from django.http import Http404
 
 import stripe
 
