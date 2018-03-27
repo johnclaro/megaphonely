@@ -88,7 +88,7 @@ class SocialManager(models.Manager):
         for group_data in groups_data:
             group_data['access_token'] = access_token_key
             group = self._get_facebook_data(group_data, entity=data['id'])
-            group['fullname'] = f"{group_data['name']} as ({data['name']})"
+            group['fullname'] = f"{group_data['name']} (as {data['name']})"
             group['category'] = 'group'
             groups.append(group)
 
