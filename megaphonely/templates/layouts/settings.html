@@ -14,7 +14,7 @@
             </div>
             <div class="card-body text-secondary">
                 <ul class="list-group list-group-flush">
-                    <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' pk=user.id %}">
+                    <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' %}">
                         Profile
                     </a>
                     <a class="list-group-item {% if request.resolver_match.view_name == 'account_change_password' %}active{% endif %}" href="{% url 'account_change_password' %}">

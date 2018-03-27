@@ -127,8 +127,9 @@ SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
@@ -144,12 +145,16 @@ STRIPE_PLANS = {
     'standard': {
         'id': 'standard-plan-1',
         'price': '19',
-        'priority': 1
+        'priority': 1,
+        'max_socials': 8,
+        'max_contents': 200
     },
     'advanced': {
         'id': 'advanced-plan-1',
         'price': '49',
-        'priority': 2
+        'priority': 2,
+        'max_socials': 12,
+        'max_contents': 600
     }
 }
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']

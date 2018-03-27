@@ -27,6 +27,7 @@ class ContentForm(forms.ModelForm):
                 }
             )
         }
+        labels = {'multimedia': 'Image'}
 
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
