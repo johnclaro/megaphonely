@@ -44,7 +44,19 @@ def index(request):
             except ValueError:
                 pass
 
-        context = {'socials': socials, 'contents': contents, 'user': user}
+        context = {
+            'socials': socials, 'contents': contents, 'user': user,
+        }
+        if user.trial.active:
+            context['max_socials'] = 3
+            context['max_contents'] = 5
+        elif user.customer:
+            current_plan = user.customer.plan
+            max_socials = settings.STRIPE_PLANS[current_plan]['max_socials']
+            max_contents = settings.STRIPE_PLANS[current_plan]['max_contents']
+            context['max_socials'] = max_socials
+            context['max_contents'] = max_contents
+
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
     return response

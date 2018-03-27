@@ -145,12 +145,16 @@ STRIPE_PLANS = {
     'standard': {
         'id': 'standard-plan-1',
         'price': '19',
-        'priority': 1
+        'priority': 1,
+        'max_socials': 8,
+        'max_contents': 200
     },
     'advanced': {
         'id': 'advanced-plan-1',
         'price': '49',
-        'priority': 2
+        'priority': 2,
+        'max_socials': 12,
+        'max_contents': 600
     }
 }
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
