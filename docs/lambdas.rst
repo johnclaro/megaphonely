@@ -13,7 +13,8 @@ included in the config.yml under the build section to be included in the bundle
 Usage
 ~~~~~
 Go into the lambda directory, e.g. cd ~/megaphonely/lambdas/publish_to_facebook
-
 Ensure lambda-deploy is installed in your system
 
-Execute lambda deploy --use-requirements
+.. code-block:: bash
+
+    lambda deploy --use-requirements
