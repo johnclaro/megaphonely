@@ -33,6 +33,3 @@ else:
     urlpatterns += [
         path('__6TJny9S332qv92p57585kZdM9srNA66N2s26M39U4M2232B8Uz/', admin.site.urls),
     ]
-
-handler404 = 'megaphonely.views.handle_404'
-handler500 = 'megaphonely.views.handle_500'
