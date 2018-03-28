@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.utils import timezone
+from django.contrib import messages
 
 import boto3
 import json
@@ -117,12 +118,19 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         content = form.instance
-        user = self.request.user
+        request = self.request
+        user = request.user
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
 
         if content.schedule == 'now':
             publish_now(content)
+        elif Content.objects.reached_max_contents(user):
+            message = """
+            You have reached the maximum number of schedulable contents.
+            """
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentCreate, self).form_invalid(form)
 
         return response
 
@@ -147,12 +155,19 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         content = form.instance
-        user = self.request.user
+        request = self.request
+        user = request.user
         content.account = user
         response = super(ContentUpdate, self).form_valid(form)
 
         if content.schedule == 'now':
             publish_now(content)
+        elif Content.objects.reached_max_contents(user):
+            message = """
+            You have reached the maximum number of schedulable contents.
+            """
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentUpdate, self).form_invalid(form)
 
         return response
 

@@ -155,7 +155,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 STRIPE_PLANS = {
     'trial': {
         'max_socials': 3,
-        'max_contents': 5
+        'max_contents': 20
     },
     'standard': {
         'id': 'standard-plan-1',
