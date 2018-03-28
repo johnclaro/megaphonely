@@ -37,7 +37,9 @@
                         <div class="row">
                             <div class="col-3">
                                 <a class="float-left" href="{% url 'dashboard:connect' %}">
-                                    Connect
+                                    {% if socials.count < max_socials %}
+                                        Connect
+                                    {% endif %}
                                 </a>
                             </div>
                             <div class="col-6 text-center"><b>Socials</b> ({{socials.count}}/{{max_socials}})</div>
@@ -79,7 +81,9 @@
                         <div class="col-3">
                             {% if socials %}
                                 <a class="float-left" href="{% url 'dashboard:content_add' %}">
-                                    Create
+                                    {% if contents.count < max_contents %}
+                                        Create
+                                    {% endif %}
                                 </a>
                             {% endif %}
                         </div>
