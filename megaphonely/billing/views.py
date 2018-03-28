@@ -1,9 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
+from django.utils import timezone
 
 import stripe
 
@@ -60,11 +61,8 @@ def subscribe(request):
     customer.card = source['brand']
     customer.last_four = source['last4']
     customer.subscription_id = subscription['id']
+    customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
-
-    trial = Trial.objects.get(account=user)
-    trial.active = False
-    trial.save()
 
     response = redirect('dashboard:index')
 
@@ -87,6 +85,7 @@ def upgrade(request):
     )
     customer = Customer.objects.get(account=user)
     customer.plan = plan
+    customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
     response = redirect('dashboard:index')
 
