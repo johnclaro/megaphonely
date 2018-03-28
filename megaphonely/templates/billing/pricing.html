@@ -76,7 +76,7 @@
             <div class="modal-footer">
                 <form action="{% url 'billing:cancel' %}" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-primary btn-block">Yes, cancel my plan</button>
+                    <button class="btn btn-danger btn-block">Yes, cancel my plan</button>
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -157,11 +157,11 @@
                 {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
                     <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#standardModal">Upgrade</button>
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#standardModal">Upgrade</button>
                 {% elif user.customer.plan == 'standard' %}
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cancelModal">Cancel <i class="fas fa-arrow-right"></i></button>
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#cancelModal">Cancel <i class="fas fa-arrow-right"></i></button>
                 {% else %}
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#standardModal">Select <i class="fas fa-arrow-right"></i></button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#standardModal">Update <i class="fas fa-arrow-right"></i></button>
                 {% endif %}
             </div>
         </div>
@@ -190,11 +190,11 @@
                 {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
                   <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
                 {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#advancedModal">Upgrade</button>
+                  <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#advancedModal">Upgrade</button>
                 {% elif user.customer.plan == 'advanced' %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#cancelModal">Cancel <i class="fas fa-arrow-right"></i></button>
+                  <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#cancelModal">Cancel <i class="fas fa-arrow-right"></i></button>
                 {% else %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#advancedModal">Select <i class="fas fa-arrow-right"></i></button>
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#advancedModal">Update <i class="fas fa-arrow-right"></i></button>
                 {% endif %}
             </div>
         </div>
