@@ -50,21 +50,25 @@ def index(request):
         context = {
             'socials': socials, 'contents': contents, 'user': user,
         }
-        if user.trial.active:
-            context['max_socials'] = settings.STRIPE_PLANS['trial']['max_socials']
-            context['max_contents'] = settings.STRIPE_PLANS['trial']['max_contents']
-            if user.trial.ends_at < timezone.now():
+
+        current_plan = user.customer.plan
+        if user.customer.ends_at < timezone.now():
+            if current_plan == 'trial':
                 message = mark_safe("""Your trial has expired but you can still
                 <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
-                if you would still like to extend. We also appreciate feedback
-                if you could include it in your email!
+                if you would still like to extend. We appreciate feedback if
+                you could include it in your email!
                 """)
-                messages.add_message(request, messages.ERROR, message)
-                context['expired'] = True
-        elif user.customer:
-            current_plan = user.customer.plan
-            max_socials = settings.STRIPE_PLANS[current_plan]['max_socials']
-            max_contents = settings.STRIPE_PLANS[current_plan]['max_contents']
+            else:
+                message = mark_safe("""Your plan has expired. You can still
+                <a href='mailto:support@megaphonely.com?subject=Switch%20to%20trial'>contact us</a>
+                if you would like to switch over to the trial plan. We
+                appreciate feedback if you could include it in your email!""")
+            messages.add_message(request, messages.ERROR, message)
+            context['expired'] = True
+        else:
+            max_socials = settings.STRIPE_PLANS[current_plan]['socials']
+            max_contents = settings.STRIPE_PLANS[current_plan]['contents']
             context['max_socials'] = max_socials
             context['max_contents'] = max_contents
             context['expired'] = False
@@ -130,7 +134,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
 
-        if user.trial.ends_at < timezone.now():
+        if user.customer.ends_at < timezone.now():
             message = mark_safe("""Your trial has expired but you can still
             <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
             if you would still like to extend. We also appreciate feedback
@@ -175,7 +179,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         content.account = user
         response = super(ContentUpdate, self).form_valid(form)
 
-        if user.trial.ends_at < timezone.now():
+        if user.customer.ends_at < timezone.now():
             message = mark_safe("""Your trial has expired but you can still
             <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
             if you would still like to extend. We also appreciate feedback

@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 import stripe
 
-from .models import Customer, Trial
+from .models import Customer
 
 
 def convert_unix_timestamp_to_human_readable_date(unix_timestamp):

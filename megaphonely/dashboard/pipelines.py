@@ -13,7 +13,7 @@ def upsert(user=None, response=None, backend=None, request=None, **kwargs):
     else:
         provider = backend.name
 
-    if not user.trial.ends_at < timezone.now():
+    if not user.customer.ends_at < timezone.now():
         capped, level, message = Social.objects.upsert(provider, response, user)
         if capped:
             messages.add_message(request, level, message)
