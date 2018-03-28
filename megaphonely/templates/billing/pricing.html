@@ -4,11 +4,11 @@
 
 {% load static %}
 
-<div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="standardModalLabel" aria-hidden="true">
+<div class="modal fade" id="upgradeModal" tabindex="-1" role="dialog" aria-labelledby="upgradeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Downgrade to Standard</h5>
+                <h5 class="modal-title">Upgrade plan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -18,10 +18,10 @@
                 your current plan.
             </div>
             <div class="modal-footer">
-                <form action="{% url 'billing:upgrade' %}" method="post">
+                <form action="{% url 'billing:change' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="plan" value="standard">
-                    <button class="btn btn-danger btn-block">Yes, downgrade my plan</button>
+                    <input type="hidden" name="plan" value="upgrade">
+                    <button class="btn btn-success btn-block">Yes, upgrade my plan</button>
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -29,11 +29,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="advancedModal" tabindex="-1" role="dialog" aria-labelledby="advancedModalLabel" aria-hidden="true">
+<div class="modal fade" id="downgradeModal" tabindex="-1" role="dialog" aria-labelledby="downgradeModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upgrade to Advanced</h5>
+                <h5 class="modal-title">Downgrade plan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -43,10 +43,10 @@
                 your current plan.
             </div>
             <div class="modal-footer">
-                <form action="{% url 'billing:upgrade' %}" method="post">
+                <form action="{% url 'billing:change' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="plan" value="advanced">
-                    <button class="btn btn-success btn-block">Yes, upgrade my plan</button>
+                    <input type="hidden" name="plan" value="downgrade">
+                    <button class="btn btn-danger btn-block">Yes, downgrade my plan</button>
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
@@ -73,17 +73,15 @@
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
                 {% if not user.is_authenticated %}
-                    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                        Start free trial for 7 days
-                    </a>
-                {% elif user.customer.plan == 'trial'   %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
+                {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
                     <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
+                {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
+                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#upgradeModal">Upgrade</button>
                 {% elif user.customer.plan == 'standard' %}
                     <b>Current</b>
-                {% elif user.customer %}
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#standardModal">
-                        Downgrade
-                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#downgradeModal">Downgrade</button>
                 {% endif %}
             </div>
         </div>
@@ -106,17 +104,15 @@
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
                 {% if not user.is_authenticated %}
-                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">
-                      Start free trial for 7 days
-                  </a>
-                {% elif user.customer.plan == 'trial' %}
-                    <a class="btn btn-primary btn-block" href="{% url 'billing:advanced' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
+                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
+                {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
+                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a>
+                {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
+                  <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#upgradeModal">Upgrade</button>
                 {% elif user.customer.plan == 'advanced' %}
-                    <b>Current</b>
-                {% elif user.customer %}
-                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#advancedModal">
-                        Upgrade
-                    </button>
+                  <b>Current</b>
+                {% else %}
+                  <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#upgradeModal">Upgrade</button>
                 {% endif %}
             </div>
         </div>

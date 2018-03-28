@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from .views import subscribe, plan, upgrade, billing
+from .views import subscribe, plan, change, billing
 
 app_name = 'billing'
 
@@ -11,5 +11,5 @@ urlpatterns = [
     path('billing/', billing, name='billing'),
     path('standard/', plan, name='standard'),
     path('advanced/', plan, name='advanced'),
-    path('upgrade/', upgrade, name='upgrade')
+    path('change/', change, name='change')
 ]
