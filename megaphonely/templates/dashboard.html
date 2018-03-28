@@ -144,6 +144,8 @@
                         </div>
                         <hr/>
                     {% endfor %}
+                {% elif expired %}
+                    Your trial has expired.
                 {% elif not socials %}
                     You need atleast one social account connected.
                     <a href="{% url 'dashboard:connect' %}">Connect a social account.</a>
