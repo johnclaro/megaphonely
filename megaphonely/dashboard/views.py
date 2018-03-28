@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.utils import timezone
+from django.contrib import messages
 
 import boto3
 import json
@@ -63,6 +64,7 @@ def index(request):
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
+
     return response
 
 

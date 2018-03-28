@@ -3,6 +3,8 @@ import sys
 import logging
 from distutils.util import strtobool
 
+from django.contrib.messages import constants as messages
+
 import stripe
 
 from dotenv import load_dotenv, find_dotenv
@@ -23,6 +25,15 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+
+# Messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Email
 EMAIL_USE_TLS = True
