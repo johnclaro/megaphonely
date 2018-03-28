@@ -37,7 +37,7 @@
                         <div class="row">
                             <div class="col-3">
                                 <a class="float-left" href="{% url 'dashboard:connect' %}">
-                                    {% if socials.count < max_socials %}
+                                    {% if socials.count < max_socials and not expired %}
                                         Connect
                                     {% endif %}
                                 </a>
@@ -81,7 +81,7 @@
                         <div class="col-3">
                             {% if socials %}
                                 <a class="float-left" href="{% url 'dashboard:content_add' %}">
-                                    {% if contents.count < max_contents %}
+                                    {% if contents.count < max_contents and not expired %}
                                         Create
                                     {% endif %}
                                 </a>
