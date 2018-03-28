@@ -5,6 +5,7 @@ from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 import stripe
 
@@ -44,23 +45,27 @@ def subscribe(request):
     payload = request.POST
     plan = payload['plan']
     plan_id = settings.STRIPE_PLANS[plan]['id']
-
-    customer = stripe.Customer.create(email=user.email)
-    Customer.objects.create(
-        account=user, customer_id=customer['id'], plan='trial'
-    )
-
     stripe_token = payload['stripeToken']
-    source = customer.sources.create(source=stripe_token)
 
-    subscription = stripe.Subscription.create(
-        customer=user.customer.customer_id, items=[{'plan': plan_id}]
-    )
-    customer = Customer.objects.get(account=user)
+    try:
+        customer = Customer.objects.get(account=user)
+        stripe_customer = stripe.Customer.retrieve(customer.customer_id)
+        source = stripe_customer.sources.create(source=stripe_token)
+    except ObjectDoesNotExist:
+        stripe_customer = stripe.Customer.create(email=user.email)
+        customer = Customer.objects.create(
+            account=user, customer_id=stripe_customer['id'], plan='trial'
+        )
+        source = stripe_customer.sources.create(source=stripe_token)
+        subscription = stripe.Subscription.create(
+            customer=stripe_customer['id'], items=[{'plan': plan_id}]
+        )
+        customer.subscription_id = subscription['id']
+
     customer.plan = plan
+    customer.source = source['id']
     customer.card = source['brand']
     customer.last_four = source['last4']
-    customer.subscription_id = subscription['id']
     customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
 
@@ -69,12 +74,12 @@ def subscribe(request):
     return response
 
 
-def upgrade(request):
+def change(request):
     user = request.user
     payload = request.POST
     plan = payload['plan']
+    plan = 'advanced' if plan == 'upgrade' else 'standard'
     plan_id = settings.STRIPE_PLANS[plan]['id']
-
     subscription = stripe.Subscription.retrieve(user.customer.subscription_id)
     stripe.Subscription.modify(
         user.customer.subscription_id,
