@@ -78,7 +78,6 @@ def change(request):
     user = request.user
     payload = request.POST
     plan = payload['plan']
-    plan = 'advanced' if plan == 'upgrade' else 'standard'
     plan_id = settings.STRIPE_PLANS[plan]['id']
     subscription = stripe.Subscription.retrieve(user.customer.subscription_id)
     stripe.Subscription.modify(
@@ -93,5 +92,32 @@ def change(request):
     customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
     response = redirect('dashboard:index')
+
+    return response
+
+
+def cancel(request):
+    user = request.user
+
+    subscription = stripe.Subscription.retrieve(user.customer.subscription_id)
+    subscription.delete(at_period_end=True)
+    user.customer.plan = 'trial'
+    user.customer.ends_at = timezone.now() + timedelta(days=7)
+    user.customer.save()
+    response = redirect('dashboard:index')
+
+    return response
+
+
+def pricing(request):
+    user = request.user
+    template = loader.get_template('billing/pricing.html')
+    context = {'user': user}
+    if user.customer.customer_id and user.customer.plan == 'trial':
+        subscription_id = user.customer.subscription_id
+        subscription = stripe.Subscription.retrieve(subscription_id)
+        plan = subscription['items']['data'][0]['plan']['nickname']
+        context['resume'] = plan
+    response = HttpResponse(template.render(context, request))
 
     return response
