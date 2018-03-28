@@ -141,11 +141,18 @@ class SocialManager(models.Manager):
         return social
 
     def upsert(self, provider, response, user):
+        max_socials_reached = False
         data = self._get_data(provider, response)
         if type(data) != dict:
             for d in data:
                 if not self.reached_max_socials(user):
                     self._create_or_update(d['provider'], d, user)
+                else:
+                    max_socials_reached = True
         else:
             if not self.reached_max_socials(user):
                 self._create_or_update(provider, data, user)
+            else:
+                max_socials_reached = True
+
+        return max_socials_reached
