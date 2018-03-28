@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.utils import timezone
+from django.contrib import messages
+from django.utils.safestring import mark_safe
 
 import boto3
 import json
@@ -31,9 +33,6 @@ def index(request):
     if not user.is_authenticated:
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
-    elif user.trial.ends_at < timezone.now():
-        template = loader.get_template('inactive.html')
-        response = HttpResponse(template.render({}, request))
     else:
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         contents = Content.objects.filter(
@@ -51,18 +50,32 @@ def index(request):
         context = {
             'socials': socials, 'contents': contents, 'user': user,
         }
-        if user.trial.active:
-            context['max_socials'] = settings.STRIPE_PLANS['trial']['max_socials']
-            context['max_contents'] = settings.STRIPE_PLANS['trial']['max_contents']
-        elif user.customer:
-            current_plan = user.customer.plan
-            max_socials = settings.STRIPE_PLANS[current_plan]['max_socials']
-            max_contents = settings.STRIPE_PLANS[current_plan]['max_contents']
+
+        current_plan = user.customer.plan
+        if user.customer.ends_at < timezone.now():
+            if current_plan == 'trial':
+                message = mark_safe("""Your trial has expired but you can still
+                <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
+                if you would still like to extend. We appreciate feedback if
+                you could include it in your email!
+                """)
+            else:
+                message = mark_safe("""Your plan has expired. You can still
+                <a href='mailto:support@megaphonely.com?subject=Switch%20to%20trial'>contact us</a>
+                if you would like to switch over to the trial plan. We
+                appreciate feedback if you could include it in your email!""")
+            messages.add_message(request, messages.ERROR, message)
+            context['expired'] = True
+        else:
+            max_socials = settings.STRIPE_PLANS[current_plan]['socials']
+            max_contents = settings.STRIPE_PLANS[current_plan]['contents']
             context['max_socials'] = max_socials
             context['max_contents'] = max_contents
+            context['expired'] = False
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
+
     return response
 
 
@@ -116,12 +129,27 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         content = form.instance
-        user = self.request.user
+        request = self.request
+        user = request.user
         content.account = user
         response = super(ContentCreate, self).form_valid(form)
 
-        if content.schedule == 'now':
+        if user.customer.ends_at < timezone.now():
+            message = mark_safe("""Your trial has expired but you can still
+            <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
+            if you would still like to extend. We also appreciate feedback
+            if you could include it in your email!
+            """)
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentCreate, self).form_invalid(form)
+        elif content.schedule == 'now':
             publish_now(content)
+        elif Content.objects.reached_max_contents(user):
+            message = """
+            You have reached the maximum number of schedulable contents.
+            """
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentCreate, self).form_invalid(form)
 
         return response
 
@@ -146,12 +174,27 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         content = form.instance
-        user = self.request.user
+        request = self.request
+        user = request.user
         content.account = user
         response = super(ContentUpdate, self).form_valid(form)
 
-        if content.schedule == 'now':
+        if user.customer.ends_at < timezone.now():
+            message = mark_safe("""Your trial has expired but you can still
+            <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
+            if you would still like to extend. We also appreciate feedback
+            if you could include it in your email!
+            """)
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentUpdate, self).form_invalid(form)
+        elif content.schedule == 'now':
             publish_now(content)
+        elif Content.objects.reached_max_contents(user):
+            message = """
+            You have reached the maximum number of schedulable contents.
+            """
+            messages.add_message(request, messages.ERROR, message)
+            response = super(ContentUpdate, self).form_invalid(form)
 
         return response
 

@@ -3,6 +3,8 @@ import sys
 import logging
 from distutils.util import strtobool
 
+from django.contrib.messages import constants as messages
+
 import stripe
 
 from dotenv import load_dotenv, find_dotenv
@@ -23,6 +25,15 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+
+# Messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Email
 EMAIL_USE_TLS = True
@@ -143,22 +154,22 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # Stripe
 STRIPE_PLANS = {
     'trial': {
-        'max_socials': 3,
-        'max_contents': 5
+        'socials': 3,
+        'contents': 20
     },
     'standard': {
         'id': 'standard-plan-1',
         'price': '19',
         'priority': 1,
-        'max_socials': 8,
-        'max_contents': 200
+        'socials': 8,
+        'contents': 200
     },
     'advanced': {
         'id': 'advanced-plan-1',
         'price': '49',
         'priority': 2,
-        'max_socials': 12,
-        'max_contents': 600
+        'socials': 12,
+        'contents': 600
     }
 }
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
+from django.contrib import messages
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -9,15 +10,20 @@ from linkedin import linkedin
 class ContentManager(models.Manager):
     pass
 
+    def reached_max_contents(self, user):
+        current_number_of_contents = self.filter(
+            account=user, schedule='custom', is_published=False
+        ).count()
+        max_contents = settings.STRIPE_PLANS[user.customer.plan]['contents']
+
+        return current_number_of_contents >= max_contents
+
 
 class SocialManager(models.Manager):
 
     def reached_max_socials(self, user):
         current_number_of_socials = self.filter(account=user).count()
-        if user.trial.active:
-            max_socials = settings.STRIPE_PLANS['trial']['max_socials']
-        else:
-            max_socials = settings.STRIPE_PLANS[user.customer.plan]['max_socials']
+        max_socials = settings.STRIPE_PLANS[user.customer.plan]['socials']
 
         return current_number_of_socials >= max_socials
 
@@ -141,11 +147,29 @@ class SocialManager(models.Manager):
         return social
 
     def upsert(self, provider, response, user):
-        data = self._get_data(provider, response)
-        if type(data) != dict:
-            for d in data:
-                if not self.reached_max_socials(user):
-                    self._create_or_update(d['provider'], d, user)
+        capped = False
+        level = None
+        message = ''
+
+        if self.reached_max_socials(user):
+            level = messages.ERROR
+            message = 'You have reached the maximum number of socials.'
+            capped = True
         else:
-            if not self.reached_max_socials(user):
+            data = self._get_data(provider, response)
+            if type(data) != dict:
+                for d in data:
+                    if not self.reached_max_socials(user):
+                        self._create_or_update(d['provider'], d, user)
+                    else:
+                        capped = True
+                        level = messages.WARNING
+                        message = """You have reached the maximum number
+                        of socials. Certain social accounts may not have
+                        been connected.
+                        """
+                        break
+            else:
                 self._create_or_update(provider, data, user)
+
+        return capped, level, message
