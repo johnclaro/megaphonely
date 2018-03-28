@@ -14,22 +14,16 @@ class ContentManager(models.Manager):
         current_number_of_contents = self.filter(
             account=user, schedule='custom', is_published=False
         ).count()
-        if user.trial.active:
-            max_contents = settings.STRIPE_PLANS['trial']['max_contents']
-        else:
-            max_contents = settings.STRIPE_PLANS[user.customer.plan]['max_contents']
+        max_contents = settings.STRIPE_PLANS[user.customer.plan]['contents']
 
-        return current_number_of_contents >= 0
+        return current_number_of_contents >= max_contents
 
 
 class SocialManager(models.Manager):
 
     def reached_max_socials(self, user):
         current_number_of_socials = self.filter(account=user).count()
-        if user.trial.active:
-            max_socials = settings.STRIPE_PLANS['trial']['max_socials']
-        else:
-            max_socials = settings.STRIPE_PLANS[user.customer.plan]['max_socials']
+        max_socials = settings.STRIPE_PLANS[user.customer.plan]['socials']
 
         return current_number_of_socials >= max_socials
 

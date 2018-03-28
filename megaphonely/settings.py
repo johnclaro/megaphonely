@@ -154,22 +154,22 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # Stripe
 STRIPE_PLANS = {
     'trial': {
-        'max_socials': 3,
-        'max_contents': 20
+        'socials': 3,
+        'contents': 20
     },
     'standard': {
         'id': 'standard-plan-1',
         'price': '19',
         'priority': 1,
-        'max_socials': 8,
-        'max_contents': 200
+        'socials': 8,
+        'contents': 200
     },
     'advanced': {
         'id': 'advanced-plan-1',
         'price': '49',
         'priority': 2,
-        'max_socials': 12,
-        'max_contents': 600
+        'socials': 12,
+        'contents': 600
     }
 }
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
