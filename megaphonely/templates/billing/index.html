@@ -17,20 +17,8 @@
         </div>
         <div class="card-body text-secondary">
             <div class="card-body text-secondary">
-                {% if user.trial %}
-                    <h4>Check out the <a href="{% url 'billing:pricing' %}" style='text-decoration: none'>pricing page</a> to see the benefits of each plan</h4>
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Standard</td>
-                            <td><a class="btn btn-primary" href="{% url 'billing:standard' %}">Choose plan <i class="fas fa-arrow-right"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>Advanced</td>
-                            <td><a class="btn btn-primary" href="{% url 'billing:advanced' %}">Choose plan <i class="fas fa-arrow-right"></i></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                {% if user.customer.plan == 'trial'  %}
+                    <h4>Check out the <a href="{% url 'billing:pricing' %}" style='text-decoration: none'>pricing page</a> to update your plan</h4>
                 {% else %}
                 <div class="form-group">
                     Plan: <b>{{user.customer.plan}}</b>
@@ -47,7 +35,7 @@
         </div>
     </div>
 
-    {% if not user.trial %}
+    {% if not user.customer.plan == 'trial' %}
         <br/>
         <div class="card">
             <div class="card-header">
