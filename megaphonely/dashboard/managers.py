@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -10,6 +11,15 @@ class ContentManager(models.Manager):
 
 
 class SocialManager(models.Manager):
+
+    def reached_max_socials(self, user):
+        current_number_of_socials = self.filter(account=user).count()
+        if user.trial.active:
+            max_socials = settings.STRIPE_PLANS['trial']['max_socials']
+        else:
+            max_socials = settings.STRIPE_PLANS[user.customer.plan]['max_socials']
+
+        return current_number_of_socials >= max_socials
 
     def _get_linkedin_data(self, data):
         username = data['publicProfileUrl'].rsplit('/', 1)[-1]
@@ -88,7 +98,7 @@ class SocialManager(models.Manager):
         for group_data in groups_data:
             group_data['access_token'] = access_token_key
             group = self._get_facebook_data(group_data, entity=data['id'])
-            group['fullname'] = f"{group_data['name']} as ({data['name']})"
+            group['fullname'] = f"{group_data['name']} (as {data['name']})"
             group['category'] = 'group'
             groups.append(group)
 
@@ -134,6 +144,8 @@ class SocialManager(models.Manager):
         data = self._get_data(provider, response)
         if type(data) != dict:
             for d in data:
-                self._create_or_update(d['provider'], d, user)
+                if not self.reached_max_socials(user):
+                    self._create_or_update(d['provider'], d, user)
         else:
-            self._create_or_update(provider, data, user)
+            if not self.reached_max_socials(user):
+                self._create_or_update(provider, data, user)

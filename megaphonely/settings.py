@@ -142,6 +142,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Stripe
 STRIPE_PLANS = {
+    'trial': {
+        'max_socials': 3,
+        'max_contents': 5
+    },
     'standard': {
         'id': 'standard-plan-1',
         'price': '19',

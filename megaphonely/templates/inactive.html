@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="col-lg-12 card-section">
+    <div class="card">
+        <div class="card-body text-secondary">
+            <div class="card-body text-secondary text-center">
+                <h1 style='color: red'>Your trial has expired</h1>
+                <p>
+                    Don't worry, you can still <a href='mailto:support@megaphonely.com?subject=Question%20About%Megaphonely'>contact us</a>
+                    if you'd like to extend your trial.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
