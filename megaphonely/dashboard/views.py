@@ -103,6 +103,9 @@ def publish_now(content):
         if social.provider == 'facebook':
             payload['username'] = social.username
             payload['category'] = social.category
+            payload['s3_bucket_name'] = settings.AWS_STORAGE_BUCKET_NAME
+            print('Image:', content.multimedia.url)
+            payload['image'] = content.multimedia.url
         elif social.provider == 'twitter':
             payload['access_token_secret'] = social.access_token_secret
             payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
