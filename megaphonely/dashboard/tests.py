@@ -78,7 +78,7 @@ class PublishTestCase(TestCase):
         message = timezone.now()
         api = GraphAPI(access_token_key)
         s3_key = 'small.jpg'
-        s3_bucket_name = f'test.{settings.AWS_STORAGE_BUCKET_NAME}'
+        s3_bucket_name = settings.AWS_STORAGE_BUCKET_NAME
 
         data = {'message': message}
         data['path'] = 'me/photos'
