@@ -62,7 +62,7 @@ def index(request):
             else:
                 message = mark_safe("""Your plan has expired. You can still
                 <a href='mailto:support@megaphonely.com?subject=Switch%20to%20trial'>contact us</a>
-                if you would like to switch over to the trial plan. We
+                if you would like to switch over again to the trial plan. We
                 appreciate feedback if you could include it in your email!""")
             messages.add_message(request, messages.ERROR, message)
             context['expired'] = True
@@ -103,6 +103,9 @@ def publish_now(content):
         if social.provider == 'facebook':
             payload['username'] = social.username
             payload['category'] = social.category
+            payload['s3_bucket_name'] = settings.AWS_STORAGE_BUCKET_NAME
+            print('Image:', content.multimedia.url)
+            payload['image'] = content.multimedia.url
         elif social.provider == 'twitter':
             payload['access_token_secret'] = social.access_token_secret
             payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
@@ -135,8 +138,8 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         response = super(ContentCreate, self).form_valid(form)
 
         if user.customer.ends_at < timezone.now():
-            message = mark_safe("""Your trial has expired but you can still
-            <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
+            message = mark_safe("""Content not created because your trial has
+            expired but you can still <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
             if you would still like to extend. We also appreciate feedback
             if you could include it in your email!
             """)
@@ -145,8 +148,8 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         elif content.schedule == 'now':
             publish_now(content)
         elif Content.objects.reached_max_contents(user):
-            message = """
-            You have reached the maximum number of schedulable contents.
+            message = """Content not scheduled because you have reached the
+            maximum number of schedulable contents allowed.
             """
             messages.add_message(request, messages.ERROR, message)
             response = super(ContentCreate, self).form_invalid(form)
@@ -180,8 +183,8 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         response = super(ContentUpdate, self).form_valid(form)
 
         if user.customer.ends_at < timezone.now():
-            message = mark_safe("""Your trial has expired but you can still
-            <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
+            message = mark_safe("""Content not updated because your plan has
+            expired but you can still <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
             if you would still like to extend. We also appreciate feedback
             if you could include it in your email!
             """)
@@ -189,12 +192,6 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
             response = super(ContentUpdate, self).form_invalid(form)
         elif content.schedule == 'now':
             publish_now(content)
-        elif Content.objects.reached_max_contents(user):
-            message = """
-            You have reached the maximum number of schedulable contents.
-            """
-            messages.add_message(request, messages.ERROR, message)
-            response = super(ContentUpdate, self).form_invalid(form)
 
         return response
 

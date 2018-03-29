@@ -153,7 +153,8 @@ class SocialManager(models.Manager):
 
         if self.reached_max_socials(user):
             level = messages.ERROR
-            message = 'You have reached the maximum number of socials.'
+            message = """Social account not connected because you have reached
+            the maximum number of connectable social accounts allowed."""
             capped = True
         else:
             data = self._get_data(provider, response)
@@ -164,9 +165,10 @@ class SocialManager(models.Manager):
                     else:
                         capped = True
                         level = messages.WARNING
-                        message = """You have reached the maximum number
-                        of socials. Certain social accounts may not have
-                        been connected.
+                        message = """While connecting your social account(s)
+                        you have reached the maximum number of connectable
+                        social accounts allowed. Certain social accounts may
+                        not have been connected.
                         """
                         break
             else:
