@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 import os
+from typing import BinaryIO
 
 import boto3
 from facepy import GraphAPI
 
 
-def download_s3_file(s3_key: str, s3_bucket_name: str) -> None:
-    s3_object = boto3.resource('s3').Object(s3_bucket_name, s3_key)
-    s3_object.download_file(s3_key)
+def download_s3_file(s3_key: str, s3_bucket_name: str) -> str:
+    s3 = boto3.resource('s3')
+    filename = os.path.basename(s3_key)
+    tmp_filename = f'/tmp/{filename}'
+    s3.Bucket(s3_bucket_name).download_file(s3_key, tmp_filename)
+    return tmp_filename
 
 
-def get_s3_multimedia_content(s3_key: str, s3_bucket_name: str) -> dict:
-    download_s3_file(s3_key, s3_bucket_name)
-    source = open(s3_key, 'rb')
-    os.remove(s3_key)
+def get_s3_multimedia_content(s3_key: str, s3_bucket_name: str) -> BinaryIO:
+    tmp_filename = download_s3_file(s3_key, s3_bucket_name)
+    source = open(tmp_filename, 'rb')
+    os.remove(tmp_filename)
     return source
 
 
