@@ -106,7 +106,6 @@ def publish_now(content):
             payload['s3_bucket_name'] = settings.AWS_STORAGE_BUCKET_NAME
             payload['image'] = ''
             if content.multimedia:
-                print('Image:', f'media/{content.multimedia.name}')
                 payload['image'] = f'media/{content.multimedia.name}'
         elif social.provider == 'twitter':
             payload['access_token_secret'] = social.access_token_secret
