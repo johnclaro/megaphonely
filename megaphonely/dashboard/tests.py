@@ -83,7 +83,7 @@ class PublishTestCase(TestCase):
         access_token_key = TEST_FACEBOOK_ACCESS_TOKEN
         message = timezone.now()
         api = GraphAPI(access_token_key)
-        s3_key = 'small.jpg'
+        s3_key = 'media/contents/small.jpg'
 
         data = {'message': message}
         data['path'] = 'me/photos'
