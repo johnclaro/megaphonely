@@ -109,6 +109,8 @@ def publish_now(content):
             payload['access_token_secret'] = social.access_token_secret
             payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY
             payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
+        elif social.provider == 'linkedin':
+            payload['cloudfront'] = settings.AWS_S3_MEDIA_DOMAIN
 
         if content.multimedia:
             payload['image'] = f'media/{content.multimedia.name}'
