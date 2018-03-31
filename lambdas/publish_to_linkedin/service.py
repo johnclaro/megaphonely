@@ -25,13 +25,14 @@ def handler(event, context):
     access_token_key = event['access_token_key']
     message = event['message']
     image = event['image']
+    cloudfront = event['cloudfront']
 
     data = {
         'title': message, 'visibility_code': 'connections-only',
         'comment': message
     }
     if image:
-        url = f'https://s3-eu-west-1.amazonaws.com/{s3_bucket_name}/{image}'
+        url = f'https://{cloudfront}/{s3_bucket_name}/{image}'
         data['submitted_url'] = url
         data['submitted_image_url'] = url
 
