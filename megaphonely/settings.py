@@ -13,6 +13,7 @@ load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Django
+SITE_ID = 1
 DEBUG = bool(strtobool(os.environ['DEBUG']))
 SECRET_KEY = os.environ['SECRET_KEY']
 STATICFILES_DIRS = (
@@ -134,7 +135,6 @@ USE_L10N = True
 USE_TZ = True
 
 # Allauth
-SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
