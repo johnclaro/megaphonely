@@ -52,6 +52,7 @@ def index(request):
         }
 
         current_plan = user.customer.plan
+
         if user.customer.ends_at < timezone.now():
             if current_plan == 'trial':
                 message = mark_safe("""Your trial has expired but you can still
@@ -65,6 +66,8 @@ def index(request):
                 if you would like to switch over again to the trial plan. We
                 appreciate feedback if you could include it in your email!""")
             messages.add_message(request, messages.ERROR, message)
+            context['max_socials'] = 0
+            context['max_contents'] = 0
             context['expired'] = True
         else:
             max_socials = settings.STRIPE_PLANS[current_plan]['socials']
