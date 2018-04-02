@@ -1,7 +1,9 @@
-from django.db.models import OneToOneField, FileField, CASCADE, Model
+from django.db.models import (OneToOneField, FileField, CASCADE, Model,
+                              BooleanField)
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.contrib.auth.models import AbstractUser
 
 from allauth.account.models import EmailAddress
 from allauth.account.signals import email_confirmed
@@ -9,9 +11,14 @@ from allauth.account.signals import email_confirmed
 from megaphonely.accounts.managers import ProfileManager
 
 
+class User(AbstractUser):
+    pass
+
+
 class Profile(Model):
     account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     picture = FileField(upload_to='profiles', blank=True, null=True)
+    newsletter = BooleanField(default=True)
 
     objects = ProfileManager()
 
