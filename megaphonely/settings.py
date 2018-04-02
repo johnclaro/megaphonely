@@ -23,9 +23,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ROOT_URLCONF = 'megaphonely.urls'
 WSGI_APPLICATION = 'megaphonely.wsgi.application'
-AUTH_USER_MODEL = 'auth.User'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'accounts.User'
 
 # Messages
 MESSAGE_TAGS = {

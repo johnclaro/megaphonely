@@ -9,7 +9,10 @@ from .models import Profile
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['picture']
+        fields = ['picture', 'newsletter']
+        labels = {
+            'newsletter': 'Email me about latest news/updates about Megaphonely'
+        }
 
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
@@ -17,8 +20,9 @@ class ProfileForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'picture',
+            'newsletter',
             ButtonHolder(
-                Submit('submit', 'Submit',
+                Submit('submit', 'Update',
                        css_class='btn btn-primary btn-block')
             )
         )
