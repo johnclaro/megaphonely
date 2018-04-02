@@ -22,6 +22,7 @@ def get_s3_multimedia_content(s3_key: str, s3_bucket_name: str) -> BinaryIO:
 
 
 def handler(event, context):
+    # https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update
     consumer_key = event['consumer_key']
     consumer_secret = event['consumer_secret']
     s3_bucket_name = event['s3_bucket_name']

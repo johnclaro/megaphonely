@@ -20,8 +20,9 @@ def get_s3_multimedia_content(s3_key: str, s3_bucket_name: str) -> BinaryIO:
     os.remove(tmp_filename)
     return source
 
+
 def handler(event, context):
-    s3_bucket_name = event['s3_bucket_name']
+    # https://developer.linkedin.com/docs/share-on-linkedin
     access_token_key = event['access_token_key']
     message = event['message']
     image = event['image']
@@ -32,7 +33,7 @@ def handler(event, context):
         'comment': message
     }
     if image:
-        url = f'https://{cloudfront}/{s3_bucket_name}/{image}'
+        url = f'https://{cloudfront}/{image}'
         data['submitted_url'] = url
         data['submitted_image_url'] = url
 

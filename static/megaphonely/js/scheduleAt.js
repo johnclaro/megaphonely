@@ -5,11 +5,12 @@ $(function() {
     const scheduleAt = $('#id_schedule_at');
     const scheduleAtDiv = $('#div_id_schedule_at');
 
-    let initialDate = today;
     const datePopulated = scheduleAt.val();
-    if (datePopulated) {
-        initialDate = moment(datePopulated, dateFormat).toDate();
+    let initialDate = moment(datePopulated).format(dateFormat);
+    if (today >= initialDate) {
+        initialDate = today;
     }
+
     scheduleAt.datetimepicker({
         icons: {
             time: 'fas fa-clock',

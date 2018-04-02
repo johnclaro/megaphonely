@@ -46,6 +46,7 @@ class Social(Model):
 
 class Content(Model):
     message = TextField()
+    url = URLField(blank=True)
     multimedia = ImageField(upload_to='contents', blank=True, null=True)
     schedule = CharField(max_length=10, choices=SCHEDULES, default='now')
     is_published = BooleanField(default=False)
