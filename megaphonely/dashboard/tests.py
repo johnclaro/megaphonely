@@ -7,6 +7,7 @@ from django.conf import settings
 from django.utils import timezone
 
 import boto3
+import twitter
 from facepy import GraphAPI
 from linkedin import linkedin
 
@@ -16,6 +17,8 @@ User = get_user_model()
 TEST_FACEBOOK_ACCESS_TOKEN = 'EAAY8CZCqoStABABkYMHRByG0tF8EN1eWNBEf710gi0BN2Td17xlt50XKxBcbDB2ysdf5LZB7OKDxcavmgHKEG7phgWlaAfqeSr0Tx9280AmwLKB3ZBkVP16RxX58xEqHCx39lix64eZABNibPOEy5Nn375VF62et8AGLZCmoe7QhXPJlVWiap'
 TEST_FACEBOOK_USERNAME = '112409579595316'
 TEST_LINKEDIN_ACCESS_TOKEN = 'AQUUCZG7nx9AqqC4sWckMprKAfpp2zNhHSX1XtB3Q-kkE8xo-0pP0jWx5hVWbrxOfB1ftJgaRB5gPcp0Ct3Sh6XrraTQM8IhnwYcpx6JAIIFKShq406HHPuMz3W8PA2Q8uskmA7fFs4J3UTZUNJrmDMU7w21wyIyFCZrIm2Be5ELmvX9GxGqvv5P145zY0-p2HVg_Xq03KMuzw-ANXyL5aHkdqDziZsdeqXViisd0FGjrmQ02rYoD_j6-J-3azj_Thmq8elCYEDecTIP17O-Azpe3O7uNJJpy-_L55PlGA47_SBJMxtnAhNxF6jMoDML0TdVedY4XlXL7YqjZBssJwrzU9i5ww'
+TEST_TWITTER_ACCESS_TOKEN_KEY = '901476753272655872-PyTYz0nVE7yXn7DqxiOrhCiSHiDZsVo'
+TEST_TWITTER_ACCESS_TOKEN_SECRET = 'x9HLDX0Jovz9Tmy3WAVoThvn8ORT3DfAcRJXQTZB2ug0p'
 S3_BUCKET_NAME = f'test.{settings.AWS_STORAGE_BUCKET_NAME}'
 
 
@@ -121,3 +124,16 @@ class PublishTestCase(TestCase):
         response = application.submit_share(**data)
 
         return response
+
+    def test_publish_to_twitter_text(self):
+        message = 'hrlygfqgdywcmgqzagxovqzueqnxrstswtnppghlkwfviqkfavmzkzgvouatlvquqjzciprsgmlbqbsadqvdmxnttppzrxemrhxpazeyxcdmuxdklukirbdvjrdnyohvupgnzhcfrhqnglsdvsndfmthbfplefgicugnnqkyuxhnydcycykxnrjvrvhuhzhyqizvhnprhbcykcxbjrktlqcbfdcehyuadbnesokkyyuokjihjpdjbpwiphbaloqmyivmhjhmdnbwlbkchbhavpdd'
+        api = twitter.Api(
+            consumer_key=settings.SOCIAL_AUTH_TWITTER_KEY,
+            consumer_secret=settings.SOCIAL_AUTH_TWITTER_SECRET,
+            access_token_key=TEST_TWITTER_ACCESS_TOKEN_KEY,
+            access_token_secret=TEST_TWITTER_ACCESS_TOKEN_SECRET,
+        )
+
+        response = api.PostUpdate(message)
+        response_json = response.AsDict()
+        return response_json
