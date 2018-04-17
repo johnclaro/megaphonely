@@ -19,3 +19,8 @@ Django apps
 Beanstalk
 ~~~~~~~~~
 Ensure HTTPs is required for production
+
+APIs
+~~~~~~~~
+
+- `LinkedIn API Fields <https://developer.linkedin.com/docs/fields>`_
