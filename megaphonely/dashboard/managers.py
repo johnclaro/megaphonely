@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 
 from facepy import GraphAPI
+import linkedin as linkedin_base
 from linkedin import linkedin
 
 
@@ -48,6 +49,45 @@ class SocialManager(models.Manager):
         }
 
         return data
+
+    def _get_linkedin_company_data(self, data):
+        access_token_key = data['access_token']
+        application = linkedin.LinkedInApplication(token=access_token_key)
+        response = application.get_companies(
+            selectors=['id', 'name', 'universal-name'],
+            params={'is-company-admin': 'true'}
+        )
+        values = response['values']
+
+        companies = []
+        for index, value in enumerate(values):
+            company_id = value['id']
+            universal_name = value['universalName']
+            company = {
+                'social_id': company_id,
+                'provider': 'linkedin',
+                'username': universal_name,
+                'url': f'https://www.linkedin.com/company/{universal_name}',
+                'fullname': value['name'],
+                'access_token_key': access_token_key,
+                'category': 'company'
+            }
+
+            try:
+                company_response = application.get_companies(
+                    selectors=['logo-url'],
+                    params={'is-company-admin': 'true'}
+                )
+                print('Company:', company_response)
+                company['picture_url'] = company_response['values'][index]['logoUrl']
+
+                # Returns error below when company page has no logo
+            except linkedin.LinkedInError:
+                company['picture_url'] = ''
+
+            companies.append(company)
+
+        return companies
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
@@ -121,6 +161,8 @@ class SocialManager(models.Manager):
             data = self._get_facebook_group_data(data)
         elif provider == 'linkedin':
             data = self._get_linkedin_data(data)
+        elif provider == 'linkedin-oauth2-company':
+            data = self._get_linkedin_company_data(data)
 
         return data
 
@@ -159,6 +201,7 @@ class SocialManager(models.Manager):
         else:
             data = self._get_data(provider, response)
             if type(data) != dict:
+                print('Data is:', data)
                 for d in data:
                     if not self.reached_max_socials(user):
                         self._create_or_update(d['provider'], d, user)

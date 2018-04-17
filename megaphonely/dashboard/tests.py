@@ -16,7 +16,7 @@ from .models import Social
 User = get_user_model()
 TEST_FACEBOOK_ACCESS_TOKEN = 'EAAY8CZCqoStABABkYMHRByG0tF8EN1eWNBEf710gi0BN2Td17xlt50XKxBcbDB2ysdf5LZB7OKDxcavmgHKEG7phgWlaAfqeSr0Tx9280AmwLKB3ZBkVP16RxX58xEqHCx39lix64eZABNibPOEy5Nn375VF62et8AGLZCmoe7QhXPJlVWiap'
 TEST_FACEBOOK_USERNAME = '112409579595316'
-TEST_LINKEDIN_ACCESS_TOKEN = 'AQUUCZG7nx9AqqC4sWckMprKAfpp2zNhHSX1XtB3Q-kkE8xo-0pP0jWx5hVWbrxOfB1ftJgaRB5gPcp0Ct3Sh6XrraTQM8IhnwYcpx6JAIIFKShq406HHPuMz3W8PA2Q8uskmA7fFs4J3UTZUNJrmDMU7w21wyIyFCZrIm2Be5ELmvX9GxGqvv5P145zY0-p2HVg_Xq03KMuzw-ANXyL5aHkdqDziZsdeqXViisd0FGjrmQ02rYoD_j6-J-3azj_Thmq8elCYEDecTIP17O-Azpe3O7uNJJpy-_L55PlGA47_SBJMxtnAhNxF6jMoDML0TdVedY4XlXL7YqjZBssJwrzU9i5ww'
+TEST_LINKEDIN_ACCESS_TOKEN = 'AQX1hlI8o6TTrFeFTgdhzvJ6coFihICjn67MdkUFqMzRsSsK8AdYFK9Ro-F17Nx4PrrM4kGBRs7hxuFAFl5BDkYzocKftxLk1_Mbq2YiMGPGxsoKHIkunJz0FCc2ltyeSeV_n6lSNP0KP1RmCIiHtok_N9SbJ587w2h5s6cTKtrrSmyWoL5d6S_KgVvqQccoelIh_x6kzk_JhesNJtEgeBo9W-zE2qQG05GZOR31HRE7nVpfMJnI58iqRylXgychIrWivN_sj3Gga4R4YHDS0vigbCkJq4AZi2O3PXkxIUJhxRxXzYjoElXC9hoZ-9dfcgm6XFrWUB4z9qK1e4fRQK4tR3Su4w'
 TEST_TWITTER_ACCESS_TOKEN_KEY = '901476753272655872-PyTYz0nVE7yXn7DqxiOrhCiSHiDZsVo'
 TEST_TWITTER_ACCESS_TOKEN_SECRET = 'x9HLDX0Jovz9Tmy3WAVoThvn8ORT3DfAcRJXQTZB2ug0p'
 S3_BUCKET_NAME = f'test.{settings.AWS_STORAGE_BUCKET_NAME}'
@@ -125,6 +125,28 @@ class PublishTestCase(TestCase):
 
         self.assertEqual('updateKey' in response.keys(), True)
 
+    def test_publish_to_linkedin_company(self):
+        access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
+        message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
+        image = 'media/contents/small.jpg'
+        company_id = 18571760
+
+        data = {
+            'title': message, 'visibility_code': 'connections-only',
+            'comment': message
+        }
+        if image:
+            data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+            data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+
+        if company_id:
+            data['company_id'] = company_id
+            data['visibility_code'] = 'anyone'
+
+        application = linkedin.LinkedInApplication(token=access_token_key)
+        response = application.submit_company_share(**data)
+
+        self.assertEqual('updateKey' in response.keys(), True)
 
     def test_publish_to_twitter_text(self):
         message = str(timezone.now())
