@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib import messages
 
 from facepy import GraphAPI
-import linkedin as linkedin_base
 from linkedin import linkedin
 
 
@@ -78,7 +77,8 @@ class SocialManager(models.Manager):
                     selectors=['logo-url'],
                     params={'is-company-admin': 'true'}
                 )
-                company['picture_url'] = company_response['values'][index]['logoUrl']
+                logo_url = company_response['values'][index]['logoUrl']
+                company['picture_url'] = logo_url
 
                 # Returns error below when company page has no logo
             except linkedin.LinkedInError:
