@@ -111,13 +111,17 @@ def cancel(request):
 
 def pricing(request):
     user = request.user
-    template = loader.get_template('billing/pricing.html')
-    context = {'user': user}
-    if user.customer.customer_id and user.customer.plan == 'trial':
-        subscription_id = user.customer.subscription_id
-        subscription = stripe.Subscription.retrieve(subscription_id)
-        plan = subscription['items']['data'][0]['plan']['nickname']
-        context['resume'] = plan
+    if not user.is_authenticated:
+        template = loader.get_template('billing/pricing.html')
+        context = {}
+    else:
+        template = loader.get_template('billing/upgrade.html')
+        context = {'user': user}
+        if user.customer.customer_id and user.customer.plan == 'trial':
+            subscription_id = user.customer.subscription_id
+            subscription = stripe.Subscription.retrieve(subscription_id)
+            plan = subscription['items']['data'][0]['plan']['nickname']
+            context['resume'] = plan
     response = HttpResponse(template.render(context, request))
 
     return response

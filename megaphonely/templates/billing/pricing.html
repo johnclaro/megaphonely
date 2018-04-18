@@ -4,134 +4,6 @@
 
 {% load static %}
 
-<div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="standardModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update to Standard plan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% if user.customer.plan == 'trial' %}
-                    Upgrade your plan with last four of card number <b>{{user.customer.card}}</b> and <b>{{user.customer.last_four}}</b> to the Standard plan?
-                {% else %}
-                    Update your plan to the Standard plan now? You will be pro-rated for any remaining time on your current plan.
-                {% endif %}
-            </div>
-            <div class="modal-footer">
-                <form action="{% url 'billing:change' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="plan" value="standard">
-                    <button class="btn btn-primary btn-block">Upgrade</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="advancedModal" tabindex="-1" role="dialog" aria-labelledby="advancedModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Update to Advanced plan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% if user.customer.plan == 'trial' %}
-                    Upgrade your plan with last four of card number <b>{{user.customer.card}}</b> and <b>{{user.customer.last_four}}</b> to the Advanced plan?
-                {% else %}
-                    Update your plan to the Advanced plan now? You will be pro-rated for any remaining time on your current plan.
-                {% endif %}
-            </div>
-            <div class="modal-footer">
-                <form action="{% url 'billing:change' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="plan" value="advanced">
-                    <button class="btn btn-primary btn-block">Update</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Cancel my plan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Cancel your current subscription? You may still reactivate
-                your plan once cancelled before its period ends.
-            </div>
-            <div class="modal-footer">
-                <form action="{% url 'billing:cancel' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-danger btn-block">Cancel</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="resumeStandardModal" tabindex="-1" role="dialog" aria-labelledby="resumeStandardModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Resume my plan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Resume your Standard subscription?
-            </div>
-            <div class="modal-footer">
-                <form action="{% url 'billing:change' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="plan" value="standard">
-                    <button class="btn btn-primary btn-block">Resume</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="resumeAdvancedModal" tabindex="-1" role="dialog" aria-labelledby="resumeAdvancedModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Resume my plan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Resume your Advanced subscription?
-            </div>
-            <div class="modal-footer">
-                <form action="{% url 'billing:change' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="plan" value="advanced">
-                    <button class="btn btn-primary btn-block">Resume</button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="card-deck text-center">
     <div class="col-lg-6 card-section">
         <div class="card">
@@ -150,19 +22,7 @@
                     <span style="color: black"><b>19</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
-                {% elif resume == 'standard' %}
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#resumeStandardModal">Resume</button>
-                {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
-                    <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan</a>
-                {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
-                    <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#standardModal">Upgrade</button>
-                {% elif user.customer.plan == 'standard' %}
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#cancelModal">Cancel</button>
-                {% else %}
-                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#standardModal">Update</button>
-                {% endif %}
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
             </div>
         </div>
     </div>
@@ -183,19 +43,7 @@
                     <span style="color: black"><b>49</b></span>
                     <span style="font-size: 12px">/ monthly</span>
                 </h1>
-                {% if not user.is_authenticated %}
-                  <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
-                {% elif resume == 'advanced' %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#resumeAdvancedModal">Resume</button>
-                {% elif user.customer.plan == 'trial' and not user.customer.customer_id  %}
-                  <a class="btn btn-primary btn-block" href="{% url 'billing:standard' %}">Choose plan</a>
-                {% elif user.customer.plan == 'trial' and user.customer.customer_id  %}
-                  <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#advancedModal">Upgrade</button>
-                {% elif user.customer.plan == 'advanced' %}
-                  <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#cancelModal">Cancel</button>
-                {% else %}
-                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#advancedModal">Update</button>
-                {% endif %}
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start free trial for 7 days</a>
             </div>
         </div>
     </div>
