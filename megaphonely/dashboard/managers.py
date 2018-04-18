@@ -78,7 +78,6 @@ class SocialManager(models.Manager):
                     selectors=['logo-url'],
                     params={'is-company-admin': 'true'}
                 )
-                print('Company:', company_response)
                 company['picture_url'] = company_response['values'][index]['logoUrl']
 
                 # Returns error below when company page has no logo
@@ -201,7 +200,6 @@ class SocialManager(models.Manager):
         else:
             data = self._get_data(provider, response)
             if type(data) != dict:
-                print('Data is:', data)
                 for d in data:
                     if not self.reached_max_socials(user):
                         self._create_or_update(d['provider'], d, user)
