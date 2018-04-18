@@ -10,7 +10,7 @@
                 <div class="card-header text-center">
                     <a href="{% url 'accounts:profile_update' %}" style="text-decoration: none;">
                         {% if user.profile.picture %}
-                            <img src="{{user.profile.picture.url}}" height="80" width="120" style="border-radius: 50%"/>
+                            <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
                         {% else %}
                             <img src="{% static 'megaphonely/img/anonymous.jpg' %}" height="40" width="40" style="border-radius: 50%"/>
                         {% endif %}
