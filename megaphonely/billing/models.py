@@ -1,7 +1,6 @@
 from datetime import timedelta
 
-from django.db.models import (Model, OneToOneField, CharField, CASCADE,
-                              DateTimeField)
+from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.dispatch import receiver
@@ -15,16 +14,17 @@ def get_trial_ends_at():
     return timezone.now() + timedelta(days=7)
 
 
-class Customer(Model):
-    account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    customer_id = CharField(max_length=50, blank=True)
-    plan = CharField(max_length=20, choices=PLANS, default='trial')
-    subscription_id = CharField(max_length=50, blank=True)
-    last_four = CharField(max_length=4, blank=True)
-    card = CharField(max_length=20, blank=True)
-    ends_at = DateTimeField(default=get_trial_ends_at)
-    created_at = DateTimeField(auto_now_add=True)
-    updated_at = DateTimeField(auto_now=True)
+class Customer(models.Model):
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
+    customer_id = models.CharField(max_length=50, blank=True)
+    plan = models.CharField(max_length=20, choices=PLANS, default='trial')
+    subscription_id = models.CharField(max_length=50, blank=True)
+    last_four = models.CharField(max_length=4, blank=True)
+    card = models.CharField(max_length=20, blank=True)
+    ends_at = models.DateTimeField(default=get_trial_ends_at)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = CustomerManager()
 
