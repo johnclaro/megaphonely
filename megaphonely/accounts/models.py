@@ -1,5 +1,4 @@
-from django.db.models import (OneToOneField, FileField, CASCADE, Model,
-                              BooleanField)
+from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -15,10 +14,11 @@ class User(AbstractUser):
     pass
 
 
-class Profile(Model):
-    account = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    picture = FileField(upload_to='profiles', blank=True, null=True)
-    newsletter = BooleanField(default=True)
+class Profile(models.Model):
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
+    picture = models.FileField(upload_to='profiles', blank=True, null=True)
+    newsletter = models.BooleanField(default=True)
 
     objects = ProfileManager()
 
