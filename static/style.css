@@ -1,0 +1,85 @@
+* {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-color: red;
+    color: red;
+}
+
+p {
+    color: dimgray;
+}
+
+h1,h2,h3,h4 {
+    font-weight: 700
+}
+
+.heading-font {
+    font-family: 'Lato', sans-serif;
+}
+
+textarea {
+    height: 100px;
+}
+
+.navbar {
+  box-shadow: 1px 1px 2px 1px #dddbdb;
+  background-color: white;
+}
+
+.fa-twitter {
+    color: #1DA1F2;
+}
+
+.fa-facebook {
+    color: #3B5998;
+}
+
+.fa-linkedin {
+    color: #007BB5;
+}
+
+.twitter-bg {
+    background-color: #1DA1F2 !important;
+    color: white;
+}
+
+.facebook-bg {
+    background-color: #3B5998! important;
+    color: white;
+}
+
+.linkedin-bg {
+    background-color: #007BB5! important;
+    color: white;
+}
+
+.megaphonely-bg {
+    background-color: #990000! important;
+    color: white;
+}
+
+.card-section {
+    padding: 10px;
+}
+
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.asteriskField {
+    color: red;
+}
+
+.card {
+    color: gray;
+    box-shadow: 0 2px 4px -2px lightgray;
+}
+
+.active {
+    font-weight: 700;
+}
+
+.help-block strong {
+    color: red;
+}
