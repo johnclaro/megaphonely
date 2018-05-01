@@ -5,7 +5,6 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
-from django.conf.urls import handler404, handler500
 
 
 admin.autodiscover()
@@ -18,6 +17,7 @@ urlpatterns = [
     path('profiles/', include('megaphonely.accounts.urls', namespace='accounts')),
     path('privacy/', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
     path('terms/', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
+    path('help/', TemplateView.as_view(template_name='support/help.html'), name='help'),
     path('social/', include('social_django.urls', namespace='social')),
 ]
 
