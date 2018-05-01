@@ -1,22 +1,14 @@
-{% extends 'layouts/settings.html' %}
+{% extends 'base.html' %}
 
-{% block setting %}
+{% block content %}
 
 {% load crispy_forms_tags %}
 
-<div class="col-lg-8 card-section">
-    <div class="card">
-        <div class="card-header">
-            <div class="col-12">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <b>Editing profile</b>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body text-secondary">
-            <div class="card-body text-secondary">
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">Edit profile</h4>
                 {% crispy form %}
             </div>
         </div>

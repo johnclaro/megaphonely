@@ -4,72 +4,73 @@
 
 {% load static %}
 <div class="row">
-    <div class="col-lg-4">
-        <div class="col-lg-12 card-section">
-            <div class="card">
-                <div class="card-header text-center">
-                    <a href="{% url 'accounts:profile_update' %}" style="text-decoration: none;">
-                        {% if user.profile.picture %}
-                            <img src="{{user.profile.picture.url}}" height="40" width="40" style="border-radius: 50%"/>
-                        {% else %}
-                            <img src="{% static 'megaphonely/img/anonymous.jpg' %}" height="40" width="40" style="border-radius: 50%"/>
-                        {% endif %}
-                    </a>
-                </div>
-                <div class="card-body">
-                    <div class="col-lg-12">
-                        <b>Email:</b> {{user.email}}
-                    </div>
-                    <div class="col-lg-12">
-                        <b>Plan:</b> {{user.customer.plan}} ends at {{user.customer.get_ends_at_date}}
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6 text-center"><b>Profile</b></div>
+                        <div class="col-3"></div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12 card-section">
-            <div class="card">
-                <div class="card-header">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-3">
-                                <a class="float-left" href="{% url 'dashboard:connect' %}">
-                                    {% if socials.count < max_socials and not expired %}
-                                        Connect
-                                    {% endif %}
-                                </a>
-                            </div>
-                            <div class="col-6 text-center"><b>Socials</b> ({{socials.count}}/{{max_socials}})</div>
-                            <div class="col-3"></div>
-                        </div>
-                    </div>
+            <div class="card-body">
+                <div class="col-lg-12">
+                    <b>Username:</b> {{user.username}}
                 </div>
-                <div class="card-body text-secondary">
-                    {% if socials %}
-                        <div class="col-12">
-                        {% for social in socials %}
-                            <div class="row">
-                                <div class="col-10">
-                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
-                                    <a target="_blank" href="{{social.url}}">
-                                        {{social.get_screen_name}}
-                                    </a>
-                                </div>
-                                <div class="col-2">
-                                    <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
-                                        <span class="fas fa-minus-circle" style="color: red"></span>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        </div>
-                    {% else %}
-                        No social accounts connected.
-                    {% endif %}
+                <div class="col-lg-12">
+                    <b>Email:</b> {{user.email}}
+                </div>
+                <div class="col-lg-12">
+                    <b>Plan:</b> {{user.customer.plan}} ends at {{user.customer.get_ends_at_date}}
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-8 card-section">
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-header">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3">
+                            <a class="float-left" href="{% url 'dashboard:connect' %}">
+                                {% if socials.count < max_socials and not expired %}
+                                    Connect
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="col-6 text-center"><b>Socials</b> ({{socials.count}}/{{max_socials}})</div>
+                        <div class="col-3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body text-secondary">
+                {% if socials %}
+                    <div class="col-12">
+                    {% for social in socials %}
+                        <div class="row">
+                            <div class="col-10">
+                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                <a target="_blank" href="{{social.url}}">
+                                    {{social.get_screen_name}}
+                                </a>
+                            </div>
+                            <div class="col-2">
+                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                    <span class="fas fa-minus-circle" style="color: red"></span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% else %}
+                    No social accounts connected.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 card-section">
         <div class="card">
             <div class="card-header">
                 <div class="col-12">
