@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 25px;">
     <a class="navbar-brand" href="/">
         <img src="{% static 'megaphonely/img/megaphonely1024x1024.png' %}" height="40" width="40"/>
     </a>
@@ -22,8 +22,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}"><a class="nav-link" href="/">Dashboard</a></li>
-                <li class="nav-item {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}"><a class="nav-link" href="{% url 'accounts:profile_update' %}">Profile</a></li>
-                <li class="nav-item {% if request.resolver_match.url_name == 'billing' %}active{% endif %}"><a class="nav-link" href="{% url 'billing:billing' %}">Billing</a></li>
+                <li class="nav-item {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}"><a class="nav-link" href="{% url 'accounts:profile_update' %}">Settings</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'help' %}active{% endif %}"><a class="nav-link" href="{% url 'help' %}">Help</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Logout</a></li>
             </ul>

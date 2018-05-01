@@ -4,31 +4,14 @@
 
 {% load crispy_forms_tags %}
 
-<div class="row">
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header">
-                <div class="col-12 text-center">
-                    <span>Personal settings</span>
-                </div>
-            </div>
-            <div class="card-body text-secondary">
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item  {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" href="{% url 'accounts:profile_update' %}">
-                        Account
-                    </a>
-                    <a class="list-group-item {% if request.resolver_match.view_name == 'account_change_password' %}active{% endif %}" href="{% url 'account_change_password' %}">
-                        Password
-                    </a>
-                    <a class="list-group-item {% if request.resolver_match.view_name == 'billing:billing' %}active{% endif %}" href="{% url 'billing:billing' %}">
-                        Billing
-                    </a>
-                </ul>
-            </div>
-        </div>
-    </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Profile</a></li>
+    <li class="breadcrumb-item"><a href="#">Billing</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Password</li>
+    </ol>
+</nav>
 
-    {% block setting %}{% endblock %}
-</div>
+{% block setting %}{% endblock %}
 
 {% endblock %}
