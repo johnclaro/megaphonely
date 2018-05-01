@@ -1,5 +1,5 @@
 {% load static %}
-<footer class="pt-4 pt-md-5 border-top">
+<footer class="pt-4 pt-md-5 border-top" style="margin-top: 25px;">
     <div class="row">
         <div class="col-4 col-md">
             <h5>Company</h5>
@@ -11,6 +11,7 @@
             <h5>Support</h5>
             <ul class="list-unstyled text-small">
                 <li><a class="text-muted" href='mailto:support@megaphonely.com?subject=Question%20About%20Megaphonely'>Contact us</a></li>
+                <li><a class="text-muted" href="{% url 'help' %}">Help</a></li>
                 <li><a class="text-muted" href="{% url 'terms' %}">Terms</a></li>
                 <li><a class="text-muted" href="{% url 'privacy' %}">Privacy</a></li>
             </ul>

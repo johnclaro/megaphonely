@@ -9,6 +9,7 @@ from .views import (
     ContentUpdate,
     ContentDelete,
     social_disconnect,
+    SocialList
 )
 
 app_name = 'dashboard'
@@ -22,5 +23,6 @@ urlpatterns = [
     re_path(r'^contents/(?P<pk>\d+)/edit/$', ContentUpdate.as_view(), name='content_update'),
     re_path(r'^contents/(?P<pk>\d+)/delete/$', ContentDelete.as_view(), name='content_delete'),
     re_path(r'^socials/(?P<pk>\d+)/disconnect/$', social_disconnect, name='social_disconnect'),
+    path('socials/', SocialList.as_view(), name='social_list')
 ]
 
