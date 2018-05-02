@@ -2,12 +2,63 @@
 
 {% block content %}
 
-<div class="col-lg-12 card-section">
-    <ul class="list-group">
-        {% for social in socials %}
-            <li class="list-group-item">{{ social }}</li>
-        {% endfor %}
-    </ul>
+<div class="row">
+    <div class="col-lg-4 card-section">
+        <div class="card">
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <h4>CONNECT</h4>
+                    <small>
+                        Simply choose a button below whether you want to only connect your profile,
+                        pages, groups or companies.
+                    </small>
+                </div>
+                <br/>
+                <h4 style="color: #3B5998;">Facebook</h4>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
+                <br/>
+                <br/>
+                <h4 style="color: #1DA1F2;">Twitter</h4>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
+                <br/>
+                <br/>
+                <h4 style="color: #007BB5;">LinkedIn</h4>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
+                <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 card-section">
+        <div class="card">
+            <div class="card-body">
+                <div style="text-align: center;">
+                    <h4>SOCIALS</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    {% if socials %}
+                        {% for social in socials %}
+                            <div class="row">
+                                <div class="col-10">
+                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                    <a target="_blank" href="{{social.url}}" style="text-decoration: none;">{{social.get_screen_name}}</a>
+                                </div>
+                                <div class="col-2">
+                                    <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                        <span class="fas fa-minus-circle" style="color: red"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        No social accounts connected.
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

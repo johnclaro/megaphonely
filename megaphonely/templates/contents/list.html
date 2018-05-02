@@ -3,12 +3,13 @@
 {% block content %}
 
 <ul class="list-group">
+    <h4 style="text-align: center;">CONTENTS</h4>
     {% for content in contents %}
         <li class="list-group-item">
             {% for social in content.socials.all %}
                 <a target="_blank" href="{{social.url}}" class="badge">
                     <i class="fab fa-{{social.provider}}"></i>
-                    <small>{{social.get_screen_name}}</small>
+                    <span>{{social.get_screen_name}}</span>
                 </a>
             {% endfor %}
             <br/>
