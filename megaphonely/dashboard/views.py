@@ -55,8 +55,6 @@ def index(request):
             'company': company
         }
 
-        print('I got this company:', company)
-
         current_plan = user.customer.plan
 
         if user.customer.ends_at < timezone.now():

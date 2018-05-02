@@ -3,97 +3,87 @@
 {% block content %}
 
 {% load static %}
-<div class="row">
-    <div class="col-md-4 card-section">
-        <div class="card">
-            <div class="card-body">
-                {% if user.profile.picture %}
-                    <a href="{% url 'accounts:profile_update' %}">
-                        <img src="{{user.profile.picture.url}}" height="100" width="100" class="center" style="border-radius: 50%"/>
-                    </a>
-                {% else %}
-                    <div style="text-align: center">
-                        <i class="fas fa-user-circle" style="font-size: 100px;"></i>
-                    </div>
-                {% endif %}
-                <div style="text-align: center;">
-                    <a href="{% url 'accounts:profile_update' %}" style="text-decoration: none;">
-                        <h4>John Claro</h4>
-                    </a>
-                </div>
-                <small>Your email is <span class="badge badge-primary">{{user.email}}</span></small>
-                <br/>
-                <small>Currently on <span class="badge badge-primary">{{user.customer.plan}}</span> which expires at <span class="badge badge-primary">{{user.customer.ends_at}}</span></small>
-                <br/>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-8">
-        <div class="row">
-            <div class="col-md-12 card-section">
-                <div class="card">
-                    <div class="card-body">
-                        {% if company %}
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div>
-                                        {% if company.picture %}
-                                            <a href="{% url 'dashboard:company_update' pk=company.id %}">
-                                                <img src="{{company.picture.url}}" height="100" width="100" class="center" style="border-radius: 50%"/>
-                                            </a>
-                                        {% else %}
-                                            <i style="font-size: 100px;" class="fas fa-building center"></i>
-                                        {% endif %}
-                                        <a href="{% url 'dashboard:company_update' pk=company.id %}" style="text-decoration: none;">
-                                            <h4 style="text-align:center;">{{company.name}}</h4>
-                                        </a>
-                                    </div>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12 card-section">
+            <div class="card">
+                <div class="card-body">
+                    {% if company %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {% if company.picture %}
+                                    <a href="{% url 'dashboard:company_update' pk=company.id %}">
+                                        <img src="{{company.picture.url}}" height="100" width="100" class="center" style="border-radius: 50%"/>
+                                    </a>
+                                {% else %}
+                                    <i style="font-size: 100px;" class="fas fa-building center"></i>
+                                {% endif %}
+                                <a href="{% url 'dashboard:company_update' pk=company.id %}" style="text-decoration: none;">
+                                    <h4 style="text-align:center;">{{company.name}}</h4>
+                                </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <a href="{% url 'dashboard:social_list' %}" style="text-decoration: none;">
+                                        <small>Socials</small>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:social_list' %}" style="text-decoration: none;">
-                                            <small>Socials</small>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;">
-                                            <small>Contents</small>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;">
-                                            <small>Members</small>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                <div class="col-sm-12">
+                                    <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;">
+                                        <small>Contents</small>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-12">
+                                    <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;">
+                                        <small>Members</small>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
-                        {% else %}
-                            <div style="text-align: center">
-                                <i style="font-size: 100px;" class="fas fa-building"></i>
+                            <div class="col-sm-12">
                                 <br/>
-                                <small>
-                                    Before you can connect your social accounts or create contents,
-                                    you will need to <a href="{% url 'dashboard:company_add' %}">create a company</a>
-                                </small>
+                                {% if not socials %}
+                                    <small>You'll need to connect a social account before you can post contents, would you like to <a href="{% url 'dashboard:social_list' %}">connect a social account now?</a></small>
+                                {% elif not contents %}
+                                    <small>You do not have any contents scheduled, would you like to <a href="{% url 'dashboard:content_add' %}">create a content?</a></small>
+                                {% elif contents %}
+                                    <div style="text-align: center">
+                                        <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;"><h4 style="text-align: center;">CONTENTS</h4></a>
+                                        <div style="margin-top: -15px">
+                                            <small>Showing up to 5 contents soon to be posted</small>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                        {% for content in contents %}
+                                            {% if content.multimedia %}
+                                                <i class="fas fa-image"></i>
+                                            {% endif %}
+                                            <a href="{% url 'dashboard:content_update' pk=content.id %}" style="text-decoration: none;">{{content.message}}</a>
+                                            {% if not forloop.last %}
+                                                <hr/>
+                                            {% endif %}
+                                        {% endfor %}
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12 card-section">
-                <div class="card">
-                    <div class="card-body">
-                        <h4>MEMBER</h4>
-                    </div>
+                        </div>
+                    {% else %}
+                        <div style="text-align: center">
+                            <i style="font-size: 100px;" class="fas fa-building"></i>
+                            <br/>
+                            <small>
+                                Before you can connect your social accounts or create contents,
+                                you will need to <a href="{% url 'dashboard:company_add' %}">create a company</a>
+                            </small>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
