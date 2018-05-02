@@ -67,5 +67,5 @@ class Content(models.Model):
         return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
 
     def get_short_message(self):
-        shorten = f'{self.message[0:120]}...' if len(self.message) >= 120 else self.message
+        shorten = f'{self.message[0:120]}...' if len(self.message) > 120 else self.message
         return shorten

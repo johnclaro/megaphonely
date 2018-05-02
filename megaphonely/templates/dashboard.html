@@ -18,58 +18,30 @@
                                 <img src="{% static 'megaphonely/img/anonymous.jpg' %}" height="100" width="100" class="center" style="border-radius: 50%;"/>
                             </a>
                         {% endif %}
+                        <small>Socials</small>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</div>
+                        </div>
+                        <small>Contents</small>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</div>
+                        </div>
                     </div>
                     <div class="col-7">
-                        <small>Hello, <b>{{user.username}}</b>!</small>
-                        <hr/>
-                        <small>You are currently on our <span class="badge badge-pill badge-primary">{{user.customer.plan}}</span> plan. Why not try upgrading?</small>
+                        Signed in as <b>John Claro</b>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-5 card-section">
-        <div class="card">
-            <div class="card-header" style="text-align: center;">
-                <small>Socials</small>
-                <span class="badge badge-light">({{socials.count}}/{{max_socials}})</span>
-            </div>
-            <div class="card-body" onclick="location.href='{% url 'dashboard:social_list' %}';" style="cursor: pointer; text-align: center;">
-                {% if socials %}
-                    {% for social in socials %}
-                        <div class="row">
-                            <div class="col-10">
-                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
-                                <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
-                            </div>
-                            <div class="col-2">
-                                <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
-                                    <span class="fas fa-minus-circle" style="color: red"></span>
-                                </a>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    No social accounts connected.
-                {% endif %}
-            </div>
-        </div>
-    </div>
-    <div class="col-7 card-section">
-        <div class="card">
-            <div class="card-header" style="text-align: center; cursor: pointer;" onclick="location.href='{% url 'dashboard:content_list' %}';">
-                <small>Contents</small>
-                <span class="badge badge-light">({{contents.count}}/{{max_contents}})</span>
-            </div>
-            <div class="card-body">
-                {% for content in contents %}
-                    <a href="{% url 'dashboard:content_detail' pk=content.id %}">{{content.get_short_message}}</a>
-                    {% if not forloop.last %}
-                        <hr/>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+    <div class="col-12 card-section" style="text-align: center;">
+        {% if not socials %}
+            You'll need to connect to <a href="{% url 'dashboard:social_list' %}">connect a social account</a> first before
+            you can start using our services!
+        {% else %}
+            You can either <a href="{% url 'dashboard:social_list' %}">connect more social accounts</a>
+            or start <a href="{% url 'dashboard:content_add' %}">creating contents</a>
+        {% endif %}
     </div>
 </div>
 

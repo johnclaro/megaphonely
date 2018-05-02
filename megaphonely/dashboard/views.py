@@ -68,13 +68,18 @@ def index(request):
             messages.add_message(request, messages.ERROR, message)
             context['max_socials'] = 0
             context['max_contents'] = 0
+            context['socials_percentage'] = 0
+            context['contents_percentage'] = 0
             context['expired'] = True
         else:
             max_socials = settings.STRIPE_PLANS[current_plan]['socials']
             max_contents = settings.STRIPE_PLANS[current_plan]['contents']
             context['max_socials'] = max_socials
             context['max_contents'] = max_contents
+            context['socials_percentage'] = int((context['socials'].count() / max_socials) * 100)
+            context['contents_percentage'] = int((context['contents'].count() / max_contents) * 100)
             context['expired'] = False
+        print('Socials percentage:', context['socials_percentage'])
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
