@@ -216,3 +216,7 @@ class SocialManager(models.Manager):
                 self._create_or_update(provider, data, user)
 
         return capped, level, message
+
+
+class CompanyManager(models.Manager):
+    pass

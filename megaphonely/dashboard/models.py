@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from .choices import SCHEDULES, CATEGORIES
-from .managers import ContentManager, SocialManager
+from .managers import ContentManager, SocialManager, CompanyManager
 
 
 class Social(models.Model):
@@ -66,6 +66,18 @@ class Content(models.Model):
     def get_absolute_url(self):
         return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
 
-    def get_short_message(self):
-        shorten = f'{self.message[0:120]}...' if len(self.message) > 120 else self.message
-        return shorten
+
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    picture = models.FileField(upload_to='companies', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    account = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+
+    objects = CompanyManager()
+
+    def __str__(self):
+        return self.name
+

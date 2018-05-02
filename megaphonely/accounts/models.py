@@ -4,9 +4,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
 
-from allauth.account.models import EmailAddress
-from allauth.account.signals import email_confirmed
-
 from megaphonely.accounts.managers import ProfileManager
 
 
@@ -15,10 +12,13 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    account = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                   on_delete=models.CASCADE)
     picture = models.FileField(upload_to='profiles', blank=True, null=True)
     newsletter = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
 
     objects = ProfileManager()
 
@@ -33,15 +33,3 @@ class Profile(models.Model):
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
-
-
-@receiver(email_confirmed)
-def update_user_email(sender, request, email_address, **kwargs):
-    # Once the email address is confirmed, make new email_address primary.
-    # This also sets user.email to the new email address.
-    # email_address is an instance of allauth.account.models.EmailAddress
-    email_address.set_as_primary()
-    # Get rid of old email addresses
-    stale_addresses = EmailAddress.objects.filter(
-        user=email_address.user
-    ).exclude(primary=True).delete()
