@@ -14,8 +14,8 @@ from django.utils.safestring import mark_safe
 import boto3
 import json
 
-from .forms import ContentForm
-from .models import Content, Social
+from .forms import ContentForm, CompanyForm
+from .models import Content, Social, Company
 
 
 def endswith_valid_image_extension(url):
@@ -34,6 +34,7 @@ def index(request):
         template = loader.get_template('home.html')
         response = HttpResponse(template.render({}, request))
     else:
+        company = Company.objects.filter(account=user).first()
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         contents = Content.objects.filter(
             account=user, schedule='custom', is_published=False
@@ -48,8 +49,13 @@ def index(request):
                 pass
 
         context = {
-            'socials': socials, 'contents': contents, 'user': user,
+            'socials': socials,
+            'contents': contents,
+            'user': user,
+            'company': company
         }
+
+        print('I got this company:', company)
 
         current_plan = user.customer.plan
 
@@ -230,6 +236,7 @@ class ContentList(LoginRequiredMixin, ListView):
         contents = Content.objects.filter(account=user)
         return contents
 
+
 class SocialList(LoginRequiredMixin, ListView):
     template_name = 'socials/list.html'
     model = Social
@@ -239,3 +246,44 @@ class SocialList(LoginRequiredMixin, ListView):
         user = self.request.user
         socials = Social.objects.filter(account=user)
         return socials
+
+
+class CompanyCreate(LoginRequiredMixin, CreateView):
+    template_name = 'companies/add.html'
+    model = Company
+    form_class = CompanyForm
+    success_url = reverse_lazy('dashboard:index')
+
+    def get_object(self):
+        return get_object_or_404(Company, pk=self.request.user.id)
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(CompanyCreate, self).get_form_kwargs()
+        form_kwargs['account'] = user
+        return form_kwargs
+
+    def form_valid(self, form):
+        company = form.instance
+        request = self.request
+        user = request.user
+        company.account = user
+        response = super(CompanyCreate, self).form_valid(form)
+
+        return response
+
+
+class CompanyUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'companies/edit.html'
+    model = Company
+    form_class = CompanyForm
+    success_url = reverse_lazy('dashboard:index')
+
+    def get_object(self):
+        return get_object_or_404(Company)
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        form_kwargs = super(CompanyUpdate, self).get_form_kwargs()
+        form_kwargs['account'] = user
+        return form_kwargs
