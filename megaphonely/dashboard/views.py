@@ -153,6 +153,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         request = self.request
         user = request.user
         content.account = user
+        content.slug = slugify(content.message)
         response = super(ContentCreate, self).form_valid(form)
 
         if user.customer.ends_at < timezone.now():
@@ -198,6 +199,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         request = self.request
         user = request.user
         content.account = user
+        content.slug = slugify(content.message)
         response = super(ContentUpdate, self).form_valid(form)
 
         if user.customer.ends_at < timezone.now():
