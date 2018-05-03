@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<h4>Contents</h4>
 <ul class="list-group">
     {% for content in contents %}
         <li class="list-group-item">
@@ -18,8 +19,8 @@
             <p>{{content.message}}</p>
             <small class="pull-right">
                 <span style="color: gray; padding-right: 10px;">To be posted on {{content.schedule_at}}</span>
-                <a href="{% url 'dashboard:content_update' pk=content.id %}" style="padding-right: 10px;">Edit</a>
-                <a href="{% url 'dashboard:content_delete' pk=content.id %}" style="padding-right: 10px;">Delete</a>
+                <a href="{% url 'dashboard:content_update' owner=content.company.owner.username company=content.company.slug pk=content.id %}" style="padding-right: 10px;">Edit</a>
+                <a href="{% url 'dashboard:content_delete' owner=content.company.owner.username company=content.company.slug pk=content.id %}" style="padding-right: 10px;">Delete</a>
             </small>
         </li>
     {% endfor %}

@@ -36,11 +36,11 @@ def index(request):
         context = {}
         response = HttpResponse(template.render(context, request))
     else:
-        company = Company.objects.filter(account=user).first()
+        company = Company.objects.filter(owner=user).first()
         members = Company.objects.filter(members=user)
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         contents = Content.objects.filter(
-            account=user, schedule='custom', is_published=False
+            company=company, schedule='custom', is_published=False
         ).order_by('schedule_at')
         for content in contents:
             try:
@@ -152,7 +152,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content = form.instance
         request = self.request
         user = request.user
-        content.account = user
+        content.editor = user
         content.slug = slugify(content.message)
         response = super(ContentCreate, self).form_valid(form)
 
@@ -234,9 +234,11 @@ class ContentList(LoginRequiredMixin, ListView):
     context_object_name = 'contents'
 
     def get_queryset(self):
+        owner = self.kwargs['owner']
         user = self.request.user
-        company = Company.objects.filter(members=user).first()
-        contents = Content.objects.filter(account=user, company=company)
+
+        company = Company.objects.filter(owner__username=owner, members__in=[user]).first()
+        contents = Content.objects.filter(company=company)
         return contents
 
 
@@ -270,7 +272,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
         company = form.instance
         request = self.request
         user = request.user
-        company.account = user
+        company.owner = user
         company.slug = slugify(company.name)
         response = super(CompanyCreate, self).form_valid(form)
 
@@ -285,7 +287,7 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         user = self.request.user
-        return get_object_or_404(Company, account=user)
+        return get_object_or_404(Company, owner=user)
 
     def get_form_kwargs(self):
         user = self.request.user
