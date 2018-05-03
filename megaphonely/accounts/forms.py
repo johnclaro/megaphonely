@@ -48,7 +48,7 @@ class CustomSignupForm(forms.Form):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'picture', 'newsletter']
+        fields = ['name', 'picture', 'newsletter']
         labels = {
             'newsletter': 'Email me about latest news/updates about Megaphonely'
         }
@@ -58,8 +58,7 @@ class ProfileForm(forms.ModelForm):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            'first_name',
-            'last_name',
+            'name',
             'picture',
             'newsletter',
             ButtonHolder(

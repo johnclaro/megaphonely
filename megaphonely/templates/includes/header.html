@@ -25,9 +25,9 @@
                 <li class="nav-item dropdown {% if request.resolver_match.view_name == 'accounts:profile_update' %}active{% endif %}" style="padding-right: 60px;">
                     <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% if user.profile.picture %}
-                                <img src="{{user.profile.picture.url}}" height="20" width="20" style="border-radius: 50%"/>
+                            <img src="{{user.profile.picture.url}}" height="20" width="20" style="border-radius: 50%"/>
                         {% else %}
-                            <i class="fas fa-user-circle" style="font-size: 100px;"></i>
+                            <i class="fas fa-user-circle" style="font-size: 20px;"></i>
                         {% endif %}
                         {{user.profile.get_screen_name}}
                     </a>

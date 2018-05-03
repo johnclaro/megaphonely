@@ -37,7 +37,7 @@
                         {% for social in socials %}
                             <div class="row">
                                 <div class="col-10">
-                                    <a target="_blank" href="{{social.url}}" style="text-decoration: none;">
+                                    <a target="_blank" href="{{social.url}}">
                                         <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
                                         {{social.get_screen_name}}
                                     </a>
