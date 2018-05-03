@@ -10,10 +10,10 @@
             <div class="col-md-12 card-section">
                 <div class="card">
                     <div class="card-body">
-                        {% if company %}
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    {% if company %}
                                         {% if company.picture %}
                                             <a href="{% url 'dashboard:company_update' pk=company.id %}">
                                                 <img src="{{company.picture.url}}" height="100" width="100" class="center rounded-circle"/>
@@ -24,101 +24,98 @@
                                         <a href="{% url 'dashboard:company_update' pk=company.id %}">
                                             <h4 style="text-align:center;">{{company.name}}</h4>
                                         </a>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:social_list' %}">
-                                            <small>Socials</small>
-                                            <span class="progress">
-                                                <span class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</span>
-                                            </span>
-                                        </a>
-                                        <a href="{% url 'dashboard:content_list' %}">
-                                            <small>Contents</small>
-                                            <span class="progress">
-                                                <span class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</span>
-                                            </span>
-                                        </a>
-                                        <a href="{% url 'dashboard:content_list' %}">
-                                            <small>Members</small>
-                                            <span class="progress">
-                                                <span class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="col-sm-12">
+                                    {% else %}
                                         <br/>
-                                        <a href="#"><h4>Members</h4></a>
-                                        <a href="{% url 'accounts:profile_update' %}">
-                                            {% if user.profile.picture %}
-                                                <img src="{{user.profile.picture.url}}" height="40" width="40" class="rounded-circle"/>
-                                            {% else %}
-                                                <i class="fas fa-user-circle" style="font-size: 40px;"></i>
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                    <br/>
-                                    <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:social_list' %}"><h4>Socials</h4></a>
-                                        {% for social in socials %}
-                                            <a target="_blank" href="{{social.url}}">
-                                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
-                                                <small>{{social.get_screen_name}}</small>
-                                            </a>
-                                            <br/>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <br/>
-                                    {% if not socials %}
                                         <div style="text-align: center">
-                                            <small>You'll need to connect a social account first. <a href="{% url 'dashboard:social_list' %}">Connect a social account</a></small>
+                                            <a class="btn btn-outline-primary" href="{% url 'dashboard:company_add' %}">Create a company</a>
                                         </div>
-                                    {% elif not contents %}
-                                        <div style="text-align: center">
-                                            <small>You do not have any contents scheduled. <a href="{% url 'dashboard:content_add' %}">Create a content</a></small>
-                                        </div>
-                                    {% elif contents %}
-                                        <a href="{% url 'dashboard:content_list' %}"><h4 style="text-align: center;">Contents</h4></a>
-                                        {% for content in contents %}
-                                            <div class="row">
-                                                <div class="col-2">
-                                                    <a href="{% url 'accounts:profile_update' %}">
-                                                        {% if content.account.profile.picture %}
-                                                            <img src="{{content.account.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
-                                                        {% else %}
-                                                            <i class="fas fa-user-circle float-sm-right" style="font-size: 40px;"></i>
-                                                        {% endif %}
-                                                    </a>
-                                                </div>
-                                                <div class="col-9">
-                                                    {% if content.multimedia %}
-                                                        <i class="fas fa-image"></i>
-                                                    {% endif %}
-                                                     <a href="{% url 'dashboard:content_update' pk=content.id %}"><small>{{content.message}}</small></a>
-                                                    {% if not forloop.last %}
-                                                        <hr/>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
+                                        <br/>
                                     {% endif %}
                                 </div>
+                                <div class="col-sm-12">
+                                    <a href="{% url 'dashboard:social_list' %}">
+                                        <small>Socials</small>
+                                        <span class="progress">
+                                            <span class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</span>
+                                        </span>
+                                    </a>
+                                    <a href="{% url 'dashboard:content_list' %}">
+                                        <small>Contents</small>
+                                        <span class="progress">
+                                            <span class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</span>
+                                        </span>
+                                    </a>
+                                    <a href="{% url 'dashboard:content_list' %}">
+                                        <small>Members</small>
+                                        <span class="progress">
+                                            <span class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</span>
+                                        </span>
+                                    </a>
+                                </div>
                             </div>
-                        {% else %}
-                            <div style="text-align: center">
-                                <i style="font-size: 100px;" class="fas fa-building"></i>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <br/>
+                                    <a href="#"><h4>Members</h4></a>
+                                    <a href="{% url 'accounts:profile_update' %}">
+                                        {% if user.profile.picture %}
+                                            <img src="{{user.profile.picture.url}}" height="40" width="40" class="rounded-circle"/>
+                                        {% else %}
+                                            <i class="fas fa-user-circle" style="font-size: 40px;"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
                                 <br/>
-                                <small>
-                                    Create a company first before you can connect social accounts or create contents.
-                                    <a href="{% url 'dashboard:company_add' %}">Create a company</a>
-                                </small>
+                                <div class="col-sm-12">
+                                    <a href="{% url 'dashboard:social_list' %}"><h4>Socials</h4></a>
+                                    {% for social in socials %}
+                                        <a target="_blank" href="{{social.url}}">
+                                            <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                            <small>{{social.get_screen_name}}</small>
+                                        </a>
+                                        <br/>
+                                    {% endfor %}
+                                </div>
                             </div>
-                        {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <br/>
+                                {% if not socials %}
+                                    <div style="text-align: center">
+                                        <small>You'll need to connect a social account first. <a href="{% url 'dashboard:social_list' %}">Connect a social account</a></small>
+                                    </div>
+                                {% elif not contents %}
+                                    <div style="text-align: center">
+                                        <small>You do not have any contents scheduled. <a href="{% url 'dashboard:content_add' %}">Create a content</a></small>
+                                    </div>
+                                {% elif contents %}
+                                    <a href="{% url 'dashboard:content_list' %}"><h4 style="text-align: center;">Contents</h4></a>
+                                    {% for content in contents %}
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <a href="{% url 'accounts:profile_update' %}">
+                                                    {% if content.account.profile.picture %}
+                                                        <img src="{{content.account.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
+                                                    {% else %}
+                                                        <i class="fas fa-user-circle float-sm-right" style="font-size: 40px;"></i>
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="col-9">
+                                                {% if content.multimedia %}
+                                                    <i class="fas fa-image"></i>
+                                                {% endif %}
+                                                 <a href="{% url 'dashboard:content_update' pk=content.id %}"><small>{{content.message}}</small></a>
+                                                {% if not forloop.last %}
+                                                    <hr/>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
