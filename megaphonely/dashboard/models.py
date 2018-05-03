@@ -69,6 +69,7 @@ class Content(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=40)
     picture = models.FileField(upload_to='companies', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -82,4 +83,8 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        slugs = {'username': self.account.username, 'company': self.slug}
+        return reverse('dashboard:company_update', kwargs=slugs)
 

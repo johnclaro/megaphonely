@@ -15,13 +15,13 @@
                                 <div class="col-sm-12">
                                     {% if company %}
                                         {% if company.picture %}
-                                            <a href="{% url 'dashboard:company_update' pk=company.id %}">
+                                            <a href="{% url 'dashboard:company_update' username=user.username company=company.slug %}">
                                                 <img src="{{company.picture.url}}" height="100" width="100" class="center rounded-circle"/>
                                             </a>
                                         {% else %}
                                             <i style="font-size: 100px;" class="fas fa-building center"></i>
                                         {% endif %}
-                                        <a href="{% url 'dashboard:company_update' pk=company.id %}">
+                                        <a href="{% url 'dashboard:company_update' username=user.username company=company.slug %}">
                                             <h4 style="text-align:center;">{{company.name}}</h4>
                                         </a>
                                     {% else %}
