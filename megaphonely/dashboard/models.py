@@ -44,30 +44,6 @@ class Social(models.Model):
         return screen_name
 
 
-class Content(models.Model):
-    message = models.TextField()
-    slug = models.SlugField(max_length=40)
-    url = models.URLField(blank=True)
-    multimedia = models.ImageField(upload_to='contents', blank=True, null=True)
-    schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
-    is_published = models.BooleanField(default=False)
-    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    account = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
-    socials = models.ManyToManyField(Social)
-
-    objects = ContentManager()
-
-    def __str__(self):
-        return self.message
-
-    def get_absolute_url(self):
-        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
-
-
 class Company(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=40)
@@ -88,4 +64,31 @@ class Company(models.Model):
     def get_absolute_url(self):
         slugs = {'username': self.account.username, 'company': self.slug}
         return reverse('dashboard:company_update', kwargs=slugs)
+
+
+class Content(models.Model):
+    message = models.TextField()
+    slug = models.SlugField(max_length=40)
+    url = models.URLField(blank=True)
+    multimedia = models.ImageField(upload_to='contents', blank=True, null=True)
+    schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
+    is_published = models.BooleanField(default=False)
+    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    account = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE, related_name='editor')
+    socials = models.ManyToManyField(Social)
+
+    objects = ContentManager()
+
+    def __str__(self):
+        return self.message
+
+    def get_absolute_url(self):
+        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
 

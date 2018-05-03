@@ -235,7 +235,8 @@ class ContentList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        contents = Content.objects.filter(account=user)
+        company = Company.objects.filter(members=user).first()
+        contents = Content.objects.filter(account=user, company=company)
         return contents
 
 

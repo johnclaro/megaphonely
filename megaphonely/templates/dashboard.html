@@ -39,13 +39,13 @@
                                             <span class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</span>
                                         </span>
                                     </a>
-                                    <a href="{% url 'dashboard:content_list' %}">
+                                    <a href="{% url 'dashboard:content_list' username=user.username company=company.slug %}">
                                         <small>Contents</small>
                                         <span class="progress">
                                             <span class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</span>
                                         </span>
                                     </a>
-                                    <a href="{% url 'dashboard:content_list' %}">
+                                    <a href="{% url 'dashboard:content_list' username=user.username company=company.slug %}">
                                         <small>Members</small>
                                         <span class="progress">
                                             <span class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</span>
@@ -92,13 +92,13 @@
                                         <small>You do not have any contents scheduled. <a href="{% url 'dashboard:content_add' %}">Create a content</a></small>
                                     </div>
                                 {% elif contents %}
-                                    <a href="{% url 'dashboard:content_list' %}"><h4 style="text-align: center;">Contents</h4></a>
+                                    <a href="{% url 'dashboard:content_list' username=user.username company=company.slug %}"><h4 style="text-align: center;">Contents</h4></a>
                                     {% for content in contents %}
                                         <div class="row">
                                             <div class="col-2">
                                                 <a href="{% url 'accounts:profile_update' %}">
                                                     {% if content.account.profile.picture %}
-                                                        <img src="{{content.account.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
+                                                        <img src="{{content.editor.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
                                                     {% else %}
                                                         <i class="fas fa-user-circle float-sm-right" style="font-size: 40px;"></i>
                                                     {% endif %}
