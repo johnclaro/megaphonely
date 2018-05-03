@@ -49,14 +49,14 @@
                                 <div class="col-sm-6">
                                     <div class="col-sm-12">
                                         <br/>
-                                        <h4>MEMBERS</h4>
+                                        <a href="#" style="text-decoration: none;"><h4>Members</h4></a>
                                         <a href="{% url 'accounts:profile_update' %}">
                                             <img src="{{user.profile.picture.url}}" height="40" width="40" class="rounded-circle"/>
                                         </a>
                                     </div>
                                     <br/>
                                     <div class="col-sm-12">
-                                        <a href="{% url 'dashboard:social_list' %}" style="text-decoration: none;"><h4>SOCIALS</h4></a>
+                                        <a href="{% url 'dashboard:social_list' %}" style="text-decoration: none;"><h4>Socials</h4></a>
                                         {% for social in socials %}
                                             <a target="_blank" href="{{social.url}}" style="text-decoration: none;">
                                                 <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
@@ -79,7 +79,7 @@
                                         </div>
                                     {% elif contents %}
                                         <br/>
-                                        <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;"><h4 style="text-align: center;">CONTENTS</h4></a>
+                                        <a href="{% url 'dashboard:content_list' %}" style="text-decoration: none;"><h4 style="text-align: center;">Contents</h4></a>
                                         {% for content in contents %}
                                             <div class="row">
                                                 <div class="col-2">
@@ -120,7 +120,7 @@
         <div class="card-section">
             <div class="card">
                 <div class="card-body">
-                    <a href="#" style="text-decoration: none;"><h4>COMPANIES</h4></a>
+                    <a href="#" style="text-decoration: none;"><h4>Companies</h4></a>
                 </div>
             </div>
         </div>
