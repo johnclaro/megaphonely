@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
@@ -12,7 +13,7 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    name = models.CharField(max_length=100, blank=True)
+    fullname = models.CharField(max_length=100, blank=True, null=True)
     picture = models.FileField(upload_to='profiles', blank=True, null=True)
     newsletter = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,7 +28,10 @@ class Profile(models.Model):
         return self.account.username
 
     def get_screen_name(self):
-        return self.name if self.name else self.account.username
+        return self.fullname if self.fullname else self.account.username
+
+    def get_absolute_url(self):
+        return reverse('')
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_user_profile(sender, instance, created, **kwargs):
