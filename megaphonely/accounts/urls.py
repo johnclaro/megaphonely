@@ -5,5 +5,5 @@ from .views import ProfileUpdate
 app_name = 'accounts'
 
 urlpatterns = [
-    path('edit/', ProfileUpdate.as_view(), name='profile_update'),
+    path('profile/', ProfileUpdate.as_view(), name='profile_update'),
 ]
