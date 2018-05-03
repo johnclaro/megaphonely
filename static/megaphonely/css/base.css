@@ -1,4 +1,31 @@
-.center {
-    display: block;
-    margin: 0 auto;
+.fa-twitter {
+    color: #1DA1F2;
+}
+
+.fa-facebook {
+    color: #3B5998;
+}
+
+.fa-linkedin {
+    color: #007BB5;
+}
+
+.twitter-bg {
+    background-color: #1DA1F2 !important;
+    color: white;
+}
+
+.facebook-bg {
+    background-color: #3B5998! important;
+    color: white;
+}
+
+.linkedin-bg {
+    background-color: #007BB5! important;
+    color: white;
+}
+
+.megaphonely-bg {
+    background-color: #990000! important;
+    color: white;
 }
