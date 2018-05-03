@@ -10,6 +10,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.template.defaultfilters import slugify
 
 import boto3
 import json
@@ -267,6 +268,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
         request = self.request
         user = request.user
         company.account = user
+        company.slug = slugify(company.name)
         response = super(CompanyCreate, self).form_valid(form)
 
         return response
@@ -287,3 +289,10 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
         form_kwargs = super(CompanyUpdate, self).get_form_kwargs()
         form_kwargs['account'] = user
         return form_kwargs
+
+    def form_valid(self, form):
+        company = form.instance
+        company.slug = slugify(company.name)
+        response = super(CompanyUpdate, self).form_valid(form)
+
+        return response

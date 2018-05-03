@@ -27,6 +27,6 @@ urlpatterns = [
     re_path(r'^socials/(?P<pk>\d+)/disconnect/$', social_disconnect, name='social_disconnect'),
     path('socials/', SocialList.as_view(), name='social_list'),
     path('companies/create/', CompanyCreate.as_view(), name='company_add'),
-    re_path(r'^companies/(?P<pk>\d+)/edit/$', CompanyUpdate.as_view(), name='company_update'),
+    re_path(r'^(?P<username>[\w.@+-]+)/(?P<company>[\w.@+-]+)/edit/$', CompanyUpdate.as_view(), name='company_update'),
 ]
 
