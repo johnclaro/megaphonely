@@ -4,19 +4,15 @@
 
 {% load static %}
 
-<div class="jumbotron" style="padding: 20px;">
-    <h1 class="display-4">Built for teams</h1>
+<div class="col-md-8">
+    <h1>Built for teams</h1>
     <p class="lead">
         Megaphonely is a social media management tool that simplifies the way
-        you manage your social media accounts.
-        Connect your social networks, easily create contents and manage your
-        team.
+        you or your team manage social media accounts.
+        Choose from various social platforms, easily create contents and manage your team.
     </p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <p class="lead">
-    <a class="btn btn-primary btn-lg" href="{% url 'billing:pricing' %}" role="button">See our pricing</a>
-    </p>
+    <a class="btn btn-success btn-lg" href="{% url 'account_signup' %}" role="button">Create account</a>
+    <a class="btn btn-primary btn-lg" href="mailto:sales@megaphonely.com?subject=" role="button">Contact sales</a>
 </div>
 
 {% endblock %}

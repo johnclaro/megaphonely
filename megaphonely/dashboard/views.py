@@ -32,7 +32,8 @@ def index(request):
     user = request.user
     if not user.is_authenticated:
         template = loader.get_template('home.html')
-        response = HttpResponse(template.render({}, request))
+        context = {}
+        response = HttpResponse(template.render(context, request))
     else:
         company = Company.objects.filter(account=user).first()
         socials = Social.objects.filter(account=user).order_by('-updated_at')

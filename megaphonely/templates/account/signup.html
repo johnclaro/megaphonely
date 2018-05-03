@@ -5,27 +5,12 @@
 
 {% block content %}
 
-<div class="row justify-content-center" style="padding: 25px">
+<div class="row justify-content-center">
     <div class="card-wrapper">
         <div class="card fat">
             <div class="card-body">
-                <h4 class="card-title">Create an account</h4>
-                <div class="form-group">
-                    Comes with a <b>7-day free trial</b>
-                </div>
-                <form method="post" action="{% url 'account_signup' %}">
-                    {% csrf_token %}
-                    {{ form | crispy }}
-                    <div class="form-check form-group">
-                        <input type="checkbox" class="form-check-input" id="tos" required>
-                        <label class="form-check-label" for="tos" style="font-size: 14px;">
-                            I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                    <br/>
-                    Already have an account? <a href="{% url 'account_login' %}">Login</a>
-                </form>
+                {% crispy form %}
+                <small>Already have an account? <a href="{% url 'account_login' %}">Login</a></small>
             </div>
         </div>
     </div>
