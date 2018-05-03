@@ -75,6 +75,8 @@ class Company(models.Model):
 
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                     related_name='members')
 
     objects = CompanyManager()
 

@@ -57,13 +57,15 @@
                                 <div class="col-sm-12">
                                     <br/>
                                     <a href="#"><h4>Members</h4></a>
-                                    <a href="{% url 'accounts:profile_update' %}">
-                                        {% if user.profile.picture %}
-                                            <img src="{{user.profile.picture.url}}" height="40" width="40" class="rounded-circle"/>
-                                        {% else %}
-                                            <i class="fas fa-user-circle" style="font-size: 40px;"></i>
-                                        {% endif %}
-                                    </a>
+                                    {% for member in company.members.all %}
+                                        <a href="{% url 'accounts:profile_update' %}">
+                                            {% if member.profile.picture %}
+                                                <img src="{{member.profile.picture.url}}" height="40" width="40" class="rounded-circle"/>
+                                            {% else %}
+                                                <i class="fas fa-user-circle" style="font-size: 40px;"></i>
+                                            {% endif %}
+                                        </a>
+                                    {% endfor %}
                                 </div>
                                 <br/>
                                 <div class="col-sm-12">
@@ -126,7 +128,13 @@
             <div class="card">
                 <div class="card-body">
                     <a href="#"><h4>Companies</h4></a>
-                    <small>You are not part of any other companies</small>
+                    {% if members %}
+                        {% for member in members %}
+                            {{member}}
+                        {% endfor %}
+                    {% else %}
+                        <small>You are not part of any other companies</small>
+                    {% endif %}
                 </div>
             </div>
         </div>
