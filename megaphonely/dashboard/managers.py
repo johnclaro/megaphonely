@@ -46,6 +46,7 @@ class SocialManager(models.Manager):
             'fullname': f"{data['firstName']} {data['lastName']}",
             'access_token_key': access_token_key
         }
+        print('I got this data:', social_id)
 
         return data
 
@@ -158,7 +159,7 @@ class SocialManager(models.Manager):
             data = self._get_facebook_page_data(data)
         elif provider == 'facebook-group':
             data = self._get_facebook_group_data(data)
-        elif provider == 'linkedin':
+        elif provider == 'linkedin-oauth2':
             data = self._get_linkedin_data(data)
         elif provider == 'linkedin-oauth2-company':
             data = self._get_linkedin_company_data(data)
