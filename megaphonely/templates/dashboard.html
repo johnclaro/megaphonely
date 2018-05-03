@@ -108,7 +108,7 @@
                                                 {% if content.multimedia %}
                                                     <i class="fas fa-image"></i>
                                                 {% endif %}
-                                                 <a href="{% url 'dashboard:content_update' pk=content.id %}"><small>{{content.message}}</small></a>
+                                                 <a href="{% url 'dashboard:content_update' username=user.username company=company.slug pk=content.id %}"><small>{{content.message}}</small></a>
                                                 {% if not forloop.last %}
                                                     <hr/>
                                                 {% endif %}
