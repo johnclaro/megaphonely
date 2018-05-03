@@ -55,7 +55,6 @@ def index(request):
             'user': user,
             'company': company
         }
-
         current_plan = user.customer.plan
 
         if user.customer.ends_at < timezone.now():
@@ -84,7 +83,6 @@ def index(request):
             context['socials_percentage'] = int((context['socials'].count() / max_socials) * 100)
             context['contents_percentage'] = int((context['contents'].count() / max_contents) * 100)
             context['expired'] = False
-        print('Socials percentage:', context['socials_percentage'])
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
@@ -279,7 +277,8 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('dashboard:index')
 
     def get_object(self):
-        return get_object_or_404(Company)
+        user = self.request.user
+        return get_object_or_404(Company, account=user)
 
     def get_form_kwargs(self):
         user = self.request.user

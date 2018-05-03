@@ -12,8 +12,7 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
     picture = models.FileField(upload_to='profiles', blank=True, null=True)
     newsletter = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -28,12 +27,7 @@ class Profile(models.Model):
         return self.account.username
 
     def get_screen_name(self):
-        if self.first_name and self.last_name:
-            screen_name = f'{self.first_name} {self.last_name}'
-        else:
-            screen_name = self.account.username
-
-        return screen_name
+        return self.name if self.name else self.account.username
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def create_user_profile(sender, instance, created, **kwargs):
