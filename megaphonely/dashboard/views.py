@@ -61,18 +61,6 @@ def index(request):
         current_plan = user.customer.plan
 
         if user.customer.ends_at < timezone.now():
-            if current_plan == 'trial':
-                message = mark_safe("""Your trial has expired but you can still
-                <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
-                if you would still like to extend. We appreciate feedback if
-                you could include it in your email!
-                """)
-            else:
-                message = mark_safe("""Your plan has expired. You can still
-                <a href='mailto:support@megaphonely.com?subject=Switch%20to%20trial'>contact us</a>
-                if you would like to switch over again to the trial plan. We
-                appreciate feedback if you could include it in your email!""")
-            messages.add_message(request, messages.ERROR, message)
             context['max_socials'] = 0
             context['max_contents'] = 0
             context['socials_percentage'] = 0
@@ -83,9 +71,17 @@ def index(request):
             max_contents = settings.STRIPE_PLANS[current_plan]['contents']
             context['max_socials'] = max_socials
             context['max_contents'] = max_contents
-            context['socials_percentage'] = int((context['socials'].count() / max_socials) * 100)
-            context['contents_percentage'] = int((context['contents'].count() / max_contents) * 100)
+            socials_pct = (context['socials'].count() / max_socials) * 100
+            contents_pct = (context['contents'].count() / max_contents) * 100
+            context['socials_percentage'] = int(socials_pct)
+            context['contents_percentage'] = int(contents_pct)
             context['expired'] = False
+
+        context['max_socials'] = 0
+        context['max_contents'] = 0
+        context['socials_percentage'] = 0
+        context['contents_percentage'] = 0
+        context['expired'] = True
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
@@ -237,7 +233,8 @@ class ContentList(LoginRequiredMixin, ListView):
         owner = self.kwargs['owner']
         user = self.request.user
 
-        company = Company.objects.filter(owner__username=owner, members__in=[user]).first()
+        company = Company.objects.filter(owner__username=owner,
+                                         members__in=[user]).first()
         contents = Content.objects.filter(company=company)
         return contents
 
