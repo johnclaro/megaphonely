@@ -131,6 +131,9 @@
                     {% if members %}
                         {% for member in members %}
                             {{member}}
+                            {% if not forloop.last %}
+                                <hr/>
+                            {% endif %}
                         {% endfor %}
                     {% else %}
                         <small>You are not part of any other companies</small>
