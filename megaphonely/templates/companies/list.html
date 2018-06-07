@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h4>Companies</h4>
+<ul class="list-group">
+    {% for company in companies %}
+        {{company}}
+    {% endfor %}
+</ul>
+
+{% endblock %}

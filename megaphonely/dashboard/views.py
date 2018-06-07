@@ -65,7 +65,6 @@ def index(request):
             context['max_contents'] = 0
             context['socials_percentage'] = 0
             context['contents_percentage'] = 0
-            context['expired'] = True
         else:
             max_socials = settings.STRIPE_PLANS[current_plan]['socials']
             max_contents = settings.STRIPE_PLANS[current_plan]['contents']
@@ -75,13 +74,6 @@ def index(request):
             contents_pct = (context['contents'].count() / max_contents) * 100
             context['socials_percentage'] = int(socials_pct)
             context['contents_percentage'] = int(contents_pct)
-            context['expired'] = False
-
-        context['max_socials'] = 0
-        context['max_contents'] = 0
-        context['socials_percentage'] = 0
-        context['contents_percentage'] = 0
-        context['expired'] = True
 
         template = loader.get_template('dashboard.html')
         response = HttpResponse(template.render(context, request))
@@ -232,10 +224,13 @@ class ContentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         owner = self.kwargs['owner']
         user = self.request.user
-
+        print("Owner is:", owner)
+        print("User is:", user, "Type:", type(user))
         company = Company.objects.filter(owner__username=owner,
                                          members__in=[user]).first()
+        print("I got this company:", company)
         contents = Content.objects.filter(company=company)
+        print("I got these contents:", contents)
         return contents
 
 
@@ -272,6 +267,7 @@ class CompanyCreate(LoginRequiredMixin, CreateView):
         company.owner = user
         company.slug = slugify(company.name)
         response = super(CompanyCreate, self).form_valid(form)
+        company.members.add(user)
 
         return response
 
@@ -298,3 +294,14 @@ class CompanyUpdate(LoginRequiredMixin, UpdateView):
         response = super(CompanyUpdate, self).form_valid(form)
 
         return response
+
+
+class CompanyList(LoginRequiredMixin, ListView):
+    template_name = 'companies/list.html'
+    model = Company
+    context_object_name = 'companies'
+
+    def get_queryset(self):
+        user = self.request.user
+        companies = Company.objects.filter(members=user)
+        return companies
