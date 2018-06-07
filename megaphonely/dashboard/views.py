@@ -224,13 +224,10 @@ class ContentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         owner = self.kwargs['owner']
         user = self.request.user
-        print("Owner is:", owner)
-        print("User is:", user, "Type:", type(user))
+
         company = Company.objects.filter(owner__username=owner,
                                          members__in=[user]).first()
-        print("I got this company:", company)
         contents = Content.objects.filter(company=company)
-        print("I got these contents:", contents)
         return contents
 
 
@@ -305,3 +302,14 @@ class CompanyList(LoginRequiredMixin, ListView):
         user = self.request.user
         companies = Company.objects.filter(members=user)
         return companies
+
+
+class CompanyDetail(LoginRequiredMixin, DetailView):
+    template_name = 'companies/detail.html'
+    model = Company
+
+    def get_object(self):
+        owner = self.kwargs['owner']
+        user = self.request.user
+        return get_object_or_404(Company,
+                                 owner__username=owner, members__in=[user])

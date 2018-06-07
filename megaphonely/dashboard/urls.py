@@ -10,6 +10,7 @@ from .views import (
     ContentDelete,
     social_disconnect,
     SocialList,
+    CompanyDetail,
     CompanyList,
     CompanyCreate,
     CompanyUpdate
@@ -29,6 +30,7 @@ urlpatterns = [
     path('socials/', SocialList.as_view(), name='social_list'),
     path('companies/', CompanyList.as_view(), name='company_list'),
     path('companies/create/', CompanyCreate.as_view(), name='company_add'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/$', CompanyDetail.as_view(), name='company_detail'),
     re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/edit/$', CompanyUpdate.as_view(), name='company_update'),
 ]
 
