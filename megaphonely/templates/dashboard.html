@@ -141,10 +141,9 @@
                     <a href="{% url 'dashboard:company_list' %}"><h4>Companies</h4></a>
                     {% if members %}
                         {% for member in members %}
-                            {{member}}
-                            {% if not forloop.last %}
-                                <hr/>
-                            {% endif %}
+                            <div>
+                                <a href="{% url 'dashboard:company_detail' owner=member.owner company=member.slug %}">{{member}}</a>
+                            </div>
                         {% endfor %}
                     {% else %}
                         <small>You are not part of any other companies</small>
