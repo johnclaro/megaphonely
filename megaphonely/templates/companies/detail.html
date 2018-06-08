@@ -2,11 +2,126 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
-    <div class="card-wrapper">
-        <div class="card fat">
-            <div class="card-body">
-                <h4 class="card-title">{{company.name}}</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 card-section">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    {% if company.picture %}
+                                        <a href="{% url 'dashboard:company_update' owner=company.owner company=company.slug %}">
+                                            <img src="{{company.picture.url}}" height="100" width="100" class="center rounded-circle border"/>
+                                        </a>
+                                    {% else %}
+                                        <i style="font-size: 100px; color: lightgray;" class="fas fa-building center"></i>
+                                    {% endif %}
+                                    <a href="{% url 'dashboard:company_update' owner=company.owner company=company.slug %}">
+                                        <h4 style="text-align:center;">{{company.name}}</h4>
+                                    </a>
+                                </div>
+                                <div class="col-sm-12">
+                                    {% if company %}
+                                        <a href="{% url 'dashboard:social_list' %}">
+                                            <small>Socials</small>
+                                            <span class="progress">
+                                                <span class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</span>
+                                            </span>
+                                        </a>
+                                        <a href="{% url 'dashboard:content_list' owner=company.owner company=company.slug %}">
+                                            <small>Contents</small>
+                                            <span class="progress">
+                                                <span class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</span>
+                                            </span>
+                                        </a>
+                                        <a href="{% url 'dashboard:content_list' owner=company.owner company=company.slug %}">
+                                            <small>Members</small>
+                                            <span class="progress">
+                                                <span class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</span>
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if company %}
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12">
+                                        <br/>
+                                        <h4>Members</h4>
+                                        {% if not company.members.all %}
+                                            <small>No members</small>
+                                        {% else %}
+                                            {% for member in company.members.all %}
+                                                <a href="{% url 'accounts:profile_update' %}">
+                                                    {% if member.profile.picture %}
+                                                        <img src="{{member.profile.picture.url}}" height="40" width="40" class="rounded-circle border"/>
+                                                    {% else %}
+                                                        <i class="fas fa-user-circle" style="font-size: 40px;"></i>
+                                                    {% endif %}
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <br/>
+                                    <div class="col-sm-12">
+                                        <h4>Socials</h4>
+                                        {% if not socials %}
+                                            <small>No socials connected</small>
+                                        {% else %}
+                                            {% for social in socials %}
+                                                <a target="_blank" href="{{social.url}}">
+                                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                                    <small>{{social.get_screen_name}}</small>
+                                                </a>
+                                                <br/>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <br/>
+                                {% if not socials %}
+                                    <div style="text-align: center">
+                                        <small>You'll need to connect a social account first. <a href="{% url 'dashboard:social_list' %}">Connect a social account</a></small>
+                                    </div>
+                                {% elif not contents %}
+                                    <div style="text-align: center">
+                                        <small>You do not have any contents scheduled. <a href="{% url 'dashboard:content_add' %}">Create a content</a></small>
+                                    </div>
+                                {% elif contents %}
+                                    <h4 style="text-align: center;">Contents</h4>
+                                    {% for content in contents %}
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <a href="#">
+                                                    {% if content.editor.profile.picture %}
+                                                        <img src="{{content.editor.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
+                                                    {% else %}
+                                                        <i class="fas fa-user-circle float-sm-right" style="font-size: 40px;"></i>
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="col-9">
+                                                {% if content.multimedia %}
+                                                    <i class="fas fa-image"></i>
+                                                {% endif %}
+                                                 <a href="{% url 'dashboard:content_update' owner=company.owner company=company.slug pk=content.id %}"><small>{{content.message}}</small></a>
+                                                {% if not forloop.last %}
+                                                    <hr/>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

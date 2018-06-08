@@ -37,7 +37,7 @@ def index(request):
         response = HttpResponse(template.render(context, request))
     else:
         company = Company.objects.filter(owner=user).first()
-        members = Company.objects.filter(members=user)
+        companies = Company.objects.filter(members=user)
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         contents = Content.objects.filter(
             company=company, schedule='custom', is_published=False
@@ -56,7 +56,7 @@ def index(request):
             'contents': contents,
             'user': user,
             'company': company,
-            'members': members
+            'companies': companies
         }
         current_plan = user.customer.plan
 
