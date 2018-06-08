@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, HTML, ButtonHolder, Submit
 from crispy_forms.bootstrap import InlineRadios
 
-from .models import Content, Social, Company
+from .models import Content, Social, Team
 
 
 class ContentForm(forms.ModelForm):
@@ -55,14 +55,14 @@ class ContentForm(forms.ModelForm):
         self.helper.form_method = 'post'
 
 
-class CompanyForm(forms.ModelForm):
+class TeamForm(forms.ModelForm):
     class Meta:
-        model = Company
+        model = Team
         fields = ['name', 'picture']
 
     def __init__(self, *args, **kwargs):
         account = kwargs.pop('account')
-        super(CompanyForm, self).__init__(*args, **kwargs)
+        super(TeamForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
             'name',

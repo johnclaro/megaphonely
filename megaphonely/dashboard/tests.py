@@ -129,7 +129,7 @@ class PublishTestCase(TestCase):
         access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
         message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
         image = 'media/contents/small.jpg'
-        company_id = 18571760
+        team_id = 18571760
 
         data = {
             'title': message, 'visibility_code': 'connections-only',
@@ -139,12 +139,12 @@ class PublishTestCase(TestCase):
             data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
             data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
 
-        if company_id:
-            data['company_id'] = company_id
+        if team_id:
+            data['team_id'] = team_id
             data['visibility_code'] = 'anyone'
 
         application = linkedin.LinkedInApplication(token=access_token_key)
-        response = application.submit_company_share(**data)
+        response = application.submit_team_share(**data)
 
         self.assertEqual('updateKey' in response.keys(), True)
 

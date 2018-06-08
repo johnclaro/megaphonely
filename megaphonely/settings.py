@@ -120,7 +120,7 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_KEY = os.environ['LINKEDIN_CLIENT_ID']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SCOPE = [
-    'r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'
+    'r_basicprofile', 'r_emailaddress', 'rw_team_admin', 'w_share'
 ]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
@@ -251,7 +251,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.linkedin.LinkedinOAuth2',
     'megaphonely.dashboard.backends.FacebookOAuth2Page',
     'megaphonely.dashboard.backends.FacebookOAuth2Group',
-    'megaphonely.dashboard.backends.LinkedinOAuth2Company'
+    'megaphonely.dashboard.backends.LinkedinOAuth2Team'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {

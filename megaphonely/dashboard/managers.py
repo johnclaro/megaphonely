@@ -50,44 +50,44 @@ class SocialManager(models.Manager):
 
         return data
 
-    def _get_linkedin_company_data(self, data):
+    def _get_linkedin_team_data(self, data):
         access_token_key = data['access_token']
         application = linkedin.LinkedInApplication(token=access_token_key)
         response = application.get_companies(
             selectors=['id', 'name', 'universal-name'],
-            params={'is-company-admin': 'true'}
+            params={'is-team-admin': 'true'}
         )
         values = response['values']
 
-        companies = []
+        teams = []
         for index, value in enumerate(values):
-            company_id = value['id']
+            team_id = value['id']
             universal_name = value['universalName']
-            company = {
-                'social_id': company_id,
+            team = {
+                'social_id': team_id,
                 'provider': 'linkedin',
                 'username': universal_name,
-                'url': f'https://www.linkedin.com/company/{universal_name}',
+                'url': f'https://www.linkedin.com/team/{universal_name}',
                 'fullname': value['name'],
                 'access_token_key': access_token_key,
-                'category': 'company'
+                'category': 'team'
             }
 
             try:
-                company_response = application.get_companies(
+                team_response = application.get_companies(
                     selectors=['logo-url'],
-                    params={'is-company-admin': 'true'}
+                    params={'is-team-admin': 'true'}
                 )
-                logo_url = company_response['values'][index]['logoUrl']
-                company['picture_url'] = logo_url
+                logo_url = team_response['values'][index]['logoUrl']
+                team['picture_url'] = logo_url
 
-                # Returns error below when company page has no logo
+                # Returns error below when team page has no logo
             except linkedin.LinkedInError:
-                company['picture_url'] = ''
+                team['picture_url'] = ''
 
-            companies.append(company)
+            teams.append(team)
 
-        return companies
+        return teams
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
@@ -161,8 +161,8 @@ class SocialManager(models.Manager):
             data = self._get_facebook_group_data(data)
         elif provider == 'linkedin-oauth2':
             data = self._get_linkedin_data(data)
-        elif provider == 'linkedin-oauth2-company':
-            data = self._get_linkedin_company_data(data)
+        elif provider == 'linkedin-oauth2-team':
+            data = self._get_linkedin_team_data(data)
 
         return data
 
@@ -219,5 +219,5 @@ class SocialManager(models.Manager):
         return capped, level, message
 
 
-class CompanyManager(models.Manager):
+class TeamManager(models.Manager):
     pass
