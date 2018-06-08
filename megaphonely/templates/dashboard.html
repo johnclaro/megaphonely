@@ -18,17 +18,17 @@
         <div class="card-section">
             <div class="card">
                 <div class="card-body">
-                    <h4>Companies</h4>
-                    {% if companies %}
-                        {% for company in companies %}
+                    <h4>Teams</h4>
+                    {% if teams %}
+                        {% for team in teams %}
                             <div>
-                                <a href="{% url 'dashboard:company_detail' owner=company.owner company=company.slug %}">
-                                    {{company.owner}}/{{company.slug}}
+                                <a href="{% url 'dashboard:team_detail' owner=team.owner team=team.slug %}">
+                                    {{team.owner}}/{{team.slug}}
                                 </a>
                             </div>
                         {% endfor %}
                     {% else %}
-                        <small>You are not part of any other companies</small>
+                        <small>You are not part of any other teams</small>
                     {% endif %}
                 </div>
             </div>

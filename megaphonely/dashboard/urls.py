@@ -10,10 +10,10 @@ from .views import (
     ContentDelete,
     social_disconnect,
     SocialList,
-    CompanyDetail,
-    CompanyList,
-    CompanyCreate,
-    CompanyUpdate
+    TeamDetail,
+    TeamList,
+    TeamCreate,
+    TeamUpdate
 )
 
 app_name = 'dashboard'
@@ -21,16 +21,16 @@ app_name = 'dashboard'
 urlpatterns = [
     path('', index, name='index'),
     path('connect/', TemplateView.as_view(template_name='socials/connect.html'), name='connect'),
-    re_path('u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/contents/', ContentList.as_view(), name='content_list'),
+    re_path('u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/contents/', ContentList.as_view(), name='content_list'),
     path('contents/create/', ContentCreate.as_view(), name='content_add'),
-    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/contents/(?P<pk>\d+)/$', ContentDetail.as_view(), name='content_detail'),
-    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/contents/(?P<pk>\d+)/edit/$', ContentUpdate.as_view(), name='content_update'),
-    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/contents/(?P<pk>\d+)/delete/$', ContentDelete.as_view(), name='content_delete'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/contents/(?P<pk>\d+)/$', ContentDetail.as_view(), name='content_detail'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/contents/(?P<pk>\d+)/edit/$', ContentUpdate.as_view(), name='content_update'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/contents/(?P<pk>\d+)/delete/$', ContentDelete.as_view(), name='content_delete'),
     re_path(r'^socials/(?P<pk>\d+)/disconnect/$', social_disconnect, name='social_disconnect'),
     path('socials/', SocialList.as_view(), name='social_list'),
-    path('companies/', CompanyList.as_view(), name='company_list'),
-    path('companies/create/', CompanyCreate.as_view(), name='company_add'),
-    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/$', CompanyDetail.as_view(), name='company_detail'),
-    re_path(r'^u/(?P<owner>[\w.@+-]+)/c/(?P<company>[\w.@+-]+)/edit/$', CompanyUpdate.as_view(), name='company_update'),
+    path('teams/', TeamList.as_view(), name='team_list'),
+    path('teams/create/', TeamCreate.as_view(), name='team_add'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/$', TeamDetail.as_view(), name='team_detail'),
+    re_path(r'^u/(?P<owner>[\w.@+-]+)/t/(?P<team>[\w.@+-]+)/edit/$', TeamUpdate.as_view(), name='team_update'),
 ]
 

@@ -2,8 +2,8 @@ from social_core.backends.facebook import FacebookOAuth2
 from social_core.backends.linkedin import LinkedinOAuth2
 
 
-class LinkedinOAuth2Company(LinkedinOAuth2):
-    name = 'linkedin-oauth2-company'
+class LinkedinOAuth2Team(LinkedinOAuth2):
+    name = 'linkedin-oauth2-team'
 
 
 class FacebookOAuth2Page(FacebookOAuth2):

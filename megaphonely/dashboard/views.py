@@ -15,8 +15,8 @@ from django.template.defaultfilters import slugify
 import boto3
 import json
 
-from .forms import ContentForm, CompanyForm
-from .models import Content, Social, Company
+from .forms import ContentForm, TeamForm
+from .models import Content, Social, Team
 
 
 def endswith_valid_image_extension(url):
@@ -36,11 +36,11 @@ def index(request):
         context = {}
         response = HttpResponse(template.render(context, request))
     else:
-        company = Company.objects.filter(owner=user).first()
-        companies = Company.objects.filter(members=user)
+        team = Team.objects.filter(owner=user).first()
+        teams = Team.objects.filter(members=user)
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         contents = Content.objects.filter(
-            company=company, schedule='custom', is_published=False
+            team=team, schedule='custom', is_published=False
         ).order_by('schedule_at')
         for content in contents:
             try:
@@ -55,8 +55,8 @@ def index(request):
             'socials': socials,
             'contents': contents,
             'user': user,
-            'company': company,
-            'companies': companies
+            'team': team,
+            'teams': teams
         }
         current_plan = user.customer.plan
 
@@ -225,9 +225,9 @@ class ContentList(LoginRequiredMixin, ListView):
         owner = self.kwargs['owner']
         user = self.request.user
 
-        company = Company.objects.filter(owner__username=owner,
+        team = Team.objects.filter(owner__username=owner,
                                          members__in=[user]).first()
-        contents = Content.objects.filter(company=company)
+        contents = Content.objects.filter(team=team)
         return contents
 
 
@@ -242,74 +242,74 @@ class SocialList(LoginRequiredMixin, ListView):
         return socials
 
 
-class CompanyCreate(LoginRequiredMixin, CreateView):
-    template_name = 'companies/add.html'
-    model = Company
-    form_class = CompanyForm
+class TeamCreate(LoginRequiredMixin, CreateView):
+    template_name = 'teams/add.html'
+    model = Team
+    form_class = TeamForm
     success_url = reverse_lazy('dashboard:index')
 
     def get_object(self):
-        return get_object_or_404(Company, pk=self.request.user.id)
+        return get_object_or_404(Team, pk=self.request.user.id)
 
     def get_form_kwargs(self):
         user = self.request.user
-        form_kwargs = super(CompanyCreate, self).get_form_kwargs()
+        form_kwargs = super(TeamCreate, self).get_form_kwargs()
         form_kwargs['account'] = user
         return form_kwargs
 
     def form_valid(self, form):
-        company = form.instance
+        team = form.instance
         request = self.request
         user = request.user
-        company.owner = user
-        company.slug = slugify(company.name)
-        response = super(CompanyCreate, self).form_valid(form)
-        company.members.add(user)
+        team.owner = user
+        team.slug = slugify(team.name)
+        response = super(TeamCreate, self).form_valid(form)
+        team.members.add(user)
 
         return response
 
 
-class CompanyUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'companies/edit.html'
-    model = Company
-    form_class = CompanyForm
+class TeamUpdate(LoginRequiredMixin, UpdateView):
+    template_name = 'teams/edit.html'
+    model = Team
+    form_class = TeamForm
     success_url = reverse_lazy('dashboard:index')
 
     def get_object(self):
         user = self.request.user
-        return get_object_or_404(Company, owner=user)
+        return get_object_or_404(Team, owner=user)
 
     def get_form_kwargs(self):
         user = self.request.user
-        form_kwargs = super(CompanyUpdate, self).get_form_kwargs()
+        form_kwargs = super(TeamUpdate, self).get_form_kwargs()
         form_kwargs['account'] = user
         return form_kwargs
 
     def form_valid(self, form):
-        company = form.instance
-        company.slug = slugify(company.name)
-        response = super(CompanyUpdate, self).form_valid(form)
+        team = form.instance
+        team.slug = slugify(team.name)
+        response = super(TeamUpdate, self).form_valid(form)
 
         return response
 
 
-class CompanyList(LoginRequiredMixin, ListView):
-    template_name = 'companies/list.html'
-    model = Company
-    context_object_name = 'companies'
+class TeamList(LoginRequiredMixin, ListView):
+    template_name = 'teams/list.html'
+    model = Team
+    context_object_name = 'teams'
 
     def get_queryset(self):
         user = self.request.user
-        companies = Company.objects.filter(members=user)
-        return companies
+        teams = Team.objects.filter(members=user)
+        return teams
 
 
-class CompanyDetail(LoginRequiredMixin, DetailView):
-    template_name = 'companies/detail.html'
-    model = Company
+class TeamDetail(LoginRequiredMixin, DetailView):
+    template_name = 'teams/detail.html'
+    model = Team
 
     def get_object(self):
         owner = self.kwargs['owner']
         user = self.request.user
-        return get_object_or_404(Company,
+        return get_object_or_404(Team,
                                  owner__username=owner, members__in=[user])

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from .choices import SCHEDULES, CATEGORIES
-from .managers import ContentManager, SocialManager, CompanyManager
+from .managers import ContentManager, SocialManager, TeamManager
 
 
 class Social(models.Model):
@@ -44,10 +44,10 @@ class Social(models.Model):
         return screen_name
 
 
-class Company(models.Model):
+class Team(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=40)
-    picture = models.FileField(upload_to='companies', blank=True, null=True)
+    picture = models.FileField(upload_to='teams', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,14 +56,14 @@ class Company(models.Model):
     members = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                      related_name='members')
 
-    objects = CompanyManager()
+    objects = TeamManager()
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
-        slugs = {'username': self.account.username, 'company': self.slug}
-        return reverse('dashboard:company_update', kwargs=slugs)
+        slugs = {'username': self.account.username, 'team': self.slug}
+        return reverse('dashboard:team_update', kwargs=slugs)
 
 
 class Content(models.Model):
@@ -79,7 +79,7 @@ class Content(models.Model):
 
     admin = models.ForeignKey(settings.AUTH_USER_MODEL,
                               on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE, related_name='editor')
     socials = models.ManyToManyField(Social)

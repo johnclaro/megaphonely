@@ -11,32 +11,32 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="col-sm-12">
-                                    {% if company.picture %}
-                                        <a href="{% url 'dashboard:company_update' owner=company.owner company=company.slug %}">
-                                            <img src="{{company.picture.url}}" height="100" width="100" class="center rounded-circle border"/>
+                                    {% if team.picture %}
+                                        <a href="{% url 'dashboard:team_update' owner=team.owner team=team.slug %}">
+                                            <img src="{{team.picture.url}}" height="100" width="100" class="center rounded-circle border"/>
                                         </a>
                                     {% else %}
                                         <i style="font-size: 100px; color: lightgray;" class="fas fa-building center"></i>
                                     {% endif %}
-                                    <a href="{% url 'dashboard:company_update' owner=company.owner company=company.slug %}">
-                                        <h4 style="text-align:center;">{{company.name}}</h4>
+                                    <a href="{% url 'dashboard:team_update' owner=team.owner team=team.slug %}">
+                                        <h4 style="text-align:center;">{{team.name}}</h4>
                                     </a>
                                 </div>
                                 <div class="col-sm-12">
-                                    {% if company %}
+                                    {% if team %}
                                         <a href="{% url 'dashboard:social_list' %}">
                                             <small>Socials</small>
                                             <span class="progress">
                                                 <span class="progress-bar bg-success" role="progressbar" style="width: {{socials_percentage}}%;" aria-valuenow="{{socials.count}}" aria-valuemin="0" aria-valuemax="{{max_socials}}">{{socials.count}}</span>
                                             </span>
                                         </a>
-                                        <a href="{% url 'dashboard:content_list' owner=company.owner company=company.slug %}">
+                                        <a href="{% url 'dashboard:content_list' owner=team.owner team=team.slug %}">
                                             <small>Contents</small>
                                             <span class="progress">
                                                 <span class="progress-bar bg-success" role="progressbar" style="width: {{contents_percentage}}%;" aria-valuenow="{{contents.count}}" aria-valuemin="0" aria-valuemax="{{max_contents}}">{{contents.count}}</span>
                                             </span>
                                         </a>
-                                        <a href="{% url 'dashboard:content_list' owner=company.owner company=company.slug %}">
+                                        <a href="{% url 'dashboard:content_list' owner=team.owner team=team.slug %}">
                                             <small>Members</small>
                                             <span class="progress">
                                                 <span class="progress-bar bg-success" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</span>
@@ -45,15 +45,15 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            {% if company %}
+                            {% if team %}
                                 <div class="col-sm-6">
                                     <div class="col-sm-12">
                                         <br/>
                                         <h4>Members</h4>
-                                        {% if not company.members.all %}
+                                        {% if not team.members.all %}
                                             <small>No members</small>
                                         {% else %}
-                                            {% for member in company.members.all %}
+                                            {% for member in team.members.all %}
                                                 <a href="{% url 'accounts:profile_update' %}">
                                                     {% if member.profile.picture %}
                                                         <img src="{{member.profile.picture.url}}" height="40" width="40" class="rounded-circle border"/>
@@ -110,7 +110,7 @@
                                                 {% if content.multimedia %}
                                                     <i class="fas fa-image"></i>
                                                 {% endif %}
-                                                 <a href="{% url 'dashboard:content_update' owner=company.owner company=company.slug pk=content.id %}"><small>{{content.message}}</small></a>
+                                                 <a href="{% url 'dashboard:content_update' owner=team.owner team=team.slug pk=content.id %}"><small>{{content.message}}</small></a>
                                                 {% if not forloop.last %}
                                                     <hr/>
                                                 {% endif %}

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Social, Content, Company
+from .models import Social, Content, Team
 
 admin.site.register(Social)
 admin.site.register(Content)
-admin.site.register(Company)
+admin.site.register(Team)
