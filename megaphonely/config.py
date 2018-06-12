@@ -4,8 +4,8 @@ class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
     SECURITY_REGISTERABLE = True
 
-class Prd(Config):
+class Production(Config):
     SECRET_KEY = 'production'
 
-class Dev(Config):
+class Development(Config):
     SECRET_KEY = 'development'

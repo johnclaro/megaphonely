@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+{% include "security/_messages.html" %}
+
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">Login</h4>
+                <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+                    <div class="form-group">
+                        {{ login_user_form.hidden_tag() }}
+                        {{ render_field_with_errors(login_user_form.email) }}
+                        {{ render_field_with_errors(login_user_form.password) }}
+                        {{ render_field_with_errors(login_user_form.remember) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <br/>
+                    <a href="{{ url_for('security.register') }}">Forgot your password?</a>
+                    <br/>
+                    Don't have an account?  <a href="{{ url_for('security.register') }}">Signup</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

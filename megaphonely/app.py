@@ -8,10 +8,11 @@ security = Security()
 
 def create_app():
     app = Flask(__name__)
-    config = 'megaphonely.config.Dev' if os.environ['FLASK_ENV'] else 'megaphonely.config.Prd'
+    config = 'megaphonely.config.Development' if os.environ['FLASK_ENV'] else 'megaphonely.config.Production'
     app.config.from_object(config)
 
     db.init_app(app)
+
     from .models import User, Role
     users = SQLAlchemyUserDatastore(db, User, Role)
     security.init_app(app, users)
