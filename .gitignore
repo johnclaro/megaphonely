@@ -120,6 +120,7 @@ uploads/
 staticfiles/
 psycopg2/
 media/
+backup/
 
 ngrok
 

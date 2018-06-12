@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">Login</h4>
+                <form method="post" action="{{ url_for('account.login') }}">
+                    {% csrf_token %}
+                    {% include 'includes/bs4_form.html' with form=form %}
+
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Login
+                    </button>
+                    <br/>
+                    <a href="{% url 'account_reset_password' %}">Forgot your password?</a>
+                    <br/>
+                    Don't have an account?  <a href="{% url 'account_signup' %}">Signup</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
