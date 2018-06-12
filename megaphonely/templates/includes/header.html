@@ -11,12 +11,12 @@
         {% if current_user.is_authenticated %}
             <a class="p-2 text-dark" href="/">Dashboard</a>
             <a class="p-2 text-dark" href="{{ url_for('account.settings') }}">Settings</a>
-            <a class="p-2 text-dark" href="{{ url_for('account.logout') }}">Logout</a>
+            <a class="p-2 text-dark" href="{{ url_for('security.logout') }}">Logout</a>
             <a class="p-2 text-dark" href="/">Home</a>
         {% else %}
             <a class="p-2 text-dark" href="{{ url_for('home.pricing') }}">Pricing</a>
-            <a class="p-2 text-dark" href="{{ url_for('account.login') }}">Login</a>
-            <a class="p-2 text-dark" href="{{ url_for('account.signup') }}">Signup</a>
+            <a class="p-2 text-dark" href="{{ url_for('security.login') }}">Login</a>
+            <a class="p-2 text-dark" href="{{ url_for('security.login') }}">Signup</a>
         {% endif %}
     </nav>
 </div>
