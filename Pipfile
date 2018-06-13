@@ -13,6 +13,8 @@ flask-security = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
 bcrypt = "*"
+flask-migrate = "*"
+flask-admin = "*"
 
 
 [dev-packages]

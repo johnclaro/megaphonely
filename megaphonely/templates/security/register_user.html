@@ -16,6 +16,7 @@
                 <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
                     <div class="form-group">
                           {{ register_user_form.hidden_tag() }}
+                          {{ render_field_with_errors(register_user_form.username, class='form-control') }}
                           {{ render_field_with_errors(register_user_form.email, class='form-control') }}
                           {{ render_field_with_errors(register_user_form.password, class='form-control') }}
                     </div>
