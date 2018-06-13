@@ -15,4 +15,4 @@ def terms():
 
 @home.route('privacy')
 def privacy():
-    return render_template('home.privacy.html')
+    return render_template('home/privacy.html')
