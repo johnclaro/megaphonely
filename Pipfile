@@ -12,6 +12,7 @@ python-dotenv = "*"
 flask-security = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
+bcrypt = "*"
 
 
 [dev-packages]

@@ -22,4 +22,10 @@ def create_app():
     app.register_blueprint(home)
     app.register_blueprint(account)
 
+    @app.before_first_request
+    def create_user():
+        db.create_all()
+        users.create_user(email='matt@nobien.net', password='password')
+        db.session.commit()
+
     return app
