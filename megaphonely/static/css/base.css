@@ -81,3 +81,7 @@ textarea {
 .help-block strong {
     color: red;
 }
+
+a {
+    text-decoration: none !important;
+}

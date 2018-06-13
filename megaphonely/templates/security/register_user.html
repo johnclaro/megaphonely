@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+{% include "security/_messages.html" %}
+
+<div class="row justify-content-center" style="padding: 25px">
+    <div class="card-wrapper">
+        <div class="card fat">
+            <div class="card-body">
+                <h4 class="card-title">{{ _('Register') }}</h4>
+                <div class="form-group">
+                    <small>Comes with a <b>7-day free trial</b></small>
+                </div>
+                <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+                    <div class="form-group">
+                          {{ register_user_form.hidden_tag() }}
+                          {{ render_field_with_errors(register_user_form.email, class='form-control') }}
+                          {{ render_field_with_errors(register_user_form.password, class='form-control') }}
+                    </div>
+                    <div class="form-check form-group">
+                        <input type="checkbox" class="form-check-input" id="tos" required>
+                        <label class="form-check-label" for="tos" style="font-size: 14px;">
+                            I agree to the <a href="{{ url_for('home.terms') }}">Megaphonely Terms.</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <br/>
+                    Already have an account? <a href="{{ url_for('security.login') }}">Login</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

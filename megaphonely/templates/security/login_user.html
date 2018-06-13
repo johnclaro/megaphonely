@@ -13,16 +13,15 @@
                 <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
                     <div class="form-group">
                         {{ login_user_form.hidden_tag() }}
-                        {{ render_field_with_errors(login_user_form.email) }}
-                        {{ render_field_with_errors(login_user_form.password) }}
-                        {{ render_field_with_errors(login_user_form.remember) }}
+                        {{ render_field_with_errors(login_user_form.email, class='form-control') }}
+                        {{ render_field_with_errors(login_user_form.password, class='form-control') }}
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-block">Login</button>
                     <br/>
-                    <a href="{{ url_for('security.register') }}">Forgot your password?</a>
+                    <a href="{{ url_for('security.forgot_password') }}">Forgot your password?</a>
                     <br/>
-                    Don't have an account?  <a href="{{ url_for('security.register') }}">Signup</a>
+                    Don't have an account?  <a href="{{ url_for('security.register') }}">Register</a>
                 </form>
             </div>
         </div>
