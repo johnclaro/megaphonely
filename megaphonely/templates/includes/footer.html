@@ -1,27 +1,14 @@
-<footer class="pt-4 pt-md-5 border-top" style="margin-top: 25px;">
-    <div class="row">
-        <div class="col-4 col-md">
-            <h5>Team</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="{{ url_for('home.pricing') }}">Pricing</a></li>
-            </ul>
-        </div>
-        <div class="col-4 col-md">
-            <h5>Support</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href='mailto:support@megaphonely.com?subject=Question%20About%20Megaphonely'>Contact</a></li>
-                <li><a class="text-muted" href="{{ url_for('home.terms') }}">Terms</a></li>
-                <li><a class="text-muted" href="{{ url_for('home.privacy') }}">Privacy</a></li>
-            </ul>
-        </div>
-        <div class="col-4 col-md">
-            <h5>Socials</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="https://www.facebook.com/Megaphonely-723749727830922">Facebook</a></li>
-                <li><a class="text-muted" href="https://www.instagram.com/megaphonely">Instagram</a></li>
-                <li><a class="text-muted" href="https://www.twitter.com/megaphonely">Twitter</a></li>
-                <li><a class="text-muted" href="https://www.linkedin.com/team/11450675">LinkedIn</a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link" href='mailto:support@megaphonely.com?subject=Question%20About%20Megaphonely'>Contact</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('home.terms') }}">Terms</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ url_for('home.privacy') }}">Privacy</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">© 2018 Megaphonely</a>
+  </li>
+</ul>
