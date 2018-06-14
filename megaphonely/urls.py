@@ -15,9 +15,9 @@ urlpatterns = [
     path('', include('allauth.urls')),
     path('settings/', include('megaphonely.billing.urls', namespace='billing')),
     path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),
-    path('privacy/', TemplateView.as_view(template_name='legal/privacy.html'), name='privacy'),
-    path('terms/', TemplateView.as_view(template_name='legal/terms.html'), name='terms'),
-    path('help/', TemplateView.as_view(template_name='support/help.html'), name='help'),
+    path('pricing/', TemplateView.as_view(template_name='home/pricing.html'), name='pricing'),
+    path('privacy/', TemplateView.as_view(template_name='home/privacy.html'), name='privacy'),
+    path('terms/', TemplateView.as_view(template_name='home/terms.html'), name='terms'),
     path('social/', include('social_django.urls', namespace='social')),
 ]
 
