@@ -15,6 +15,7 @@ flask-wtf = "*"
 bcrypt = "*"
 flask-migrate = "*"
 flask-admin = "*"
+flask-mail = "*"
 
 
 [dev-packages]

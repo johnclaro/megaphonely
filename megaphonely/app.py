@@ -5,25 +5,27 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-
-from .forms import ExtendedRegisterForm
+from flask_mail import Mail
 
 db = SQLAlchemy()
-security = Security(register_form=ExtendedRegisterForm)
+security = Security()
 migrate = Migrate()
 admin = Admin(name='Megaphonely', template_mode='bootstrap3')
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
     config = 'megaphonely.config.Development' if os.environ['FLASK_ENV'] else 'megaphonely.config.Production'
     app.config.from_object(config)
-
+    
     db.init_app(app)
     migrate.init_app(app, db)
+    mail.init_app(app)
 
+    from .forms import ExtendedLoginForm, ExtendedConfirmRegisterForm
     from .models import User, Role
     users = SQLAlchemyUserDatastore(db, User, Role)
-    security.init_app(app, users)
+    security.init_app(app, users, login_form=ExtendedLoginForm, confirm_register_form=ExtendedConfirmRegisterForm)
 
     admin.init_app(app)
     admin.add_view(ModelView(User, db.session))
