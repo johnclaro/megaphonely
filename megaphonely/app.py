@@ -1,7 +1,7 @@
 import os, datetime
-from flask import Flask
+from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
-from flask_security import Security, SQLAlchemyUserDatastore
+from flask_security import Security, SQLAlchemyUserDatastore, current_user
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -24,8 +24,6 @@ def create_app():
 
     from .forms import ExtendedLoginForm, ExtendedConfirmRegisterForm
     from .models import User, Role
-    from social_flask_sqlalchemy.models import init_social
-    init_social(app, db.session)
     users = SQLAlchemyUserDatastore(db, User, Role)
     security.init_app(app, users, login_form=ExtendedLoginForm, confirm_register_form=ExtendedConfirmRegisterForm)
 
@@ -40,8 +38,14 @@ def create_app():
     app.register_blueprint(account)
     app.register_blueprint(social_auth)
 
+    @app.before_request
+    def global_user():
+        g.user = current_user
+
     @app.before_first_request
     def create_user():
+        from social_flask_sqlalchemy.models import init_social
+        init_social(app, db.session)
         db.create_all()
         users.create_user(email='admin@megaphonely.com', username='admin', confirmed_at=datetime.datetime.now(),
                             password='$2b$12$k3mGO9YJxiPy6X5cfVSLLeC/NA726hX3gAcRlP961xyaHzdqYUa.m')
