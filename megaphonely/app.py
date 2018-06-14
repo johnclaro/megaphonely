@@ -24,6 +24,8 @@ def create_app():
 
     from .forms import ExtendedLoginForm, ExtendedConfirmRegisterForm
     from .models import User, Role
+    from social_flask_sqlalchemy.models import init_social
+    init_social(app, db.session)
     users = SQLAlchemyUserDatastore(db, User, Role)
     security.init_app(app, users, login_form=ExtendedLoginForm, confirm_register_form=ExtendedConfirmRegisterForm)
 
@@ -33,8 +35,10 @@ def create_app():
 
     from .views.home import home
     from .views.account import account
+    from social_flask.routes import social_auth
     app.register_blueprint(home)
     app.register_blueprint(account)
+    app.register_blueprint(social_auth)
 
     @app.before_first_request
     def create_user():

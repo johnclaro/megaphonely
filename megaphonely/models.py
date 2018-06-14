@@ -1,9 +1,9 @@
 from flask_security import UserMixin, RoleMixin
 from .app import db
 
-roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+user_link = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'))
+role_link = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+roles_users = db.Table('roles_users', user_link, role_link)
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
