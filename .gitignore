@@ -122,6 +122,8 @@ psycopg2/
 media/
 backup/
 
+*.db
+
 ngrok
 
 .DS_Store
