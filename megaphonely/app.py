@@ -38,7 +38,7 @@ def create_app():
     @app.before_first_request
     def create_user():
         db.create_all()
-        users.create_user(email='matt@nobien.net', password='password')
+        users.create_user(email='admin@megaphonely.com', username='admin', password='$2b$12$k3mGO9YJxiPy6X5cfVSLLeC/NA726hX3gAcRlP961xyaHzdqYUa.m')
         db.session.commit()
 
     return app

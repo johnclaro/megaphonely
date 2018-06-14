@@ -9,13 +9,13 @@ name = "pypi"
 
 flask = "*"
 python-dotenv = "*"
-flask-security = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
 bcrypt = "*"
 flask-migrate = "*"
 flask-admin = "*"
 flask-mail = "*"
+flask-security = "*"
 
 
 [dev-packages]
