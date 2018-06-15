@@ -9,15 +9,21 @@
         <div class="card-section">
             <form action="{% url 'publisher:content_create' %}" method="POST">
                 {% csrf_token %}
-                {{ form.message }}
-                <br/>
-                {{ form.multimedia }}
-                <br/>
-                {% for checkbox in form.socials %}
-                    <label class="btn">
-                        {{ checkbox.tag }} {{ checkbox.choice_label }}
-                    </label>
-                {% endfor %}
+                <div class="form-group">
+                    {{ form.message }}
+                </div>
+                <div class="form-group">
+                    {{ form.multimedia }}
+                </div>
+                <div class="form-group">
+                    {% for checkbox in form.socials %}
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                {{ checkbox.tag }} {{ checkbox.choice_label }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
                 <div class="row">
                     <div class="col-sm-12" id="div_id_schedule_at" style="padding-bottom: 20px;">
                         {{ form.schedule_at }}
