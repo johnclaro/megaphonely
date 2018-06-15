@@ -11,7 +11,7 @@ admin.autodiscover()
 
 
 urlpatterns = [
-    path('', include('megaphonely.dashboard.urls', namespace='dashboard')),
+    path('', include('megaphonely.publisher.urls', namespace='publisher')),
     path('', include('allauth.urls')),
     path('settings/', include('megaphonely.billing.urls', namespace='billing')),
     path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),

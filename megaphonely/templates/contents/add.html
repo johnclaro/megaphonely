@@ -9,7 +9,7 @@
         <div class="card fat">
             <div class="card-body">
                 <h4>Create content</h4>
-                <form action="{% url 'dashboard:content_add' %}" method="POST">
+                <form action="{% url 'publisher:content_create' %}" method="POST">
                     {% csrf_token %}
                     {{ form.message }}
                     <br/>

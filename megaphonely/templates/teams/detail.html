@@ -36,11 +36,11 @@
                 <div class="col-sm-12">
                     {% if not socials %}
                         <div style="text-align: center">
-                            <small>You'll need to connect a social account first. <a href="{% url 'dashboard:social_list' %}">Connect a social account</a></small>
+                            <small>You'll need to connect a social account first. <a href="{% url 'publisher:social_list' %}">Connect a social account</a></small>
                         </div>
                     {% elif not contents %}
                         <div style="text-align: center">
-                            <small>You do not have any contents scheduled. <a href="{% url 'dashboard:content_add' %}">Create a content</a></small>
+                            <small>You do not have any contents scheduled. <a href="{% url 'publisher:content_create' %}">Create a content</a></small>
                         </div>
                     {% elif contents %}
                         <h4 style="text-align: center;">Contents</h4>
@@ -59,7 +59,7 @@
                                     {% if content.multimedia %}
                                         <i class="fas fa-image"></i>
                                     {% endif %}
-                                     <a href="{% url 'dashboard:content_update' owner=team.owner team=team.slug pk=content.id %}"><small>{{content.message}}</small></a>
+                                     <a href="{% url 'publisher:content_update' owner=team.owner team=team.slug pk=content.id %}"><small>{{content.message}}</small></a>
                                     {% if not forloop.last %}
                                         <hr/>
                                     {% endif %}

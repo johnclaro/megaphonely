@@ -63,7 +63,7 @@ class Team(models.Model):
 
     def get_absolute_url(self):
         slugs = {'username': self.account.username, 'team': self.slug}
-        return reverse('dashboard:team_update', kwargs=slugs)
+        return reverse('publisher:team_update', kwargs=slugs)
 
 
 class Content(models.Model):
@@ -87,5 +87,5 @@ class Content(models.Model):
         return self.message
 
     def get_absolute_url(self):
-        return reverse('dashboard:content_detail', kwargs={'pk': self.pk})
+        return reverse('publisher:content_detail', kwargs={'pk': self.pk})
 

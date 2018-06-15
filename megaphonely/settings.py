@@ -188,7 +188,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'debug_toolbar',
     'megaphonely.accounts',
-    'megaphonely.dashboard',
+    'megaphonely.publisher',
     'megaphonely.billing',
     'storages',
     'social_django',
@@ -249,9 +249,9 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
-    'megaphonely.dashboard.backends.FacebookOAuth2Page',
-    'megaphonely.dashboard.backends.FacebookOAuth2Group',
-    'megaphonely.dashboard.backends.LinkedinOAuth2Team'
+    'megaphonely.publisher.backends.FacebookOAuth2Page',
+    'megaphonely.publisher.backends.FacebookOAuth2Group',
+    'megaphonely.publisher.backends.LinkedinOAuth2Team'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
@@ -263,7 +263,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'megaphonely.dashboard.pipelines.upsert',
+    'megaphonely.publisher.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
