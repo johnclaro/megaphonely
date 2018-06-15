@@ -2,28 +2,6 @@
 
 {% block content %}
 
-<h4>Contents</h4>
-<ul class="list-group">
-    {% for content in contents %}
-        <li class="list-group-item">
-            {% for social in content.socials.all %}
-                <a target="_blank" href="{{social.url}}" class="badge">
-                    <i class="fab fa-{{social.provider}}"></i>
-                    <span>{{social.get_screen_name}}</span>
-                </a>
-            {% endfor %}
-            <br/>
-            {% if content.multimedia %}
-                <img class="img-fluid" width="200" height="40" src="{{content.multimedia.url}}"/>
-            {% endif %}
-            <p>{{content.message}}</p>
-            <small class="pull-right">
-                <span style="color: gray; padding-right: 10px;">To be posted on {{content.schedule_at}}</span>
-                <a href="{% url 'publisher:content_update' owner=content.team.owner.username team=content.team.slug pk=content.id %}" style="padding-right: 10px;">Edit</a>
-                <a href="{% url 'publisher:content_delete' owner=content.team.owner.username team=content.team.slug pk=content.id %}" style="padding-right: 10px;">Delete</a>
-            </small>
-        </li>
-    {% endfor %}
-</ul>
+
 
 {% endblock %}

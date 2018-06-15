@@ -8,26 +8,31 @@
     <div class="card-wrapper">
         <div class="card fat">
             <div class="card-body">
-                <h4>Create content</h4>
+                <h4>Editing '{{ content.slug }}'</h4>
                 <form action="{% url 'publisher:content_create' %}" method="POST">
                     {% csrf_token %}
                     {{ form.message }}
+                    <br/>
+                    {{ form.multimedia }}
                     <br/>
                     {% for checkbox in form.socials %}
                         <label class="btn">
                             {{ checkbox.tag }} {{ checkbox.choice_label }}
                         </label>
                     {% endfor %}
-                    <div>{{ form.schedule }}</div>
-                    <div>{{ form.schedule_at }}</div>
                     <div class="row">
-                        <div class="col-sm-9" style="padding-bottom: 20px; padding-top: 10px;">
-                            {{ form.multimedia }}
+                        <div class="col-sm-12" id="div_id_schedule_at" style="padding-bottom: 20px;">
+                            {{ form.schedule_at }}
                         </div>
-                        <div class="col-sm-3">
-                            <button type='submit' class='btn btn-primary btn-block'>
-                               Share
-                            </button>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-5" style="display: block;">{{ form.schedule }}</div>
+                                <div class="col-7">
+                                    <button type='submit' class='btn btn-primary btn-block'>
+                                       Share
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
