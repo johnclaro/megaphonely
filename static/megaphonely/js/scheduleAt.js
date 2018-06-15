@@ -23,7 +23,7 @@ $(function() {
 
     // Show scheduleAtDiv if custom is initially checked otherwise hide
     const isScheduleNow = selectedOption.text() == 'Custom';
-    isScheduleNow ? scheduleAtDiv.hide() : scheduleAtDiv.hide();
+    isScheduleNow ? scheduleAtDiv.show() : scheduleAtDiv.hide();
 
     // Show scheduleAtDiv if custom changes to checked otherwise hide
     selectSchedule.change(function() {

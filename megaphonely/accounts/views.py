@@ -8,7 +8,7 @@ from .forms import ProfileForm
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'profiles/edit.html'
+    template_name = 'profiles/update.html'
     model = Profile
     form_class = ProfileForm
     success_url = reverse_lazy('publisher:index')

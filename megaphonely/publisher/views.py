@@ -7,7 +7,6 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
-from django.utils import timezone
 from django.template.defaultfilters import slugify
 
 import boto3
@@ -87,7 +86,7 @@ def publish_now(content):
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
-    template_name = 'contents/add.html'
+    template_name = 'contents/create.html'
     model = Content
     form_class = ContentForm
     success_url = reverse_lazy('publisher:index')
@@ -111,9 +110,19 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
         return response
 
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user
+        context = super(ContentCreate, self).get_context_data(*args, **kwargs)
+        contents = Content.objects.filter(
+            editor=user, schedule='custom', is_published=False
+        ).order_by('schedule_at')
+        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        context.update({'contents': contents, 'socials': socials})
+        return context
+
 
 class ContentUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'contents/edit.html'
+    template_name = 'contents/update.html'
     model = Content
     form_class = ContentForm
     success_url = reverse_lazy('publisher:index')
@@ -127,7 +136,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         user = self.request.user
         queryset = super(ContentUpdate, self).get_queryset()
-        content = queryset.filter(account=user)
+        content = queryset.filter(editor=user)
         return content
 
     def form_valid(self, form):
@@ -162,7 +171,6 @@ class ContentList(LoginRequiredMixin, ListView):
     context_object_name = 'contents'
 
     def get_queryset(self):
-        owner = self.kwargs['owner']
         user = self.request.user
 
         contents = Content.objects.filter(editor=user)
@@ -181,7 +189,7 @@ class SocialList(LoginRequiredMixin, ListView):
 
 
 class TeamCreate(LoginRequiredMixin, CreateView):
-    template_name = 'teams/add.html'
+    template_name = 'teams/create.html'
     model = Team
     form_class = TeamForm
     success_url = reverse_lazy('publisher:index')
@@ -208,7 +216,7 @@ class TeamCreate(LoginRequiredMixin, CreateView):
 
 
 class TeamUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'teams/edit.html'
+    template_name = 'teams/update.html'
     model = Team
     form_class = TeamForm
     success_url = reverse_lazy('publisher:index')
