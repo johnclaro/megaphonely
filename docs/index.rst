@@ -13,8 +13,8 @@ Django apps
 ~~~~~~~~~~~
 .. code-block:: bash
 
-    mkdir megaphonely/dashboard
-    python manage.py startapp dashboard megaphonely/dashboard
+    mkdir megaphonely/publisher
+    python manage.py startapp publisher megaphonely/publisher
 
 Beanstalk
 ~~~~~~~~~

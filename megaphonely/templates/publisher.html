@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card-section">
-            <form action="{% url 'dashboard:content_add' %}" method="POST">
+            <form action="{% url 'publisher:content_create' %}" method="POST">
                 {% csrf_token %}
                 {{ form.message }}
                 <br/>
@@ -67,7 +67,7 @@
                                     <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
                                 </div>
                                 <div class="col-2">
-                                    <a class="float-right" href="{% url 'dashboard:social_disconnect' pk=social.id %}">
+                                    <a class="float-right" href="{% url 'publisher:social_disconnect' pk=social.id %}">
                                         <span class="fas fa-minus-circle" style="color: red"></span>
                                     </a>
                                 </div>

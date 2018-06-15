@@ -9,7 +9,7 @@
         <div class="card fat">
             <div class="card-body">
                 <h4>Edit content</h4>
-                <form action="{% url 'dashboard:content_add' %}" method="POST">
+                <form action="{% url 'publisher:content_create' %}" method="POST">
                     {% csrf_token %}
                     {{ form.message }}
                     <br/>
@@ -18,7 +18,7 @@
                             {{ checkbox.tag }} {{ checkbox.choice_label }}
                         </label>
                     {% endfor %}
-                    <!--<a style="margin-bottom: 7px;" href="{% url 'dashboard:social_list' %}" class="btn btn-outline-primary">+</a>-->
+                    <!--<a style="margin-bottom: 7px;" href="{% url 'publisher:social_list' %}" class="btn btn-outline-primary">+</a>-->
                     <div class="row">
                         <div class="col-sm-9" style="padding-bottom: 20px; padding-top: 10px;">
                             {{ form.multimedia }}

@@ -69,7 +69,7 @@ def subscribe(request):
     customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
 
-    response = redirect('dashboard:index')
+    response = redirect('publisher:index')
 
     return response
 
@@ -91,7 +91,7 @@ def change(request):
     customer.plan = plan
     customer.ends_at = timezone.now() + timedelta(days=31)
     customer.save()
-    response = redirect('dashboard:index')
+    response = redirect('publisher:index')
 
     return response
 
@@ -104,7 +104,7 @@ def cancel(request):
     user.customer.plan = 'trial'
     user.customer.ends_at = timezone.now() + timedelta(days=7)
     user.customer.save()
-    response = redirect('dashboard:index')
+    response = redirect('publisher:index')
 
     return response
 

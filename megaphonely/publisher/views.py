@@ -8,8 +8,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.utils import timezone
-from django.contrib import messages
-from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 
 import boto3
@@ -38,44 +36,9 @@ def index(request):
     else:
         socials = Social.objects.filter(account=user).order_by('-updated_at')
         if not socials:
-            template = loader.get_template('socials/connect.html')
+            response = redirect('publisher:connect')
         else:
-            contents = Content.objects.filter(
-                schedule='custom', is_published=False
-            ).order_by('schedule_at')
-            for content in contents:
-                try:
-                    if endswith_valid_image_extension(content.multimedia.url):
-                        content.is_image = True
-                    elif content.multimedia.url.endswith('.mp4'):
-                        content.is_video = True
-                except ValueError:
-                    pass
-
-            context['socials'] = socials
-            context['contents'] = contents
-            context['user'] = user
-            context['form'] = ContentForm(account=user)
-            current_plan = user.customer.plan
-
-            if user.customer.ends_at < timezone.now():
-                context['max_socials'] = 0
-                context['max_contents'] = 0
-                context['socials_percentage'] = 0
-                context['contents_percentage'] = 0
-            else:
-                max_socials = settings.STRIPE_PLANS[current_plan]['socials']
-                max_contents = settings.STRIPE_PLANS[current_plan]['contents']
-                context['max_socials'] = max_socials
-                context['max_contents'] = max_contents
-                socials_pct = (context['socials'].count() / max_socials) * 100
-                contents_pct = (context['contents'].count() / max_contents) * 100
-                context['socials_percentage'] = int(socials_pct)
-                context['contents_percentage'] = int(contents_pct)
-
-            template = loader.get_template('dashboard.html')
-
-        response = HttpResponse(template.render(context, request))
+            response = redirect('publisher:content_create')
 
     return response
 
@@ -90,7 +53,7 @@ def social_disconnect(request, pk):
         else:
             content.socials.remove(social)
     social.delete()
-    return redirect('dashboard:index')
+    return redirect('publisher:index')
 
 
 def publish_now(content):
@@ -127,7 +90,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     template_name = 'contents/add.html'
     model = Content
     form_class = ContentForm
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
     def get_form_kwargs(self):
         user = self.request.user
@@ -153,7 +116,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'contents/edit.html'
     model = Content
     form_class = ContentForm
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
     def get_form_kwargs(self):
         user = self.request.user
@@ -185,7 +148,7 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
     context_object_name = 'content'
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
@@ -221,7 +184,7 @@ class TeamCreate(LoginRequiredMixin, CreateView):
     template_name = 'teams/add.html'
     model = Team
     form_class = TeamForm
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
     def get_object(self):
         return get_object_or_404(Team, pk=self.request.user.id)
@@ -248,7 +211,7 @@ class TeamUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'teams/edit.html'
     model = Team
     form_class = TeamForm
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
     def get_object(self):
         user = self.request.user
