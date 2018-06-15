@@ -8,8 +8,29 @@
     <div class="card-wrapper">
         <div class="card fat">
             <div class="card-body">
-                <h4 class="card-title">Create content</h4>
-                {% crispy form %}
+                <h4>Create content</h4>
+                <form action="{% url 'dashboard:content_add' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.message }}
+                    <br/>
+                    {% for checkbox in form.socials %}
+                        <label class="btn">
+                            {{ checkbox.tag }} {{ checkbox.choice_label }}
+                        </label>
+                    {% endfor %}
+                    <div>{{ form.schedule }}</div>
+                    <div>{{ form.schedule_at }}</div>
+                    <div class="row">
+                        <div class="col-sm-9" style="padding-bottom: 20px; padding-top: 10px;">
+                            {{ form.multimedia }}
+                        </div>
+                        <div class="col-sm-3">
+                            <button type='submit' class='btn btn-primary btn-block'>
+                               Share
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

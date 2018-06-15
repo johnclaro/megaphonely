@@ -10,9 +10,37 @@ from .models import Content, Social, Team
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
+        fields = ['message', 'socials', 'schedule', 'schedule_at', 'multimedia']
+        widgets = {
+            'message': forms.Textarea(
+                attrs={'class': 'form-control',
+                       'placeholder': 'What do you want to tell your audience?',
+                       'rows': 4, 'cols': 15}
+            ),
+            'socials': forms.CheckboxSelectMultiple(),
+            'schedule': forms.RadioSelect(),
+            'schedule_at': forms.TextInput(
+                attrs={
+                    'class': 'datetimepicker-input form-control',
+                    'data-target': '#id_schedule_at',
+                    'data-toggle': 'datetimepicker'
+                }
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        account = kwargs.pop('account')
+        super(ContentForm, self).__init__(*args, **kwargs)
+        socials = Social.objects.filter(account=account)
+        self.fields['socials'].queryset = socials
+
+
+class OldContentForm(forms.ModelForm):
+    class Meta:
+        model = Content
         fields = ['message', 'multimedia', 'schedule', 'schedule_at', 'socials']
         widgets = {
-            'socials': forms.SelectMultiple(
+            'socials': forms.RadioSelect(
                 attrs={
                     'class': 'socials-multiple',
                     'multiple': 'multiple',

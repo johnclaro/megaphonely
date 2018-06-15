@@ -31,51 +31,50 @@ def endswith_valid_image_extension(url):
 
 def index(request):
     user = request.user
+    context = {}
     if not user.is_authenticated:
         template = loader.get_template('home.html')
-        context = {}
         response = HttpResponse(template.render(context, request))
     else:
-        team = Team.objects.filter(owner=user).first()
-        teams = Team.objects.filter(members=user)
         socials = Social.objects.filter(account=user).order_by('-updated_at')
-        contents = Content.objects.filter(
-            team=team, schedule='custom', is_published=False
-        ).order_by('schedule_at')
-        for content in contents:
-            try:
-                if endswith_valid_image_extension(content.multimedia.url):
-                    content.is_image = True
-                elif content.multimedia.url.endswith('.mp4'):
-                    content.is_video = True
-            except ValueError:
-                pass
-
-        context = {
-            'socials': socials,
-            'contents': contents,
-            'user': user,
-            'team': team,
-            'teams': teams
-        }
-        current_plan = user.customer.plan
-
-        if user.customer.ends_at < timezone.now():
-            context['max_socials'] = 0
-            context['max_contents'] = 0
-            context['socials_percentage'] = 0
-            context['contents_percentage'] = 0
+        if not socials:
+            template = loader.get_template('socials/connect.html')
         else:
-            max_socials = settings.STRIPE_PLANS[current_plan]['socials']
-            max_contents = settings.STRIPE_PLANS[current_plan]['contents']
-            context['max_socials'] = max_socials
-            context['max_contents'] = max_contents
-            socials_pct = (context['socials'].count() / max_socials) * 100
-            contents_pct = (context['contents'].count() / max_contents) * 100
-            context['socials_percentage'] = int(socials_pct)
-            context['contents_percentage'] = int(contents_pct)
+            contents = Content.objects.filter(
+                schedule='custom', is_published=False
+            ).order_by('schedule_at')
+            for content in contents:
+                try:
+                    if endswith_valid_image_extension(content.multimedia.url):
+                        content.is_image = True
+                    elif content.multimedia.url.endswith('.mp4'):
+                        content.is_video = True
+                except ValueError:
+                    pass
 
-        template = loader.get_template('dashboard.html')
+            context['socials'] = socials
+            context['contents'] = contents
+            context['user'] = user
+            context['form'] = ContentForm(account=user)
+            current_plan = user.customer.plan
+
+            if user.customer.ends_at < timezone.now():
+                context['max_socials'] = 0
+                context['max_contents'] = 0
+                context['socials_percentage'] = 0
+                context['contents_percentage'] = 0
+            else:
+                max_socials = settings.STRIPE_PLANS[current_plan]['socials']
+                max_contents = settings.STRIPE_PLANS[current_plan]['contents']
+                context['max_socials'] = max_socials
+                context['max_contents'] = max_contents
+                socials_pct = (context['socials'].count() / max_socials) * 100
+                contents_pct = (context['contents'].count() / max_contents) * 100
+                context['socials_percentage'] = int(socials_pct)
+                context['contents_percentage'] = int(contents_pct)
+
+            template = loader.get_template('dashboard.html')
+
         response = HttpResponse(template.render(context, request))
 
     return response
@@ -144,22 +143,8 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content.slug = slugify(content.message)
         response = super(ContentCreate, self).form_valid(form)
 
-        if user.customer.ends_at < timezone.now():
-            message = mark_safe("""Content not created because your trial has
-            expired but you can still <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
-            if you would still like to extend. We also appreciate feedback
-            if you could include it in your email!
-            """)
-            messages.add_message(request, messages.ERROR, message)
-            response = super(ContentCreate, self).form_invalid(form)
-        elif content.schedule == 'now':
+        if content.schedule == 'now':
             publish_now(content)
-        elif Content.objects.reached_max_contents(user):
-            message = """Content not scheduled because you have reached the
-            maximum number of schedulable contents allowed.
-            """
-            messages.add_message(request, messages.ERROR, message)
-            response = super(ContentCreate, self).form_invalid(form)
 
         return response
 
@@ -190,15 +175,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         content.slug = slugify(content.message)
         response = super(ContentUpdate, self).form_valid(form)
 
-        if user.customer.ends_at < timezone.now():
-            message = mark_safe("""Content not updated because your plan has
-            expired but you can still <a href='mailto:support@megaphonely.com?subject=Extend%20trial'>contact us</a>
-            if you would still like to extend. We also appreciate feedback
-            if you could include it in your email!
-            """)
-            messages.add_message(request, messages.ERROR, message)
-            response = super(ContentUpdate, self).form_invalid(form)
-        elif content.schedule == 'now':
+        if content.schedule == 'now':
             publish_now(content)
 
         return response
@@ -225,9 +202,7 @@ class ContentList(LoginRequiredMixin, ListView):
         owner = self.kwargs['owner']
         user = self.request.user
 
-        team = Team.objects.filter(owner__username=owner,
-                                         members__in=[user]).first()
-        contents = Content.objects.filter(team=team)
+        contents = Content.objects.filter(editor=user)
         return contents
 
 

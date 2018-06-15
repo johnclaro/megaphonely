@@ -77,9 +77,6 @@ class Content(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    admin = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     editor = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE, related_name='editor')
     socials = models.ManyToManyField(Social)

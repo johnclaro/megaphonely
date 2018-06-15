@@ -37,9 +37,9 @@
     {% include "includes/header.html" %}
     <div class="container">
         {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible" role="alert" style="margin-top: 10px; margin-left: 13px;">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
                 </button>
                 {{ message }}
             </div>
