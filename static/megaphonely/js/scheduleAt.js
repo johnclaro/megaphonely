@@ -1,5 +1,5 @@
 $(function() {
-    const dateFormat = 'YYYY/MM/DD HH:mm';
+    const dateFormat = 'YYYY-MM-DD HH:mm';
     const today = moment().format(dateFormat);
     const selectSchedule = $('#id_schedule');
     const selectedOption = $('#id_schedule option:selected');

@@ -19,16 +19,18 @@
                     </label>
                 {% endfor %}
                 <div class="row">
-                    <div class="col-sm-9" style="padding-bottom: 20px;">
-                        <div class="row">
-                            <div class="col-7" id="div_id_schedule_at">{{ form.schedule_at }}</div>
-                            <div class="col-5" style="display: block;">{{ form.schedule }}</div>
-                        </div>
+                    <div class="col-sm-12" id="div_id_schedule_at" style="padding-bottom: 20px;">
+                        {{ form.schedule_at }}
                     </div>
-                    <div class="col-sm-3">
-                        <button type='submit' class='btn btn-primary btn-block'>
-                           Share
-                        </button>
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-5" style="display: block;">{{ form.schedule }}</div>
+                            <div class="col-7">
+                                <button type='submit' class='btn btn-primary btn-block'>
+                                   Share
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
