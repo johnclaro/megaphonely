@@ -19,18 +19,10 @@
                     </label>
                 {% endfor %}
                 <div class="row">
-                    <div class="col-sm-9" style="text-align: right;">
-                        <div id="div_id_schedule" class="form-group">
-                            <div class="controls">
-                                <div id="col-sm-12">
-                                    <div id="div_id_schedule_at">{{ form.schedule_at }}</div>
-                                </div>
-                                <div class="col-sm-12">
-                                    {% for radio in form.schedule %}
-                                        {{ radio }}
-                                    {% endfor %}
-                                </div>
-                            </div>
+                    <div class="col-sm-9" style="padding-bottom: 20px;">
+                        <div class="row">
+                            <div class="col-7" id="div_id_schedule_at">{{ form.schedule_at }}</div>
+                            <div class="col-5" style="display: block;">{{ form.schedule }}</div>
                         </div>
                     </div>
                     <div class="col-sm-3">

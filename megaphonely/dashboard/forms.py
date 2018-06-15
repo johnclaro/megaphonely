@@ -18,7 +18,7 @@ class ContentForm(forms.ModelForm):
                        'rows': 4, 'cols': 15}
             ),
             'socials': forms.CheckboxSelectMultiple(),
-            'schedule': forms.RadioSelect(),
+            'schedule': forms.Select(attrs={'class': 'form-control'}),
             'schedule_at': forms.TextInput(
                 attrs={
                     'class': 'datetimepicker-input form-control',

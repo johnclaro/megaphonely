@@ -1,7 +1,8 @@
 $(function() {
-    const dateFormat = 'YYYY-MM-DD HH:mm';
+    const dateFormat = 'YYYY/MM/DD HH:mm';
     const today = moment().format(dateFormat);
-    const scheduleCustom = $('#id_schedule_2');
+    const selectSchedule = $('#id_schedule');
+    const selectedOption = $('#id_schedule option:selected');
     const scheduleAt = $('#id_schedule_at');
     const scheduleAtDiv = $('#div_id_schedule_at');
 
@@ -21,11 +22,11 @@ $(function() {
     });
 
     // Show scheduleAtDiv if custom is initially checked otherwise hide
-    const isScheduleCustomChecked = scheduleCustom.is(':checked');
-    isScheduleCustomChecked ? scheduleAtDiv.show() : scheduleAtDiv.hide();
+    const isScheduleNow = selectedOption.text() == 'Custom';
+    isScheduleNow ? scheduleAtDiv.hide() : scheduleAtDiv.hide();
 
     // Show scheduleAtDiv if custom changes to checked otherwise hide
-    $('input[type=radio][name=schedule]').change(function() {
+    selectSchedule.change(function() {
         isCustomValue = this.value == 'custom'
         isCustomValue ? scheduleAtDiv.show() : scheduleAtDiv.hide();
     });
