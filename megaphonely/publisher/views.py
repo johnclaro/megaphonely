@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 
 import boto3
 import json
@@ -114,10 +115,14 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = self.request.user
         context = super(ContentCreate, self).get_context_data(*args, **kwargs)
         contents = Content.objects.filter(
-            editor=user, schedule='custom', is_published=False
+            editor=user, schedule='custom', is_published=False,
+            schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
         socials = Social.objects.filter(account=user).order_by('-updated_at')
-        context.update({'contents': contents, 'socials': socials})
+        context.update({
+            'contents': contents,
+            'socials': socials
+        })
         return context
 
 

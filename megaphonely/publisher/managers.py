@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib import messages
+from django.utils import timezone
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -17,6 +18,22 @@ class ContentManager(models.Manager):
         max_contents = settings.STRIPE_PLANS[user.customer.plan]['contents']
 
         return current_number_of_contents >= max_contents
+
+    def get_scheduled_today(self, user):
+        contents = self.filter(
+            editor=user, schedule='custom', is_published=False,
+            schedule_at__date=timezone.now().today()
+        ).order_by('schedule_at')
+
+        return contents
+
+    def get_scheduled_yesterday(self, user):
+        contents = self.filter(
+            editor=user, schedule='custom', is_published=False,
+            schedule_at__date__lt=timezone.now().today()
+        ).order_by('schedule_at')
+
+        return contents
 
 
 class SocialManager(models.Manager):
