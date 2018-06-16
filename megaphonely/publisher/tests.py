@@ -104,7 +104,7 @@ class PublishTestCase(TestCase):
     #
     #     application = linkedin.LinkedInApplication(token=access_token_key)
     #     response = application.submit_share(**data)
-    # 
+    #
     #     self.assertEqual('updateKey' in response.keys(), True)
     #
     # def test_publish_to_linkedin_image(self):
