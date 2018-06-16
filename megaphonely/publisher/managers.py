@@ -98,7 +98,7 @@ class SocialManager(models.Manager):
                 company['picture_url'] = logo_url
 
                 # Returns error below when company page has no logo
-            except linkedin.LinkedInError:
+            except (linkedin.LinkedInError, KeyError):
                 company['picture_url'] = ''
 
             companies.append(company)
