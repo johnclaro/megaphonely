@@ -8,10 +8,10 @@ SCHEDULES = (
 PROFILE = 'profile'
 PAGE = 'page'
 GROUP = 'group'
-COMPANY = 'team'
+COMPANY = 'company'
 CATEGORIES = (
     (PROFILE, 'profile'),
     (PAGE, 'page'),
     (GROUP, 'group'),
-    (COMPANY, 'team'),
+    (COMPANY, 'company'),
 )
