@@ -161,6 +161,11 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
         if content.schedule == 'now':
             publish_now(content)
+            messages.add_message(request, messages.SUCCESS,
+                                 'Successfully posted content')
+        else:
+            messages.add_message(request, messages.SUCCESS,
+                                 'Successfully updated content')
 
         return response
 
