@@ -119,10 +119,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
             schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
         socials = Social.objects.filter(account=user).order_by('-updated_at')
-        context.update({
-            'contents': contents,
-            'socials': socials
-        })
+        context.update({'contents': contents, 'socials': socials})
         return context
 
 

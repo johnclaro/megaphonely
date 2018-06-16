@@ -34,6 +34,7 @@ class ContentForm(forms.ModelForm):
         super(ContentForm, self).__init__(*args, **kwargs)
         socials = Social.objects.filter(account=account)
         self.fields['socials'].queryset = socials
+        print(dir(self.fields['socials']))
 
 
 class OldContentForm(forms.ModelForm):

@@ -31,9 +31,9 @@ class Social(models.Model):
 
     def __str__(self):
         screen_name = self.get_screen_name()
-        screen_name_with_provider = f"{self.provider}-{screen_name}"
+        full_screen_name = f"{self.provider}-{self.category}-{screen_name}"
 
-        return screen_name_with_provider
+        return full_screen_name
 
     def get_screen_name(self):
         if self.provider != 'facebook':
@@ -88,18 +88,3 @@ class Content(models.Model):
 
     def get_absolute_url(self):
         return reverse('publisher:content_detail', kwargs={'pk': self.pk})
-
-    def get_scheduled_header(self):
-        today = timezone.now().date() == self.schedule_at.date()
-        yesterday = timezone.now().date() > self.schedule_at.date()
-        tomorrow = timezone.timedelta(days=1)
-        print(tomorrow)
-
-        if today:
-            schedule_header = 'Today'
-        elif yesterday:
-            schedule_header = 'Yesterday'
-        else:
-            schedule_header = 'Later'
-
-        return schedule_header
