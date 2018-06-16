@@ -16,9 +16,9 @@ from .models import Social
 User = get_user_model()
 TEST_FACEBOOK_ACCESS_TOKEN = 'EAAY8CZCqoStABABkYMHRByG0tF8EN1eWNBEf710gi0BN2Td17xlt50XKxBcbDB2ysdf5LZB7OKDxcavmgHKEG7phgWlaAfqeSr0Tx9280AmwLKB3ZBkVP16RxX58xEqHCx39lix64eZABNibPOEy5Nn375VF62et8AGLZCmoe7QhXPJlVWiap'
 TEST_FACEBOOK_USERNAME = '112409579595316'
-TEST_LINKEDIN_ACCESS_TOKEN = 'AQX1hlI8o6TTrFeFTgdhzvJ6coFihICjn67MdkUFqMzRsSsK8AdYFK9Ro-F17Nx4PrrM4kGBRs7hxuFAFl5BDkYzocKftxLk1_Mbq2YiMGPGxsoKHIkunJz0FCc2ltyeSeV_n6lSNP0KP1RmCIiHtok_N9SbJ587w2h5s6cTKtrrSmyWoL5d6S_KgVvqQccoelIh_x6kzk_JhesNJtEgeBo9W-zE2qQG05GZOR31HRE7nVpfMJnI58iqRylXgychIrWivN_sj3Gga4R4YHDS0vigbCkJq4AZi2O3PXkxIUJhxRxXzYjoElXC9hoZ-9dfcgm6XFrWUB4z9qK1e4fRQK4tR3Su4w'
-TEST_TWITTER_ACCESS_TOKEN_KEY = '901476753272655872-PyTYz0nVE7yXn7DqxiOrhCiSHiDZsVo'
-TEST_TWITTER_ACCESS_TOKEN_SECRET = 'x9HLDX0Jovz9Tmy3WAVoThvn8ORT3DfAcRJXQTZB2ug0p'
+TEST_LINKEDIN_ACCESS_TOKEN = 'AQXTBAZBPkl5Y18klCM_1fN7m7Sif2pPyeZaQZ_LA1ncMY9cF4Fyi1S0q05LjQa81Hu5hNSarMBmy0h_pUSlZAd5pAHvgw1RTw1ExlO0zZuF8sfwTF91qMu3ndr_mPN1ey4bjGK-gG5zm2hU3aqvvbHKNvPpvKwOcRiwvERD45LOciPcwZfp9atpivUB3sfcVlSn9GWEdoHB_GyLoV8yqH594PxUfsAjbadyFSsZElPaA1yXy_cRoDPyJb3UXcWDwBJeggM7xQYbeBZrF-I2Mwhj5x_IdLczsf_AkvPfiBIY6Y1LDFt-DT870z5KRnMZwk2cJveyp1YIZwwKDOUrEYMNDmU61g'
+TEST_TWITTER_ACCESS_TOKEN_KEY = '1007374797918130177-RgCRtgEaHcef5tXM7MrYXRB4QDFhWH'
+TEST_TWITTER_ACCESS_TOKEN_SECRET = 'JyxFFb9DzuubvhxEjb1j4tgDyVbWQzMMEQTNSnRpYVIc0'
 S3_BUCKET_NAME = f'test.{settings.AWS_STORAGE_BUCKET_NAME}'
 
 
@@ -129,7 +129,7 @@ class PublishTestCase(TestCase):
         access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
         message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
         image = 'media/contents/small.jpg'
-        team_id = 18571760
+        company_id = 18571760
 
         data = {
             'title': message, 'visibility_code': 'connections-only',
@@ -139,12 +139,12 @@ class PublishTestCase(TestCase):
             data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
             data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
 
-        if team_id:
-            data['team_id'] = team_id
+        if company_id:
+            data['company_id'] = company_id
             data['visibility_code'] = 'anyone'
 
         application = linkedin.LinkedInApplication(token=access_token_key)
-        response = application.submit_team_share(**data)
+        response = application.submit_company_share(**data)
 
         self.assertEqual('updateKey' in response.keys(), True)
 

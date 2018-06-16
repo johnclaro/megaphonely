@@ -45,7 +45,7 @@
                         <div>
                             <small>
                                 Choose a button below whether you want to only connect your profile,
-                                pages, groups or teams.
+                                pages, groups or companies.
                             </small>
                         </div>
                     {% else %}
@@ -76,7 +76,7 @@
                     <br/>
                     <h4 style="color: #007BB5;">LinkedIn</h4>
                     <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-team' %}">Teams</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
                 </div>
             </div>
         </div>
