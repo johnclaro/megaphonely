@@ -8,8 +8,8 @@
     </div>
     <div class="form-group">
         {% for checkbox in form.socials %}
-            <div class="form-check-inline">
-                <label class="form-check-label">
+            <div class="form-check-inline" style="padding-bottom: 10px;">
+                <label class="form-check-label btn btn-outline-secondary">
                     {{ checkbox.tag }}
                     <span style="cursor: pointer;">{{ checkbox.choice_label }}</span>
                 </label>
