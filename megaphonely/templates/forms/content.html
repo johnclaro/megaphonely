@@ -15,15 +15,15 @@
             </div>
         {% endfor %}
     </div>
+    <div id="div_id_schedule_at" style="padding-bottom: 10px;">{{ form.schedule_at }}</div>
     <div class="form-group">
         <div class="row">
-            <div class="col-7" id="div_id_schedule_at" style="padding-bottom: 10px;">
-                {{ form.schedule_at }}
-            </div>
             <div class="col-5">{{ form.schedule }}</div>
+            <div class="col-7">
+                <button type='submit' class='btn btn-primary btn-block'>
+                   Share
+                </button>
+            </div>
         </div>
     </div>
-    <button type='submit' class='btn btn-primary btn-block'>
-       Share
-    </button>
 </form>
