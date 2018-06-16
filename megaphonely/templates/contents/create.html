@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card-section">
+            {% include 'forms/content.html' with form=form %}
+        </div>
+        <br/>
+        {% if contents %}
+            <div class="card-section">
+                <div class="card">
+                    <div class="card-body">
+                        {% for content in contents %}
+                            <h6>{{ content.schedule_at.date }}</h6>
+                            {% if content.multimedia %}
+                                <i class="fas fa-image"></i>
+                            {% endif %}
+                                <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message}}</span></a>
+                                <div class="col-sm-12" style="text-align: right;">
+                                    <br/>
+                                    <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
+                                    <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
+                                    <a href="{% url 'publisher:content_delete' pk=content.id %}" style="padding-right: 10px;"><small>Delete</small></a>
+                                </div>
+                            {% if not forloop.last %}
+                                <hr/>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <br/>
+        {% endif %}
+    </div>
+    <div class="col-lg-4">
+        <div class="card-section">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Socials</h4>
+                    {% if not socials %}
+                        <div>
+                            <small>
+                                Choose a button below whether you want to only connect your profile,
+                                pages, groups or teams.
+                            </small>
+                        </div>
+                    {% else %}
+                        {% for social in socials %}
+                            <div class="row">
+                                <div class="col-10">
+                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                    <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
+                                </div>
+                                <div class="col-2">
+                                    <a class="float-right" href="{% url 'publisher:social_disconnect' pk=social.id %}">
+                                        <span class="fas fa-minus-circle" style="color: red"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <br/>
+                    <h4 style="color: #3B5998;">Facebook</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
+                    <br/>
+                    <br/>
+                    <h4 style="color: #1DA1F2;">Twitter</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
+                    <br/>
+                    <br/>
+                    <h4 style="color: #007BB5;">LinkedIn</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-team' %}">Teams</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

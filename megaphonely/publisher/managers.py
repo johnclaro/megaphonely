@@ -2,6 +2,7 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib import messages
+from django.utils import timezone
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -17,6 +18,22 @@ class ContentManager(models.Manager):
         max_contents = settings.STRIPE_PLANS[user.customer.plan]['contents']
 
         return current_number_of_contents >= max_contents
+
+    def get_scheduled_today(self, user):
+        contents = self.filter(
+            editor=user, schedule='custom', is_published=False,
+            schedule_at__date=timezone.now().today()
+        ).order_by('schedule_at')
+
+        return contents
+
+    def get_scheduled_yesterday(self, user):
+        contents = self.filter(
+            editor=user, schedule='custom', is_published=False,
+            schedule_at__date__lt=timezone.now().today()
+        ).order_by('schedule_at')
+
+        return contents
 
 
 class SocialManager(models.Manager):
@@ -46,8 +63,48 @@ class SocialManager(models.Manager):
             'fullname': f"{data['firstName']} {data['lastName']}",
             'access_token_key': access_token_key
         }
+        print('I got this data:', social_id)
 
         return data
+
+    def _get_linkedin_team_data(self, data):
+        access_token_key = data['access_token']
+        application = linkedin.LinkedInApplication(token=access_token_key)
+        response = application.get_companies(
+            selectors=['id', 'name', 'universal-name'],
+            params={'is-team-admin': 'true'}
+        )
+        values = response['values']
+
+        teams = []
+        for index, value in enumerate(values):
+            team_id = value['id']
+            universal_name = value['universalName']
+            team = {
+                'social_id': team_id,
+                'provider': 'linkedin',
+                'username': universal_name,
+                'url': f'https://www.linkedin.com/team/{universal_name}',
+                'fullname': value['name'],
+                'access_token_key': access_token_key,
+                'category': 'team'
+            }
+
+            try:
+                team_response = application.get_companies(
+                    selectors=['logo-url'],
+                    params={'is-team-admin': 'true'}
+                )
+                logo_url = team_response['values'][index]['logoUrl']
+                team['picture_url'] = logo_url
+
+                # Returns error below when team page has no logo
+            except linkedin.LinkedInError:
+                team['picture_url'] = ''
+
+            teams.append(team)
+
+        return teams
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
@@ -119,8 +176,10 @@ class SocialManager(models.Manager):
             data = self._get_facebook_page_data(data)
         elif provider == 'facebook-group':
             data = self._get_facebook_group_data(data)
-        elif provider == 'linkedin':
+        elif provider == 'linkedin-oauth2':
             data = self._get_linkedin_data(data)
+        elif provider == 'linkedin-oauth2-team':
+            data = self._get_linkedin_team_data(data)
 
         return data
 
@@ -175,3 +234,7 @@ class SocialManager(models.Manager):
                 self._create_or_update(provider, data, user)
 
         return capped, level, message
+
+
+class TeamManager(models.Manager):
+    pass

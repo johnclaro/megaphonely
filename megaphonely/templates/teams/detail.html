@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 card-section">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="col-sm-12">
+                            <a href="#">
+                                <h4>{{team.owner}}/{{team.slug}}</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="text-align: center;">
+                                <div class="col-4">
+                                    <b>13</b> contents
+                                </div>
+                                <div class="col-4">
+                                    <b>1</b> socials
+                                </div>
+                                <div class="col-4">
+                                    <b>2</b> members
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="col-sm-12">
+                    {% if not socials %}
+                        <div style="text-align: center">
+                            <small>You'll need to connect a social account first. <a href="{% url 'publisher:social_list' %}">Connect a social account</a></small>
+                        </div>
+                    {% elif not contents %}
+                        <div style="text-align: center">
+                            <small>You do not have any contents scheduled. <a href="{% url 'publisher:content_create' %}">Create a content</a></small>
+                        </div>
+                    {% elif contents %}
+                        <h4 style="text-align: center;">Contents</h4>
+                        {% for content in contents %}
+                            <div class="row">
+                                <div class="col-2">
+                                    <a href="#">
+                                        {% if content.editor.profile.picture %}
+                                            <img src="{{content.editor.profile.picture.url}}" height="40" width="40" class="rounded-circle float-sm-right"/>
+                                        {% else %}
+                                            <i class="fas fa-user-circle float-sm-right" style="font-size: 40px;"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-9">
+                                    {% if content.multimedia %}
+                                        <i class="fas fa-image"></i>
+                                    {% endif %}
+                                     <a href="{% url 'publisher:content_update' owner=team.owner team=team.slug pk=content.id %}"><small>{{content.message}}</small></a>
+                                    {% if not forloop.last %}
+                                        <hr/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

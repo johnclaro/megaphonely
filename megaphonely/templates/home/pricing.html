@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="card-deck text-center">
+    <div class="col-lg-6 card-section">
+        <div class="card">
+            <div class="card-body text-secondary">
+                <h4 class="card-title">Standard</h4>
+                <div class="col-lg-12" style="font-size: 16px;">
+                    <b>200</b> schedulable contents
+                </div>
+                <div class="col-lg-12" style="font-size: 16px;">
+                    <b>8</b> total social accounts
+                </div>
+
+                <br/>
+                <h1>
+                    <span style="font-size: 24px;">€</span>
+                    <span style="color: black"><b>19</b></span>
+                    <span style="font-size: 12px">/ monthly</span>
+                </h1>
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Select plan</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 card-section">
+        <div class="card">
+            <div class="card-body text-secondary">
+                <h4 class="card-title">Advanced</h4>
+                <div class="col-lg-12" style="font-size: 16px;">
+                    <b>600</b> schedulable contents
+                </div>
+                <div class="col-lg-12" style="font-size: 16px;">
+                    <b>20</b> total social accounts
+                </div>
+
+                <br/>
+                <h1>
+                    <span style="font-size: 24px;">€</span>
+                    <span style="color: black"><b>49</b></span>
+                    <span style="font-size: 12px">/ monthly</span>
+                </h1>
+                <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Select plan</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

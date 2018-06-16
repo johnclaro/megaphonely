@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
 
-{% load widget_tweaks %}
-{% load crispy_forms_tags %}
-
 {% block content %}
+
+{% load crispy_forms_tags %}
 
 <div class="row justify-content-center">
     <div class="card-wrapper">
         <div class="card fat">
             <div class="card-body">
+                <h4 class="card-title">Create a team</h4>
                 {% crispy form %}
-                <br/>
-                Already have an account? <a href="{% url 'account_login' %}">Login</a>
             </div>
         </div>
     </div>

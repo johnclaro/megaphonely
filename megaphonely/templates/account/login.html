@@ -12,7 +12,7 @@
                 <h4 class="card-title">Login</h4>
                 <form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    {% include 'includes/bs4_form.html' with form=form %}
+                    {% include 'forms/login.html' with form=form %}
 
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />

@@ -14,10 +14,10 @@ def get_scheduled_contents(cursor):
         SELECT content.id, content.message, content.multimedia,
                social.provider, social.access_token_key,
                social.access_token_secret
-        FROM dashboard_content as content
-            JOIN dashboard_content_socials chosen_social
+        FROM publisher_content as content
+            JOIN publisher_content_socials chosen_social
             ON content.id = chosen_social.content_id
-            JOIN dashboard_social social
+            JOIN publisher_social social
             ON chosen_social.social_id = social.id
         WHERE content.schedule_at <= '{today}'
             AND content.schedule = 'custom'
@@ -58,9 +58,9 @@ def trigger_lambda_publishers(schedules):
 def update_contents_to_is_published(connection, cursor, content_ids):
     for content_id in content_ids:
         cursor.execute(f"""
-            UPDATE dashboard_content
+            UPDATE publisher_content
             SET is_published = True
-            WHERE dashboard_content.id = {content_id}
+            WHERE publisher_content.id = {content_id}
         """)
         connection.commit()
 

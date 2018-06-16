@@ -8,10 +8,10 @@ from .forms import ProfileForm
 
 
 class ProfileUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'profiles/edit.html'
+    template_name = 'profiles/update.html'
     model = Profile
     form_class = ProfileForm
-    success_url = reverse_lazy('dashboard:index')
+    success_url = reverse_lazy('publisher:index')
 
     def get_object(self):
         return get_object_or_404(Profile, pk=self.request.user.id)

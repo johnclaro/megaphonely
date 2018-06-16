@@ -1,69 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header twitter-bg">
-                <div class="col-12 text-center">
-                    <span>Twitter</span>
+<div class="card-section">
+    <div class="card">
+        <div class="card-body">
+            <h4>Link a social account</h4>
+            <div>
+                <small>
+                    Before you can start, you'll need to connect a social account's profile, pages, groups or teams
+                </small>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-lg-4">
+                    <h4 style="color: #3B5998;">Facebook</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
                 </div>
-            </div>
-            <div class="card-body text-secondary">
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='twitter' %}">
-                        <i class="fab fa-twitter"></i> Connect profile
-                    </a>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header facebook-bg">
-                <div class="col-12 text-center">
-                    <span>Facebook</span>
+                <div class="col-lg-4">
+                    <h4 style="color: #1DA1F2;">Twitter</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
                 </div>
-            </div>
-            <div class="card-body text-secondary">
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook' %}">
-                        <i class="fab fa-facebook"></i> Connect profile
-                    </a>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-page' %}">
-                        <i class="fas fa-flag" style="color: orange"></i> Connect pages
-                    </a>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='facebook-group' %}">
-                        <i class="fas fa-users" style="color: #3B5998"></i> Connect groups
-                    </a>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 card-section">
-        <div class="card">
-            <div class="card-header linkedin-bg">
-                <div class="col-12 text-center">
-                    <span>LinkedIn</span>
+                <div class="col-lg-4">
+                    <h4 style="color: #007BB5;">LinkedIn</h4>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
+                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-team' %}">Teams</a>
                 </div>
-            </div>
-            <div class="card-body text-secondary">
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2' %}">
-                        <i class="fab fa-linkedin"></i> Connect profile
-                    </a>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <a class="list-group-item" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">
-                        <i class="fas fa-building" style="color: #007BB5"></i></i> Connect companies
-                    </a>
-                </ul>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}
