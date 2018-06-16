@@ -24,7 +24,7 @@ urlpatterns = [
     # Socials
     re_path(r'^socials/(?P<pk>\d+)/disconnect/$', social_disconnect, name='social_disconnect'),
     path('socials/', SocialList.as_view(), name='social_list'),
-    path('connect/', TemplateView.as_view(template_name='socials/connect.html'), name='connect'),
+    path('connect/', TemplateView.as_view(template_name='socials/start.html'), name='connect'),
 
     # Contents
     path('dashboard/', ContentCreate.as_view(), name='content_create'),
