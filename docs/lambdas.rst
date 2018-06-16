@@ -3,6 +3,11 @@ Lambdas
 
 Documentation about how the lambdas work
 
+Why AWS lambda?
+~~~~~~~~~~~~~~~
+Celery is a pain to setup in AWS. Also, AWS lambda is much cheaper since our
+server is being hosted in AWS anyway.
+
 psycopg2
 ~~~~~~~~
 Installing psycopg2 directly from requirements.txt does not work and requires
