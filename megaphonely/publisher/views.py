@@ -10,6 +10,8 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 
+from allauth.account.forms import SignupForm
+
 import boto3
 import json
 
@@ -31,6 +33,8 @@ def index(request):
     user = request.user
     context = {}
     if not user.is_authenticated:
+        form = SignupForm()
+        context['form'] = form
         template = loader.get_template('home.html')
         response = HttpResponse(template.render(context, request))
     else:
