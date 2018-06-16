@@ -96,57 +96,57 @@ class PublishTestCase(TestCase):
         response = api.post(**data)
         self.assertEqual('post_id' in response.keys(), True)
 
-    def test_publish_to_linkedin_text(self):
-        access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
-        message = str(timezone.now())
-
-        data = {'comment': message, 'visibility_code': 'connections-only'}
-
-        application = linkedin.LinkedInApplication(token=access_token_key)
-        response = application.submit_share(**data)
-
-        self.assertEqual('updateKey' in response.keys(), True)
-
-    def test_publish_to_linkedin_image(self):
-        access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
-        message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
-        image = 'media/contents/small.jpg'
-
-        data = {
-            'title': message, 'visibility_code': 'connections-only',
-            'comment': message
-        }
-        if image:
-            data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
-            data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
-
-        application = linkedin.LinkedInApplication(token=access_token_key)
-        response = application.submit_share(**data)
-
-        self.assertEqual('updateKey' in response.keys(), True)
-
-    def test_publish_to_linkedin_company(self):
-        access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
-        message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
-        image = 'media/contents/small.jpg'
-        company_id = 18571760
-
-        data = {
-            'title': message, 'visibility_code': 'connections-only',
-            'comment': message
-        }
-        if image:
-            data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
-            data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
-
-        if company_id:
-            data['company_id'] = company_id
-            data['visibility_code'] = 'anyone'
-
-        application = linkedin.LinkedInApplication(token=access_token_key)
-        response = application.submit_company_share(**data)
-
-        self.assertEqual('updateKey' in response.keys(), True)
+    # def test_publish_to_linkedin_text(self):
+    #     access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
+    #     message = str(timezone.now())
+    #
+    #     data = {'comment': message, 'visibility_code': 'connections-only'}
+    #
+    #     application = linkedin.LinkedInApplication(token=access_token_key)
+    #     response = application.submit_share(**data)
+    # 
+    #     self.assertEqual('updateKey' in response.keys(), True)
+    #
+    # def test_publish_to_linkedin_image(self):
+    #     access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
+    #     message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
+    #     image = 'media/contents/small.jpg'
+    #
+    #     data = {
+    #         'title': message, 'visibility_code': 'connections-only',
+    #         'comment': message
+    #     }
+    #     if image:
+    #         data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+    #         data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+    #
+    #     application = linkedin.LinkedInApplication(token=access_token_key)
+    #     response = application.submit_share(**data)
+    #
+    #     self.assertEqual('updateKey' in response.keys(), True)
+    #
+    # def test_publish_to_linkedin_company(self):
+    #     access_token_key = TEST_LINKEDIN_ACCESS_TOKEN
+    #     message = """Donec commodo viverra arcu, eget bibendum nisl blandit id. Donec consectetur lectus risus, eu interdum mauris finibus non. Nam aliquet vestibulum ante eu pharetra. Morbi non feugiat erat. Sed non ante auctor, ullamcorper nisl id, feugiat risus. Aliquam erat volutpat. Praesent imperdiet commodo leo in commodo. Maecenas ac dolor finibus, consequat enim et, euismod nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris lobortis, erat a accumsan aliquet, tortor eros tincidunt enim, sit amet cursus elit sapien et sapien. Aenean faucibus eu ligula at lacinia. Fusce et volutpat mauris. Phasellus ac sodales nulla, at fermentum tellus."""
+    #     image = 'media/contents/small.jpg'
+    #     company_id = 18571760
+    #
+    #     data = {
+    #         'title': message, 'visibility_code': 'connections-only',
+    #         'comment': message
+    #     }
+    #     if image:
+    #         data['submitted_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+    #         data['submitted_image_url'] = 'https://s3-eu-west-1.amazonaws.com/megaphonely.com/media/contents/5jPWq.png'
+    #
+    #     if company_id:
+    #         data['company_id'] = company_id
+    #         data['visibility_code'] = 'anyone'
+    #
+    #     application = linkedin.LinkedInApplication(token=access_token_key)
+    #     response = application.submit_company_share(**data)
+    #
+    #     self.assertEqual('updateKey' in response.keys(), True)
 
     def test_publish_to_twitter_text(self):
         message = str(timezone.now())
