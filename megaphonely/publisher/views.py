@@ -78,8 +78,6 @@ def publish_now(content):
 
         if content.multimedia:
             payload['image'] = f'media/{content.multimedia.name}'
-        print("Got m:", content.multimedia)
-        print("Sending image:", payload['image'])
 
         client = boto3.client('lambda', region_name='eu-west-1')
         client.invoke(
