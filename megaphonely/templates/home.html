@@ -2,17 +2,32 @@
 
 {% block content %}
 
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
 {% load static %}
 
-<div class="col-md-8">
-    <h1>Social media made easy</h1>
-    <p class="lead">
-        Megaphonely is a social media management tool that simplifies the way
-        you manage social media accounts. Choose from various social platforms,
-        easily create or schedule contents.
-    </p>
-    <a class="btn btn-success btn-lg" href="{% url 'account_signup' %}" role="button">Create account</a>
-    <a class="btn btn-primary btn-lg" href="mailto:sales@megaphonely.com?subject=Sales" role="button">Contact sales</a>
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Social media made easy</h1>
+        <p class="lead">
+            Megaphonely is a social media management tool that simplifies the way
+            you manage social media accounts. Choose from various social platforms,
+            easily create or schedule contents.
+        </p>
+    </div>
+    <div class="col-sm-6">
+        <div class="card-wrapper">
+            <div class="card fat">
+                <div class="card-body">
+                    <form action="{% url 'account_signup' %}" method="POST">
+                        {% crispy form %}
+                        <br/>
+                        Already have an account? <a href="{% url 'account_login' %}">Login</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

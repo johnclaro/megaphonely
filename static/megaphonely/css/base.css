@@ -42,3 +42,8 @@
 a {
     text-decoration: none !important;
 }
+
+.help-block.strong {
+    font-color: red !important;
+    color: red !important;
+}
