@@ -61,14 +61,14 @@ def publish_now(content):
         payload = {
             'message': content.message,
             'access_token_key': social.access_token_key,
-            's3_bucket_name': settings.AWS_STORAGE_BUCKET_NAME
+            's3_bucket_name': settings.AWS_STORAGE_BUCKET_NAME,
+            'image': ''
         }
 
         if social.provider == 'facebook':
             payload['username'] = social.username
             payload['category'] = social.category
             payload['s3_bucket_name'] = settings.AWS_STORAGE_BUCKET_NAME
-            payload['image'] = ''
         elif social.provider == 'twitter':
             payload['access_token_secret'] = social.access_token_secret
             payload['consumer_key'] = settings.SOCIAL_AUTH_TWITTER_KEY

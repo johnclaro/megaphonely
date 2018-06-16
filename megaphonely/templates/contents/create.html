@@ -22,9 +22,9 @@
                                 <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message}}</span></a>
                                 <div class="col-sm-12" style="text-align: right;">
                                     <br/>
-                                    <span class="badge badge-pill badge-primary">{{ content.schedule_at.time }}</span>
+                                    <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
+                                    <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
                                     <a href="{% url 'publisher:content_delete' pk=content.id %}" style="padding-right: 10px;"><small>Delete</small></a>
-                                    <a href="{% url 'publisher:content_update' pk=content.id %}"><small>Edit</small></a>
                                 </div>
                             {% if not forloop.last %}
                                 <hr/>
