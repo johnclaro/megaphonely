@@ -7,35 +7,7 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card-section">
-            <form action="{% url 'publisher:content_create' %}" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{ form.message }}
-                </div>
-                <div class="form-group">
-                    {{ form.multimedia }}
-                </div>
-                <div class="form-group">
-                    {% for checkbox in form.socials %}
-                        <div class="form-check-inline">
-                            <label class="form-check-label">
-                                {{ checkbox.tag }} {{ checkbox.choice_label }}
-                            </label>
-                        </div>
-                    {% endfor %}
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-7" id="div_id_schedule_at" style="padding-bottom: 10px;">
-                            {{ form.schedule_at }}
-                        </div>
-                        <div class="col-5">{{ form.schedule }}</div>
-                    </div>
-                </div>
-                <button type='submit' class='btn btn-primary btn-block'>
-                   Share
-                </button>
-            </form>
+            {% include 'forms/content.html' with form=form %}
         </div>
         <br/>
         {% if contents %}

@@ -9,39 +9,7 @@
         <div class="card fat">
             <div class="card-body">
                 <h4>Editing '{{ content.slug }}'</h4>
-                <form action="{% url 'publisher:content_create' %}" method="POST">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ form.message }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.multimedia }}
-                    </div>
-                    <div class="form-group">
-                        {% for checkbox in form.socials %}
-                            <div class="form-check-inline">
-                                <label class="form-check-label">
-                                    {{ checkbox.tag }} {{ checkbox.choice_label }}
-                                </label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" id="div_id_schedule_at" style="padding-bottom: 20px;">
-                            {{ form.schedule_at }}
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="row">
-                                <div class="col-5" style="display: block;">{{ form.schedule }}</div>
-                                <div class="col-7">
-                                    <button type='submit' class='btn btn-primary btn-block'>
-                                       Share
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                {% include 'forms/content.html' with form=form %}
             </div>
         </div>
     </div>
