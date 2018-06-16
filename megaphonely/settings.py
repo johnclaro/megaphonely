@@ -4,6 +4,7 @@ import logging
 from distutils.util import strtobool
 
 from django.contrib.messages import constants as messages
+from django.utils import timezone
 
 import stripe
 
@@ -120,7 +121,7 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_KEY = os.environ['LINKEDIN_CLIENT_ID']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SCOPE = [
-    'r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'
+    'r_basicprofile', 'r_emailaddress', 'rw_team_admin', 'w_share'
 ]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
@@ -129,7 +130,7 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Dublin'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -138,14 +139,15 @@ USE_TZ = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_FORM_CLASS = 'megaphonely.accounts.forms.CustomSignupForm'
 
 # Crispy forms
 # bootstrap4 is not used because the 'error helper' does not show up
@@ -187,7 +189,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'debug_toolbar',
     'megaphonely.accounts',
-    'megaphonely.dashboard',
+    'megaphonely.publisher',
     'megaphonely.billing',
     'storages',
     'social_django',
@@ -248,9 +250,9 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
-    'megaphonely.dashboard.backends.FacebookOAuth2Page',
-    'megaphonely.dashboard.backends.FacebookOAuth2Group',
-    'megaphonely.dashboard.backends.LinkedinOAuth2Company'
+    'megaphonely.publisher.backends.FacebookOAuth2Page',
+    'megaphonely.publisher.backends.FacebookOAuth2Group',
+    'megaphonely.publisher.backends.LinkedinOAuth2Team'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
@@ -262,7 +264,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.social_user',
     'social_core.pipeline.user.get_username',
-    'megaphonely.dashboard.pipelines.upsert',
+    'megaphonely.publisher.pipelines.upsert',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)

@@ -13,9 +13,14 @@ Django apps
 ~~~~~~~~~~~
 .. code-block:: bash
 
-    mkdir megaphonely/dashboard
-    python manage.py startapp dashboard megaphonely/dashboard
+    mkdir megaphonely/publisher
+    python manage.py startapp publisher megaphonely/publisher
 
 Beanstalk
 ~~~~~~~~~
 Ensure HTTPs is required for production
+
+APIs
+~~~~~~~~
+
+- `LinkedIn API Fields <https://developer.linkedin.com/docs/fields>`_

@@ -1,5 +1,5 @@
-from django.db.models import Manager
+from django.db import models
 
 
-class CustomerManager(Manager):
+class CustomerManager(models.Manager):
     pass
