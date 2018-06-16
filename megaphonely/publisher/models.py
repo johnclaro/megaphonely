@@ -89,3 +89,17 @@ class Content(models.Model):
     def get_absolute_url(self):
         return reverse('publisher:content_detail', kwargs={'pk': self.pk})
 
+    def get_scheduled_header(self):
+        today = timezone.now().date() == self.schedule_at.date()
+        yesterday = timezone.now().date() > self.schedule_at.date()
+        tomorrow = timezone.timedelta(days=1)
+        print(tomorrow)
+
+        if today:
+            schedule_header = 'Today'
+        elif yesterday:
+            schedule_header = 'Yesterday'
+        else:
+            schedule_header = 'Later'
+
+        return schedule_header
