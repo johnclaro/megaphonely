@@ -17,7 +17,6 @@ class ContentForm(forms.ModelForm):
                        'placeholder': 'What do you want to tell your audience?',
                        'rows': 4, 'cols': 15}
             ),
-            'multimedia': forms.FileInput(attrs={'class': 'col-sm-12'}),
             'socials': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
             'schedule': forms.Select(attrs={'class': 'form-control'}),
             'schedule_at': forms.TextInput(
