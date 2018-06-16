@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.contrib import messages
 
 from allauth.account.forms import SignupForm
 
@@ -111,7 +112,12 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         response = super(ContentCreate, self).form_valid(form)
 
         if content.schedule == 'now':
+            messages.add_message(request, messages.SUCCESS,
+                                 'Successfully posted content')
             publish_now(content)
+        else:
+            messages.add_message(request, messages.SUCCESS,
+                                 'Successfully scheduled content')
 
         return response
 
