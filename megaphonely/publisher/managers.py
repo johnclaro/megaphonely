@@ -13,27 +13,11 @@ class ContentManager(models.Manager):
 
     def reached_max_contents(self, user):
         current_number_of_contents = self.filter(
-            account=user, schedule='custom', is_published=False
+            account=user, schedule='date', is_published=False
         ).count()
         max_contents = settings.STRIPE_PLANS[user.customer.plan]['contents']
 
         return current_number_of_contents >= max_contents
-
-    def get_scheduled_today(self, user):
-        contents = self.filter(
-            editor=user, schedule='custom', is_published=False,
-            schedule_at__date=timezone.now().today()
-        ).order_by('schedule_at')
-
-        return contents
-
-    def get_scheduled_yesterday(self, user):
-        contents = self.filter(
-            editor=user, schedule='custom', is_published=False,
-            schedule_at__date__lt=timezone.now().today()
-        ).order_by('schedule_at')
-
-        return contents
 
 
 class SocialManager(models.Manager):
