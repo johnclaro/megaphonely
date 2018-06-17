@@ -20,7 +20,7 @@ def get_scheduled_contents(cursor):
             JOIN publisher_social social
             ON chosen_social.social_id = social.id
         WHERE content.schedule_at <= '{today}'
-            AND content.schedule = 'custom'
+            AND content.schedule = 'date'
             AND content.is_published = False
     """)
     data = cursor.fetchall()
