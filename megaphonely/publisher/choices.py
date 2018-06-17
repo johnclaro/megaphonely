@@ -1,8 +1,8 @@
 NOW = 'now'
-CUSTOM = 'custom'
+DATE = 'date'
 SCHEDULES = (
     (NOW, 'Now'),
-    (CUSTOM, 'Custom'),
+    (DATE, 'Date'),
 )
 
 PROFILE = 'profile'
