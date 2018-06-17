@@ -125,7 +125,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = self.request.user
         context = super(ContentCreate, self).get_context_data(*args, **kwargs)
         contents = Content.objects.filter(
-            editor=user, schedule='custom', is_published=False,
+            editor=user, schedule='date', is_published=False,
             schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
         socials = Social.objects.filter(account=user).order_by('-updated_at')
