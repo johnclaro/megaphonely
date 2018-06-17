@@ -21,13 +21,13 @@ $(function() {
         date: initialDate
     });
 
-    // Show scheduleAtDiv if custom is initially checked otherwise hide
-    const isScheduleNow = selectedOption.text() == 'Custom';
+    // Show scheduleAtDiv if date is initially checked otherwise hide
+    const isScheduleNow = selectedOption.text() == 'Date';
     isScheduleNow ? scheduleAtDiv.show() : scheduleAtDiv.hide();
 
-    // Show scheduleAtDiv if custom changes to checked otherwise hide
+    // Show scheduleAtDiv if date changes to checked otherwise hide
     selectSchedule.change(function() {
-        isCustomValue = this.value == 'custom'
-        isCustomValue ? scheduleAtDiv.show() : scheduleAtDiv.hide();
+        isDateValue = this.value == 'date'
+        isDateValue ? scheduleAtDiv.show() : scheduleAtDiv.hide();
     });
 });
