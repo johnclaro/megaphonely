@@ -36,6 +36,8 @@ class Config(object):
     )
     SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
     SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
+    SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['keep']
+    SOCIAL_AUTH_REMEMBER_SESSION_NAME = 'remember_me'
 
 class Production(Config):
     SECRET_KEY = os.environ['SECRET_KEY']

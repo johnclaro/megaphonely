@@ -1,4 +1,4 @@
-import os, datetime
+import os, datetime, flask_login
 from flask import Flask, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security, SQLAlchemyUserDatastore, current_user
@@ -12,6 +12,7 @@ security = Security()
 migrate = Migrate()
 admin = Admin(name='Megaphonely', template_mode='bootstrap3')
 mail = Mail()
+login_manager = flask_login.LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -38,14 +39,28 @@ def create_app():
     app.register_blueprint(account)
     app.register_blueprint(social_auth)
 
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(userid):
+        try:
+            return User.query.get(int(userid))
+        except (TypeError, ValueError):
+            pass
+
     @app.before_request
     def global_user():
         g.user = current_user
 
+    @app.context_processor
+    def inject_user():
+        try:
+            return {'user': g.user}
+        except AttributeError:
+            return {'user': None}
+
     @app.before_first_request
     def create_user():
-        from social_flask_sqlalchemy.models import init_social
-        init_social(app, db.session)
         db.create_all()
         users.create_user(email='admin@megaphonely.com', username='admin', confirmed_at=datetime.datetime.now(),
                             password='$2b$12$k3mGO9YJxiPy6X5cfVSLLeC/NA726hX3gAcRlP961xyaHzdqYUa.m')
