@@ -1,35 +1,14 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<div class="card-section">
-    <div class="card">
-        <div class="card-body">
-            <h4>Link a social account</h4>
-            <div>
-                <small>
-                    Before you can start, you'll need to connect a social account's profile, pages, groups or companies
-                </small>
-            </div>
-            <br/>
-            <div class="row">
-                <div class="col-lg-4">
-                    <h4 style="color: #3B5998;">Facebook</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
-                </div>
-                <div class="col-lg-4">
-                    <h4 style="color: #1DA1F2;">Twitter</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
-                </div>
-                <div class="col-lg-4">
-                    <h4 style="color: #007BB5;">LinkedIn</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
+<br/>
+<h4 style="color: #3B5998;">Facebook</h4>
+<a class="btn btn-outline-facebook" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
+<a class="btn btn-outline-facebook" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
+<a class="btn btn-outline-facebook" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
+<br/>
+<br/>
+<h4 style="color: #1DA1F2;">Twitter</h4>
+<a class="btn btn-outline-twitter" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
+<br/>
+<br/>
+<h4 style="color: #007BB5;">LinkedIn</h4>
+<a class="btn btn-outline-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
+<a class="btn btn-outline-linkedin" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>

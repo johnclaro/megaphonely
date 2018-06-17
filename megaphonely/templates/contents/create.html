@@ -7,41 +7,46 @@
 <div class="row">
     <div class="col-lg-8">
         <div class="card-section">
-            <form action="{% url 'publisher:content_create' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <fieldset id="checkboxes">
-                    {% for checkbox in form.socials %}
-                        <div class="form-check-inline" style="padding-bottom: 10px;">
-                            <label class="form-check-label">
-                                {{ checkbox.tag }}
-                                <span style="cursor: pointer;">{{ checkbox.choice_label }}</span>
-                            </label>
+            <div class="card">
+                <div class="card-body">
+                    <h4>Publisher</h4>
+                    <form action="{% url 'publisher:content_create' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset id="checkboxes">
+                            {% for checkbox in form.socials %}
+                                <div class="form-check-inline" style="padding-bottom: 10px;">
+                                    <label class="form-check-label">
+                                        {{ checkbox.tag }}
+                                        <span style="cursor: pointer;">{{ checkbox.choice_label }}</span>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </fieldset>
+                        <div class="alert alert-info" id="composer-alert">
+                            Choose atleast a social account to continue.
                         </div>
-                    {% endfor %}
-                </fieldset>
-                <div class="alert alert-info" id="composer-alert">
-                    Choose atleast one of the above social account to continue.
-                </div>
-                <div id="composer">
-                    <div class="form-group">
-                        {{ form.message }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.multimedia }}
-                    </div>
-                    <div class="form-group">
-                    </div>
-                    <div id="div_id_schedule_at" style="padding-bottom: 10px;">{{ form.schedule_at }}</div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-5">{{ form.schedule }}</div>
-                            <div class="col-7">
-                                <button type='submit' class='btn btn-primary btn-block'>Share</button>
+                        <div id="composer">
+                            <div class="form-group">
+                                {{ form.message }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.multimedia }}
+                            </div>
+                            <div class="form-group">
+                            </div>
+                            <div id="div_id_schedule_at" style="padding-bottom: 10px;">{{ form.schedule_at }}</div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-5">{{ form.schedule }}</div>
+                                    <div class="col-7">
+                                        <button type='submit' class='btn btn-primary btn-block'>Share</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
         <br/>
         {% if contents %}
@@ -75,42 +80,20 @@
             <div class="card">
                 <div class="card-body">
                     <h4>Socials</h4>
-                    {% if not socials %}
-                        <div>
-                            <small>
-                                Choose a button below whether you want to only connect your profile,
-                                pages, groups or companies.
-                            </small>
-                        </div>
-                    {% else %}
-                        {% for social in socials %}
-                            <div class="row">
-                                <div class="col-10">
-                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
-                                    <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
-                                </div>
-                                <div class="col-2">
-                                    <a class="float-right" href="{% url 'publisher:social_disconnect' pk=social.id %}">
-                                        <span class="fas fa-minus-circle" style="color: red"></span>
-                                    </a>
-                                </div>
+                    {% for social in socials %}
+                        <div class="row">
+                            <div class="col-10">
+                                <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                    <br/>
-                    <h4 style="color: #3B5998;">Facebook</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook' %}">Profile</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
-                    <br/>
-                    <br/>
-                    <h4 style="color: #1DA1F2;">Twitter</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
-                    <br/>
-                    <br/>
-                    <h4 style="color: #007BB5;">LinkedIn</h4>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
-                    <a class="btn btn-outline-primary" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
+                            <div class="col-2">
+                                <a class="float-right" href="{% url 'publisher:social_disconnect' pk=social.id %}">
+                                    <span class="fas fa-minus-circle" style="color: red"></span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% include 'socials/connect.html' %}
                 </div>
             </div>
         </div>

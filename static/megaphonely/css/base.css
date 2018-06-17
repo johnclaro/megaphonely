@@ -43,7 +43,32 @@ a {
     text-decoration: none !important;
 }
 
-.help-block.strong {
-    font-color: red !important;
-    color: red !important;
+.btn-outline-facebook {
+    border-color: #3B5998;
+    color: #3B5998;
+}
+
+.btn-outline-facebook:hover {
+    background-color: #3B5998;
+    color: white;
+}
+
+.btn-outline-twitter {
+    border-color: #1DA1F2;
+    color: #1DA1F2;
+}
+
+.btn-outline-twitter:hover {
+    background-color: #1DA1F2;
+    color: white;
+}
+
+.btn-outline-linkedin {
+    border-color: #007BB5;
+    color: #007BB5;
+}
+
+.btn-outline-linkedin:hover {
+    background-color: #007BB5;
+    color: white;
 }
