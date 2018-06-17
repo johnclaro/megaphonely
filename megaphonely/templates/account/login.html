@@ -12,7 +12,26 @@
                 <h4 class="card-title">Login</h4>
                 <form method="post" action="{% url 'account_login' %}">
                     {% csrf_token %}
-                    {% include 'forms/login.html' with form=form %}
+
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                    {% endfor %}
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {% render_field field class="form-control" %}
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                         </div>
+                    {% endfor %}
 
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
