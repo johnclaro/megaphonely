@@ -67,8 +67,8 @@ class Team(models.Model):
 
 
 class Content(models.Model):
-    message = models.TextField()
-    slug = models.SlugField(max_length=40)
+    message = models.TextField(blank=True)
+    slug = models.SlugField(max_length=120)
     url = models.URLField(blank=True)
     multimedia = models.ImageField(upload_to='contents', blank=True, null=True)
     schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')

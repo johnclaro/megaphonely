@@ -42,3 +42,13 @@ class Customer(models.Model):
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_customer(sender, instance, **kwargs):
         instance.customer.save()
+
+
+class Plan(models.Model):
+    name = models.CharField(max_length=10, choices=PLANS, default='trial')
+    price = models.IntegerField()
+
+
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
+
