@@ -63,6 +63,9 @@ if DEBUG:
     }
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = '/media/'
+    STRIVE_LIVE_MODE = False
+    STRIPE_TEST_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+    STRIPE_TEST_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 else:
     SECURE_HSTS_SECONDS = 1
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -91,6 +94,10 @@ else:
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILE_STORAGE = 'megaphonely.storage.Media'
     MEDIA_URL = f'https://s3-{AWS_S3_REGION_NAME}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{MEDIAFILES_LOCATION}/'
+
+    STRIVE_LIVE_MODE = True
+    STRIPE_LIVE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+    STRIPE_LIVE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
 # Social Auth
 SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
@@ -198,6 +205,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'crispy_forms',
     'widget_tweaks',
+    'djstripe',
 )
 
 MIDDLEWARE = (
