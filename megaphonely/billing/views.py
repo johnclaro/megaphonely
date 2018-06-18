@@ -12,11 +12,6 @@ import stripe
 from .models import Customer
 
 
-def convert_unix_timestamp_to_human_readable_date(unix_timestamp):
-    date = datetime.fromtimestamp(unix_timestamp).strftime('%Y-%m-%d %H:%M:%S')
-    return date
-
-
 def billing(request):
     template = loader.get_template('billing/index.html')
     context = {
