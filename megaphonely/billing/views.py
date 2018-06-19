@@ -93,3 +93,15 @@ def perform_subscribe(request):
     response = redirect('publisher:index')
 
     return response
+
+
+@login_required
+def perform_reactivate(request):
+    user = request.user
+
+    Subscription.objects.reactivate_stripe_subscription(user.customer)
+    messages.add_message(request, messages.SUCCESS,
+                         f'Successfully reactivated plan')
+    response = redirect('publisher:index')
+
+    return response
