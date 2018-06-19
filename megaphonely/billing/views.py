@@ -1,15 +1,14 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
 from django.utils import timezone
-from django.core.exceptions import ObjectDoesNotExist
 
 import stripe
 
-from .models import Customer
+from .models import (Customer, Subscription, PaymentMethod)
 
 
 def index(request):
@@ -41,30 +40,10 @@ def subscribe(request):
     user = request.user
     payload = request.POST
     plan = payload['plan']
-    plan_id = settings.STRIPE_PLANS[plan]['id']
     stripe_token = payload['stripeToken']
 
-    try:
-        customer = Customer.objects.get(account=user)
-        stripe_customer = stripe.Customer.retrieve(customer.customer_id)
-        source = stripe_customer.sources.create(source=stripe_token)
-    except ObjectDoesNotExist:
-        stripe_customer = stripe.Customer.create(email=user.email)
-        customer = Customer.objects.create(
-            account=user, customer_id=stripe_customer['id'], plan='trial'
-        )
-        source = stripe_customer.sources.create(source=stripe_token)
-        subscription = stripe.Subscription.create(
-            customer=stripe_customer['id'], items=[{'plan': plan_id}]
-        )
-        customer.subscription_id = subscription['id']
-
-    customer.plan = plan
-    customer.source = source['id']
-    customer.card = source['brand']
-    customer.last_four = source['last4']
-    customer.ends_at = timezone.now() + timedelta(days=31)
-    customer.save()
+    customer = Customer.objects.upsert(user, plan, stripe_token)
+    print("Got customer:", customer)
 
     response = redirect('publisher:index')
 
@@ -126,6 +105,21 @@ def pricing(request):
 
 def charge(request):
     user = request.user
-    response = redirect('publisher:content_create')
+    payload = request.POST
+    plan = payload['plan']
+    stripe_token = payload['stripeToken']
+
+    customer, stripe_customer = Customer.objects.create_stripe_customer(user)
+    payment_method = PaymentMethod.objects.create_stripe_payment_method(
+        stripe_token, stripe_customer, customer
+    )
+    Subscription.objects.create_stripe_subscription(
+        plan, payment_method, customer, stripe_customer
+    )
+    customer.stripe_customer_id = stripe_customer['id']
+    customer.plan = plan
+    customer.save()
+
+    response = redirect('publisher:index')
 
     return response
