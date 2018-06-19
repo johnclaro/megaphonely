@@ -1,4 +1,5 @@
 from datetime import timedelta
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import models
 from django.conf import settings
@@ -10,13 +11,13 @@ import stripe
 class CustomerManager(models.Manager):
 
     def create_stripe_customer(self, user):
-        stripe_customer_id = user.customer.stripe_customer_id
-        if stripe_customer_id:
-            stripe_customer = stripe.Customer.retrieve(stripe_customer_id)
-        else:
+        try:
+            stripe_customer = stripe.Customer.retrieve(
+                user.customer.stripe_customer_id
+            )
+        except ObjectDoesNotExist:
             stripe_customer = stripe.Customer.create(email=user.email)
-            user.customer.stripe_customer_id = stripe_customer['id']
-            user.customer.save()
+            self.create(stripe_customer_id=stripe_customer['id'], account=user)
 
         return stripe_customer
 
