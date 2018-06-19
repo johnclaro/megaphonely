@@ -21,12 +21,12 @@
     <div class="col-lg-6 card-section">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Advanced</h4>
-                {% include "plans/advanced.html" %}
+                <h4 class="card-title">Premium</h4>
+                {% include "plans/premium.html" %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start 7 day trial</a>
                 {% else %}
-                    <a href="{% url 'billing:upgrade' plan='advanced' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
+                    <a href="{% url 'billing:upgrade' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
                 {% endif %}
             </div>
         </div>
