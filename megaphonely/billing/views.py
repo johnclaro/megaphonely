@@ -8,7 +8,7 @@ from django.utils import timezone
 
 import stripe
 
-from .models import Customer
+from .models import (Customer, Subscription, PaymentMethod)
 
 
 def index(request):
@@ -109,8 +109,16 @@ def charge(request):
     plan = payload['plan']
     stripe_token = payload['stripeToken']
 
-    customer = Customer.objects.upsert(user, plan, stripe_token)
-    print("Got customer:", customer)
+    customer, stripe_customer = Customer.objects.create_stripe_customer(user)
+    payment_method = PaymentMethod.objects.create_stripe_payment_method(
+        stripe_token, stripe_customer, customer
+    )
+    Subscription.objects.create_stripe_subscription(
+        plan, payment_method, customer, stripe_customer
+    )
+    customer.stripe_customer_id = stripe_customer['id']
+    customer.plan = plan
+    customer.save()
 
     response = redirect('publisher:index')
 
