@@ -1,39 +1,51 @@
-{% extends 'layouts/settings.html' %}
+{% extends 'base.html' %}
 
-{% block setting %}
+{% load static %}
 
-{% load crispy_forms_tags %}
+{% block content %}
 
-<div class="col-lg-8 card-section">
-    <div class="card">
-        <div class="card-header">
-            <div class="col-12">
-                <div class="row text-center">
-                    <div class="col-12">
-                        <b>Upgrading to {{plan}}</b>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <h4>{{ plan | title }}</h4>
+                {% with template_name=plan|stringformat:"s"|add:".html" %}
+                    {% include "plans/"|add:template_name %}
+                {% endwith %}
             </div>
         </div>
-        <div class="card-body text-secondary">
-            <form action="{% url 'billing:subscribe' %}" method="post" id="payment-form">
-                {% csrf_token %}
-                <input type="hidden" name="plan" value="{{plan}}">
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Card name">
-                </div>
-                <div class="form-row form-group">
-                  <label for="card-element">
-                    Credit or debit card
-                  </label>
-                  <div id="card-element" class="form-control"></div>
-                  <div id="card-errors" role="alert" style="color: red"></div>
-                </div>
-                <button class="btn btn-primary btn-block">Pay €{{price}}</button>
-            </form>
-        </div>
     </div>
-</div>
+    <div class="col-lg-3"></div>
 
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6" style="margin-top: 20px;">
+        <form action="{% url 'billing:charge' %}" method="post" id="payment-form">
+            {% csrf_token %}
+            <div class="form-row form-group">
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element" class="form-control"></div>
+                <div id="card-errors" role="alert" style="color: red;"></div>
+                <small style="padding-top: 10px; padding-bottom: 10px;">
+                    You’ll be charged €{{ price }}.00 monthly until you cancel your subscription.
+                    Previous charges won’t be refunded when you cancel unless it’s legally required.
+                    Your payment data is encrypted and secure.
+                    All amounts shown are in EUR.
+                </small>
+
+                <div class="form-check form-group">
+                    <input type="checkbox" class="form-check-input" id="tos" required>
+                    <label class="form-check-label" for="tos" style="font-size: 14px;">
+                        I agree to the <a href="{% url 'terms' %}">Megaphonely Terms</a>
+                        and the <strong>Automatic Renewal Terms</strong> above.
+                    </label>
+                </div>
+                <button class="btn btn-success btn-block" style="margin-top: 10px;">Subscribe</button>
+          </div>
+        </form>
+    </div>
+    <div class="col-lg-3"></div>
+</div>
+<script defer type="text/javascript" src="https://js.stripe.com/v3/"></script>
+<script defer type="text/javascript" src="{% static 'megaphonely/js/stripe.js' %}"></script>
 {% endblock %}

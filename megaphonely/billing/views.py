@@ -20,8 +20,8 @@ def index(request):
 
 
 def upgrade(request, plan):
-    template = loader.get_template('billing/index.html')
-    context = {'plan': plan, 'hey': 'plans/advanced.html'}
+    template = loader.get_template('billing/plan.html')
+    context = {'plan': plan, 'price': settings.STRIPE_PLANS[plan]['price']}
     response = HttpResponse(template.render(context, request))
     return response
 
