@@ -62,7 +62,9 @@ def modify(request):
     stripe_subscription = stripe.Subscription.retrieve(stripe_subscription_id)
     current_subscription_id = stripe_subscription['items']['data'][0].id
     items = [{'id': current_subscription_id, 'plan': plan_id}]
-    stripe.Subscription.modify(stripe_subscription_id, items=items)
+    stripe.Subscription.modify(
+        stripe_subscription_id, cancel_at_period_end=False, items=items
+    )
 
     user.customer.plan = plan
     user.customer.ends_at = timezone.now() + timedelta(days=31)
