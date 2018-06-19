@@ -42,4 +42,3 @@ class Customer(models.Model):
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_customer(sender, instance, **kwargs):
         instance.customer.save()
-
