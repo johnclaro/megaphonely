@@ -15,8 +15,6 @@ def get_trial_ends_at():
 
 
 class Customer(models.Model):
-    account = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                   on_delete=models.CASCADE)
     customer_id = models.CharField(max_length=50, blank=True)
     plan = models.CharField(max_length=20, choices=PLANS, default='trial')
     subscription_id = models.CharField(max_length=50, blank=True)
@@ -26,6 +24,9 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    account = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                   on_delete=models.CASCADE)
+
     objects = CustomerManager()
 
     def __str__(self):
@@ -33,12 +34,3 @@ class Customer(models.Model):
 
     def get_ends_at_date(self):
         return self.ends_at.date()
-
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_customer(sender, instance, created, **kwargs):
-        if created:
-            Customer.objects.create(account=instance)
-
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def save_customer(sender, instance, **kwargs):
-        instance.customer.save()
