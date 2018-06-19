@@ -11,7 +11,7 @@
             <div class="card-body" style="text-align: center;">
                 <h4>{{ plan | title }}</h4>
                 {% with template_name=plan|stringformat:"s"|add:".html" %}
-                    {% include "plans/"|add:template_name %}
+                    {% include "includes/plans/"|add:template_name %}
                 {% endwith %}
             </div>
         </div>
