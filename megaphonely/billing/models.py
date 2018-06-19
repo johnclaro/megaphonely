@@ -3,8 +3,6 @@ from datetime import timedelta
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 
 from .managers import CustomerManager, SubscriptionManager, PaymentMethodManager
 from .choices import PLANS
@@ -27,15 +25,6 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.stripe_customer_id
-
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_customer(sender, instance, created, **kwargs):
-        if created:
-            Customer.objects.create(account=instance)
-
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def save_customer(sender, instance, **kwargs):
-        instance.customer.save()
 
 
 class PaymentMethod(models.Model):
