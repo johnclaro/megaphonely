@@ -12,14 +12,16 @@ import stripe
 from .models import Customer
 
 
-def billing(request):
+def index(request):
     template = loader.get_template('billing/index.html')
-    context = {
-        'payment_histories': [{
-            'date': '1',
-            'items': 'apple'
-        }]
-    }
+    context = {}
+    response = HttpResponse(template.render(context, request))
+    return response
+
+
+def upgrade(request, plan):
+    template = loader.get_template('billing/index.html')
+    context = {'plan': plan, 'hey': 'plans/advanced.html'}
     response = HttpResponse(template.render(context, request))
     return response
 
@@ -118,5 +120,12 @@ def pricing(request):
             plan = subscription['items']['data'][0]['plan']['nickname']
             context['resume'] = plan
     response = HttpResponse(template.render(context, request))
+
+    return response
+
+
+def charge(request):
+    user = request.user
+    response = redirect('publisher:content_create')
 
     return response

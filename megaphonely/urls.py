@@ -13,7 +13,7 @@ admin.autodiscover()
 urlpatterns = [
     path('', include('megaphonely.publisher.urls', namespace='publisher')),
     path('', include('allauth.urls')),
-    path('settings/', include('megaphonely.billing.urls', namespace='billing')),
+    path('billing/', include('megaphonely.billing.urls', namespace='billing')),
     path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),
     path('pricing/', TemplateView.as_view(template_name='home/pricing.html'), name='pricing'),
     path('privacy/', TemplateView.as_view(template_name='home/privacy.html'), name='privacy'),
