@@ -34,3 +34,12 @@ class Customer(models.Model):
 
     def get_ends_at_date(self):
         return self.ends_at.date()
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_customer(sender, instance, created, **kwargs):
+        if created:
+            Customer.objects.create(account=instance)
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def save_customer(sender, instance, **kwargs):
+        instance.customer.save()
