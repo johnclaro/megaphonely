@@ -14,10 +14,12 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start 7 day trial</a>
                 {% elif not user.customer.subscription %}
                     <a href="{% url 'billing:subscribe' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
-                {% elif user.customer.subscription.plan == 'standard' %}
+                {% elif user.customer.subscription.plan == 'standard' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='standard' %}" class="btn btn-lg btn-block btn-outline-danger">Cancel</a>
+                {% elif user.customer.subscription.plan == 'standard' and not user.customer.subscription.is_active %}
+                    <a href="{% url 'billing:reactivate' %}" class="btn btn-lg btn-block btn-outline-primary">Reactivate</a>
                 {% elif user.customer.subscription.plan != 'standard' %}
-                    <a href="{% url 'billing:change' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Standard <i class="fas fa-arrow-right"></i></a>
+                    <a href="{% url 'billing:change' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Standard</a>
                 {% endif %}
             </div>
         </div>
@@ -31,10 +33,12 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start 7 day trial</a>
                 {% elif not user.customer.subscription %}
                     <a href="{% url 'billing:subscribe' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
-                {% elif user.customer.subscription.plan == 'premium' %}
+                {% elif user.customer.subscription.plan == 'premium' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='premium' %}" class="btn btn-lg btn-block btn-outline-danger">Cancel</a>
+                {% elif user.customer.subscription.plan == 'premium' and not user.customer.subscription.is_active %}
+                    <a href="{% url 'billing:reactivate' %}" class="btn btn-lg btn-block btn-outline-primary">Reactivate</a>
                 {% elif user.customer.subscription.plan != 'premium' %}
-                    <a href="{% url 'billing:change' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Premium <i class="fas fa-arrow-right"></i></a>
+                    <a href="{% url 'billing:change' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Premium</a>
                 {% endif %}
             </div>
         </div>

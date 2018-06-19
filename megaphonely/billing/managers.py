@@ -72,6 +72,7 @@ class SubscriptionManager(models.Manager):
             stripe_subscription_id, cancel_at_period_end=False, items=items
         )
         subscription.plan = plan
+        subscription.is_active = True
         subscription.save()
 
         return subscription
@@ -88,6 +89,17 @@ class SubscriptionManager(models.Manager):
         )
         subscription.plan = plan
         subscription.ends_at = timezone.now() + timedelta(days=31)
+        subscription.is_active = True
         subscription.save()
 
         return subscription
+
+    def reactivate_stripe_subscription(self, customer):
+        subscription = self.get_subscription_by_customer(customer)
+        stripe_subscription = stripe.Subscription.modify(
+            subscription.stripe_subscription_id, cancel_at_period_end=False
+        )
+        subscription.is_active = True
+        subscription.save()
+
+        return stripe_subscription
