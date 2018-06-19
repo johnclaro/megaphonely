@@ -1,8 +1,8 @@
 TRIAL = 'trial'
 STANDARD = 'standard'
-ADVANCED = 'advanced'
+PREMIUM = 'premium'
 PLANS = (
     (TRIAL, 'Trial'),
     (STANDARD, 'Standard'),
-    (ADVANCED, 'Advanced'),
+    (PREMIUM, 'Premium'),
 )

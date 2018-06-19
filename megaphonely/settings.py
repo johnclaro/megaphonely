@@ -166,8 +166,8 @@ STRIPE_PLANS = {
         'socials': 8,
         'contents': 200
     },
-    'advanced': {
-        'id': 'advanced-plan-1',
+    'premium': {
+        'id': 'premium-plan-1',
         'price': '49',
         'priority': 2,
         'socials': 12,
