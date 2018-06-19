@@ -160,14 +160,14 @@ STRIPE_PLANS = {
         'contents': 20
     },
     'standard': {
-        'id': 'standard-plan-1',
+        'id': 'standard-monthly',
         'price': '19',
         'priority': 1,
         'socials': 8,
         'contents': 200
     },
-    'advanced': {
-        'id': 'advanced-plan-1',
+    'premium': {
+        'id': 'premium-monthly',
         'price': '49',
         'priority': 2,
         'socials': 12,
