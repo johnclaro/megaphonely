@@ -28,6 +28,9 @@ class PaymentMethodManager(models.Manager):
 
 class SubscriptionManager(models.Manager):
 
+    def get_subscription(self, customer):
+        return self.get(customer=customer)
+
     def create_stripe_subscription(self, plan, payment_method, customer,
                             stripe_customer):
         plan_id = settings.STRIPE_PLANS[plan]['id']

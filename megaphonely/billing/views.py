@@ -5,6 +5,7 @@ from django.conf import settings
 from django.template import loader
 from django.http import HttpResponse
 from django.utils import timezone
+from django.contrib import messages
 
 import stripe
 
@@ -18,7 +19,7 @@ def index(request):
     return response
 
 
-def upgrade(request, plan):
+def subscribe(request, plan):
     template = loader.get_template('billing/plan.html')
     context = {'plan': plan, 'price': settings.STRIPE_PLANS[plan]['price']}
     response = HttpResponse(template.render(context, request))
@@ -36,7 +37,7 @@ def plan(request):
     return response
 
 
-def subscribe(request):
+def upgrade(request):
     user = request.user
     payload = request.POST
     plan = payload['plan']
@@ -50,24 +51,33 @@ def subscribe(request):
     return response
 
 
-def change(request):
+def modify(request):
     user = request.user
     payload = request.POST
     plan = payload['plan']
     plan_id = settings.STRIPE_PLANS[plan]['id']
-    subscription = stripe.Subscription.retrieve(user.customer.subscription_id)
-    stripe.Subscription.modify(
-        user.customer.subscription_id,
-        items=[{
-            'id': subscription['items']['data'][0].id,
-            'plan': plan_id
-        }]
-    )
-    customer = Customer.objects.get(account=user)
-    customer.plan = plan
-    customer.ends_at = timezone.now() + timedelta(days=31)
-    customer.save()
+
+    subscription = Subscription.objects.get_subscription(user.customer)
+    stripe_subscription_id = subscription.stripe_subscription_id
+    stripe_subscription = stripe.Subscription.retrieve(stripe_subscription_id)
+    current_subscription_id = stripe_subscription['items']['data'][0].id
+    items = [{'id': current_subscription_id, 'plan': plan_id}]
+    stripe.Subscription.modify(stripe_subscription_id, items=items)
+
+    user.customer.plan = plan
+    user.customer.ends_at = timezone.now() + timedelta(days=31)
+    user.customer.save()
+
+    messages.add_message(request, messages.SUCCESS, 'Successfully changed plan')
     response = redirect('publisher:index')
+
+    return response
+
+
+def change(request, plan):
+    template = loader.get_template('billing/change.html')
+    context = {'plan': plan, 'price': settings.STRIPE_PLANS[plan]['price']}
+    response = HttpResponse(template.render(context, request))
 
     return response
 

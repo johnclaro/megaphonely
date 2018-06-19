@@ -9,11 +9,13 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Standard</h4>
-                {% include "includes/plans/standard.html" %}
+                {% include "includes/billing/plans/standard.html" %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start 7 day trial</a>
-                {% else %}
-                    <a href="{% url 'billing:upgrade' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
+                {% elif user.customer.plan == 'free' %}
+                    <a href="{% url 'billing:subscribe' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
+                {% elif user.customer.plan != 'standard' %}
+                    <a href="{% url 'billing:change' plan='standard' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Standard <i class="fas fa-arrow-right"></i></a>
                 {% endif %}
             </div>
         </div>
@@ -22,11 +24,13 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Premium</h4>
-                {% include "includes/plans/premium.html" %}
+                {% include "includes/billing/plans/premium.html" %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-outline-primary">Start 7 day trial</a>
-                {% else %}
-                    <a href="{% url 'billing:upgrade' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
+                {% elif user.customer.plan == 'free' %}
+                    <a href="{% url 'billing:subscribe' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Choose plan</a>
+                {% elif user.customer.plan != 'premium' %}
+                    <a href="{% url 'billing:change' plan='premium' %}" class="btn btn-lg btn-block btn-outline-primary">Change to Premium <i class="fas fa-arrow-right"></i></a>
                 {% endif %}
             </div>
         </div>
