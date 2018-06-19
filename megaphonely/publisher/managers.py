@@ -2,7 +2,6 @@ from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.contrib import messages
-from django.utils import timezone
 
 from facepy import GraphAPI
 from linkedin import linkedin
