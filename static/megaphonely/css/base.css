@@ -100,3 +100,7 @@ a {
       left:50%;
       transform: translate(-50%,-50%);
 }
+
+.row-top-padding {
+    margin-top: 10px;
+}
