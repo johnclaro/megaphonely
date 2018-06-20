@@ -41,7 +41,7 @@ class SocialManager(models.Manager):
         application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
         try:
-            picture_url = application.get_picture_urls()['values'][0]
+            picture_url = application.get_picture_urls()  # Deprecated :(
         except (KeyError, TypeError):
             picture_url = ''
 
