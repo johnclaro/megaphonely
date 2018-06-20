@@ -11,9 +11,15 @@
             <div class="card-body">
                 <div>
                     <h4>Plan</h4>
-                    You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
-                    which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
-                    <a href="{% url 'pricing' %}">Change my plan</a>
+                    <div class="row">
+                        <div class="col-8">
+                            You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
+                            which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <a class="btn btn-primary" href="{% url 'pricing' %}">Change</a>
+                        </div>
+                    </div>
                 </div>
                 <br/>
                 <div>
