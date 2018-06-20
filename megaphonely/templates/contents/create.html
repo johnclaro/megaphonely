@@ -17,7 +17,13 @@
                                 <div class="form-check-inline" style="padding-bottom: 10px;">
                                     <label class="form-check-label">
                                         {{ checkbox.tag }}
-                                        <span style="cursor: pointer;">{{ checkbox.choice_label }}</span>
+                                        {% for social in socials %}
+                                            {% if checkbox.choice_label == social.get_full_screen_name %}
+                                                <span style="cursor: pointer;">
+                                                    <img src="{{social.picture_url}}" height="30" width="40" style="border-radius: 50%"/>
+                                                </span>
+                                            {% endif %}
+                                        {% endfor %}
                                     </label>
                                 </div>
                             {% endfor %}
