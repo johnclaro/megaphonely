@@ -63,7 +63,8 @@
                 <div class="card">
                     <div class="card-body">
                         {% for content in contents %}
-                            <h6>{{ content.schedule_at.date }}</h6>
+                            <strong>{{ content.schedule_at.date }}</strong>
+                            <br/>
                             {% if content.multimedia %}
                                 <i class="fas fa-image"></i>
                             {% endif %}
