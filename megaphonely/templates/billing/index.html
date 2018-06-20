@@ -16,8 +16,8 @@
                             You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
                             which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
                         </div>
-                        <div class="col-4" style="text-align: right;">
-                            <a class="btn btn-primary" href="{% url 'pricing' %}">Change</a>
+                        <div class="col-4">
+                            <a class="btn btn-primary center" href="{% url 'pricing' %}">Change</a>
                         </div>
                     </div>
                 </div>
