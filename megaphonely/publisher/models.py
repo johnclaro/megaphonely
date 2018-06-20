@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from .choices import SCHEDULES, CATEGORIES
-from .managers import ContentManager, SocialManager, TeamManager
+from .managers import ContentManager, SocialManager
 
 
 class Social(models.Model):
@@ -45,29 +45,6 @@ class Social(models.Model):
         full_screen_name = f"{self.provider}-{self.category}-{screen_name}"
 
         return full_screen_name
-
-
-
-class Team(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=40)
-    picture = models.FileField(upload_to='teams', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              on_delete=models.CASCADE)
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                     related_name='members')
-
-    objects = TeamManager()
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        slugs = {'username': self.account.username, 'team': self.slug}
-        return reverse('publisher:team_update', kwargs=slugs)
 
 
 class Content(models.Model):

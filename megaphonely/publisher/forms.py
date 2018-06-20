@@ -1,9 +1,6 @@
 from django import forms
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, ButtonHolder, Submit
-
-from .models import Content, Social, Team
+from .models import Content, Social
 
 
 class ContentForm(forms.ModelForm):
@@ -35,23 +32,3 @@ class ContentForm(forms.ModelForm):
         super(ContentForm, self).__init__(*args, **kwargs)
         socials = Social.objects.filter(account=account)
         self.fields['socials'].queryset = socials
-
-
-class TeamForm(forms.ModelForm):
-    class Meta:
-        model = Team
-        fields = ['name', 'picture']
-
-    def __init__(self, *args, **kwargs):
-        account = kwargs.pop('account')
-        super(TeamForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            'name',
-            'picture',
-            ButtonHolder(
-                Submit('submit', 'Submit',
-                       css_class='btn btn-primary btn-block')
-            )
-        )
-        self.helper.form_method = 'post'
