@@ -26,8 +26,8 @@ class CustomSignupForm(forms.Form):
             HTML(
                 """
                 <div class="form-check form-group">
-                    <input type="checkbox" class="form-check-input" id="tos" required>
-                    <label class="form-check-label" for="tos" style="font-size: 14px;">
+                    <input type="checkbox" style="cursor: pointer;" class="form-check-input" id="tos" required>
+                    <label class="form-check-label" for="tos" style="font-size: 14px; cursor: pointer;">
                         I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
                     </label>
                 </div>
