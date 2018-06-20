@@ -155,7 +155,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Stripe
 STRIPE_PLANS = {
-    'trial': {
+    'free': {
         'socials': 3,
         'contents': 20
     },

@@ -14,7 +14,10 @@ class ContentManager(models.Manager):
         current_number_of_contents = self.filter(
             account=user, schedule='date', is_published=False
         ).count()
-        plan = user.customer.subscription.plan
+        try:
+            plan = user.customer.subscription.plan
+        except ObjectDoesNotExist:
+            plan = 'free'
         max_contents = settings.STRIPE_PLANS[plan]['contents']
 
         return current_number_of_contents >= max_contents
@@ -24,7 +27,10 @@ class SocialManager(models.Manager):
 
     def reached_max_socials(self, user):
         current_number_of_socials = self.filter(account=user).count()
-        plan = user.customer.subscription.plan
+        try:
+            plan = user.customer.subscription.plan
+        except ObjectDoesNotExist:
+            plan = 'free'
         max_socials = settings.STRIPE_PLANS[plan]['socials']
 
         return current_number_of_socials >= max_socials
