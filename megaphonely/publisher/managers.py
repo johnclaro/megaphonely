@@ -203,7 +203,3 @@ class SocialManager(models.Manager):
             self._create_or_update(provider, data, user)
 
         return None
-
-
-class TeamManager(models.Manager):
-    pass

@@ -16,18 +16,8 @@ from allauth.account.forms import SignupForm
 import boto3
 import json
 
-from .forms import ContentForm, TeamForm
-from .models import Content, Social, Team
-
-
-def endswith_valid_image_extension(url):
-    valid_image_extensions = ('.jpg', '.png')
-    valid = False
-    for valid_image_extension in valid_image_extensions:
-        if url.endswith(valid_image_extension):
-            valid = True
-            break
-    return valid
+from .forms import ContentForm
+from .models import Content, Social
 
 
 def index(request):
@@ -203,87 +193,3 @@ class ContentList(LoginRequiredMixin, ListView):
 
         contents = Content.objects.filter(editor=user)
         return contents
-
-
-class SocialList(LoginRequiredMixin, ListView):
-    template_name = 'socials/list.html'
-    model = Social
-    context_object_name = 'socials'
-
-    def get_queryset(self):
-        user = self.request.user
-        socials = Social.objects.filter(account=user)
-        return socials
-
-
-class TeamCreate(LoginRequiredMixin, CreateView):
-    template_name = 'teams/create.html'
-    model = Team
-    form_class = TeamForm
-    success_url = reverse_lazy('publisher:index')
-
-    def get_object(self):
-        return get_object_or_404(Team, pk=self.request.user.id)
-
-    def get_form_kwargs(self):
-        user = self.request.user
-        form_kwargs = super(TeamCreate, self).get_form_kwargs()
-        form_kwargs['account'] = user
-        return form_kwargs
-
-    def form_valid(self, form):
-        team = form.instance
-        request = self.request
-        user = request.user
-        team.owner = user
-        team.slug = slugify(team.name)
-        response = super(TeamCreate, self).form_valid(form)
-        team.members.add(user)
-
-        return response
-
-
-class TeamUpdate(LoginRequiredMixin, UpdateView):
-    template_name = 'teams/update.html'
-    model = Team
-    form_class = TeamForm
-    success_url = reverse_lazy('publisher:index')
-
-    def get_object(self):
-        user = self.request.user
-        return get_object_or_404(Team, owner=user)
-
-    def get_form_kwargs(self):
-        user = self.request.user
-        form_kwargs = super(TeamUpdate, self).get_form_kwargs()
-        form_kwargs['account'] = user
-        return form_kwargs
-
-    def form_valid(self, form):
-        team = form.instance
-        team.slug = slugify(team.name)
-        response = super(TeamUpdate, self).form_valid(form)
-
-        return response
-
-
-class TeamList(LoginRequiredMixin, ListView):
-    template_name = 'teams/list.html'
-    model = Team
-    context_object_name = 'teams'
-
-    def get_queryset(self):
-        user = self.request.user
-        teams = Team.objects.filter(members=user)
-        return teams
-
-
-class TeamDetail(LoginRequiredMixin, DetailView):
-    template_name = 'teams/detail.html'
-    model = Team
-
-    def get_object(self):
-        owner = self.kwargs['owner']
-        user = self.request.user
-        return get_object_or_404(Team,
-                                 owner__username=owner, members__in=[user])
