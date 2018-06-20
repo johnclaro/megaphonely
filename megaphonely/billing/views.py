@@ -33,8 +33,10 @@ def pricing(request):
 @login_required
 def subscribe(request, plan):
     template = loader.get_template('billing/plan.html')
-    context = {'plan': plan, 'price': settings.STRIPE_PLANS[plan]['price'],
-               'stripe_public_key': settings.STRIPE_PUBLIC_KEY}
+    context = {
+        'plan': plan, 'price': settings.STRIPE_PLANS[plan]['price'],
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY
+    }
     response = HttpResponse(template.render(context, request))
 
     return response
