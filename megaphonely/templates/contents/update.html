@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% load static %}
 {% load crispy_forms_tags %}
 
 <div class="row">
@@ -21,7 +22,11 @@
                                         {% for social in socials %}
                                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                                 <span class="fab fa-{{social.provider}}" style="width: 20px; padding-top: 3px;"></span>
-                                                <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
+                                                {% if social.picture_url %}
+                                                    <img src="{{social.picture_url}}" height="50" width="70" style="border-radius: 50%"/>
+                                                {% else %}
+                                                    <img src="{% static 'megaphonely/img/linkedin-no-profile-picture.png' %}" height="50" width="70" style="border-radius: 50%"/>
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </label>
