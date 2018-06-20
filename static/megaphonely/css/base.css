@@ -7,6 +7,18 @@ body, html {
   font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
+.header-logo {
+    font-family: "Nunito", sans-serif;
+    font-weight: 700;
+    color: maroon !important;
+    font-size: 30px;
+}
+
+.navbar {
+    border-bottom: solid 1px;
+    border-color: lightgray;
+}
+
 .fa-twitter {
     color: #1DA1F2;
 }
