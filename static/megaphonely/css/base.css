@@ -101,6 +101,6 @@ a {
       transform: translate(-50%,-50%);
 }
 
-.row-top-padding {
-    margin-top: 10px;
+h4 {
+    font-weight: 700;
 }
