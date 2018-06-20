@@ -169,6 +169,17 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
         return response
 
+    def get_context_data(self, *args, **kwargs):
+        user = self.request.user
+        context = super(ContentUpdate, self).get_context_data(*args, **kwargs)
+        contents = Content.objects.filter(
+            editor=user, schedule='date', is_published=False,
+            schedule_at__gte=timezone.now()
+        ).order_by('schedule_at')
+        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        context.update({'contents': contents, 'socials': socials})
+        return context
+
 
 class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
