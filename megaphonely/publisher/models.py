@@ -30,10 +30,7 @@ class Social(models.Model):
         unique_together = ('social_id', 'provider', 'account')
 
     def __str__(self):
-        screen_name = self.get_screen_name()
-        full_screen_name = f"{self.provider}-{self.category}-{screen_name}"
-
-        return full_screen_name
+        return self.get_full_screen_name()
 
     def get_screen_name(self):
         if self.provider != 'facebook':
@@ -42,6 +39,13 @@ class Social(models.Model):
             screen_name = self.fullname
 
         return screen_name
+
+    def get_full_screen_name(self):
+        screen_name = self.get_screen_name()
+        full_screen_name = f"{self.provider}-{self.category}-{screen_name}"
+
+        return full_screen_name
+
 
 
 class Team(models.Model):
