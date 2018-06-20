@@ -16,14 +16,12 @@
                         <fieldset id="checkboxes">
                             {% for checkbox in form.socials %}
                                 <div class="form-check-inline" style="padding-bottom: 10px;">
-                                    <label class="form-check-label">
+                                    <label class="form-check-label" style="cursor: pointer;">
                                         {{ checkbox.tag }}
                                         {% for social in socials %}
                                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                                 <span class="fab fa-{{social.provider}}" style="width: 20px; padding-top: 3px;"></span>
-                                                <span style="cursor: pointer;">
-                                                    <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
-                                                </span>
+                                                <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
                                             {% endif %}
                                         {% endfor %}
                                     </label>
