@@ -1,20 +1,25 @@
 from django.shortcuts import redirect
 from django.conf import settings
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Customer, Subscription, PaymentMethod
 
 
 @login_required
 def index(request):
-    template = loader.get_template('billing/index.html')
-    context = {}
-    response = HttpResponse(template.render(context, request))
-
-    return response
+    user = request.user
+    try:
+        customer = user.customer
+        template = loader.get_template('billing/index.html')
+        context = {}
+        response = HttpResponse(template.render(context, request))
+        return response
+    except ObjectDoesNotExist:
+        raise Http404()
 
 
 @login_required
