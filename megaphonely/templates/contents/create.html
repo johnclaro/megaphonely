@@ -21,9 +21,9 @@
                                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                                 <span class="fab fa-{{social.provider}}" style="width: 20px; padding-top: 3px;"></span>
                                                 {% if social.picture_url %}
-                                                    <img src="{{social.picture_url}}" height="50" width="70" style="border-radius: 50%"/>
+                                                    <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
                                                 {% else %}
-                                                    <img src="{% static 'megaphonely/img/linkedin-no-profile-picture.png' %}" height="50" width="70" style="border-radius: 50%"/>
+                                                    <img src="{% static 'megaphonely/img/linkedin-no-profile-picture.png' %}" height="50" width="60" style="border-radius: 50%"/>
                                                 {% endif %}
                                             {% endif %}
                                         {% endfor %}
