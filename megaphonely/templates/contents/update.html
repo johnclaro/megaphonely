@@ -11,7 +11,6 @@
         <div class="card-wrapper">
             <div class="card fat">
                 <div class="card-body">
-                    <h4>Updating</h4>
                     <form action="{% url 'publisher:content_update' pk=content.id %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <fieldset id="checkboxes">
@@ -50,12 +49,7 @@
                                 <div class="row">
                                     <div class="col-5">{{ form.schedule }}</div>
                                     <div class="col-7">
-                                        <button type='submit' class='btn btn-primary btn-block'>
-                                            <i id="twitter_content" class="fab fa-twitter-square" style="color: white;"></i>
-                                            <i id="facebook_content" class="fab fa-facebook" style="color: white;"></i>
-                                            <i id="linkedin_content" class="fab fa-linkedin" style="color: white;"></i>
-                                           Update
-                                        </button>
+                                        <button type='submit' class='btn btn-primary btn-block'>Update</button>
                                     </div>
                                 </div>
                             </div>
