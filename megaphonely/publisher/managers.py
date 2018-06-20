@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-from django.contrib import messages
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -196,34 +195,14 @@ class SocialManager(models.Manager):
         return social
 
     def upsert(self, provider, response, user):
-        capped = False
-        level = None
-        message = ''
-
-        if self.reached_max_socials(user):
-            level = messages.ERROR
-            message = """Social account not connected because you have reached
-            the maximum number of connectable social accounts allowed."""
-            capped = True
+        data = self._get_data(provider, response)
+        if type(data) != dict:
+            for d in data:
+                self._create_or_update(d['provider'], d, user)
         else:
-            data = self._get_data(provider, response)
-            if type(data) != dict:
-                for d in data:
-                    if not self.reached_max_socials(user):
-                        self._create_or_update(d['provider'], d, user)
-                    else:
-                        capped = True
-                        level = messages.WARNING
-                        message = """While connecting your social account(s)
-                        you have reached the maximum number of connectable
-                        social accounts allowed. Certain social accounts may
-                        not have been connected.
-                        """
-                        break
-            else:
-                self._create_or_update(provider, data, user)
+            self._create_or_update(provider, data, user)
 
-        return capped, level, message
+        return None
 
 
 class TeamManager(models.Manager):
