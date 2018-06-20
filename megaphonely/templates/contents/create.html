@@ -19,7 +19,11 @@
                                         {% for social in socials %}
                                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                                 <span class="fab fa-{{social.provider}}" style="width: 20px; padding-top: 3px;"></span>
-                                                <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
+                                                {% if social.picture_url %}
+                                                    <img src="{{social.picture_url}}" height="50" width="60" style="border-radius: 50%"/>
+                                                {% else %}
+                                                    <i class="fas fa-user-circle" style="font-size: 50px; margin-bottom: -15px; color: gray;"></i>
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                     </label>
