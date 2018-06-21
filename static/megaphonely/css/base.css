@@ -99,6 +99,26 @@ a {
     color: white;
 }
 
+.btn-megaphonely {
+    background-color: #9F0324;
+    color: white;
+}
+
+.btn-megaphonely:hover {
+    background-color: maroon;
+    color: white;
+}
+
+.btn-outline-megaphonely {
+    border-color: #9F0324;
+    color: #9F0324;
+}
+
+.btn-outline-megaphonely:hover {
+    background-color: #9F0324;
+    color: white;
+}
+
 .center {
       position: absolute;
       top: 50%;
