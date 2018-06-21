@@ -4,8 +4,8 @@
 
 {% load static %}
 
-<div class="card-deck text-center">
-    <div class="col-lg-6 card-section">
+<div class="row">
+    <div class="col-lg-6 mt-2 text-center">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Standard</h4>
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-6 card-section">
+    <div class="col-lg-6 mt-2 text-center">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Premium</h4>
@@ -40,6 +40,37 @@
                 {% elif user.customer.subscription.plan != 'premium' %}
                     <a href="{% url 'billing:change' plan='premium' %}" class="btn btn-lg btn-block btn-primary">Change to Premium</a>
                 {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 mt-2">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 mt-3">
+                        <h4>All-in-One dashboard</h4>
+                        <p>Oversee your social accounts using our dashboard.</p>
+                    </div>
+                    <div class="col-sm-6 mt-3">
+                        <img src="{% static 'megaphonely/img/landing-page-2.png' %}" class="img-fluid">
+                    </div>
+                    <div class="col-sm-6 mt-3">
+                        <h4>Social accounts</h4>
+                        <p>Connect various social platforms.</p>
+                    </div>
+                    <div class="col-sm-6 mt-3">
+                        <i class="fab fa-facebook" style="font-size: 70px;"></i>
+                        <i class="fab fa-linkedin" style="font-size: 70px;"></i>
+                        <i class="fab fa-twitter" style="font-size: 70px;"></i>
+                    </div>
+                    <div class="col-sm-6 mt-3">
+                        <h4>Schedulable contents</h4>
+                        <p>You can schedule contents that you want to post tomorrow, a week or a month from now.</p>
+                    </div>
+                    <div class="col-sm-6 mt-3">
+                        <img src="{% static 'megaphonely/img/landing-page-1.png' %}" class="img-fluid">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
