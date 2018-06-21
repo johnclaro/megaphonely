@@ -39,10 +39,9 @@ class SocialManager(models.Manager):
         access_token_key = data['access_token']
         application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
-        try:
-            picture_url = application.get_picture_urls()  # Deprecated :(
-        except (KeyError, TypeError):
-            picture_url = ''
+
+        # picture_url = application.get_picture_urls()  # Deprecated :(
+        picture_url = ''
 
         data = {
             'social_id': social_id,
