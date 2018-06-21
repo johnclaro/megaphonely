@@ -20,7 +20,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     {% if not user.customer %}
-                        <li class="nav-item"><a class="btn btn-outline-success" href="{% url 'pricing' %}">Upgrade</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-primary" href="{% url 'pricing' %}">Upgrade</a></li>
                     {% endif %}
                     <li class="nav-item {% if request.resolver_match.view_name == 'publisher:content_create' %}active{% endif %}"><a class="nav-link" href="/">Dashboard</a></li>
                     {% if user.customer %}
