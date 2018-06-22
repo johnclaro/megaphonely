@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <h4>Choose social account</h4>
+                <div class="row">
+                    {% for prompt in prompts %}
+                        <div class="col-sm-4">
+                            <img src="{{ prompt.picture_url }}" class="social-picture"/>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+{% endblock %}
