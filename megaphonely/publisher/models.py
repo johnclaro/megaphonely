@@ -27,7 +27,7 @@ class Social(models.Model):
     objects = SocialManager()
 
     class Meta:
-        unique_together = ('social_id', 'provider', 'account')
+        unique_together = ('social_id', 'provider', 'account', 'category')
 
     def __str__(self):
         return self.get_full_screen_name()
