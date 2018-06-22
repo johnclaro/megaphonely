@@ -155,7 +155,7 @@ class SocialManager(models.Manager):
 
         return groups
 
-    def _get_data(self, provider, data):
+    def get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
         elif provider == 'facebook':
@@ -185,20 +185,10 @@ class SocialManager(models.Manager):
 
         return social
 
-    def _create_or_update(self, provider, data, user):
+    def upsert(self, provider, data, user):
         try:
             social = self.update(provider, data, user)
         except ObjectDoesNotExist:
             social = self.create(**data, account=user)
 
         return social
-
-    def upsert(self, provider, response, user):
-        data = self._get_data(provider, response)
-        if type(data) != dict:
-            for d in data:
-                self._create_or_update(d['provider'], d, user)
-        else:
-            self._create_or_update(provider, data, user)
-
-        return None

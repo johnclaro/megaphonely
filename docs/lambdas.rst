@@ -23,4 +23,4 @@ Ensure lambda-deploy is installed in your system
 
 .. code-block:: bash
 
-    lambda deploy --use-requirements
+    lambda deploy --requirements=requirements.txt
