@@ -157,6 +157,7 @@ class SocialManager(models.Manager):
 
     def _get_instagram_data(self, data):
         username = data['user']['username']
+        category = 'business' if data['user']['is_business'] else 'profile'
         data = {
             'social_id': data['user']['id'],
             'provider': 'instagram',
@@ -165,15 +166,13 @@ class SocialManager(models.Manager):
             'url': f'https://www.instagram.com/{username}',
             'picture_url': data['user']['profile_picture'],
             'access_token_key': data['access_token'],
+            'category': category
         }
 
         return data
 
     def _get_instagram_business_data(self, data):
-        instagram_data = self._get_instagram_data(data)
-        if data['user']['is_business']:
-            instagram_data['category'] = 'business'
-        return instagram_data
+        return self._get_instagram_data(data)
 
     def get_data(self, provider, data):
         if provider == 'twitter':
@@ -195,9 +194,10 @@ class SocialManager(models.Manager):
 
         return data
 
-    def update(self, provider, data, user):
+    def update(self, data, user):
         social = self.get(
-            social_id=data['social_id'], provider=provider, account=user
+            social_id=data['social_id'], provider=data['provider'],
+            category=data['category'], account=user,
         )
         updated = False
         for column, record in data.items():
@@ -209,9 +209,9 @@ class SocialManager(models.Manager):
 
         return social
 
-    def upsert(self, provider, data, user):
+    def upsert(self, data, user):
         try:
-            social = self.update(provider, data, user)
+            social = self.update(data, user)
         except ObjectDoesNotExist:
             social = self.create(**data, account=user)
 
