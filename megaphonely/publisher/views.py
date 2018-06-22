@@ -37,7 +37,6 @@ def index(request):
 
     return response
 
-
 def social_disconnect(request, pk):
     user = request.user
     social = get_object_or_404(Social, pk=pk, account=user)
@@ -50,6 +49,12 @@ def social_disconnect(request, pk):
     social.delete()
     return redirect('publisher:index')
 
+def social_prompt(request):
+    user = request.user
+    payload = request.POST
+    print("Payload:", payload)
+    response = redirect('/')
+    return response
 
 def publish_now(content):
     for social in content.socials.all():
@@ -70,6 +75,8 @@ def publish_now(content):
             payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
         elif social.provider == 'linkedin':
             payload['cloudfront'] = settings.AWS_S3_MEDIA_DOMAIN
+            if social.category == 'company':
+                payload['company_id'] = social.social_id
 
         if content.multimedia:
             payload['image'] = f'media/{content.multimedia.name}'
@@ -99,15 +106,17 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = request.user
         content.editor = user
         content.slug = slugify(content.message)
-        response = super(ContentCreate, self).form_valid(form)
 
-        if content.schedule == 'now':
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully posted content')
-            publish_now(content)
+        if not content.message and not content.multimedia:
+            response = super(ContentCreate, self).form_invalid(form)
+            messages.error(request, 'You must supply a message or an image.')
         else:
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully scheduled content')
+            response = super(ContentCreate, self).form_valid(form)
+            if content.schedule == 'now':
+                publish_now(content)
+                messages.success(request, 'Successfully posted content')
+            else:
+                messages.success(request, 'Successfully updated content')
 
         return response
 
@@ -147,15 +156,17 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         user = request.user
         content.account = user
         content.slug = slugify(content.message)
-        response = super(ContentUpdate, self).form_valid(form)
 
-        if content.schedule == 'now':
-            publish_now(content)
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully posted content')
+        if not content.message and not content.multimedia:
+            response = super(ContentUpdate, self).form_invalid(form)
+            messages.error(request, 'You must supply a message or an image.')
         else:
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully updated content')
+            response = super(ContentUpdate, self).form_valid(form)
+            if content.schedule == 'now':
+                publish_now(content)
+                messages.success(request, 'Successfully posted content')
+            else:
+                messages.success(request, 'Successfully updated content')
 
         return response
 
@@ -175,7 +186,12 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
     context_object_name = 'content'
+    success_message = 'Successfully deleted content'
     success_url = reverse_lazy('publisher:index')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(ContentDelete, self).delete(request, *args, **kwargs)
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
@@ -190,6 +206,5 @@ class ContentList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-
         contents = Content.objects.filter(editor=user)
         return contents

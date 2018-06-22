@@ -19,7 +19,15 @@
                                         {{ checkbox.tag }}
                                         {% for social in socials %}
                                             {% if checkbox.choice_label == social.get_full_screen_name %}
-                                                <span class="fab fa-{{social.provider}}" style="width: 20px; padding-top: 3px;"></span>
+                                                {% if social.category == 'page' %}
+                                                    <span class="fab fa-font-awesome-flag social-icon"></span>
+                                                {% elif social.category == 'group' %}
+                                                    <span class="fas fa-users social-icon"></span>
+                                                {% elif social.category == 'company' %}
+                                                    <span class="fas fa-building social-icon"></span>
+                                                {% else %}
+                                                    <span class="fab fa-{{social.provider}} social-icon"></span>
+                                                {% endif %}
                                                 {% if social.picture_url %}
                                                     <img src="{{social.picture_url}}" height="50" width="55" style="border-radius: 50%"/>
                                                 {% else %}
@@ -71,7 +79,7 @@
                             {% if content.multimedia %}
                                 <i class="fas fa-image"></i>
                             {% endif %}
-                                <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message}}</span></a>
+                                <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message | linebreaks}}</span></a>
                                 <div class="col-sm-12" style="text-align: right;">
                                     <br/>
                                     <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
@@ -96,7 +104,15 @@
                         {% for social in socials %}
                             <div class="row">
                                 <div class="col-10">
-                                    <span class="fab fa-{{social.provider}}" style="width: 14px; padding-top: 3px;"></span>
+                                    {% if social.category == 'page' %}
+                                        <span class="fab fa-font-awesome-flag social-icon"></span>
+                                    {% elif social.category == 'group' %}
+                                        <span class="fas fa-users social-icon"></span>
+                                    {% elif social.category == 'company' %}
+                                        <span class="fas fa-building social-icon"></span>
+                                    {% else %}
+                                        <span class="fab fa-{{social.provider}} social-icon"></span>
+                                    {% endif %}
                                     <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
                                 </div>
                                 <div class="col-2">

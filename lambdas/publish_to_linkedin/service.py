@@ -27,6 +27,16 @@ def handler(event, context):
     message = event['message']
     image = event['image']
     cloudfront = event['cloudfront']
+    company_id = event['company_id']
+
+    data = {
+        'title': message, 'visibility_code': 'connections-only',
+        'comment': message
+    }
+    if image:
+        url = f'https://{cloudfront}/{image}'
+        data['submitted_url'] = url
+        data['submitted_image_url'] = url
 
     data = {
         'title': message, 'visibility_code': 'connections-only',
@@ -38,6 +48,13 @@ def handler(event, context):
         data['submitted_image_url'] = url
 
     application = linkedin.LinkedInApplication(token=access_token_key)
-    response = application.submit_share(**data)
+    if company_id:
+        data['company_id'] = company_id
+        data['visibility_code'] = 'anyone'
+        response = application.submit_company_share(**data)
+    else:
+        response = application.submit_share(**data)
+
+
 
     return response
