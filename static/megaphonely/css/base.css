@@ -36,7 +36,7 @@ body, html {
     color: #007BB5;
 }
 
-.fa-instagram, .instagram-theme {
+.fa-instagram, .fa-briefcase, .instagram-theme {
     color: #fbad50;
 }
 
@@ -60,6 +60,11 @@ body, html {
     color: white;
 }
 
+.instagram-bg {
+    background-color: #fbad50! important;
+    color: white;
+}
+
 .megaphonely-bg {
     background-color: #990000! important;
     color: white;
@@ -78,74 +83,22 @@ a {
     text-decoration: none !important;
 }
 
-.btn-outline-facebook {
-    border-color: #3B5998;
-    color: #3B5998;
-}
-
-.btn-outline-facebook:hover {
-    background-color: #3B5998;
-    color: white;
-}
-
-.btn-outline-twitter {
-    border-color: #1DA1F2;
-    color: #1DA1F2;
-}
-
-.btn-outline-twitter:hover {
-    background-color: #1DA1F2;
-    color: white;
-}
-
-.btn-outline-linkedin {
-    border-color: #007BB5;
-    color: #007BB5;
-}
-
-.btn-outline-linkedin:hover {
-    background-color: #007BB5;
-    color: white;
-}
-
-.btn-megaphonely {
-    background-color: #9F0324;
-    color: white;
-}
-
-.btn-megaphonely:hover {
-    background-color: maroon;
-    color: white;
-}
-
-.btn-outline-megaphonely {
-    border-color: #9F0324;
-    color: #9F0324;
-}
-
-.btn-outline-megaphonely:hover {
-    background-color: #9F0324;
-    color: white;
-}
-
 .btn-instagram {
     background-color: #fbad50;
     color: white;
 }
 
 .btn-instagram:hover {
-    background-color: darkorange;
-    color: white;
-}
-
-.btn-outline-instagram {
-    border-color: #fbad50;
-    color: #fbad50;
-}
-
-.btn-outline-instagram:hover {
     background-color: orange;
     color: white;
+}
+
+.btn-instagram:active {
+    background-color: orange !important;
+}
+
+.btn-instagram:focus {
+    background-color: darkorange !important;
 }
 
 .center {
