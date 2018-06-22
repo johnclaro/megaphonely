@@ -99,15 +99,21 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         user = request.user
         content.editor = user
         content.slug = slugify(content.message)
-        response = super(ContentCreate, self).form_valid(form)
 
-        if content.schedule == 'now':
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully posted content')
-            publish_now(content)
+        if not content.message and not content.multimedia:
+            response = super(ContentCreate, self).form_invalid(form)
+            message = 'You must supply either a message or an image!'
+            messages.add_message(request, messages.ERROR, message)
         else:
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully scheduled content')
+            response = super(ContentCreate, self).form_valid(form)
+
+            if content.schedule == 'now':
+                message = 'Successfully posted content'
+                messages.add_message(request, messages.SUCCESS, message)
+                publish_now(content)
+            else:
+                message = 'Successfully scheduled content'
+                messages.add_message(request, messages.SUCCESS, message)
 
         return response
 
@@ -149,13 +155,18 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         content.slug = slugify(content.message)
         response = super(ContentUpdate, self).form_valid(form)
 
-        if content.schedule == 'now':
-            publish_now(content)
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully posted content')
+        if not content.message and not content.multimedia:
+            response = super(ContentUpdate, self).form_invalid(form)
+            message = 'You must supply either a message or an image!'
+            messages.add_message(request, messages.ERROR, message)
         else:
-            messages.add_message(request, messages.SUCCESS,
-                                 'Successfully updated content')
+            if content.schedule == 'now':
+                message = 'Successfully posted content'
+                publish_now(content)
+                messages.add_message(request, messages.SUCCESS, message)
+            else:
+                message = 'Successfully updated content'
+                messages.add_message(request, messages.SUCCESS, message)
 
         return response
 
