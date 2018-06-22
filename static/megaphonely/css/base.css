@@ -28,12 +28,21 @@ body, html {
     color: #1DA1F2;
 }
 
-.fa-facebook {
+.fa-facebook, .fa-users {
     color: #3B5998;
 }
 
-.fa-linkedin {
+.fa-linkedin, .fa-building {
     color: #007BB5;
+}
+
+.social-icon {
+    width: 20px;
+    padding-top: 3px;
+}
+
+.fa-font-awesome-flag {
+    color: orange;
 }
 
 .twitter-bg {

@@ -4,6 +4,9 @@ $('#id_message').keyup(function () {
 });
 
 $(function() {
-    const messageTextCount = $('#id_message').val();
-    $('#text_count').text(messageTextCount.length);
+    const message = $('#id_message');
+    if (message[0]) {
+        const messageTextCount = message.val();
+        $('#text_count').text(messageTextCount.length);
+    }
 });
