@@ -20,7 +20,7 @@ def upsert(user=None, response=None, backend=None, request=None, **kwargs):
         # return prompt_response
         for d in data:
             Social.objects.upsert(d['provider'], d, user)
-            messages.success(request, f"{message}(s)")
+        messages.success(request, f"{message}(s)")
     else:
         Social.objects.upsert(backend.name, data, user)
         messages.success(request, message)
