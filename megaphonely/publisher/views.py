@@ -102,18 +102,14 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
         if not content.message and not content.multimedia:
             response = super(ContentCreate, self).form_invalid(form)
-            message = 'You must supply either a message or an image!'
-            messages.add_message(request, messages.ERROR, message)
+            messges.error(request, 'You must supply a message or an image.')
         else:
             response = super(ContentCreate, self).form_valid(form)
-
             if content.schedule == 'now':
-                message = 'Successfully posted content'
-                messages.add_message(request, messages.SUCCESS, message)
                 publish_now(content)
+                messages.success(request, 'Successfully posted content')
             else:
-                message = 'Successfully scheduled content'
-                messages.add_message(request, messages.SUCCESS, message)
+                messages.success(request, 'Successfully updated content')
 
         return response
 
@@ -157,16 +153,14 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
         if not content.message and not content.multimedia:
             response = super(ContentUpdate, self).form_invalid(form)
-            message = 'You must supply either a message or an image!'
-            messages.add_message(request, messages.ERROR, message)
+            messges.error(request, 'You must supply a message or an image.')
         else:
+            response = super(ContentUpdate, self).form_valid(form)
             if content.schedule == 'now':
-                message = 'Successfully posted content'
                 publish_now(content)
-                messages.add_message(request, messages.SUCCESS, message)
+                messages.success(request, 'Successfully posted content')
             else:
-                message = 'Successfully updated content'
-                messages.add_message(request, messages.SUCCESS, message)
+                messages.success(request, 'Successfully updated content')
 
         return response
 
@@ -186,7 +180,13 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     template_name = 'contents/delete.html'
     model = Content
     context_object_name = 'content'
+    success_message = 'Successfully deleted content'
     success_url = reverse_lazy('publisher:index')
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(self.request, self.success_message)
+        return super(ContentDelete, self).delete(request, *args, **kwargs)
 
 
 class ContentDetail(LoginRequiredMixin, DetailView):
