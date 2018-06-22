@@ -127,6 +127,8 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
     ('publicProfileUrl', 'public_profile_url'),
 ]
+SOCIAL_AUTH_INSTAGRAM_KEY = os.getenv('INSTAGRAM_CLIENT_ID', '')
+SOCIAL_AUTH_INSTAGRAM_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -251,6 +253,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
     'megaphonely.publisher.backends.FacebookOAuth2Page',
     'megaphonely.publisher.backends.FacebookOAuth2Group',
     'megaphonely.publisher.backends.LinkedinOAuth2Company'

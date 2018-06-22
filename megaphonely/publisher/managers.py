@@ -155,6 +155,20 @@ class SocialManager(models.Manager):
 
         return groups
 
+    def _get_instagram_data(self, data):
+        username = data['user']['username']
+        data = {
+            'social_id': data['user']['id'],
+            'provider': 'instagram',
+            'username': username,
+            'fullname': data['user']['full_name'],
+            'url': f'https://www.instagram.com/{username}',
+            'picture_url': data['user']['profile_picture'],
+            'access_token_key': data['access_token'],
+        }
+
+        return data
+
     def get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
@@ -168,6 +182,8 @@ class SocialManager(models.Manager):
             data = self._get_linkedin_data(data)
         elif provider == 'linkedin-oauth2-company':
             data = self._get_linkedin_company_data(data)
+        elif provider == 'instagram':
+            data = self._get_instagram_data(data)
 
         return data
 

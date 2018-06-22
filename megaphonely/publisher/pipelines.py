@@ -12,6 +12,7 @@ def upsert(user=None, response=None, backend=None, request=None, **kwargs):
         raise ValueError('You must login first')
 
     data = Social.objects.get_data(backend.name, response)
+    print("Got data:", data)
     message = "Successfully connected social account"
     if type(data) == list:
         # template = loader.get_template('socials/choose.html')
