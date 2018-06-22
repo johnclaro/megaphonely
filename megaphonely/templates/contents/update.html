@@ -26,6 +26,8 @@
                                                     <span class="fas fa-users social-icon"></span>
                                                 {% elif social.category == 'company' %}
                                                     <span class="fas fa-building social-icon"></span>
+                                                {% elif social.category == 'business' %}
+                                                    <span class="fas fa-briefcase social-icon"></span>
                                                 {% else %}
                                                     <span class="fab fa-{{social.provider}} social-icon"></span>
                                                 {% endif %}
