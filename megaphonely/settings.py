@@ -129,6 +129,8 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
 ]
 SOCIAL_AUTH_INSTAGRAM_KEY = os.getenv('INSTAGRAM_CLIENT_ID', '')
 SOCIAL_AUTH_INSTAGRAM_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
+SOCIAL_AUTH_INSTAGRAM_BUSINESS_KEY = os.getenv('INSTAGRAM_CLIENT_ID', '')
+SOCIAL_AUTH_INSTAGRAM_BUSINESS_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -256,7 +258,8 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.instagram.InstagramOAuth2',
     'megaphonely.publisher.backends.FacebookOAuth2Page',
     'megaphonely.publisher.backends.FacebookOAuth2Group',
-    'megaphonely.publisher.backends.LinkedinOAuth2Company'
+    'megaphonely.publisher.backends.LinkedinOAuth2Company',
+    'megaphonely.publisher.backends.InstagramOAuth2Business'
 )
 
 AWS_S3_OBJECT_PARAMETERS = {
