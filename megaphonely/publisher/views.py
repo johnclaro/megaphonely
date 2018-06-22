@@ -75,6 +75,8 @@ def publish_now(content):
             payload['consumer_secret'] = settings.SOCIAL_AUTH_TWITTER_SECRET
         elif social.provider == 'linkedin':
             payload['cloudfront'] = settings.AWS_S3_MEDIA_DOMAIN
+            if social.category == 'company':
+                payload['company_id'] = social.social_id
 
         if content.multimedia:
             payload['image'] = f'media/{content.multimedia.name}'
