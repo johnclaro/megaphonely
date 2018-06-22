@@ -169,6 +169,12 @@ class SocialManager(models.Manager):
 
         return data
 
+    def _get_instagram_business_data(self, data):
+        instagram_data = self._get_instagram_data(data)
+        if data['user']['is_business']:
+            instagram_data['category'] = 'business'
+        return instagram_data
+
     def get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
@@ -184,6 +190,8 @@ class SocialManager(models.Manager):
             data = self._get_linkedin_company_data(data)
         elif provider == 'instagram':
             data = self._get_instagram_data(data)
+        elif provider == 'instagram-business':
+            data = self._get_instagram_business_data(data)
 
         return data
 
