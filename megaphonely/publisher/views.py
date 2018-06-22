@@ -37,7 +37,6 @@ def index(request):
 
     return response
 
-
 def social_disconnect(request, pk):
     user = request.user
     social = get_object_or_404(Social, pk=pk, account=user)
@@ -50,6 +49,12 @@ def social_disconnect(request, pk):
     social.delete()
     return redirect('publisher:index')
 
+def social_prompt(request):
+    user = request.user
+    payload = request.POST
+    print("Payload:", payload)
+    response = redirect('/')
+    return response
 
 def publish_now(content):
     for social in content.socials.all():
@@ -102,7 +107,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
         if not content.message and not content.multimedia:
             response = super(ContentCreate, self).form_invalid(form)
-            messges.error(request, 'You must supply a message or an image.')
+            messages.error(request, 'You must supply a message or an image.')
         else:
             response = super(ContentCreate, self).form_valid(form)
             if content.schedule == 'now':
@@ -149,11 +154,10 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         user = request.user
         content.account = user
         content.slug = slugify(content.message)
-        response = super(ContentUpdate, self).form_valid(form)
 
         if not content.message and not content.multimedia:
             response = super(ContentUpdate, self).form_invalid(form)
-            messges.error(request, 'You must supply a message or an image.')
+            messages.error(request, 'You must supply a message or an image.')
         else:
             response = super(ContentUpdate, self).form_valid(form)
             if content.schedule == 'now':
@@ -184,7 +188,6 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('publisher:index')
 
     def delete(self, request, *args, **kwargs):
-        obj = self.get_object()
         messages.success(self.request, self.success_message)
         return super(ContentDelete, self).delete(request, *args, **kwargs)
 
@@ -201,6 +204,5 @@ class ContentList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-
         contents = Content.objects.filter(editor=user)
         return contents
