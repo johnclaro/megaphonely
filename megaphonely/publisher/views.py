@@ -89,7 +89,9 @@ def publish_now(content):
             payload['is_image'] = False if filename.endswith('mp4') else True
 
         if settings.DEBUG:
-            payload['tmp_filename'] = content.multimedia.url.lstrip('/')
+            if content.multimedia:
+                payload['tmp_filename'] = content.multimedia.url.lstrip('/')
+
             if social.provider == 'twitter':
                 twitter_handler(payload, {})
             elif social.provider == 'linkedin':
