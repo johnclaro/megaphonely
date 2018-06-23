@@ -110,14 +110,15 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
         if not content.message and not content.multimedia:
             response = super(ContentCreate, self).form_invalid(form)
-            messages.error(request, 'You must supply a message or an image.')
+            error = 'You must supply a message or a valid file'
+            messages.error(request, error)
         else:
             response = super(ContentCreate, self).form_valid(form)
             if content.schedule == 'now':
                 publish_now(content)
                 messages.success(request, 'Successfully posted content')
             else:
-                messages.success(request, 'Successfully updated content')
+                messages.success(request, 'Successfully scheduled content')
 
         return response
 
@@ -160,7 +161,8 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
         if not content.message and not content.multimedia:
             response = super(ContentUpdate, self).form_invalid(form)
-            messages.error(request, 'You must supply a message or an image.')
+            error = 'You must supply a message or a valid file'
+            messages.error(request, error)
         else:
             response = super(ContentUpdate, self).form_valid(form)
             if content.schedule == 'now':
