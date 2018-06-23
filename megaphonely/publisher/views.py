@@ -19,6 +19,10 @@ import json
 from .forms import ContentForm
 from .models import Content, Social
 
+from lambdas.publish_to_twitter.service import handler as twitter_handler
+from lambdas.publish_to_linkedin.service import handler as linkedin_handler
+from lambdas.publish_to_facebook.service import handler as facebook_handler
+
 
 def index(request):
     user = request.user
@@ -80,13 +84,26 @@ def publish_now(content):
                 payload['company_id'] = social.social_id
 
         if content.multimedia:
-            payload['image'] = f'media/{content.multimedia.name}'
+            filename = content.multimedia.name
+            payload['multimedia'] = f'media/{filename}'
+            payload['is_image'] = False if filename.endswith('mp4') else True
 
-        client = boto3.client('lambda', region_name='eu-west-1')
-        client.invoke(
-            FunctionName=f'publish_to_{social.provider}',
-            Payload=bytes(json.dumps(payload), encoding='utf8')
-        )
+        if settings.DEBUG:
+            if content.multimedia:
+                payload['tmp_filename'] = content.multimedia.url.lstrip('/')
+
+            if social.provider == 'twitter':
+                twitter_handler(payload, {})
+            elif social.provider == 'linkedin':
+                linkedin_handler(payload, {})
+            elif social.provider == 'facebook':
+                facebook_handler(payload, {})
+        else:
+            client = boto3.client('lambda', region_name='eu-west-1')
+            client.invoke(
+                FunctionName=f'publish_to_{social.provider}',
+                Payload=bytes(json.dumps(payload), encoding='utf8')
+            )
 
 
 class ContentCreate(LoginRequiredMixin, CreateView):
