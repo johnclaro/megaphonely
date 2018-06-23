@@ -2,9 +2,13 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 
 from .choices import SCHEDULES, CATEGORIES
 from .managers import ContentManager, SocialManager
+
+VIDEO_EXTENSIONS = ('mp4',)
+IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
 
 
 class Social(models.Model):
@@ -27,7 +31,7 @@ class Social(models.Model):
     objects = SocialManager()
 
     class Meta:
-        unique_together = ('social_id', 'provider', 'account')
+        unique_together = ('social_id', 'provider', 'account', 'category')
 
     def __str__(self):
         return self.get_full_screen_name()
@@ -51,7 +55,10 @@ class Content(models.Model):
     message = models.TextField(blank=True)
     slug = models.SlugField(max_length=120)
     url = models.URLField(blank=True)
-    multimedia = models.ImageField(upload_to='contents', blank=True, null=True)
+    multimedia = models.FileField(
+        upload_to='contents', blank=True, null=True,
+        validators=[FileExtensionValidator(VIDEO_EXTENSIONS + IMAGE_EXTENSIONS)]
+    )
     schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
     is_published = models.BooleanField(default=False)
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)

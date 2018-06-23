@@ -155,6 +155,25 @@ class SocialManager(models.Manager):
 
         return groups
 
+    def _get_instagram_data(self, data):
+        username = data['user']['username']
+        category = 'business' if data['user']['is_business'] else 'profile'
+        data = {
+            'social_id': data['user']['id'],
+            'provider': 'instagram',
+            'username': username,
+            'fullname': data['user']['full_name'],
+            'url': f'https://www.instagram.com/{username}',
+            'picture_url': data['user']['profile_picture'],
+            'access_token_key': data['access_token'],
+            'category': category
+        }
+
+        return data
+
+    def _get_instagram_business_data(self, data):
+        return self._get_instagram_data(data)
+
     def get_data(self, provider, data):
         if provider == 'twitter':
             data = self._get_twitter_data(data)
@@ -168,12 +187,17 @@ class SocialManager(models.Manager):
             data = self._get_linkedin_data(data)
         elif provider == 'linkedin-oauth2-company':
             data = self._get_linkedin_company_data(data)
+        elif provider == 'instagram':
+            data = self._get_instagram_data(data)
+        elif provider == 'instagram-business':
+            data = self._get_instagram_business_data(data)
 
         return data
 
-    def update(self, provider, data, user):
+    def update(self, data, user):
         social = self.get(
-            social_id=data['social_id'], provider=provider, account=user
+            social_id=data['social_id'], provider=data['provider'],
+            category=data['category'], account=user,
         )
         updated = False
         for column, record in data.items():
@@ -185,9 +209,9 @@ class SocialManager(models.Manager):
 
         return social
 
-    def upsert(self, provider, data, user):
+    def upsert(self, data, user):
         try:
-            social = self.update(provider, data, user)
+            social = self.update(data, user)
         except ObjectDoesNotExist:
             social = self.create(**data, account=user)
 
