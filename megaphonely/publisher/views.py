@@ -22,6 +22,7 @@ from .models import Content, Social
 
 def index(request):
     user = request.user
+    
     context = {}
     if not user.is_authenticated:
         form = SignupForm()
