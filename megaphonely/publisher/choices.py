@@ -9,9 +9,11 @@ PROFILE = 'profile'
 PAGE = 'page'
 GROUP = 'group'
 COMPANY = 'company'
+BUSINESS = 'business'
 CATEGORIES = (
     (PROFILE, 'profile'),
     (PAGE, 'page'),
     (GROUP, 'group'),
     (COMPANY, 'company'),
+    (BUSINESS, 'business'),
 )
