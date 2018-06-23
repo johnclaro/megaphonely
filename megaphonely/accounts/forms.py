@@ -11,6 +11,7 @@ class CustomSignupForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CustomSignupForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_show_errors = False  # Errors are rendered in a div
         self.helper.layout = Layout(
             HTML(
                 """
@@ -41,7 +42,6 @@ class CustomSignupForm(forms.Form):
 
     def signup(self, request, user):
         user.save()
-
 
 class ProfileForm(forms.ModelForm):
     class Meta:
