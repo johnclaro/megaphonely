@@ -39,10 +39,11 @@ class ContentForm(forms.ModelForm):
 
     def clean_multimedia(self):
         multimedia = self.cleaned_data['multimedia']
-        if multimedia._size > MAX_UPLOAD_SIZE:
-            raise forms.ValidationError(
-                _('Please keep filesize under %s. Current filesize %s') %
-                (filesizeformat(MAX_UPLOAD_SIZE),
-                 filesizeformat(multimedia._size))
-            )
+        if multimedia:
+            if multimedia._size > MAX_UPLOAD_SIZE:
+                raise forms.ValidationError(
+                    _('Please keep filesize under %s. Current filesize %s') %
+                    (filesizeformat(MAX_UPLOAD_SIZE),
+                     filesizeformat(multimedia._size))
+                )
         return multimedia
