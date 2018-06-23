@@ -84,7 +84,9 @@ def publish_now(content):
                 payload['company_id'] = social.social_id
 
         if content.multimedia:
-            payload['image'] = f'media/{content.multimedia.name}'
+            filename = content.multimedia.name
+            payload['multimedia'] = f'media/{filename}'
+            payload['is_image'] = False if filename.endswith('mp4') else True
 
         if settings.DEBUG:
             payload['tmp_filename'] = content.multimedia.url.lstrip('/')
