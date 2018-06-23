@@ -8,7 +8,6 @@ from .choices import SCHEDULES, CATEGORIES
 from .managers import ContentManager, SocialManager
 
 VIDEO_EXTENSIONS = ('mp4',)
-
 IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
 
 
