@@ -34,6 +34,22 @@ class SocialManager(models.Manager):
 
         return current_number_of_socials >= max_socials
 
+    def _get_twitter_data(self, data):
+        username = data['screen_name']
+        data = {
+            'social_id': data['id'],
+            'provider': 'twitter',
+            'username': username,
+            'fullname': data['name'],
+            'url': f'https://www.twitter.com/{username}',
+            'picture_url': data['profile_image_url_https'],
+            'access_token_key': data['access_token']['oauth_token'],
+            'access_token_secret': data['access_token']['oauth_token_secret'],
+            'category': 'profile'
+        }
+
+        return data
+
     def _get_linkedin_data(self, data):
         username = data['publicProfileUrl'].rsplit('/', 1)[-1]
         access_token_key = data['access_token']
@@ -50,7 +66,8 @@ class SocialManager(models.Manager):
             'url': f'https://www.linkedin.com/in/{username}',
             'picture_url': picture_url,
             'fullname': f"{data['firstName']} {data['lastName']}",
-            'access_token_key': access_token_key
+            'access_token_key': access_token_key,
+            'category': 'profile'
         }
 
         return data
@@ -94,21 +111,6 @@ class SocialManager(models.Manager):
 
         return companies
 
-    def _get_twitter_data(self, data):
-        username = data['screen_name']
-        data = {
-            'social_id': data['id'],
-            'provider': 'twitter',
-            'username': username,
-            'fullname': data['name'],
-            'url': f'https://www.twitter.com/{username}',
-            'picture_url': data['profile_image_url_https'],
-            'access_token_key': data['access_token']['oauth_token'],
-            'access_token_secret': data['access_token']['oauth_token_secret'],
-        }
-
-        return data
-
     def _get_facebook_data(self, data, entity='me'):
         access_token_key = data['access_token']
         graph = GraphAPI(access_token_key)
@@ -123,6 +125,7 @@ class SocialManager(models.Manager):
             'url': f'https://www.facebook.com/{username}',
             'picture_url': picture_url,
             'access_token_key': access_token_key,
+            'category': 'profile'
         }
 
         return data
