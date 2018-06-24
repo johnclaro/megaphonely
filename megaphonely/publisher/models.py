@@ -64,8 +64,7 @@ class Content(models.Model):
     schedule_at = models.DateTimeField(default=timezone.now, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    editor = models.ForeignKey(settings.AUTH_USER_MODEL,
+    account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE, related_name='editor')
     socials = models.ManyToManyField(Social)
 
@@ -76,13 +75,3 @@ class Content(models.Model):
 
     def get_absolute_url(self):
         return reverse('publisher:content_detail', kwargs={'pk': self.pk})
-
-    def save(self, *args, **kwargs):
-        if self.pk:
-            print("Do not save!")
-            content = None
-        else:
-            print("Saving:", args, kwargs)
-            content = super(Content, self).save(*args, **kwargs)
-
-        return content
