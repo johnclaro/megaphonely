@@ -54,12 +54,6 @@ def social_disconnect(request, pk):
     social.delete()
     return redirect('publisher:index')
 
-def social_prompt(request):
-    user = request.user
-    payload = request.POST
-    print("Payload:", payload)
-    response = redirect('/')
-    return response
 
 def publish_now(content):
     for social in content.socials.all():
@@ -122,7 +116,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content = form.instance
         request = self.request
         user = request.user
-        content.editor = user
+        content.account = user
         content.slug = slugify(content.message)
 
         if not content.message and not content.multimedia:
@@ -139,11 +133,11 @@ class ContentCreate(LoginRequiredMixin, CreateView):
 
         return response
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         user = self.request.user
-        context = super(ContentCreate, self).get_context_data(*args, **kwargs)
+        context = super(ContentCreate, self).get_context_data(**kwargs)
         contents = Content.objects.filter(
-            editor=user, schedule='date', is_published=False,
+            account=user, schedule='date', is_published=False,
             schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
         socials = Social.objects.filter(account=user).order_by('-updated_at')
@@ -166,7 +160,7 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         user = self.request.user
         queryset = super(ContentUpdate, self).get_queryset()
-        content = queryset.filter(editor=user)
+        content = queryset.filter(account=user)
         return content
 
     def form_valid(self, form):
@@ -190,11 +184,11 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
 
         return response
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, **kwargs):
         user = self.request.user
-        context = super(ContentUpdate, self).get_context_data(*args, **kwargs)
+        context = super(ContentUpdate, self).get_context_data(**kwargs)
         contents = Content.objects.filter(
-            editor=user, schedule='date', is_published=False,
+            account=user, schedule='date', is_published=False,
             schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
         socials = Social.objects.filter(account=user).order_by('-updated_at')
@@ -226,5 +220,5 @@ class ContentList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        contents = Content.objects.filter(editor=user)
+        contents = Content.objects.filter(account=user)
         return contents

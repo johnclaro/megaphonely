@@ -1,38 +1,25 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
 
 from facepy import GraphAPI
 from linkedin import linkedin
 
 
 class ContentManager(models.Manager):
-    pass
 
-    def reached_max_contents(self, user):
-        current_number_of_contents = self.filter(
+    def content_plan_limit_exceeded(self, user):
+        content_plan_limit_exceeded = False
+        number_of_contents = self.filter(
             account=user, schedule='date', is_published=False
         ).count()
-        try:
-            plan = user.customer.subscription.plan
-        except ObjectDoesNotExist:
-            plan = 'free'
-        max_contents = settings.STRIPE_PLANS[plan]['contents']
 
-        return current_number_of_contents >= max_contents
+        if user.customer.subscription.plan.contents <= number_of_contents:
+            content_plan_limit_exceeded = True
+
+        return content_plan_limit_exceeded
 
 
 class SocialManager(models.Manager):
-
-    def reached_max_socials(self, user):
-        current_number_of_socials = self.filter(account=user).count()
-        try:
-            plan = user.customer.subscription.plan
-        except ObjectDoesNotExist:
-            plan = 'free'
-        max_socials = settings.STRIPE_PLANS[plan]['socials']
-
-        return current_number_of_socials >= max_socials
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
@@ -53,11 +40,8 @@ class SocialManager(models.Manager):
     def _get_linkedin_data(self, data):
         username = data['publicProfileUrl'].rsplit('/', 1)[-1]
         access_token_key = data['access_token']
-        application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
-
-        # picture_url = application.get_picture_urls()  # Deprecated :(
-        picture_url = ''
+        picture_url = data.get('pictureUrl', '')
 
         data = {
             'social_id': social_id,

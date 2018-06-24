@@ -7,40 +7,44 @@
 
 <div class="row">
     <div class="col-lg-8">
-        <div class="card-section">
+        {% if user.customer.subscription.plan.contents >= contents.count %}
             <div class="card">
                 <div class="card-body">
                     {% url 'publisher:content_create' as form_url %}
                     {% include "includes/contents/form.html" with form_url=form_url button_text='Create' %}
                 </div>
             </div>
-        </div>
-        <br/>
+        {% else %}
+            <div class="col-lg-12">
+                <span class="alert alert-warning" style="display: block;">
+                    You have reached your contents limit.
+                </span>
+            </div>
+        {% endif %}
         {% if contents %}
-            <div class="card-section">
-                <div class="card">
-                    <div class="card-body">
-                        {% for content in contents %}
-                            <strong>{{ content.schedule_at.date }}</strong>
-                            <br/>
-                            {% if content.multimedia %}
-                                <i class="fas fa-image"></i>
-                            {% endif %}
-                                <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message | linebreaks}}</span></a>
-                                <div class="col-sm-12" style="text-align: right;">
-                                    <br/>
-                                    <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
+            <div class="card mt-3">
+                <div class="card-body">
+                    {% for content in contents %}
+                        <strong>{{ content.schedule_at.date }}</strong>
+                        <br/>
+                        {% if content.multimedia %}
+                            <i class="fas fa-image"></i>
+                        {% endif %}
+                            <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message | linebreaks}}</span></a>
+                            <div class="col-sm-12" style="text-align: right;">
+                                <br/>
+                                <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
+                                {% if user.customer.subscription.plan.contents >= contents.count %}
                                     <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
-                                    <a href="{% url 'publisher:content_delete' pk=content.id %}" style="padding-right: 10px;"><small>Delete</small></a>
-                                </div>
-                            {% if not forloop.last %}
-                                <hr/>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                                {% endif %}
+                                <a href="{% url 'publisher:content_delete' pk=content.id %}" style="padding-right: 10px;"><small>Delete</small></a>
+                            </div>
+                        {% if not forloop.last %}
+                            <hr/>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <br/>
         {% endif %}
     </div>
     <div class="col-lg-4">
@@ -74,29 +78,37 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-4 mt-3">
-                        <h5 style="color: #3B5998;">Facebook</h5>
-                        <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
-                        <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
-                    </div>
-                    <div class="col-4 mt-3">
-                        <h5 class="instagram-theme">Instagram</h5>
-                        <a class="btn btn-instagram mt-1" href="{% url 'social:begin' backend='instagram' %}">Profile</a>
-                        <a class="btn btn-instagram mt-1" href="{% url 'social:begin' backend='instagram-business' %}">Business</a>
-                    </div>
-                    <div class="col-4 mt-3">
-                        <h5 style="color: #1DA1F2;">Twitter</h5>
-                        <a class="btn btn-twitter mt-1" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
-                    </div>
-                    <div class="col-4 mt-3">
-                        <h5 style="color: #007BB5;">LinkedIn</h5>
-                        <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
-                        <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
+            {% if user.customer.subscription.plan.socials >= socials.count %}
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-4 mt-3">
+                            <h5 style="color: #3B5998;">Facebook</h5>
+                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
+                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <h5 class="instagram-theme">Instagram</h5>
+                            <a class="btn btn-instagram mt-1" href="{% url 'social:begin' backend='instagram' %}">Profile</a>
+                            <a class="btn btn-instagram mt-1" href="{% url 'social:begin' backend='instagram-business' %}">Business</a>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <h5 style="color: #1DA1F2;">Twitter</h5>
+                            <a class="btn btn-twitter mt-1" href="{% url 'social:begin' backend='twitter' %}">Profile</a>
+                        </div>
+                        <div class="col-4 mt-3">
+                            <h5 style="color: #007BB5;">LinkedIn</h5>
+                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
+                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="col-lg-12 mt-3">
+                    <div class="alert alert-warning">
+                        You have reached your socials limit.
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
