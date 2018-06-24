@@ -33,7 +33,7 @@ def handler(event, context):
     access_token_key = event['access_token_key']
     access_token_secret = event['access_token_secret']
     message = event['message']
-    multimedia = event['multimedia']
+    multimedia = event.get('multimedia', '')
 
     api = twitter.Api(
         consumer_key=consumer_key,

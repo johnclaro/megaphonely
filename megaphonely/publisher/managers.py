@@ -1,13 +1,25 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
 
 from facepy import GraphAPI
 from linkedin import linkedin
 
 
 class ContentManager(models.Manager):
-    pass
+
+    def content_plan_limit_exceeded(self, user):
+        content_plan_limit_exceeded = False
+        number_of_contents = self.filter(
+            account=user, schedule='date', is_published=False
+        ).count()
+
+        print("# of contents:", number_of_contents)
+        print("Allowed:", user.customer.subscription.plan.contents)
+        if user.customer.subscription.plan.contents <= 200:
+            content_plan_limit_exceeded = True
+        print("Exceeded?", content_plan_limit_exceeded)
+
+        return content_plan_limit_exceeded
 
 
 class SocialManager(models.Manager):
