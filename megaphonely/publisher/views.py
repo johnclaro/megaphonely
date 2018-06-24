@@ -10,7 +10,6 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
 
 from allauth.account.forms import SignupForm
 
@@ -121,19 +120,21 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         content.slug = slugify(content.message)
 
         if Content.objects.content_plan_limit_exceeded(user):
-            raise PermissionDenied
-
-        if not content.message and not content.multimedia:
             response = super(ContentCreate, self).form_invalid(form)
-            error = 'You must supply a message or a valid file'
-            messages.error(request, error)
+            messages.error(request, 'Content not scheduled. '
+                                    'You have reached the limit of your plan')
         else:
-            response = super(ContentCreate, self).form_valid(form)
-            if content.schedule == 'now':
-                publish_now(content)
-                messages.success(request, 'Successfully posted content')
+            if not content.message and not content.multimedia:
+                response = super(ContentCreate, self).form_invalid(form)
+                error = 'You must supply a message or a valid file'
+                messages.error(request, error)
             else:
-                messages.success(request, 'Successfully scheduled content')
+                response = super(ContentCreate, self).form_valid(form)
+                if content.schedule == 'now':
+                    publish_now(content)
+                    messages.success(request, 'Successfully posted content')
+                else:
+                    messages.success(request, 'Successfully scheduled content')
 
         return response
 
@@ -175,19 +176,21 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
         content.slug = slugify(content.message)
 
         if Content.objects.content_plan_limit_exceeded(user):
-            raise PermissionDenied
-
-        if not content.message and not content.multimedia:
             response = super(ContentUpdate, self).form_invalid(form)
-            error = 'You must supply a message or a valid file'
-            messages.error(request, error)
+            messages.error(request, 'Content not scheduled. '
+                                    'You have reached the limit of your plan')
         else:
-            response = super(ContentUpdate, self).form_valid(form)
-            if content.schedule == 'now':
-                publish_now(content)
-                messages.success(request, 'Successfully posted content')
+            if not content.message and not content.multimedia:
+                response = super(ContentUpdate, self).form_invalid(form)
+                error = 'You must supply a message or a valid file'
+                messages.error(request, error)
             else:
-                messages.success(request, 'Successfully updated content')
+                response = super(ContentUpdate, self).form_valid(form)
+                if content.schedule == 'now':
+                    publish_now(content)
+                    messages.success(request, 'Successfully posted content')
+                else:
+                    messages.success(request, 'Successfully updated content')
 
         return response
 
