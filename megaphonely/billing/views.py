@@ -63,8 +63,9 @@ def perform_cancel(request, plan):
     subscription = Subscription.objects.cancel_stripe_subscription(
         request.user.customer, plan
     )
-    access_until_message = f'You still have access until {subscription.ends_at}'
-    message = f"Successfully cancelled your plan. {access_until_message}"
+    message = f'Successfully cancelled your plan. ' \
+              f'You still have access until ' \
+              f'{subscription.ends_at.strftime("%B %d, %Y %H:%M")}'
     messages.success(request, message)
     response = redirect('publisher:index')
 
