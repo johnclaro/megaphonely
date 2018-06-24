@@ -13,11 +13,8 @@ class ContentManager(models.Manager):
             account=user, schedule='date', is_published=False
         ).count()
 
-        print("# of contents:", number_of_contents)
-        print("Allowed:", user.customer.subscription.plan.contents)
-        if user.customer.subscription.plan.contents <= 200:
+        if user.customer.subscription.plan.contents <= number_of_contents:
             content_plan_limit_exceeded = True
-        print("Exceeded?", content_plan_limit_exceeded)
 
         return content_plan_limit_exceeded
 
