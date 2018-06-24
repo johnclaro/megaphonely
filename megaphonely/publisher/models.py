@@ -76,3 +76,13 @@ class Content(models.Model):
 
     def get_absolute_url(self):
         return reverse('publisher:content_detail', kwargs={'pk': self.pk})
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            print("Do not save!")
+            content = None
+        else:
+            print("Saving:", args, kwargs)
+            content = super(Content, self).save(*args, **kwargs)
+
+        return content

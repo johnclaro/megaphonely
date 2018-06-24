@@ -9,30 +9,8 @@ from linkedin import linkedin
 class ContentManager(models.Manager):
     pass
 
-    def reached_max_contents(self, user):
-        current_number_of_contents = self.filter(
-            account=user, schedule='date', is_published=False
-        ).count()
-        try:
-            plan = user.customer.subscription.plan
-        except ObjectDoesNotExist:
-            plan = 'free'
-        max_contents = settings.STRIPE_PLANS[plan]['contents']
-
-        return current_number_of_contents >= max_contents
-
 
 class SocialManager(models.Manager):
-
-    def reached_max_socials(self, user):
-        current_number_of_socials = self.filter(account=user).count()
-        try:
-            plan = user.customer.subscription.plan
-        except ObjectDoesNotExist:
-            plan = 'free'
-        max_socials = settings.STRIPE_PLANS[plan]['socials']
-
-        return current_number_of_socials >= max_socials
 
     def _get_twitter_data(self, data):
         username = data['screen_name']

@@ -14,11 +14,11 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-primary">Start 7 day trial</a>
                 {% elif not user.customer.subscription %}
                     <a href="{% url 'billing:subscribe' plan='standard' %}" class="btn btn-lg btn-block btn-primary">Choose plan</a>
-                {% elif user.customer.subscription.plan == 'standard' and user.customer.subscription.is_active %}
+                {% elif user.customer.subscription.plan.name == 'standard' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='standard' %}" class="btn btn-lg btn-block btn-danger">Cancel</a>
-                {% elif user.customer.subscription.plan == 'standard' and not user.customer.subscription.is_active %}
+                {% elif user.customer.subscription.plan.name == 'standard' and not user.customer.subscription.is_active %}
                     <a href="{% url 'billing:reactivate' %}" class="btn btn-lg btn-block btn-success">Reactivate</a>
-                {% elif user.customer.subscription.plan != 'standard' %}
+                {% elif user.customer.subscription.plan.name != 'standard' %}
                     <a href="{% url 'billing:change' plan='standard' %}" class="btn btn-lg btn-block btn-primary">Change to Standard</a>
                 {% endif %}
             </div>
@@ -33,11 +33,11 @@
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-primary">Start 7 day trial</a>
                 {% elif not user.customer.subscription %}
                     <a href="{% url 'billing:subscribe' plan='premium' %}" class="btn btn-lg btn-block btn-primary">Choose plan</a>
-                {% elif user.customer.subscription.plan == 'premium' and user.customer.subscription.is_active %}
+                {% elif user.customer.subscription.plan.name == 'premium' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='premium' %}" class="btn btn-lg btn-block btn-danger">Cancel</a>
-                {% elif user.customer.subscription.plan == 'premium' and not user.customer.subscription.is_active %}
+                {% elif user.customer.subscription.plan.name == 'premium' and not user.customer.subscription.is_active %}
                     <a href="{% url 'billing:reactivate' %}" class="btn btn-lg btn-block btn-success">Reactivate</a>
-                {% elif user.customer.subscription.plan != 'premium' %}
+                {% elif user.customer.subscription.plan.name != 'premium' %}
                     <a href="{% url 'billing:change' plan='premium' %}" class="btn btn-lg btn-block btn-primary">Change to Premium</a>
                 {% endif %}
             </div>

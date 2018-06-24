@@ -172,26 +172,6 @@ ACCOUNT_SIGNUP_FORM_CLASS = 'megaphonely.accounts.forms.CustomSignupForm'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Stripe
-STRIPE_PLANS = {
-    'free': {
-        'socials': 3,
-        'contents': 20
-    },
-    'standard': {
-        'id': 'standard-monthly',
-        'price': '19',
-        'priority': 1,
-        'socials': 8,
-        'contents': 200
-    },
-    'premium': {
-        'id': 'premium-monthly',
-        'price': '49',
-        'priority': 2,
-        'socials': 12,
-        'contents': 600
-    }
-}
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 stripe.api_key = STRIPE_SECRET_KEY
