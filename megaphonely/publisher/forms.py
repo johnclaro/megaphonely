@@ -1,10 +1,9 @@
 from django import forms
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from .models import Content, Social
-
-MAX_UPLOAD_SIZE = 5242880
 
 
 class ContentForm(forms.ModelForm):
@@ -40,10 +39,10 @@ class ContentForm(forms.ModelForm):
     def clean_multimedia(self):
         multimedia = self.cleaned_data['multimedia']
         if multimedia:
-            if multimedia._size > MAX_UPLOAD_SIZE:
+            if multimedia._size > settings.MAX_UPLOAD_SIZE:
                 raise forms.ValidationError(
                     _('Please keep filesize under %s. Current filesize %s') %
-                    (filesizeformat(MAX_UPLOAD_SIZE),
+                    (filesizeformat(settings.MAX_UPLOAD_SIZE),
                      filesizeformat(multimedia._size))
                 )
         return multimedia
