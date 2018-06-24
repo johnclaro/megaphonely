@@ -4,7 +4,6 @@ import logging
 from distutils.util import strtobool
 
 from django.contrib.messages import constants as messages
-from django.utils import timezone
 
 import stripe
 
@@ -27,6 +26,7 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'accounts.User'
+MAX_UPLOAD_SIZE = 5242880
 
 # Messages
 MESSAGE_TAGS = {
@@ -90,36 +90,47 @@ else:
     STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
     DEFAULT_FILE_STORAGE = 'megaphonely.storage.Media'
-    MEDIA_URL = f'https://s3-{AWS_S3_REGION_NAME}.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/{MEDIAFILES_LOCATION}/'
+
+    DOMAIN = f'https://s3-{AWS_S3_REGION_NAME}.amazonaws.com'
+    MEDIA_URL = f'{DOMAIN}/{AWS_STORAGE_BUCKET_NAME}/{MEDIAFILES_LOCATION}/'
 
 # Social Auth
-SOCIAL_AUTH_TWITTER_KEY = os.environ['TWITTER_CONSUMER_KEY']
-SOCIAL_AUTH_TWITTER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
+TWITTER_CONSUMER_KEY = os.environ['TWITTER_CONSUMER_KEY']
+TWITTER_CONSUMER_SECRET = os.environ['TWITTER_CONSUMER_SECRET']
+SOCIAL_AUTH_TWITTER_KEY = TWITTER_CONSUMER_KEY
+SOCIAL_AUTH_TWITTER_SECRET = TWITTER_CONSUMER_SECRET
 
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
+FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
+FACEBOOK_APP_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_KEY = FACEBOOK_APP_ID
+SOCIAL_AUTH_FACEBOOK_SECRET = FACEBOOK_APP_SECRET
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['public_profile', 'email', 'publish_actions']
-SOCIAL_AUTH_FACEBOOK_PAGE_KEY = os.environ['FACEBOOK_APP_ID']
-SOCIAL_AUTH_FACEBOOK_PAGE_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_PAGE_KEY = FACEBOOK_APP_ID
+SOCIAL_AUTH_FACEBOOK_PAGE_SECRET = FACEBOOK_APP_SECRET
 SOCIAL_AUTH_FACEBOOK_PAGE_SCOPE = [
     'public_profile', 'email', 'manage_pages', 'publish_pages'
 ]
-SOCIAL_AUTH_FACEBOOK_GROUP_KEY = os.environ['FACEBOOK_APP_ID']
-SOCIAL_AUTH_FACEBOOK_GROUP_SECRET = os.environ['FACEBOOK_APP_SECRET']
+SOCIAL_AUTH_FACEBOOK_GROUP_KEY = FACEBOOK_APP_ID
+SOCIAL_AUTH_FACEBOOK_GROUP_SECRET = FACEBOOK_APP_SECRET
 SOCIAL_AUTH_FACEBOOK_GROUP_SCOPE = [
     'public_profile', 'email', 'publish_actions', 'user_managed_groups'
 ]
-SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = os.environ['LINKEDIN_CLIENT_ID']
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
+
+LINKEDIN_CLIENT_ID = os.environ['LINKEDIN_CLIENT_ID']
+LINKEDIN_CLIENT_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = LINKEDIN_CLIENT_ID
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = LINKEDIN_CLIENT_SECRET
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = [
     'r_basicprofile', 'r_emailaddress', 'w_share'
 ]
-SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url', 'picture-url']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
+    'public-profile-url', 'picture-url'
+]
 SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
     ('publicProfileUrl', 'public_profile_url'),
 ]
-SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_KEY = os.environ['LINKEDIN_CLIENT_ID']
-SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_KEY = LINKEDIN_CLIENT_ID
+SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SECRET = LINKEDIN_CLIENT_SECRET
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_SCOPE = [
     'r_basicprofile', 'r_emailaddress', 'rw_company_admin', 'w_share'
 ]
@@ -127,10 +138,13 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_FIELD_SELECTORS = ['public-profile-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_COMPANY_EXTRA_DATA = [
     ('publicProfileUrl', 'public_profile_url'),
 ]
-SOCIAL_AUTH_INSTAGRAM_KEY = os.getenv('INSTAGRAM_CLIENT_ID', '')
-SOCIAL_AUTH_INSTAGRAM_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
-SOCIAL_AUTH_INSTAGRAM_BUSINESS_KEY = os.getenv('INSTAGRAM_CLIENT_ID', '')
-SOCIAL_AUTH_INSTAGRAM_BUSINESS_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
+
+INSTAGRAM_CLIENT_ID = os.getenv('INSTAGRAM_CLIENT_ID', '')
+INSTAGRAM_CLIENT_SECRET = os.getenv('INSTAGRAM_CLIENT_SECRET', '')
+SOCIAL_AUTH_INSTAGRAM_KEY = INSTAGRAM_CLIENT_ID
+SOCIAL_AUTH_INSTAGRAM_SECRET = INSTAGRAM_CLIENT_SECRET
+SOCIAL_AUTH_INSTAGRAM_BUSINESS_KEY = INSTAGRAM_CLIENT_ID
+SOCIAL_AUTH_INSTAGRAM_BUSINESS_SECRET = INSTAGRAM_CLIENT_SECRET
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -202,6 +216,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'crispy_forms',
     'widget_tweaks',
+    'guardian',
 )
 
 MIDDLEWARE = (
@@ -234,24 +249,18 @@ TEMPLATES = (
     },
 )
 
+PASSWORD_VALIDATION = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = (
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': f'{PASSWORD_VALIDATION}.UserAttributeSimilarityValidator'},
+    {'NAME': f'{PASSWORD_VALIDATION}.MinimumLengthValidator'},
+    {'NAME': f'{PASSWORD_VALIDATION}.CommonPasswordValidator'},
+    {'NAME': f'{PASSWORD_VALIDATION}.NumericPasswordValidator'},
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.linkedin.LinkedinOAuth2',
