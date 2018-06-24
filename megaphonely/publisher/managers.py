@@ -53,11 +53,8 @@ class SocialManager(models.Manager):
     def _get_linkedin_data(self, data):
         username = data['publicProfileUrl'].rsplit('/', 1)[-1]
         access_token_key = data['access_token']
-        application = linkedin.LinkedInApplication(token=access_token_key)
         social_id = data['id']
-
-        # picture_url = application.get_picture_urls()  # Deprecated :(
-        picture_url = ''
+        picture_url = data.get('pictureUrl', '')
 
         data = {
             'social_id': social_id,
