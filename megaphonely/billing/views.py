@@ -97,7 +97,7 @@ def perform_subscribe(request):
         stripe_token, stripe_customer, user.customer
     )
     stripe_subscription = Subscription.objects.create_stripe_subscription(
-        payment_method, user.customer, stripe_customer
+        plan_name, stripe_customer
     )
     plan = Plan.objects.get_plan_by_name(plan_name)
     Subscription.objects.create_subscription(

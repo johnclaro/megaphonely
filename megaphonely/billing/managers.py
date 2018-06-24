@@ -84,9 +84,9 @@ class SubscriptionManager(models.Manager):
 
         return subscription
 
-    def create_stripe_subscription(self, plan, stripe_customer):
+    def create_stripe_subscription(self, plan_name, stripe_customer):
         stripe_subscription = stripe.Subscription.create(
-            customer=stripe_customer['id'], items=[{'plan': plan}]
+            customer=stripe_customer['id'], items=[{'plan': plan_name}]
         )
 
         return stripe_subscription
