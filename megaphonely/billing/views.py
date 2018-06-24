@@ -63,8 +63,9 @@ def perform_cancel(request, plan):
     subscription = Subscription.objects.cancel_stripe_subscription(
         request.user.customer, plan
     )
-    access_until_message = f'You still have access until {subscription.ends_at}'
-    message = f"Successfully cancelled your plan. {access_until_message}"
+    message = f'Successfully cancelled your plan. ' \
+              f'You still have access until ' \
+              f'{subscription.ends_at.strftime("%B %d, %Y %H:%M")}'
     messages.success(request, message)
     response = redirect('publisher:index')
 
@@ -96,7 +97,7 @@ def perform_subscribe(request):
         stripe_token, stripe_customer, user.customer
     )
     stripe_subscription = Subscription.objects.create_stripe_subscription(
-        payment_method, user.customer, stripe_customer
+        plan_name, stripe_customer
     )
     plan = Plan.objects.get_plan_by_name(plan_name)
     Subscription.objects.create_subscription(

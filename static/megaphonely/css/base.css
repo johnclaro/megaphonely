@@ -45,6 +45,12 @@ body, html {
     padding-top: 3px;
 }
 
+.social-picture-icon {
+    height: 45px;
+    width: 50px;
+    border-radius: 50%;
+}
+
 .twitter-bg {
     background-color: #1DA1F2 !important;
     color: white;
