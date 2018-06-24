@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.models import Group, Permission
 
 from .models import Customer, Subscription, PaymentMethod
 
@@ -62,6 +63,8 @@ def perform_cancel(request, plan):
     subscription = Subscription.objects.cancel_stripe_subscription(
         user.customer, plan
     )
+    group = Group.objects.get(name='free')
+    user.groups.add(group)
     messages.add_message(request, messages.SUCCESS,
                          f"""Successfully cancelled your plan. 
                          You still have access until {subscription.ends_at}""")
