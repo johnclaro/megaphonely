@@ -1,11 +1,16 @@
 from datetime import timedelta
-from django.core.exceptions import ObjectDoesNotExist
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
 
 import stripe
+
+
+class PlanManager(models.Manager):
+
+    def get_plan_by_name(self, name):
+        return self.get(name=name)
 
 
 class CustomerManager(models.Manager):
@@ -38,13 +43,15 @@ class PaymentMethodManager(models.Manager):
 class SubscriptionManager(models.Manager):
 
     def create_subscription(self, stripe_subscription_id, payment_method,
-                            customer):
-        subscription = self.create(
+                            customer, plan):
+        return self.create(
             stripe_subscription_id=stripe_subscription_id,
-            payment_method=payment_method, customer=customer
+            payment_method=payment_method,
+            customer=customer,
+            ends_at=timezone.now() + timedelta(days=31),
+            is_active=True,
+            plan=plan
         )
-
-        return subscription
 
     def get_subscription_by_customer(self, customer):
         return self.get(customer=customer)
@@ -62,13 +69,12 @@ class SubscriptionManager(models.Manager):
         return subscription
 
     def prorotate_stripe_subscription(self, customer, plan):
-        plan_id = settings.STRIPE_PLANS[plan]['id']
         subscription = self.get_subscription_by_customer(customer)
         stripe_subscription_id = subscription.stripe_subscription_id
         stripe_subscription = stripe.Subscription.retrieve(
             stripe_subscription_id)
         current_subscription_id = stripe_subscription['items']['data'][0].id
-        items = [{'id': current_subscription_id, 'plan': plan_id}]
+        items = [{'id': current_subscription_id, 'plan': plan.name}]
         stripe.Subscription.modify(
             stripe_subscription_id, cancel_at_period_end=False, items=items
         )
@@ -78,22 +84,12 @@ class SubscriptionManager(models.Manager):
 
         return subscription
 
-    def create_stripe_subscription(self, plan, payment_method, customer,
-                                   stripe_customer):
-        plan_id = settings.STRIPE_PLANS[plan]['id']
-
+    def create_stripe_subscription(self, plan, stripe_customer):
         stripe_subscription = stripe.Subscription.create(
-            customer=stripe_customer['id'], items=[{'plan': plan_id}]
+            customer=stripe_customer['id'], items=[{'plan': plan}]
         )
-        subscription = self.create_subscription(
-            stripe_subscription['id'], payment_method, customer
-        )
-        subscription.plan = plan
-        subscription.ends_at = timezone.now() + timedelta(days=31)
-        subscription.is_active = True
-        subscription.save()
 
-        return subscription
+        return stripe_subscription
 
     def reactivate_stripe_subscription(self, customer):
         subscription = self.get_subscription_by_customer(customer)
