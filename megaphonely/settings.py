@@ -114,7 +114,7 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = os.environ['LINKEDIN_CLIENT_SECRET']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = [
     'r_basicprofile', 'r_emailaddress', 'w_share'
 ]
-SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['public-profile-url', 'picture-url']
 SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [
     ('publicProfileUrl', 'public_profile_url'),
 ]
