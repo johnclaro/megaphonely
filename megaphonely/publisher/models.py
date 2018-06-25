@@ -31,6 +31,7 @@ class Social(models.Model):
     objects = SocialManager()
 
     class Meta:
+        db_table = 'socials'
         unique_together = ('social_id', 'provider', 'account', 'category')
 
     def __str__(self):
@@ -67,8 +68,10 @@ class Content(models.Model):
     account = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE, related_name='editor')
     socials = models.ManyToManyField(Social)
-
     objects = ContentManager()
+
+    class Meta:
+        db_table = 'contents'
 
     def __str__(self):
         return self.message

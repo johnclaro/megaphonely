@@ -9,11 +9,31 @@ import stripe
 
 class PlanManager(models.Manager):
 
-    def get_plan_by_name(self, name):
-        return self.get(name=name)
+    def get_plan(self, name):
+        try:
+            print(f'Getting plan {name}...')
+            plan = self.get(name=name)
+            print(f'Got plan: {plan}')
+        except ObjectDoesNotExist:
+            plan = self.create(name='free', price=0, socials=3, contents=20)
+            self.create(name='standard', price=19, socials=8, contents=200)
+            self.create(name='premium', price=49, socials=20, contents=600)
+
+        return plan
 
 
 class CustomerManager(models.Manager):
+
+    def create_customer(self, stripe_customer_id, user):
+        print(f'Creating customer with stripe customer ID: {stripe_customer_id} and user: {user}...')
+        customer = self.create(
+            stripe_customer_id=stripe_customer_id, account=user
+        )
+        print('Saving customer...', customer)
+        customer.save()
+        print(f'Saved customer: {customer}')
+
+        return customer
 
     def create_stripe_customer(self, user):
         try:
@@ -22,7 +42,6 @@ class CustomerManager(models.Manager):
             )
         except ObjectDoesNotExist:
             stripe_customer = stripe.Customer.create(email=user.email)
-            self.create(stripe_customer_id=stripe_customer['id'], account=user)
 
         return stripe_customer
 
@@ -42,22 +61,29 @@ class PaymentMethodManager(models.Manager):
 
 class SubscriptionManager(models.Manager):
 
-    def create_subscription(self, stripe_subscription_id, payment_method,
-                            customer, plan):
-        return self.create(
+    def create_subscription(self, stripe_subscription_id, customer, plan,
+                            payment_method=None):
+        print(f'Creating subscription with stripe subscription ID: {stripe_subscription_id}, customer: {customer}, plan: {plan} and payment method {payment_method}')
+        subscription = self.create(
             stripe_subscription_id=stripe_subscription_id,
             payment_method=payment_method,
             customer=customer,
-            ends_at=timezone.now() + timedelta(days=31),
             is_active=True,
             plan=plan
         )
+        print(f'Saving subscription: {stripe_subscription_id}...')
+        subscription.save()
+        print(f'Saved subscription: {stripe_subscription_id}')
 
-    def get_subscription_by_customer(self, customer):
-        return self.get(customer=customer)
+        return subscription
+
+    def get_subscription(self, customer):
+        subscription = self.get(customer=customer)
+
+        return subscription
 
     def cancel_stripe_subscription(self, customer, plan):
-        subscription = self.get_subscription_by_customer(customer)
+        subscription = self.get_subscription(customer)
         stripe_subscription_id = subscription.stripe_subscription_id
         stripe_subscription = stripe.Subscription.retrieve(
             stripe_subscription_id)
@@ -69,7 +95,7 @@ class SubscriptionManager(models.Manager):
         return subscription
 
     def prorotate_stripe_subscription(self, customer, plan):
-        subscription = self.get_subscription_by_customer(customer)
+        subscription = self.get_subscription(customer)
         stripe_subscription_id = subscription.stripe_subscription_id
         stripe_subscription = stripe.Subscription.retrieve(
             stripe_subscription_id)
@@ -84,15 +110,17 @@ class SubscriptionManager(models.Manager):
 
         return subscription
 
-    def create_stripe_subscription(self, plan_name, stripe_customer):
+    def create_stripe_subscription(self, plan_name, stripe_customer_id):
+        print(f'Creating stripe subscription with stripe_customer ID: {stripe_customer_id} and plan name: {plan_name}')
         stripe_subscription = stripe.Subscription.create(
-            customer=stripe_customer['id'], items=[{'plan': plan_name}]
+            customer=stripe_customer_id, items=[{'plan': plan_name}]
         )
+        print(f'Created stripe subscription: {stripe_subscription["id"]}')
 
         return stripe_subscription
 
     def reactivate_stripe_subscription(self, customer):
-        subscription = self.get_subscription_by_customer(customer)
+        subscription = self.get_subscription(customer)
         stripe_subscription = stripe.Subscription.modify(
             subscription.stripe_subscription_id, cancel_at_period_end=False
         )
