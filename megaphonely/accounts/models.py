@@ -18,11 +18,12 @@ class Profile(models.Model):
     newsletter = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     account = models.OneToOneField(settings.AUTH_USER_MODEL,
                                    on_delete=models.CASCADE)
-
     objects = ProfileManager()
+
+    class Meta:
+        db_table = 'profiles'
 
     def __str__(self):
         return self.account.username

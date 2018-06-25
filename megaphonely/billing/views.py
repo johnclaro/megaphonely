@@ -25,7 +25,7 @@ def index(request):
 @login_required
 def pricing(request):
     template = loader.get_template('pricing.html')
-    subscription = Subscription.objects.get_subscription_by_customer(
+    subscription = Subscription.objects.get_subscription(
         request.user.customer
     )
     context = {'subscription': subscription}
@@ -37,7 +37,7 @@ def pricing(request):
 @login_required
 def subscribe(request, plan):
     template = loader.get_template('billing/plan.html')
-    plan = Plan.objects.get_plan_by_name(plan)
+    plan = Plan.objects.get_plan(plan)
     context = {
         'plan': plan.name, 'price': plan.price,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY
@@ -50,7 +50,7 @@ def subscribe(request, plan):
 @login_required
 def change(request, plan):
     template = loader.get_template('billing/change.html')
-    plan = Plan.objects.get_plan_by_name(plan)
+    plan = Plan.objects.get_plan(plan)
     context = {'plan': plan.name, 'price': plan.price}
     response = HttpResponse(template.render(context, request))
 
@@ -75,7 +75,7 @@ def perform_cancel(request, plan):
 @login_required
 def perform_change(request):
     plan_name = request.POST['plan']
-    plan = Plan.objects.get_plan_by_name(plan_name)
+    plan = Plan.objects.get_plan(plan_name)
     Subscription.objects.prorotate_stripe_subscription(
         request.user.customer, plan
     )
@@ -99,7 +99,7 @@ def perform_subscribe(request):
     stripe_subscription = Subscription.objects.create_stripe_subscription(
         plan_name, stripe_customer
     )
-    plan = Plan.objects.get_plan_by_name(plan_name)
+    plan = Plan.objects.get_plan(plan_name)
     Subscription.objects.create_subscription(
         stripe_subscription['id'], payment_method, user.customer, plan
     )
