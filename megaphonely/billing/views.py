@@ -92,17 +92,12 @@ def perform_subscribe(request):
     payload = request.POST
     plan_name = payload['plan']
     stripe_token = payload['stripeToken']
-    stripe_customer = Customer.objects.create_stripe_customer(user)
+    stripe_customer = Customer.objects.get_stripe_customer(user)
     payment_method = PaymentMethod.objects.create_stripe_payment_method(
         stripe_token, stripe_customer, user.customer
     )
-    stripe_subscription = Subscription.objects.create_stripe_subscription(
-        plan_name, stripe_customer
-    )
     plan = Plan.objects.get_plan(plan_name)
-    Subscription.objects.create_subscription(
-        stripe_subscription['id'], payment_method, user.customer, plan
-    )
+    Subscription.objects.update_subscription(user, payment_method, plan)
     message = f'Successfully upgraded to the {plan_name.title()} plan'
     messages.success(request, message)
     response = redirect('publisher:index')
