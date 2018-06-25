@@ -24,11 +24,12 @@ def index(request):
 
 @login_required
 def pricing(request):
+    user = request.user
     template = loader.get_template('pricing.html')
-    subscription = Subscription.objects.get_subscription(
-        request.user.customer
-    )
-    context = {'subscription': subscription}
+    subscription = user.customer.subscription
+    context = {
+        'subscription': subscription
+    }
     response = HttpResponse(template.render(context, request))
 
     return response
@@ -39,7 +40,8 @@ def subscribe(request, plan):
     template = loader.get_template('billing/plan.html')
     plan = Plan.objects.get_plan(plan)
     context = {
-        'plan': plan.name, 'price': plan.price,
+        'plan': plan.name,
+        'price': plan.price,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY
     }
     response = HttpResponse(template.render(context, request))
@@ -51,7 +53,10 @@ def subscribe(request, plan):
 def change(request, plan):
     template = loader.get_template('billing/change.html')
     plan = Plan.objects.get_plan(plan)
-    context = {'plan': plan.name, 'price': plan.price}
+    context = {
+        'plan': plan.name,
+        'price': plan.price
+    }
     response = HttpResponse(template.render(context, request))
 
     return response
@@ -59,13 +64,12 @@ def change(request, plan):
 
 @login_required
 def perform_cancel(request, plan):
-    plan = Plan.objects.get(name=plan)
-    subscription = Subscription.objects.cancel_stripe_subscription(
-        request.user.customer, plan
-    )
+    user = request.user
+    plan = Plan.objects.get_plan(plan)
+    Subscription.objects.cancel_stripe_subscription(user, plan)
     message = f'Successfully cancelled your plan. ' \
               f'You still have access until ' \
-              f'{subscription.ends_at.strftime("%B %d, %Y %H:%M")}'
+              f'{user.customer.subscription.ends_at.strftime("%B %d, %Y %H:%M")}'
     messages.success(request, message)
     response = redirect('publisher:index')
 
@@ -74,11 +78,10 @@ def perform_cancel(request, plan):
 
 @login_required
 def perform_change(request):
+    user = request.user
     plan_name = request.POST['plan']
     plan = Plan.objects.get_plan(plan_name)
-    Subscription.objects.prorotate_stripe_subscription(
-        request.user.customer, plan
-    )
+    Subscription.objects.prorotate_stripe_subscription(user, plan)
     message = f'Successfully upgraded to the {plan_name.title()} plan'
     messages.success(request, message)
     response = redirect('publisher:index')
@@ -107,7 +110,8 @@ def perform_subscribe(request):
 
 @login_required
 def perform_reactivate(request):
-    Subscription.objects.reactivate_stripe_subscription(request.user.customer)
+    user = request.user
+    Subscription.objects.reactivate_stripe_subscription(user)
     messages.success(request, 'Successfully reactivated plan')
     response = redirect('publisher:index')
 
