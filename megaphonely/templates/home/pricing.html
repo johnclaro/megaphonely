@@ -12,7 +12,7 @@
                 {% include "includes/billing/plans/standard.html" %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-primary">Start 7 day trial</a>
-                {% elif not user.customer.subscription %}
+                {% elif not user.customer.subscription.payment_method %}
                     <a href="{% url 'billing:subscribe' plan='standard' %}" class="btn btn-lg btn-block btn-primary">Choose plan</a>
                 {% elif user.customer.subscription.plan.name == 'standard' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='standard' %}" class="btn btn-lg btn-block btn-danger">Cancel</a>
@@ -31,7 +31,7 @@
                 {% include "includes/billing/plans/premium.html" %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'account_signup' %}" class="btn btn-lg btn-block btn-primary">Start 7 day trial</a>
-                {% elif not user.customer.subscription %}
+                {% elif not user.customer.subscription.payment_method %}
                     <a href="{% url 'billing:subscribe' plan='premium' %}" class="btn btn-lg btn-block btn-primary">Choose plan</a>
                 {% elif user.customer.subscription.plan.name == 'premium' and user.customer.subscription.is_active %}
                     <a href="{% url 'billing:cancel' plan='premium' %}" class="btn btn-lg btn-block btn-danger">Cancel</a>
