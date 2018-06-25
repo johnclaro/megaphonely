@@ -24,24 +24,35 @@ class PlanManager(models.Manager):
 
 class CustomerManager(models.Manager):
 
+    def get_customer(self, user):
+        customer = self.get(account=user)
+
+        return customer
+
     def create_customer(self, stripe_customer_id, user):
         print(f'Creating customer with stripe customer ID: {stripe_customer_id} and user: {user}...')
         customer = self.create(
             stripe_customer_id=stripe_customer_id, account=user
         )
-        print('Saving customer...', customer)
+        print(f'Saving {customer}...')
         customer.save()
         print(f'Saved customer: {customer}')
 
         return customer
 
+    def get_stripe_customer(self, user):
+        print(f'Getting stripe customer of user: {user}')
+        stripe_customer = stripe.Customer.retrieve(
+            user.customer.stripe_customer_id
+        )
+        print(f'Got stripe customer: {stripe_customer["id"]}')
+
+        return stripe_customer
+
     def create_stripe_customer(self, user):
-        try:
-            stripe_customer = stripe.Customer.retrieve(
-                user.customer.stripe_customer_id
-            )
-        except ObjectDoesNotExist:
-            stripe_customer = stripe.Customer.create(email=user.email)
+        print(f'Creating stripe customer for user: {user}...')
+        stripe_customer = stripe.Customer.create(email=user.email)
+        print(f'Created stripe customer: {stripe_customer}')
 
         return stripe_customer
 
@@ -61,15 +72,24 @@ class PaymentMethodManager(models.Manager):
 
 class SubscriptionManager(models.Manager):
 
-    def create_subscription(self, stripe_subscription_id, customer, plan,
-                            payment_method=None):
+    def update_subscription(self, user, payment_method, plan):
+        print(f'Getting subscription of user: {user}')
+        subscription = user.customer.subscription
+        print(f'Updating subscription {subscription} with payment method: {payment_method}')
+        subscription.payment_method = payment_method
+        subscription.ends_at = timezone.now() + timedelta(days=30)
+        subscription.plan = plan
+        subscription.save()
+        print(f'Updated subscription: {subscription}')
+
+        return subscription
+
+
+    def create_subscription(self, stripe_subscription_id, customer, plan):
         print(f'Creating subscription with stripe subscription ID: {stripe_subscription_id}, customer: {customer}, plan: {plan} and payment method {payment_method}')
         subscription = self.create(
-            stripe_subscription_id=stripe_subscription_id,
-            payment_method=payment_method,
-            customer=customer,
-            is_active=True,
-            plan=plan
+            stripe_subscription_id=stripe_subscription_id, customer=customer,
+            is_active=True, plan=plan
         )
         print(f'Saving subscription: {stripe_subscription_id}...')
         subscription.save()
