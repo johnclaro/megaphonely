@@ -1,8 +1,7 @@
-import json
+import ast
 
 from django.template import loader
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.http import HttpResponse
 
 from .models import Social

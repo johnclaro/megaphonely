@@ -1,3 +1,7 @@
+import boto3
+import json
+import ast
+
 from django.template import loader
 from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
@@ -12,9 +16,6 @@ from django.utils import timezone
 from django.contrib import messages
 
 from allauth.account.forms import SignupForm
-
-import boto3
-import json
 
 from .forms import ContentForm
 from .models import Content, Social
@@ -63,8 +64,8 @@ def social_prompt(request):
 
     for key, social in payload.items():
         if 'socials' in key:
-            social = social.replace("'", '"')
-            social = json.loads(social)
+            social = ast.literal_eval(social)
+            print("Got social:", json.dumps(social, indent=4, sort_keys=True))
             Social.objects.upsert(social, user)
 
     messages.success(request, 'Successfully connected social accounts')
