@@ -82,6 +82,7 @@ class SubscriptionManager(models.Manager):
         print(f'Updating subscription {subscription} with payment method: {payment_method}')
         subscription.payment_method = payment_method
         subscription.ends_at = timezone.now() + timedelta(days=30)
+        subscription.is_active = True
         subscription.plan = plan
         subscription.save()
         print(f'Updated subscription: {subscription}')
@@ -90,7 +91,7 @@ class SubscriptionManager(models.Manager):
 
 
     def create_subscription(self, stripe_subscription_id, customer, plan):
-        print(f'Creating subscription with stripe subscription ID: {stripe_subscription_id}, customer: {customer}, plan: {plan} and payment method {payment_method}')
+        print(f'Creating subscription with stripe subscription ID: {stripe_subscription_id}, customer: {customer}, plan: {plan}')
         subscription = self.create(
             stripe_subscription_id=stripe_subscription_id, customer=customer,
             plan=plan

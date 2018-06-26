@@ -65,7 +65,6 @@ def social_prompt(request):
     for key, social in payload.items():
         if 'socials' in key:
             social = ast.literal_eval(social)
-            print("Got social:", json.dumps(social, indent=4, sort_keys=True))
             Social.objects.upsert(social, user)
 
     messages.success(request, 'Successfully connected social accounts')
