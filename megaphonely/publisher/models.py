@@ -1,5 +1,6 @@
+import os
+
 from django.db import models
-from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
@@ -75,5 +76,9 @@ class Content(models.Model):
     def __str__(self):
         return self.message
 
-    def get_absolute_url(self):
-        return reverse('publisher:content_detail', kwargs={'pk': self.pk})
+    def is_image(self):
+        name, extension = os.path.splitext(self.multimedia.name)
+        extension = extension.lstrip('.')
+        is_image = True if extension in IMAGE_EXTENSIONS else False
+
+        return is_image
