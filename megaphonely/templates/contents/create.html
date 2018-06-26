@@ -28,7 +28,14 @@
                         <strong>{{ content.schedule_at.date }}</strong>
                         <br/>
                         {% if content.multimedia %}
-                            <i class="fas fa-image"></i>
+                            {% if content.is_image %}
+                                <img src="{{ content.multimedia.url }}" height="300" width="300" class="img-fluid"/>
+                            {% else %}
+                                <video height="300" width="300" controls>
+                                    <source src="{{ content.multimedia.url }}" type="video/mp4">
+                                    Your browser does not support HTML5 video.
+                                </video>
+                            {% endif %}
                         {% endif %}
                             <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message | linebreaks}}</span></a>
                             <div class="col-sm-12" style="text-align: right;">
@@ -56,15 +63,15 @@
                             <div class="row">
                                 <div class="col-10">
                                     {% if social.category == 'page' %}
-                                        <span class="fab fa-font-awesome-flag social-icon"></span>
+                                        <span class="fas fa-flag"></span>
                                     {% elif social.category == 'group' %}
-                                        <span class="fas fa-users social-icon"></span>
+                                        <span class="fas fa-users"></span>
                                     {% elif social.category == 'company' %}
-                                        <span class="fas fa-building social-icon"></span>
+                                        <span class="fas fa-building"></span>
                                     {% elif social.category == 'business' %}
-                                        <span class="fas fa-briefcase social-icon"></span>
+                                        <span class="fas fa-briefcase"></span>
                                     {% else %}
-                                        <span class="fab fa-{{social.provider}} social-icon"></span>
+                                        <span class="fab fa-{{social.provider}}"></span>
                                     {% endif %}
                                     <a target="_blank" href="{{social.url}}">{{social.get_screen_name}}</a>
                                 </div>
