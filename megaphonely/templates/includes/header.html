@@ -19,11 +19,11 @@
                     <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}"><a class="nav-link" href="/"></a></li>
                 </ul>
                 <ul class="navbar-nav">
-                    {% if user.customer.subscription.plan.name == 'free' or not user.customer.subscription.is_active %}
+                    {% if not user.customer.subscription.payment_method or not user.customer.subscription.is_active %}
                         <li class="nav-item"><a class="btn btn-outline-primary" href="{% url 'pricing' %}">Upgrade</a></li>
                     {% endif %}
                     <li class="nav-item {% if request.resolver_match.view_name == 'publisher:content_create' %}active{% endif %}"><a class="nav-link" href="/">Dashboard</a></li>
-                    {% if user.customer.subscription.is_active %}
+                    {% if user.customer.subscription.payment_method or user.customer.subscription.is_active %}
                         <li class="nav-item {% if request.resolver_match.view_name == 'billing:index' %}active{% endif %}"><a class="nav-link" href="{% url 'billing:index' %}">Billing</a></li>
                     {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Logout</a></li>
