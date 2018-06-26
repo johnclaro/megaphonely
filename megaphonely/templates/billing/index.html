@@ -15,7 +15,7 @@
                         <div class="col-8">
                             {% if user.customer.subscription.is_active %}
                                 You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
-                                which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                                which renews on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
                             {% else %}
                                 You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
                                 which will be cancelled on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
