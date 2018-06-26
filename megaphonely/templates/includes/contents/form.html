@@ -11,7 +11,7 @@
                         {% for social in socials %}
                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                 {% if social.category == 'page' %}
-                                    <span class="fab fa-font-awesome-flag"></span>
+                                    <span class="fas fa-flag"></span>
                                 {% elif social.category == 'group' %}
                                     <span class="fas fa-users"></span>
                                 {% elif social.category == 'company' %}
@@ -39,7 +39,7 @@
             <div class="form-group">
                 {{ form.message }}
                 <div class="col-sm-12" style="text-align: right;">
-                    <span>Text count: <span id="text_count">0</span></span>
+                    <span id="text_count">0</span>
                 </div>
             </div>
             <div class="form-group">
