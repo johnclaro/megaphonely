@@ -13,8 +13,13 @@
                     <h4>Plan</h4>
                     <div class="row">
                         <div class="col-8">
-                            You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
-                            which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                            {% if user.customer.subscription.is_active %}
+                                You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
+                                which ends on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                            {% else %}
+                                You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
+                                which is due to be cancelled on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                            {% endif %}
                         </div>
                         <div class="col-4">
                             <a class="btn btn-primary center" href="{% url 'pricing' %}">Change</a>
