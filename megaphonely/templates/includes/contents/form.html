@@ -7,7 +7,7 @@
             {% for checkbox in form.socials %}
                 <div class="form-check-inline" style="padding-bottom: 10px;">
                     <label class="form-check-label" style="cursor: pointer;">
-                        {{ checkbox.tag }}
+                        <input type="checkbox" name="socials" value="1" class="form-check-input" id="id_socials_{{ loop.counter}}">
                         {% for social in socials %}
                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                 {% if social.category == 'page' %}
