@@ -26,7 +26,7 @@ WSGI_APPLICATION = 'megaphonely.wsgi.application'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'accounts.User'
-MAX_UPLOAD_SIZE = 5242880
+MAX_UPLOAD_SIZE = 524288000
 
 # Messages
 MESSAGE_TAGS = {
@@ -230,10 +230,18 @@ TEMPLATES = (
 
 PASSWORD_VALIDATION = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = (
-    {'NAME': f'{PASSWORD_VALIDATION}.UserAttributeSimilarityValidator'},
-    {'NAME': f'{PASSWORD_VALIDATION}.MinimumLengthValidator'},
-    {'NAME': f'{PASSWORD_VALIDATION}.CommonPasswordValidator'},
-    {'NAME': f'{PASSWORD_VALIDATION}.NumericPasswordValidator'},
+    {
+        'NAME': f'{PASSWORD_VALIDATION}.UserAttributeSimilarityValidator'
+    },
+    {
+        'NAME': f'{PASSWORD_VALIDATION}.MinimumLengthValidator'
+    },
+    {
+        'NAME': f'{PASSWORD_VALIDATION}.CommonPasswordValidator'
+    },
+    {
+        'NAME': f'{PASSWORD_VALIDATION}.NumericPasswordValidator'
+    },
 )
 
 AUTHENTICATION_BACKENDS = (
