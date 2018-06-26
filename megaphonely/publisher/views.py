@@ -1,6 +1,6 @@
 from django.template import loader
 from django.urls import reverse_lazy
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.shortcuts import redirect, get_object_or_404
@@ -58,6 +58,9 @@ def social_disconnect(request, pk):
 def social_prompt(request):
     user = request.user
     payload = request.POST
+    if not payload:
+        raise Http404
+
     for key, social in payload.items():
         if 'socials' in key:
             social = social.replace("'", '"')
