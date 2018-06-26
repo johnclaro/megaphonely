@@ -62,7 +62,7 @@ if DEBUG:
         }
     }
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
+    MEDIA_URL = '/media/contents/'
 else:
     SECURE_HSTS_SECONDS = 1
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -88,7 +88,7 @@ else:
     # Used by storage
     STATICFILES_STORAGE = 'megaphonely.storage.Static'
     STATICFILES_LOCATION = 'static'
-    MEDIAFILES_LOCATION = 'media'
+    MEDIAFILES_LOCATION = 'media/contents'
     DEFAULT_FILE_STORAGE = 'megaphonely.storage.Media'
 
     DOMAIN = f'https://s3-{AWS_S3_REGION_NAME}.amazonaws.com'
