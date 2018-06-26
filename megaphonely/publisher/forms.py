@@ -12,14 +12,23 @@ class ContentForm(forms.ModelForm):
         fields = ['message', 'socials', 'schedule', 'schedule_at', 'multimedia']
         widgets = {
             'message': forms.Textarea(
-                attrs={'class': 'form-control',
-                       'placeholder': 'What do you want to tell your audience?',
-                       'rows': 4, 'cols': 15}
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'What do you want to tell your audience?',
+                    'rows': 4,
+                    'cols': 15
+                }
             ),
             'socials': forms.CheckboxSelectMultiple(
-                attrs={'class': 'form-check-input'}
+                attrs={
+                    'class': 'form-check-input'
+                }
             ),
-            'schedule': forms.Select(attrs={'class': 'form-control'}),
+            'schedule': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
             'schedule_at': forms.TextInput(
                 attrs={
                     'class': 'datetimepicker-input form-control',
