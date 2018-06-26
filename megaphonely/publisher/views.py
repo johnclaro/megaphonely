@@ -55,6 +55,21 @@ def social_disconnect(request, pk):
     return redirect('publisher:index')
 
 
+def social_prompt(request):
+    user = request.user
+    payload = request.POST
+    for key, social in payload.items():
+        if 'socials' in key:
+            social = social.replace("'", '"')
+            social = json.loads(social)
+            Social.objects.upsert(social, user)
+
+    messages.success(request, 'Successfully connected social accounts')
+    response = redirect('publisher:content_create')
+
+    return response
+
+
 def publish_now(content):
     for social in content.socials.all():
         payload = {
