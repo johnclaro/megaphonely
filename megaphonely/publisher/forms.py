@@ -12,15 +12,23 @@ class ContentForm(forms.ModelForm):
         fields = ['message', 'socials', 'schedule', 'schedule_at', 'multimedia']
         widgets = {
             'message': forms.Textarea(
-                attrs={'class': 'form-control',
-                       'placeholder': 'What do you want to tell your audience?',
-                       'rows': 4, 'cols': 15}
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'What do you want to tell your audience?',
+                    'rows': 4,
+                    'cols': 15
+                }
             ),
-            'multimedia': forms.FileInput(attrs={'class': 'col-sm-12'}),
             'socials': forms.CheckboxSelectMultiple(
-                attrs={'class': 'form-check-input'}
+                attrs={
+                    'class': 'form-check-input'
+                }
             ),
-            'schedule': forms.Select(attrs={'class': 'form-control'}),
+            'schedule': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
             'schedule_at': forms.TextInput(
                 attrs={
                     'class': 'datetimepicker-input form-control',
@@ -39,10 +47,10 @@ class ContentForm(forms.ModelForm):
     def clean_multimedia(self):
         multimedia = self.cleaned_data['multimedia']
         if multimedia:
-            if multimedia._size > settings.MAX_UPLOAD_SIZE:
+            if multimedia.size > settings.MAX_UPLOAD_SIZE:
                 raise forms.ValidationError(
                     _('Please keep filesize under %s. Current filesize %s') %
                     (filesizeformat(settings.MAX_UPLOAD_SIZE),
-                     filesizeformat(multimedia._size))
+                     filesizeformat(multimedia.size))
                 )
         return multimedia

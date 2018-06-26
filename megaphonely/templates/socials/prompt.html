@@ -11,7 +11,11 @@
                     <div class="card-body">
                         <div class="text-center">
                             <a href="{{ social.url }}">
-                                <img src="{{ social.picture_url }}" height="100" width="100" style="border-radius: 50%;"/>
+                                {% if social.picture_url %}
+                                    <img src="{{social.picture_url}}" class="img-fluid" height="100" width="100" style="border-radius: 50%;"/>
+                                {% else %}
+                                    <img src="{% static 'megaphonely/img/linkedin-no-profile-picture.png' %}" class="img-fluid" height="100" width="100" style="border-radius: 50%;"/>
+                                {% endif %}
                             </a>
                             <br/>
                             {% if social.provider == 'facebook' %}

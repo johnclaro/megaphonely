@@ -7,19 +7,19 @@
             {% for checkbox in form.socials %}
                 <div class="form-check-inline" style="padding-bottom: 10px;">
                     <label class="form-check-label" style="cursor: pointer;">
-                        <input type="checkbox" name="socials" value="1" class="form-check-input" id="id_socials_{{ loop.counter}}">
+                        {{ checkbox.tag }}
                         {% for social in socials %}
                             {% if checkbox.choice_label == social.get_full_screen_name %}
                                 {% if social.category == 'page' %}
-                                    <span class="fab fa-font-awesome-flag social-icon"></span>
+                                    <span class="fas fa-flag"></span>
                                 {% elif social.category == 'group' %}
-                                    <span class="fas fa-users social-icon"></span>
+                                    <span class="fas fa-users"></span>
                                 {% elif social.category == 'company' %}
-                                    <span class="fas fa-building social-icon"></span>
+                                    <span class="fas fa-building"></span>
                                 {% elif social.category == 'business' %}
-                                    <span class="fas fa-briefcase social-icon"></span>
+                                    <span class="fas fa-briefcase"></span>
                                 {% else %}
-                                    <span class="fab fa-{{social.provider}} social-icon"></span>
+                                    <span class="fab fa-{{social.provider}}"></span>
                                 {% endif %}
                                 {% if social.picture_url %}
                                     <img src="{{social.picture_url}}" class="social-picture-icon"/>
@@ -39,13 +39,11 @@
             <div class="form-group">
                 {{ form.message }}
                 <div class="col-sm-12" style="text-align: right;">
-                    <span>Text count: <span id="text_count">0</span></span>
+                    <span id="text_count">0</span>
                 </div>
             </div>
             <div class="form-group">
                 {{ form.multimedia }}
-            </div>
-            <div class="form-group">
             </div>
             <div id="div_id_schedule_at" style="padding-bottom: 10px;">{{ form.schedule_at }}</div>
             <div class="form-group">

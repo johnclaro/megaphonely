@@ -28,7 +28,7 @@ body, html {
     color: #1DA1F2;
 }
 
-.fa-facebook, .fa-users, .fa-font-awesome-flag, .facebook-theme {
+.fa-facebook, .fa-users, .fa-flag, .facebook-theme {
     color: #3B5998;
 }
 
@@ -40,14 +40,9 @@ body, html {
     color: #fbad50;
 }
 
-.social-icon {
-    width: 20px;
-    padding-top: 3px;
-}
-
 .social-picture-icon {
     height: 45px;
-    width: 50px;
+    width: 45px;
     border-radius: 50%;
 }
 
