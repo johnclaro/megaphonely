@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<form action="{% url 'publisher:prompt' %}" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        {% for social in socials %}
+            <div class="col-lg-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <a href="{{ social.url }}">
+                                <img src="{{ social.picture_url }}" height="100" width="100" style="border-radius: 50%;"/>
+                            </a>
+                            <br/>
+                            {% if social.provider == 'facebook' %}
+                                <a href="{{ social.url }}">{{ social.fullname }}</a>
+                            {% else %}
+                                <a href="{{ social.url }}">{{ social.username }}</a>
+                            {% endif %}
+                        </div>
+                        <div class="mb-3 text-center" style="padding-left: 20px;">
+                            <input type="checkbox" name="socials_{{ forloop.counter }}" value="{{ social }}" class="form-check-input" id="id_socials_{{ forloop.counter }}" style="cursor: pointer; zoom: 2;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-lg-12">
+            <button type='submit' class='btn btn-primary btn-block'>Choose</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

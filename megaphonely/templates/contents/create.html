@@ -6,7 +6,7 @@
 {% load crispy_forms_tags %}
 
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-8 mb-3">
         {% if user.customer.subscription.plan.contents >= contents.count or not user.customer %}
             <div class="card">
                 <div class="card-body">
@@ -22,7 +22,7 @@
             </div>
         {% endif %}
         {% if contents %}
-            <div class="card mt-3 mb-3">
+            <div class="card mt-3">
                 <div class="card-body">
                     {% for content in contents %}
                         <strong>{{ content.schedule_at.date }}</strong>
