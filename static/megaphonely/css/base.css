@@ -42,8 +42,13 @@ body, html {
 
 .social-picture-icon {
     height: 45px;
-    width: 45px;
+    width: 40px;
     border-radius: 50%;
+}
+
+.multimedia-size {
+    height: 300px;
+    width: 300px;
 }
 
 .twitter-bg {

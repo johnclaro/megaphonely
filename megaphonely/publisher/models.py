@@ -8,7 +8,7 @@ from django.core.validators import FileExtensionValidator
 from .choices import SCHEDULES, CATEGORIES
 from .managers import ContentManager, SocialManager
 
-VIDEO_EXTENSIONS = ('mp4',)
+VIDEO_EXTENSIONS = ('mp4', 'mov')
 IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
 
 
@@ -57,7 +57,7 @@ class Content(models.Model):
     slug = models.SlugField(max_length=120)
     url = models.URLField(blank=True)
     multimedia = models.FileField(
-        upload_to='contents', blank=True, null=True,
+        upload_to='', blank=True, null=True,
         validators=[FileExtensionValidator(VIDEO_EXTENSIONS + IMAGE_EXTENSIONS)]
     )
     schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
