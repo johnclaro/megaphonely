@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from .views import (
     index, social_disconnect, social_prompt,
-    ContentList, ContentDetail, ContentCreate, ContentUpdate, ContentDelete,
+    ContentCreate, ContentUpdate, ContentDelete,
 )
 
 app_name = 'publisher'
@@ -16,8 +16,6 @@ urlpatterns = [
     path('prompt/', social_prompt, name='prompt'),
 
     path('dashboard/', ContentCreate.as_view(), name='content_create'),
-    path('contents/', ContentList.as_view(), name='content_list'),
-    re_path(r'^contents/(?P<pk>\d+)/$', ContentDetail.as_view(), name='content_detail'),
     re_path(r'^contents/(?P<pk>\d+)/update/$', ContentUpdate.as_view(), name='content_update'),
     re_path(r'^contents/(?P<pk>\d+)/delete/$', ContentDelete.as_view(), name='content_delete'),
 ]

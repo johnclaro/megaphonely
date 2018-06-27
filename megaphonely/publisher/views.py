@@ -224,19 +224,3 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(ContentDelete, self).delete(request, *args, **kwargs)
-
-
-class ContentDetail(LoginRequiredMixin, DetailView):
-    template_name = 'contents/detail.html'
-    model = Content
-
-
-class ContentList(LoginRequiredMixin, ListView):
-    template_name = 'contents/list.html'
-    model = Content
-    context_object_name = 'contents'
-
-    def get_queryset(self):
-        user = self.request.user
-        contents = Content.objects.filter(account=user)
-        return contents
