@@ -6,7 +6,6 @@ from distutils.util import strtobool
 from django.contrib.messages import constants as messages
 
 import stripe
-
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
