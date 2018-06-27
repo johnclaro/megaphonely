@@ -52,6 +52,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 AWS_S3_MEDIA_DOMAIN = os.environ['AWS_S3_MEDIA_DOMAIN']
+LANDING_PAGE = True
 
 if DEBUG:
     ALLOWED_HOSTS = ('megaphonely.localhost',)
@@ -189,6 +190,7 @@ INSTALLED_APPS = (
     'megaphonely.accounts',
     'megaphonely.publisher',
     'megaphonely.billing',
+    'megaphonely.landingpage',
     'storages',
     'social_django',
     'allauth',
@@ -269,6 +271,7 @@ SOCIAL_AUTH_PIPELINE = (
     'megaphonely.publisher.pipelines.upsert',
 )
 
+# Django Debug Toolbar
 INTERNAL_IPS = ('127.0.0.1',)
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
