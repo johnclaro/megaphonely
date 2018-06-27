@@ -9,17 +9,21 @@ from django.conf.urls.static import static
 
 admin.autodiscover()
 
-
-urlpatterns = [
-    path('', include('megaphonely.publisher.urls', namespace='publisher')),
-    path('', include('allauth.urls')),
-    path('billing/', include('megaphonely.billing.urls', namespace='billing')),
-    path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),
-    path('pricing/', TemplateView.as_view(template_name='home/pricing.html'), name='pricing'),
-    path('privacy/', TemplateView.as_view(template_name='home/privacy.html'), name='privacy'),
-    path('terms/', TemplateView.as_view(template_name='home/terms.html'), name='terms'),
-    path('social/', include('social_django.urls', namespace='social')),
-]
+if settings.LANDING_PAGE:
+    urlpatterns = [
+        path('', include('megaphonely.landingpage.urls', namespace='landingpage'))
+    ]
+else:
+    urlpatterns = [
+        path('', include('megaphonely.publisher.urls', namespace='publisher')),
+        path('', include('allauth.urls')),
+        path('billing/', include('megaphonely.billing.urls', namespace='billing')),
+        path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),
+        path('pricing/', TemplateView.as_view(template_name='home/pricing.html'), name='pricing'),
+        path('privacy/', TemplateView.as_view(template_name='home/privacy.html'), name='privacy'),
+        path('terms/', TemplateView.as_view(template_name='home/terms.html'), name='terms'),
+        path('social/', include('social_django.urls', namespace='social')),
+    ]
 
 if settings.DEBUG:
     import debug_toolbar
