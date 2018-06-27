@@ -19,16 +19,21 @@
 <div class="card-section">
     <div class="card">
         <div class="card-body">
-            <h6>{{ content.schedule_at.date }}</h6>
+            <strong>{{ content.schedule_at.date }}</strong>
+            <br/>
             {% if content.multimedia %}
-                <i class="fas fa-image"></i>
+                {% if content.is_image %}
+                    <img src="{{ content.multimedia.url }}" class="multimedia-size img-fluid"/>
+                {% else %}
+                    <video src="{{ content.multimedia.url }}" class="multimedia-size" controls>Your browser does not support HTML5 video.</video>
+                {% endif %}
             {% endif %}
-                <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message}}</span></a>
-                <div class="col-sm-12" style="text-align: right;">
-                    <br/>
-                    <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
-                    <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
-                </div>
+            <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message}}</span></a>
+            <div class="col-sm-12" style="text-align: right;">
+                <br/>
+                <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
+                <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
+            </div>
         </div>
     </div>
 </div>
