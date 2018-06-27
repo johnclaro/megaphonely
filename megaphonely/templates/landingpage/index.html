@@ -1,0 +1,50 @@
+{% extends 'landingpage/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12 text-center">
+                    <a class="header-logo">megaphonely</a>
+                </div>
+                <div class="col-md-12 text-center">
+                    <p>Megaphonely wants to simplify how you manage social media accounts.</p>
+                </div>
+                <div class="col-md-12">
+                    <div class="row text-center">
+                        <div class="col-md-12">
+                            <img src="{% static 'megaphonely/img/landing-page-1.png' %}" class="img-fluid"/>
+                            <p>Manage your social media accounts in an all-in-one dashboard</p>
+                        </div>
+                        <div class="col-md-6">
+                            <i class="fab fa-twitter" style="font-size: 40px;"></i>
+                            <i class="fab fa-facebook" style="font-size: 40px;"></i>
+                            <i class="fab fa-instagram" style="font-size: 40px;"></i>
+                            <i class="fab fa-linkedin" style="font-size: 40px;"></i>
+                            <p>Connect various social platforms</p>
+                        </div>
+                        <div class="col-md-6">
+                            <i class="far fa-clock" style="font-size: 40px;"></i>
+                            <p>Schedule your contents</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <input type="text" class="form-control" placeholder="Email address"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" class="btn btn-success btn-block" value="Sign Up"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{% endblock %}
