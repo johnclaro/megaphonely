@@ -27,6 +27,7 @@ LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'accounts.User'
 MAX_UPLOAD_SIZE = 524288000
+LANDING_PAGE = True
 
 # Messages
 MESSAGE_TAGS = {
@@ -188,6 +189,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'megaphonely.accounts',
     'megaphonely.publisher',
+    'megaphonely.landingpage',
     'megaphonely.billing',
     'storages',
     'social_django',
