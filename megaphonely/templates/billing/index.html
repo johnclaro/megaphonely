@@ -18,7 +18,7 @@
                                 which renews on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
                             {% else %}
                                 You are currently on a <strong>{{ user.customer.subscription.plan | title }}</strong> plan
-                                which will be cancelled on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
+                                which cancels on <strong>{{ user.customer.subscription.ends_at.date }}</strong>.
                             {% endif %}
                         </div>
                         <div class="col-4">
