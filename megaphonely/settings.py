@@ -269,6 +269,7 @@ SOCIAL_AUTH_PIPELINE = (
     'megaphonely.publisher.pipelines.upsert',
 )
 
-INTERNAL_IPS = ('127.0.0.1',)
+# Django Debug Toolbar
+# INTERNAL_IPS = ('127.0.0.1',)
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
