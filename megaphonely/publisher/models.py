@@ -8,7 +8,7 @@ from django.core.validators import FileExtensionValidator
 from .choices import SCHEDULES, CATEGORIES
 from .managers import ContentManager, SocialManager
 
-VIDEO_EXTENSIONS = ('mp4',)
+VIDEO_EXTENSIONS = ('mp4', 'mov')
 IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
 
 
