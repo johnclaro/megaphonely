@@ -10,7 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.template.defaultfilters import slugify
-from django.utils import timezone
 from django.contrib import messages
 
 from allauth.account.forms import SignupForm
@@ -150,11 +149,15 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         return response
 
     def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page', 1)
         user = self.request.user
         context = super(ContentCreate, self).get_context_data(**kwargs)
-        contents = Content.objects.get_user_contents(user)
+        contents = Content.objects.get_user_contents(user, page)
         socials = Social.objects.get_latest_user_socials(user)
-        context.update({'contents': contents, 'socials': socials})
+        context.update({
+            'contents': contents,
+            'socials': socials,
+        })
         return context
 
 
