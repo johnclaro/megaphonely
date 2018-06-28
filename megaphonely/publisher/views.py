@@ -5,8 +5,6 @@ import ast
 from django.template import loader
 from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -154,11 +152,8 @@ class ContentCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super(ContentCreate, self).get_context_data(**kwargs)
-        contents = Content.objects.filter(
-            account=user, schedule='date', is_published=False,
-            schedule_at__gte=timezone.now()
-        ).order_by('schedule_at')
-        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        contents = Content.objects.get_user_contents(user)
+        socials = Social.objects.get_latest_user_socials(user)
         context.update({'contents': contents, 'socials': socials})
         return context
 
@@ -205,11 +200,8 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super(ContentUpdate, self).get_context_data(**kwargs)
-        contents = Content.objects.filter(
-            account=user, schedule='date', is_published=False,
-            schedule_at__gte=timezone.now()
-        ).order_by('schedule_at')
-        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        contents = Content.objects.get_user_contents(user)
+        socials = Social.objects.get_latest_user_socials(user)
         context.update({'contents': contents, 'socials': socials})
         return context
 
