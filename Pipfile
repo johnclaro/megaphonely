@@ -16,8 +16,6 @@ flask-migrate = "*"
 flask-admin = "*"
 flask-mail = "*"
 flask-security = "*"
-social-auth-app-flask = "*"
-social-auth-app-flask-sqlalchemy = "*"
 
 
 [dev-packages]
