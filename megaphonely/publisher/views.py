@@ -154,10 +154,7 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         context = super(ContentCreate, self).get_context_data(**kwargs)
         contents = Content.objects.get_user_contents(user, page)
         socials = Social.objects.get_latest_user_socials(user)
-        context.update({
-            'contents': contents,
-            'socials': socials,
-        })
+        context.update({'contents': contents, 'socials': socials})
         return context
 
 

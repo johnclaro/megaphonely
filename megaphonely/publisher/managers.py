@@ -9,15 +9,16 @@ from linkedin import linkedin
 
 class ContentManager(models.Manager):
 
-    def get_user_contents(self, user, page):
+    def get_user_contents(self, user, page=None):
         contents = self.filter(
             account=user,
             schedule='date',
             is_published=False,
             schedule_at__gte=timezone.now()
         ).order_by('schedule_at')
-        paginator = Paginator(contents, 5)
-        contents = paginator.get_page(page)
+        if page:
+            paginator = Paginator(contents, 5)
+            contents = paginator.get_page(page)
 
         return contents
 
