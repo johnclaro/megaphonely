@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -7,10 +8,22 @@ from linkedin import linkedin
 
 class ContentManager(models.Manager):
 
+    def get_user_contents(self, user):
+        contents = self.filter(
+            account=user,
+            schedule='date',
+            is_published=False,
+            schedule_at__gte=timezone.now()
+        ).order_by('schedule_at')
+
+        return contents
+
     def content_plan_limit_exceeded(self, user):
         content_plan_limit_exceeded = False
         number_of_contents = self.filter(
-            account=user, schedule='date', is_published=False
+            account=user,
+            schedule='date',
+            is_published=False
         ).count()
 
         if user.customer.subscription.plan.contents <= number_of_contents:
@@ -20,6 +33,11 @@ class ContentManager(models.Manager):
 
 
 class SocialManager(models.Manager):
+
+    def get_latest_user_socials(self, user):
+        socials = self.filter(account=user).order_by('-updated_at')
+
+        return socials
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
