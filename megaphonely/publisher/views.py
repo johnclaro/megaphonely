@@ -5,14 +5,11 @@ import ast
 from django.template import loader
 from django.urls import reverse_lazy
 from django.http import HttpResponse, Http404
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.conf import settings
 from django.template.defaultfilters import slugify
-from django.utils import timezone
 from django.contrib import messages
 
 from allauth.account.forms import SignupForm
@@ -152,13 +149,11 @@ class ContentCreate(LoginRequiredMixin, CreateView):
         return response
 
     def get_context_data(self, **kwargs):
+        page = self.request.GET.get('page', 1)
         user = self.request.user
         context = super(ContentCreate, self).get_context_data(**kwargs)
-        contents = Content.objects.filter(
-            account=user, schedule='date', is_published=False,
-            schedule_at__gte=timezone.now()
-        ).order_by('schedule_at')
-        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        contents = Content.objects.get_user_contents(user, page)
+        socials = Social.objects.get_latest_user_socials(user)
         context.update({'contents': contents, 'socials': socials})
         return context
 
@@ -205,11 +200,8 @@ class ContentUpdate(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         user = self.request.user
         context = super(ContentUpdate, self).get_context_data(**kwargs)
-        contents = Content.objects.filter(
-            account=user, schedule='date', is_published=False,
-            schedule_at__gte=timezone.now()
-        ).order_by('schedule_at')
-        socials = Social.objects.filter(account=user).order_by('-updated_at')
+        contents = Content.objects.get_user_contents(user)
+        socials = Social.objects.get_latest_user_socials(user)
         context.update({'contents': contents, 'socials': socials})
         return context
 
@@ -224,19 +216,3 @@ class ContentDelete(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(ContentDelete, self).delete(request, *args, **kwargs)
-
-
-class ContentDetail(LoginRequiredMixin, DetailView):
-    template_name = 'contents/detail.html'
-    model = Content
-
-
-class ContentList(LoginRequiredMixin, ListView):
-    template_name = 'contents/list.html'
-    model = Content
-    context_object_name = 'contents'
-
-    def get_queryset(self):
-        user = self.request.user
-        contents = Content.objects.filter(account=user)
-        return contents

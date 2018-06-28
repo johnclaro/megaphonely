@@ -5,7 +5,12 @@ from django.http import HttpResponse
 from .models import Social
 
 
-def upsert(user=None, response=None, backend=None, request=None, **kwargs):
+def upsert(**kwargs):
+    user = kwargs['user']
+    response = kwargs['response']
+    backend = kwargs['backend']
+    request = kwargs['request']
+
     if not user:
         raise ValueError('You must login first')
 

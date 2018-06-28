@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from facepy import GraphAPI
 from linkedin import linkedin
@@ -7,19 +9,35 @@ from linkedin import linkedin
 
 class ContentManager(models.Manager):
 
+    def get_user_contents(self, user, page=None):
+        contents = self.filter(
+            account=user,
+            schedule='date',
+            is_published=False,
+            schedule_at__gte=timezone.now()
+        ).order_by('schedule_at')
+        if page:
+            paginator = Paginator(contents, 5)
+            contents = paginator.get_page(page)
+
+        return contents
+
     def content_plan_limit_exceeded(self, user):
         content_plan_limit_exceeded = False
-        number_of_contents = self.filter(
-            account=user, schedule='date', is_published=False
-        ).count()
+        contents = self.get_user_contents(user, 1)
 
-        if user.customer.subscription.plan.contents <= number_of_contents:
+        if user.customer.subscription.plan.contents <= contents.paginator.count:
             content_plan_limit_exceeded = True
 
         return content_plan_limit_exceeded
 
 
 class SocialManager(models.Manager):
+
+    def get_latest_user_socials(self, user):
+        socials = self.filter(account=user).order_by('-updated_at')
+
+        return socials
 
     def _get_twitter_data(self, data):
         username = data['screen_name']
