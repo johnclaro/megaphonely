@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 
-from .choices import SCHEDULES, CATEGORIES
+from .choices import SCHEDULES, CATEGORIES, TIMES
 from .managers import ContentManager, SocialManager
 
 VIDEO_EXTENSIONS = ('mp4', 'mov')
@@ -62,7 +62,8 @@ class Content(models.Model):
     )
     schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
     is_published = models.BooleanField(default=False)
-    schedule_at = models.DateTimeField(default=timezone.now, blank=True)
+    schedule_at = models.DateField(default=timezone.now, blank=True)
+    schedule_time_at = models.TimeField(choices=TIMES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     account = models.ForeignKey(
