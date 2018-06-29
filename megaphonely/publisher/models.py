@@ -57,12 +57,12 @@ def get_default_schedule_time():
     hour = today.hour
     minute = today.minute
 
-    hour = f'0{hour}' if hour < 10 else hour
-    minute = '00' if minute >= 30 else '30'
-
-    time = f'{hour}:{minute}'
-    if time == '23:30':
+    if hour == 23 and minute >= 30:
         time = '00:00'
+    else:
+        hour = f'0{hour}' if hour < 10 else hour
+        minute = '00' if minute >= 30 else '30'
+        time = f'{hour}:{minute}'
 
     return time
 
