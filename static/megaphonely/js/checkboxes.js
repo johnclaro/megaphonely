@@ -7,6 +7,7 @@ function checkboxValidation() {
     let anyChecked;
     let twitterChecked;
     let twitterCheckboxId;
+
     $('#checkboxes input[type="checkbox"]').each(function() {
         if (this.checked) {
             anyChecked = true;
@@ -26,6 +27,7 @@ function checkboxValidation() {
         }
     })
 
+    // If there is one twitter checkbox checked, then hide all the other twitter checkboxes. 
     if (twitterChecked) {
         $('#checkboxes input[type="checkbox"]').each(function() {
             if (this.id.indexOf('twitter') >= 0 && this.id != twitterCheckboxId) {
@@ -34,7 +36,7 @@ function checkboxValidation() {
                 twitterCheckbox.hide();
             }
         })
-    } else {
+    } else {  // If there are not any twitter checkbox checked, then show all other twitter checkboxes.
         $('#checkboxes input[type="checkbox"]').each(function() {
             if (this.id.indexOf('twitter')) {
                 let checkboxId = this.id.split('id_socials_')[1]
