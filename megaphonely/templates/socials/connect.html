@@ -17,8 +17,8 @@
                     <div class="row">
                         <div class="col-sm-4 mt-3">
                             <h4 class="facebook-theme">Facebook</h4>
-                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-page' %}">Pages</a>
-                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-group' %}">Groups</a>
+                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-page' %}?auth_type=reauthenticate">Pages</a>
+                            <a class="btn btn-facebook mt-1" href="{% url 'social:begin' backend='facebook-group' %}?auth_type=reauthenticate">Groups</a>
                         </div>
                         <div class="col-sm-4 mt-3">
                             <h4 class="instagram-theme">Instagram</h4>
@@ -31,8 +31,8 @@
                         </div>
                         <div class="col-sm-4 mt-3">
                             <h4 class="linkedin-theme">LinkedIn</h4>
-                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2' %}">Profile</a>
-                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}">Companies</a>
+                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2' %}?auth_type=reauthenticate">Profile</a>
+                            <a class="btn btn-linkedin mt-1" href="{% url 'social:begin' backend='linkedin-oauth2-company' %}?auth_type=reauthenticate">Companies</a>
                         </div>
                     </div>
                 </div>
