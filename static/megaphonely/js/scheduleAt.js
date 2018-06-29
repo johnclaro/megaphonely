@@ -1,10 +1,11 @@
 $(function() {
-    const dateFormat = 'YYYY-MM-DD HH:mm';
-    const today = moment().format(dateFormat);
     const selectSchedule = $('#id_schedule');
     const selectedOption = $('#id_schedule option:selected');
-    const scheduleAt = $('#id_schedule_at');
     const scheduleAtDiv = $('#div_id_schedule_at');
+    const dateFormat = "F j, Y H:i"
+    const scheduleAt = $('#id_schedule_at');
+    const today = new Date();
+    const subscriptionEndsAt = new Date(userCustomerSubscriptionEndsAt);
 
     const datePopulated = scheduleAt.val();
     let initialDate = moment(datePopulated).format(dateFormat);
@@ -12,13 +13,13 @@ $(function() {
         initialDate = today;
     }
 
-    scheduleAt.datetimepicker({
-        icons: {
-            time: 'fas fa-clock',
-        },
-        format: dateFormat,
-        minDate: today,
-        date: initialDate
+    $("#id_schedule_at").flatpickr({
+        defaultDate: datePopulated,
+        minDate: "today",
+        maxDate: subscriptionEndsAt,
+        enableTime: true,
+        time_24hr: true,
+        minuteIncrement: 30
     });
 
     // Show scheduleAtDiv if date is initially checked otherwise hide
