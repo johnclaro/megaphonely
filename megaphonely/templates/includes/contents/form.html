@@ -4,6 +4,9 @@
     <div class="alert alert-warning" id="twitter-checkbox-alert" style='display: none;'>
         Twitter no longer allows identical posts to several accounts.
     </div>
+    <div class="alert alert-info" id="composer-alert">
+        Choose atleast a social account to continue.
+    </div>
     <form action="{{ form_url }}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset id="checkboxes">
@@ -12,12 +15,7 @@
                     {% if checkbox.choice_label == social.get_full_screen_name %}
                         <div class="form-check-inline" style="padding-bottom: 10px;" id="{{ social.provider}}_{{ forloop.counter}}">
                             <label class="form-check-label" style="cursor: pointer;">
-                                {% if checkbox.data.selected %}
-                                    <input type="checkbox" name="socials" value="{{ social.pk }}" class="form-check-input" id="id_socials_{{ social.provider }}_{{ forloop.counter }}" checked>
-                                {% else %}
-                                    <input type="checkbox" name="socials" value="{{ social.pk }}" class="form-check-input" id="id_socials_{{ social.provider }}_{{ forloop.counter }}">
-                                {% endif %}
-                                
+                                <input type="checkbox" name="socials" value="{{ social.pk }}" class="form-check-input" id="id_socials_{{ social.provider }}_{{ forloop.counter }}" {% if checkbox.data.selected %} checked {% endif %}>
                                 {% if social.category == 'page' %}
                                     <span class="fas fa-flag"></span>
                                 {% elif social.category == 'group' %}
@@ -40,9 +38,6 @@
                 {% endfor %}
             {% endfor %}
         </fieldset>
-        <div class="alert alert-info" id="composer-alert">
-            Choose atleast a social account to continue.
-        </div>
         <div id="composer">
             <div class="form-group">
                 {{ form.message }}
@@ -53,7 +48,7 @@
             <div class="form-group">
                 {{ form.multimedia }}
             </div>
-            <div id="div_id_schedule_at" style="padding-bottom: 10px;">{{ form.schedule_at }}</div>
+            <div id="div_id_schedule_at" class="mb-3">{{ form.schedule_at }}</div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-6">{{ form.schedule }}</div>
