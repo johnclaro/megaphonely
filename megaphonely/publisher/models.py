@@ -10,6 +10,7 @@ from .managers import ContentManager, SocialManager
 
 VIDEO_EXTENSIONS = ('mp4', 'mov')
 IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
+MULTIMEDIA_EXTENSIONS = VIDEO_EXTENSIONS + IMAGE_EXTENSIONS
 
 
 class Social(models.Model):
@@ -32,7 +33,9 @@ class Social(models.Model):
 
     class Meta:
         db_table = 'socials'
-        unique_together = ('social_id', 'provider', 'account', 'category')
+        unique_together = (
+            'social_id', 'provider', 'account', 'category'
+        )
 
     def __str__(self):
         return self.get_full_screen_name()
@@ -72,12 +75,16 @@ class Content(models.Model):
     url = models.URLField(blank=True)
     multimedia = models.FileField(
         upload_to='', blank=True, null=True,
-        validators=[FileExtensionValidator(VIDEO_EXTENSIONS + IMAGE_EXTENSIONS)]
+        validators=[FileExtensionValidator(MULTIMEDIA_EXTENSIONS)]
     )
-    schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
+    schedule = models.CharField(
+        max_length=10, choices=SCHEDULES, default='now'
+    )
     is_published = models.BooleanField(default=False)
     schedule_at = models.DateField(default=timezone.now)
-    schedule_time_at = models.TimeField(choices=TIMES, default=get_default_schedule_time)
+    schedule_time_at = models.TimeField(
+        choices=TIMES, default=get_default_schedule_time
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     account = models.ForeignKey(
