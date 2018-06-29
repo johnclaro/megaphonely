@@ -19,7 +19,8 @@ $(function() {
         maxDate: subscriptionEndsAt,
         enableTime: true,
         time_24hr: true,
-        minuteIncrement: 30
+        minuteIncrement: 30,
+        disableMobile: true
     });
 
     // Show scheduleAtDiv if date is initially checked otherwise hide
