@@ -5,11 +5,16 @@
         {% csrf_token %}
         <fieldset id="checkboxes">
             {% for checkbox in form.socials %}
-                <div class="form-check-inline" style="padding-bottom: 10px;">
-                    <label class="form-check-label" style="cursor: pointer;">
-                        {{ checkbox.tag }}
-                        {% for social in socials %}
-                            {% if checkbox.choice_label == social.get_full_screen_name %}
+                {% for social in socials %}
+                    {% if checkbox.choice_label == social.get_full_screen_name %}
+                        <div class="form-check-inline" style="padding-bottom: 10px;" id="{{ social.provider}}_{{ forloop.counter}}">
+                            <label class="form-check-label" style="cursor: pointer;">
+                                {% if checkbox.data.selected %}
+                                    <input type="checkbox" name="socials" value="{{ social.pk }}" class="form-check-input" id="id_socials_{{ social.provider }}_{{ forloop.counter }}" checked>
+                                {% else %}
+                                    <input type="checkbox" name="socials" value="{{ social.pk }}" class="form-check-input" id="id_socials_{{ social.provider }}_{{ forloop.counter }}">
+                                {% endif %}
+                                
                                 {% if social.category == 'page' %}
                                     <span class="fas fa-flag"></span>
                                 {% elif social.category == 'group' %}
@@ -26,10 +31,10 @@
                                 {% else %}
                                     <img src="{% static 'megaphonely/img/linkedin-no-profile-picture.png' %}" class="social-picture-icon"/>
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                </div>
+                            </label>
+                        </div>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         </fieldset>
         <div class="alert alert-info" id="composer-alert">
