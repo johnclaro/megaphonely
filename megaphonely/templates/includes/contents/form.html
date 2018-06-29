@@ -4,6 +4,9 @@
     <div class="alert alert-warning" id="twitter-checkbox-alert" style='display: none;'>
         Twitter no longer allows identical posts to several accounts.
     </div>
+    <div class="alert alert-info" id="composer-alert">
+        Choose atleast a social account to continue.
+    </div>
     <form action="{{ form_url }}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset id="checkboxes">
@@ -40,9 +43,6 @@
                 {% endfor %}
             {% endfor %}
         </fieldset>
-        <div class="alert alert-info" id="composer-alert">
-            Choose atleast a social account to continue.
-        </div>
         <div id="composer">
             <div class="form-group">
                 {{ form.message }}
