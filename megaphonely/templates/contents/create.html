@@ -37,7 +37,7 @@
                             <a href="{% url 'publisher:content_update' pk=content.id %}"><span>{{content.message | linebreaks}}</span></a>
                             <div class="col-sm-12" style="text-align: right;">
                                 <span class="badge badge-pill badge-primary" style="margin-right: 10px;">{{ content.schedule_at.time }}</span>
-                                {% if user.customer.subscription.plan.contents >= contents.count %}
+                                {% if user.customer.subscription.plan.contents >= contents.paginator.count %}
                                     <a href="{% url 'publisher:content_update' pk=content.id %}" style="padding-right: 10px;"><small>Edit</small></a>
                                 {% endif %}
                                 <a href="{% url 'publisher:content_delete' pk=content.id %}" style="padding-right: 10px;"><small>Delete</small></a>
