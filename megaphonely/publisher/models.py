@@ -52,6 +52,20 @@ class Social(models.Model):
         return full_screen_name
 
 
+def get_default_schedule_time():
+    today = timezone.now().today()
+    hour = today.hour
+    minute = today.minute
+
+    hour = f'0{hour}' if hour < 10 else hour
+    minute = '00' if minute >= 30 else '30'
+
+    time = f'{hour}:{minute}'
+    if time == '23:30':
+        time = '00:00'
+
+    return time
+
 class Content(models.Model):
     message = models.TextField(blank=True)
     slug = models.SlugField(max_length=120)
@@ -62,8 +76,8 @@ class Content(models.Model):
     )
     schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
     is_published = models.BooleanField(default=False)
-    schedule_at = models.DateField(default=timezone.now, blank=True)
-    schedule_time_at = models.TimeField(choices=TIMES)
+    schedule_at = models.DateField(default=timezone.now)
+    schedule_time_at = models.TimeField(choices=TIMES, default=get_default_schedule_time)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     account = models.ForeignKey(

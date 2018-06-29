@@ -15,7 +15,7 @@ $(function() {
     }
 
     $("#id_schedule_at").flatpickr({
-        defaultDate: datePopulated,
+        defaultDate: initialDate,
         minDate: "today",
         maxDate: subscriptionEndsAt,
     });
