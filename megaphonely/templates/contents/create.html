@@ -23,7 +23,7 @@
             <div class="card mt-3">
                 <div class="card-body">
                     {% for content in contents %}
-                        <strong>{{ content.schedule_at.date }}</strong>
+                        <strong>{{ content.schedule_at }}</strong>
                         <br/>
                         {% if content.multimedia %}
                             {% if content.is_image %}
