@@ -9,7 +9,8 @@ from .models import Content, Social
 class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
-        fields = ['message', 'socials', 'schedule', 'schedule_at', 'multimedia']
+        fields = ['message', 'socials', 'schedule', 'schedule_at', 
+                  'multimedia', 'schedule_time_at']
         widgets = {
             'message': forms.Textarea(
                 attrs={
@@ -34,6 +35,11 @@ class ContentForm(forms.ModelForm):
                     'class': 'datetimepicker-input form-control',
                     'data-target': '#id_schedule_at',
                     'data-toggle': 'datetimepicker'
+                }
+            ),
+            'schedule_time_at': forms.Select(
+                attrs={
+                    'class': 'form-control'
                 }
             )
         }
