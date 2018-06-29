@@ -34,10 +34,8 @@ class Config(object):
     SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
         'social_core.backends.facebook.FacebookOAuth2',
     )
-    SOCIAL_AUTH_FACEBOOK_KEY = os.environ['FACEBOOK_APP_ID']
-    SOCIAL_AUTH_FACEBOOK_SECRET = os.environ['FACEBOOK_APP_SECRET']
-    SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['keep']
-    SOCIAL_AUTH_REMEMBER_SESSION_NAME = 'remember_me'
+    FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
+    FACEBOOK_APP_SECRET = os.environ['FACEBOOK_APP_SECRET']
 
 class Production(Config):
     SECRET_KEY = os.environ['SECRET_KEY']
