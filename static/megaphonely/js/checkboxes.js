@@ -1,4 +1,4 @@
-function checkboxValidation() {
+function checkbox() {
     const checkboxes = $('#checkboxes');
     const composer = $('#composer');
     const composerAlert = $('#composer-alert');
@@ -34,6 +34,7 @@ function checkboxValidation() {
                 let checkboxId = this.id.split('id_socials_')[1]
                 twitterCheckbox = $(`#${checkboxId}`);
                 twitterCheckbox.hide();
+                twitterCheckboxAlert.show();
             }
         })
     } else {  // If there are not any twitter checkbox checked, then show all other twitter checkboxes.
@@ -42,6 +43,7 @@ function checkboxValidation() {
                 let checkboxId = this.id.split('id_socials_')[1]
                 twitterCheckbox = $(`#${checkboxId}`);
                 twitterCheckbox.show();
+                twitterCheckboxAlert.hide();
             }
         })
     }
@@ -50,11 +52,11 @@ function checkboxValidation() {
 $(function() {
     // Initialise checkboxes
     $('#checkboxes input[type="checkbox"]').ready(function() {
-        checkboxValidation();
+        checkbox();
     })
 
     // Trigger twitter checkboxes when it changes
     $('#checkboxes input[type="checkbox"]').change(function() {
-        checkboxValidation();
+        checkbox();
     })
 });

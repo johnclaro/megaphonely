@@ -1,6 +1,9 @@
 {% load static %}
 
 <div class="col-lg-12">
+    <div class="alert alert-warning" id="twitter-checkbox-alert" style='display: none;'>
+        Twitter no longer allows identical posts to several accounts.
+    </div>
     <form action="{{ form_url }}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset id="checkboxes">
