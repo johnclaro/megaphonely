@@ -123,3 +123,7 @@ h4 {
     width: 55px;
     border-radius: 50%;
 }
+
+.flatpickr-calendar {
+    right: 5px !important;
+}
