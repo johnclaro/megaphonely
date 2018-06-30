@@ -25,8 +25,8 @@ $(function() {
         initialDate = today;
     }
 
-
     // Initialise time picker with the default time
+    scheduleTimeAt.empty();
     const currentIndex = times.indexOf(initialTime);
     const remainingTimes = times.slice(currentIndex, times.length);
     for (remainingTime in remainingTimes) {
