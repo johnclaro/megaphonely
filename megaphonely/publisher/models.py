@@ -10,6 +10,7 @@ from .managers import ContentManager, SocialManager
 
 VIDEO_EXTENSIONS = ('mp4', 'mov')
 IMAGE_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif',)
+MULTIMEDIA_EXTENSIONS = VIDEO_EXTENSIONS + IMAGE_EXTENSIONS
 
 
 class Social(models.Model):
@@ -32,7 +33,9 @@ class Social(models.Model):
 
     class Meta:
         db_table = 'socials'
-        unique_together = ('social_id', 'provider', 'account', 'category')
+        unique_together = (
+            'social_id', 'provider', 'account', 'category'
+        )
 
     def __str__(self):
         return self.get_full_screen_name()
@@ -60,8 +63,13 @@ def get_default_schedule_time():
     if hour == 23 and minute >= 30:
         time = '00:00'
     else:
+        if minute >= 30:
+            minute = '00'
+            hour += 1
+        else:
+            minute = '30'
+
         hour = f'0{hour}' if hour < 10 else hour
-        minute = '00' if minute >= 30 else '30'
         time = f'{hour}:{minute}'
 
     return time
@@ -72,12 +80,16 @@ class Content(models.Model):
     url = models.URLField(blank=True)
     multimedia = models.FileField(
         upload_to='', blank=True, null=True,
-        validators=[FileExtensionValidator(VIDEO_EXTENSIONS + IMAGE_EXTENSIONS)]
+        validators=[FileExtensionValidator(MULTIMEDIA_EXTENSIONS)]
     )
-    schedule = models.CharField(max_length=10, choices=SCHEDULES, default='now')
+    schedule = models.CharField(
+        max_length=10, choices=SCHEDULES, default='now'
+    )
     is_published = models.BooleanField(default=False)
     schedule_at = models.DateField(default=timezone.now)
-    schedule_time_at = models.TimeField(choices=TIMES, default=get_default_schedule_time)
+    schedule_time_at = models.TimeField(
+        choices=TIMES, default=get_default_schedule_time
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     account = models.ForeignKey(
