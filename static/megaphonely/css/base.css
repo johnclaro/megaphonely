@@ -124,6 +124,8 @@ h4 {
     border-radius: 50%;
 }
 
-.flatpickr-calendar {
-    right: 5px !important;
+@media (max-width: 370px) {
+    .flatpickr-calendar {
+        left: 8px !important;
+    }
 }
