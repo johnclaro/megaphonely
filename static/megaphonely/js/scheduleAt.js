@@ -38,6 +38,7 @@ $(function() {
         defaultDate: initialDate,
         minDate: "today",
         maxDate: subscriptionEndsAt,
+        disableMobile: true,
         onChange: (dateObj, dateStr) => {
             scheduleTimeAt.empty();
             if (dateStr == initialDate) {
