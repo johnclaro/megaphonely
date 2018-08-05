@@ -16,7 +16,7 @@ if settings.LANDING_PAGE:
 else:
     urlpatterns = [
         path('', include('megaphonely.publisher.urls', namespace='publisher')),
-        path('auth', include('allauth.urls')),
+        path('auth/', include('allauth.urls')),
         path('billing/', include('megaphonely.billing.urls', namespace='billing')),
         path('settings/', include('megaphonely.accounts.urls', namespace='accounts')),
         path('pricing/', TemplateView.as_view(template_name='home/pricing.html'), name='pricing'),

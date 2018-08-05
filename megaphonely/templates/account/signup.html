@@ -3,14 +3,25 @@
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
 
-{% block content %}
+{% block body %}
 
 <div class="row">
     <div class="col-lg-4"></div>
     <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
+                <h4 class="card-title">Signup</h4>
+                <div class="form-group">
+                    <small>Comes with a <b>7-day free trial</b></small>
+                </div>
                 {% crispy form %}
+                <div class="form-check form-group mt-3">
+                    <input type="checkbox" style="cursor: pointer;" class="form-check-input" id="tos" required>
+                    <label class="form-check-label" for="tos" style="font-size: 14px; cursor: pointer;">
+                        I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
+                    </label>
+                </div>
+                <a class="btn btn-megaphonely btn-block" href="{% url 'account_signup' %}">Signup</a>
                 <br/>
                 Already have an account? <a href="{% url 'account_login' %}">Login</a>
             </div>

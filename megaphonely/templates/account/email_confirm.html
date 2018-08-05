@@ -2,7 +2,7 @@
 
 {% load account %}
 
-{% block content %}
+{% block body %}
 
 <div class="row justify-content-center" style="padding: 25px">
     <div class="card-wrapper">
@@ -19,7 +19,7 @@
                     {% load crispy_forms_tags %}
                     <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-block">Confirm</button>
+                        <button type="submit" class="btn btn-megaphonely btn-block">Confirm</button>
                     </form>
                 {% else %}
                     <h4 class="card-title">Unable to verify your email</h4>
