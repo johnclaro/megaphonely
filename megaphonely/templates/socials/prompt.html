@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
+{% block body %}
 
 <form action="{% url 'publisher:prompt' %}" method="POST">
     {% csrf_token %}

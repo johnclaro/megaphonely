@@ -13,31 +13,9 @@ class CustomSignupForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_show_errors = False  # Errors are rendered in a div
         self.helper.layout = Layout(
-            HTML(
-                """
-                <h4 class="card-title">Signup</h4>
-                <div class="form-group">
-                    <small>Comes with a <b>7-day free trial</b></small>
-                </div>
-                """
-            ),
             'username',
             'email',
             'password1',
-            HTML(
-                """
-                <div class="form-check form-group">
-                    <input type="checkbox" style="cursor: pointer;" class="form-check-input" id="tos" required>
-                    <label class="form-check-label" for="tos" style="font-size: 14px; cursor: pointer;">
-                        I agree to the <a href="{% url 'terms' %}">Megaphonely Terms.</a>
-                    </label>
-                </div>
-                """
-            ),
-            ButtonHolder(
-                Submit('submit', 'Signup',
-                       css_class='btn btn-primary btn-block')
-            ),
         )
 
     def signup(self, request, user):
