@@ -5,7 +5,6 @@ body, wrapper { min-height:100vh; }
 .header-logo {
     font-family: 'Fjalla One', sans-serif;
     font-weight: 700;
-    color: #6772E5 !important;
     font-size: 30px;
 }
 
@@ -15,7 +14,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 
 .header-logo:hover { text-decoration: none; color: #5C65CC !important; }
 
-nav, .nav, .header-logo { font-weight: 700; }
+nav, .nav { font-weight: 700; }
 
 .nav-link-item-header { color: #6772E5 !important; }
 .nav-link-item-header .active { color: black; }
@@ -59,5 +58,7 @@ a:hover { color: #6772E5; text-decoration-line: underline; }
     background: #5C65CC;
     box-shadow: none;
 }
+
+.asteriskField { color: red; }
 
 
