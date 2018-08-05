@@ -193,6 +193,7 @@ INSTALLED_APPS = (
     'megaphonely.publisher',
     'megaphonely.billing',
     'megaphonely.landingpage',
+    'megaphonely.influence',
     'storages',
     'social_django',
     'allauth',
