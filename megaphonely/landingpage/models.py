@@ -6,7 +6,7 @@ from .managers import CharlieManager
 
 class Charlie(models.Model):
     email = models.EmailField(unique=True)
-    kind = models.CharField(max_length=10, choices=KINDS)
+    kind = models.CharField(max_length=20, choices=KINDS)
     category = models.CharField(max_length=100, choices=CATEGORIES)
     objects = CharlieManager()
 
