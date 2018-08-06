@@ -20,7 +20,7 @@ class CharlieForm(forms.Form):
     category = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'form-control'}),
         choices=CATEGORIES,
-        label='What category do you primary target?'
+        label='Which category do you primary target?'
     )
 
     def clean(self):
