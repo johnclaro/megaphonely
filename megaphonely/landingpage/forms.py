@@ -15,12 +15,12 @@ class CharlieForm(forms.Form):
     kind = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'form-control'}),
         choices=KINDS,
-        label='Are you a brand or an influencer?'
+        label='What kind of account are you?'
     )
     category = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'form-control'}),
         choices=CATEGORIES,
-        label='What category do you belong to?'
+        label='What category do you primary target?'
     )
 
     def clean(self):
@@ -28,8 +28,7 @@ class CharlieForm(forms.Form):
         email = cleaned_data['email']
 
         if email and Charlie.objects.email_exists(email):
-            raise forms.ValidationError(
-                f"{email} is already registered"
-            )
+            msg = f"{email} is already registered"
+            raise forms.ValidationError(msg)
 
         return cleaned_data

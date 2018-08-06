@@ -9,7 +9,6 @@ from django.conf.urls.static import static
 
 admin.autodiscover()
 
-print('LANDING PAGE:', settings.LANDING_PAGE)
 if settings.LANDING_PAGE:
     urlpatterns = [
         path('', include('megaphonely.landingpage.urls', namespace='landingpage'))
