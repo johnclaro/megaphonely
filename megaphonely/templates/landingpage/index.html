@@ -3,62 +3,55 @@
 {% block body %}
 
 <div class="row mt-3">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
         <div class="card">
             <div class="card-body">
-                <div class="col-md-12 text-center">
-                    <a class="header-logo">megaphonely</a>
+                <div class="col-lg-12 text-center mb-3">
+                    <a class="header-logo" href="/">
+                        <img src="{% static 'img/mstile-310x310.png' %}" height="40" width="40" class="text-center"><span style="color: #33334F; font-size: 27px;">megaphonely</span>
+                    </a>
                 </div>
-                <div class="col-md-12 text-center">
-                    <p>Megaphonely wants to simplify the way you manage your social media accounts.</p>
-                </div>
-                <div class="col-md-12">
-                    <div class="row text-center">
-                        <div class="col-md-12">
-                            <img src="{% static 'img/landing-page-3.png' %}" style="border: solid 1px; border-color: lightgray;" class="img-fluid mb-3"/>
-                            <p>Control your social media accounts in an all-in-one dashboard</p>
+                <div class="col-lg-12">
+                    <p class="text-center">
+                        Megaphonely simplifies how brands discover social media influencers.
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <strong>For brands</strong>
+                            <li>Find social media influencers in your area.</li>
+                            <li>Filter influencers based on their category, location or metrics.</li>
+                            <li>Organize influencers into lists.</li>
                         </div>
-                        <div class="col-md-6">
-                            <i class="fab fa-twitter" style="font-size: 40px;"></i>
-                            <i class="fab fa-facebook" style="font-size: 40px;"></i>
-                            <i class="fab fa-instagram" style="font-size: 40px;"></i>
-                            <i class="fab fa-linkedin" style="font-size: 40px;"></i>
-                            <p>Connect various social networks</p>
-                        </div>
-                        <div class="col-md-6">
-                            <i class="far fa-clock" style="font-size: 40px;"></i>
-                            <p>Schedule or instantly publish your contents at once</p>
+                        <div class="col-sm-6">
+                            <strong>For influencers</strong>
+                            <li>Be discovered by brands for free.</li>
+                            <li>Endorse sponsored products for your audience.</li>
+                            <li>Choose which brands to endorse.</li>
                         </div>
                     </div>
+                    <img src="{% static 'img/howmegaphonelyworks.png' %}" class="img-fluid mb-3"/>
                 </div>
-                <div class="col-md-12">
-                    <small>
-                        The app hasn't launched yet but we'd be more than happy
-                        to keep you up to date about the app and when it launches
-                        (your email won't be used for anything else).
-                    </small>
+                <div class="col-lg-12 mb-2">
+                    <div class="text-center">
+                        <small>
+                            We haven't launched yet. We'd be happy
+                            to keep you posted about the launch
+                            (your email won't be used for anything else.)
+                        </small>
+                    </div>
                     <div class="row">
-                        <div class="col-md-8 mb-3">
+                        <div class="col-lg-12 mb-2">
                             <input type="text" class="form-control" placeholder="Email address"/>
                         </div>
-                        <div class="col-md-4">
-                            <input type="button" class="btn btn-success btn-block" value="Subscribe"/>
+                        <div class="col-lg-12">
+                            <input type="button" class="btn btn-megaphonely btn-block" value="Subscribe"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-sm-2"></div>
 </div>
-<ul class="nav justify-content-center">
-  <li class="nav-item"><a class="nav-link disabled">Made with <i class="fa fa-heart" style="color: red;"></i> in Dublin</a></li>
-  <li class="nav-item"><a class="nav-link" href="https://www.twitter.com/megaphonely"><i class="fab fa-twitter"></i></a></li>
-  <li class="nav-item"><a class="nav-link" href="https://www.facebook.com/Megaphonely-723749727830922"><i class="fab fa-facebook"></i></a></li>
-  <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/megaphonely"><i class="fab fa-instagram"></i></a></li>
-  <li class="nav-item"><a class="nav-link" href="https://www.linkedin.com/company/megaphonely"><i class="fab fa-linkedin"></i></a></li>
-  <li class="nav-item"><a class="nav-link disabled">© 2018 Megaphonely</a></li>
-</ul>
-
 {% endblock %}

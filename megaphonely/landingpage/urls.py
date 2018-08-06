@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 
 from .views import signup
 
-app_name = 'accounts'
+app_name = 'landingpage'
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='landingpage/index.html'), name='landingpage'),

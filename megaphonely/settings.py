@@ -11,6 +11,9 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Landing Page
+LANDING_PAGE = True
+
 # Django
 SITE_ID = 1
 DEBUG = bool(strtobool(os.environ['DEBUG']))
@@ -51,7 +54,6 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 AWS_S3_MEDIA_DOMAIN = os.environ['AWS_S3_MEDIA_DOMAIN']
-LANDING_PAGE = False
 
 if DEBUG:
     ALLOWED_HOSTS = ('megaphonely.localhost',)
