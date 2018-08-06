@@ -27,7 +27,6 @@
                             <strong>For influencers</strong>
                             <li>Be discovered by brands for free.</li>
                             <li>Endorse sponsored products for your audience.</li>
-                            <li>Choose which brands to endorse.</li>
                         </div>
                     </div>
                     <img src="{% static 'img/howmegaphonelyworks.png' %}" class="img-fluid mb-3"/>
@@ -40,14 +39,23 @@
                             (your email won't be used for anything else.)
                         </small>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 mb-2">
-                            <input type="text" class="form-control" placeholder="Email address"/>
+                    <form action="#" method="post">
+                        {{ form.csrf_token }}
+                        <div class="row">
+                            <div class="col-lg-12 mb-2">
+                                {{ form.email }}
+                            </div>
+                            <div class="col-lg-12 mb-2">
+                                {{ form.kind }}
+                            </div>
+                            <div class="col-lg-12 mb-2">
+                                {{ form.categories }}
+                            </div>
+                            <div class="col-lg-12">
+                                <input type="button" class="btn btn-megaphonely btn-block" value="Subscribe"/>
+                            </div>
                         </div>
-                        <div class="col-lg-12">
-                            <input type="button" class="btn btn-megaphonely btn-block" value="Subscribe"/>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

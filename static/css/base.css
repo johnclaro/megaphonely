@@ -29,7 +29,11 @@ a:hover { color: #6772E5; text-decoration-line: underline; }
 
 
 .form-control {
-	border-radius: 24px;
+	border-radius: 24px !important;
+}
+
+select.form-control {
+    -webkit-appearance: none;
 }
 
 .btn {
