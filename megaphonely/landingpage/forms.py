@@ -15,7 +15,7 @@ class CharlieForm(forms.Form):
     kind = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'form-control'}),
         choices=KINDS,
-        label='What kind of influencer are you?'
+        label='What kind of business are you?'
     )
     category = forms.ChoiceField(widget=forms.Select(
         attrs={'class': 'form-control'}),

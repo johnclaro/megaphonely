@@ -1,8 +1,7 @@
 KINDS = (
-    ('public_figure', 'Public Figure'),
-    ('community', 'Community'),
     ('agency', 'Agency'),
     ('brand', 'Brand'),
+    ('other', 'Other'),
 )
 
 CATEGORIES = (
