@@ -23,7 +23,7 @@ def index(request):
             subject = 'Megaphonely'
             html_message = """
                 <img src='https://assets.megaphonely.com/static/email/megaphonely.png'>
-                <h1>Thanks for joining the Megaphonely mailing list!</h1>
+                <strong>Thanks for joining the Megaphonely mailing list!</strong>
                 <p>
                     You'll be updated on the latest developments of Megaphonely. Also, you can reply to this email if you want to suggest a feature or an idea that you'd like implemented.
                 </p>
