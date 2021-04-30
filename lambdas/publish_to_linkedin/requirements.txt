@@ -5,4 +5,4 @@ oauthlib==2.0.6
 python3-linkedin==1.0.2
 requests==2.20.0
 requests-oauthlib==0.8.0
-urllib3==1.25.7
+urllib3==1.25.8
